@@ -1,0 +1,38 @@
+project name:	view 
+author:		sat tara singh khalsa
+date:		19 dec 2006
+
+
+**** summary ****
+
+The view is a component of Project Ouroborus. It povides a graphical display for AL mundito grids.
+
+
+**** roadmap ****
+
+VERSION		FEATURES						DEADLINE
+
+0.1		workable display written in pygame		 	13 Jan 2007
+
+0.2		improve on the buffer objects				-----------
+
+
+**** ToDo shortlist ****
+
+provide user with predefined color choice
+allow user to change color scheme after it has been first set
+
+**** ToDo longlist ****
+
+replace Numeric module with numarray or something better
+consider faster libraries
+
+
+**** history ****
+
+DATE		EVENT		COMMENT
+
+18 Dec 2006	version 0.0.1	created from birdcage's parity demo automaton - based on
+				pygame and strongly dependent on Numeric for buffering
+
+12 Jan 2007	version 0.1.0	cheated - same code, new version number!

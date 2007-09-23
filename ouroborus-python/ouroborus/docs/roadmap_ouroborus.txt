@@ -1,0 +1,46 @@
+project name:	ouroborus 
+author:		edgar becerra, sat tara singh khalsa, vian gomez
+date:		19 dec 2006
+
+
+**** summary ****
+
+Project ouroborus is an open source, versatile artificial life platform
+supported by a flexible architecture of interchangeable components
+
+
+**** roadmap ****
+
+VERSION		FEATURES						DEADLINE
+
+0.1		running demonstration of all principal features 	13 Jan 2007
+		excepting agents
+
+0.2		include some simple agents				-----------
+
+
+**** ToDo shortlist ****
+
+work on clone functionality
+develop XMLRPC server and client
+
+**** ToDo longlist ****
+
+more sophisticated mundem interaction
+add different automata
+add agents
+port to unix
+convert controller to GUI
+
+
+**** history ****
+
+DATE		EVENT		COMMENT
+
+18 Dec 2006	version 0.0.1	birdcage 0.3.1, view 0.0.1, controller 0.0.1, manual operation
+
+29 Dec 2006	version 0.0.2	birdcage 0.3.1, view 0.0.1, controller 0.0.2, mundem 0.0.1
+				smooth ignition key-operation
+
+12 Jan 2007	version 0.1.0 	birdcage 0.3.1, view 0.1.0, controller 0.1.0, mundem 0.2.0
+				first mundito-to-mundito contact

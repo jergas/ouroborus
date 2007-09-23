@@ -1,0 +1,44 @@
+project name:	controller 
+author:		sat tara singh khalsa
+date:		19 dec 2006
+
+
+**** summary ****
+
+The controller is a component of Project Ouroborus. It orchestrates the execution of
+the other components, and provides an interface with the user.
+
+
+**** roadmap ****
+
+VERSION		FEATURES						DEADLINE
+
+0.1		text-based, dialogue-driven interface		 	13 Jan 2007
+
+0.2		think threads						-----------
+
+
+**** ToDo shortlist ****
+
+catch filename exceptions when they arise
+render view after cloning
+
+**** ToDo longlist ****
+
+add default values to the text interface
+run the components in separate threads
+replace the dialogues with a proper GUI
+
+
+**** history ****
+
+DATE		EVENT		COMMENT
+
+18 Dec 2006	version 0.0.1	start from scratch (drop post-notify pattern)
+				sequential interface based on dialogues
+				strictly linear flow of execution
+
+29 Dec 2006	version 0.0.2	flow of execution is well-rounded
+				ganesh is capable of loading and saving .mun files
+
+12 Jan 2006	version 0.1.0	ganesh is capable of uploading and downloading grids

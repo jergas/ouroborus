@@ -1,0 +1,58 @@
+project name:	mundem 
+author:		sat tara singh khalsa
+date:		13 dec 2006
+
+
+**** summary ****
+
+The mundulator/demundulator or mundem is a component of Project Ouroborus which serves 2 purposes:
+firstly, serialising and deserialising mundito data, so that persistent objects may be saved and
+loaded, and also acting as an interface between munditos running on separate machines.
+
+
+**** roadmap ****
+
+VERSION		FEATURES							DEADLINE
+
+0.1		provides basic load and save functionalities			-----------
+
+0.2		allows some form of interaction bewteen two separate munditos   13 jan 2007
+		clone functionality supported
+
+0.3		add more sophisticated interaction, glue two grids together	-----------
+
+
+**** ToDo shortlist ****
+
+add os capabilities to load and save
+stabilise XML-RPC server
+document clone functionality
+
+
+**** ToDo longlist ****
+
+devise meta-topology for glueing munditos
+improve on load/save functionalities
+write border-updating functionalities
+write agent migration functionalities
+
+
+**** history ****
+
+DATE		EVENT		COMMENT
+
+10 dec 2006	tamper_while...	A script which modifies a birdcage automaton while it is running
+
+12 dec 2006	save		First .mun file written, pickling an array which described a
+				birdcage automaton
+
+13 dec 2006	save		.mun file is now a pickled tuple including an array and a 
+				dictionary with additional data
+
+14 dec 2006	load		An automaton was re-created from a .mun file
+
+29 dec 2006	version 0.0.1	Incorporated as a module within the whole Ouroborus architecture
+
+12 jan 2007	version	0.2.0	The year we made contact - first communication between munditos!
+				Contact made via an unstable xmlrpc server: it's ugly, it's slow,
+				it's pretty useless - but it's a historical landmark!
