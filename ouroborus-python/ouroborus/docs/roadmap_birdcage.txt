@@ -15,7 +15,7 @@ are also welcome.
 
 VERSION		FEATURES							DEADLINE
 
-0.1 (DONE)	compiles fully in pyrex, supports all current automata		28 feb 2005
+0.1 (DONE)	compiles fully in pyrex, supports all current automata		28 Feb 2005
 
 0.2 (DONE)	creates buffer map using c int values, using a c array		-----------
 		supports only parity automaton
@@ -23,8 +23,10 @@ VERSION		FEATURES							DEADLINE
 0.3 (DONE)	runs update loop using c functions, supports only parity	-----------
 		automaton
 		
-0.4		clean-up and generalise code, include at least one other	-----------
+0.4 (DROPPED)	clean-up and generalise code, include at least one other	-----------
 		automaton
+
+0.5 (WORKING)	as 0.4 but resolve deprecated dependencies and compile in	1 Dec 2007
 
 0.9		optimise all the logical functionalities currently in cage	-----------
 
@@ -113,3 +115,5 @@ DATE		EVENT		COMMENT
 				preparation for ENLI Python conference
 
 19 dec 2006	ouroborus0.1.1	birdcage 0.3.1 included in the first release of ouroborus
+
+19 oct 2007	birdcage 0.4.1	Start work in cleaner version.
