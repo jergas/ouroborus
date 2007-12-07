@@ -20,30 +20,12 @@
 
 import exceptions_birdcage as E
 
-cimport topology as T
-
-
-# Some limiting values
-####################################################################
-# This constant sets the maximum number of neighbors in a
-# neighborhood
-
-cdef enum:
-     capacity = 20
 
 ####################################################################
 
 
 cdef class Neighborhood_2D:
      """Base class for all two-dimensional neighborhoods"""
-
-     cdef T.GridTopology topology
-     cdef int neighbors
-     cdef object name
-     cdef int neighbors_x1[capacity]
-     cdef int neighbors_x2[capacity]
-     cdef int neighbors_st[capacity]
-
 
      def  __init__(self, T.GridTopology topology):
           """Create a generic Neighborhood_2D object."""
@@ -60,6 +42,15 @@ cdef class Neighborhood_2D:
               self.neighbors_x1[i] = 0
               self.neighbors_x2[i] = 0
               self.neighbors_st[i] = 0
+
+
+     def  handleTopology(self):
+          """Return the underlying topology, for direct
+          manipulation from Python code
+
+          return -->> a GridTopology object"""
+
+          return self.topology
 
 
      def  listNeighbors(self, object address):
@@ -118,7 +109,6 @@ cdef class Neighborhood_2D:
           return states
 
 
-
      cdef void pyx_calculateStates(self, int x1, int x2):
           """Calculate the statess of a cell's neighbors and store
           the information in the self.neighbors_st variables
@@ -130,6 +120,40 @@ cdef class Neighborhood_2D:
           self.pyx_calculateNeighbors(x1, x2)
           for i from 0 <= i < self.neighbors:
               self.neighbors_st[i] = self.topology.pyx_get(self.neighbors_x1[i], self.neighbors_x2[i])
+
+
+     def  reduceStates(self, object address, object function, int initialv):
+          """Iterate a binary function recursively on all of a cell's
+          neighbours' states
+
+          address ---> a Python 2-tuple, the address of a cell in the grid
+          function ---> a Python binary function
+          initialv ---> an initial integer value"""
+
+          if not (len(address) == 2):
+               raise E.InvalidAddressError(address, self.topology.name)
+
+          return self.pyx_reduceStates(address[0], address[1], function, initialv)
+
+
+     cdef int pyx_reduceStates(self, int x1, int x2, object function, int initialv):
+          """Iterate a binary function recursively on all of a cell's
+          neighbours' states
+
+          x1       ---> the first integer coordinate value
+          x2       ---> the second integer coordinate value
+          function ---> a Python binary function
+          initialv ---> an initial integer value"""
+
+          cdef int i, reducing
+
+          self.pyx_calculateStates(x1, x2)
+          reducing = initialv
+          
+          for i from 0 <= i < self.neighbors:
+               reducing = function(reducing, self.neighbors_st[i])
+
+          return reducing
 
 
 ####################################################################
