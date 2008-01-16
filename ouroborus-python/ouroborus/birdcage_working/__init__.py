@@ -9,6 +9,9 @@
 # Birdcage has been successfully compiled and executed using gcc under MinGW
 # in a Windows box.
 
+# Before importing make sure you add the directory containing this file to
+# the PYTHONPATH environment variable.
+ 
 # Ang sang waheguru.
 # Every cell vibrates God's infinity.
 
