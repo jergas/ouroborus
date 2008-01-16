@@ -51,3 +51,14 @@ class InvalidAddressError(BirdcageError):
 
       def __str__(self):
           print "\naddress %s is not valid in a %s" % (self.address, self.name)
+
+
+class ConflictingTopologyError(BirdcageError):
+      """Raise when an object's underlying topology is not the required one"""
+
+      def __init__(self, name1, name2):
+          self.name1 = name1
+          self.name2 = name2
+
+      def __str__(self):
+          print "\n%s does not match %s" % (self.name1, self.name2)
