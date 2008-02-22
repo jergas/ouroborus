@@ -7,7 +7,7 @@
 # incorporates simple agents.
 
 # Birdcage has been successfully compiled and executed using gcc under MinGW
-# in a Windows box.
+# in a Windows box. It also compiles and runs in Ubuntu.
 
 # Before importing make sure you add the directory containing this file to
 # the PYTHONPATH environment variable.
@@ -37,7 +37,7 @@
 
 
 __name__ = 'birdcage'
-__version__ = '0.5.1'
+__version__ = '0.5.2'
 __author__ = 'Sat Tara S Khalsa <smonkey@prodigy.net.mx>'
 __copyright__ = 'Copyright 2006 (C) Project Ouroboros'
 __license__ = 'GPL'

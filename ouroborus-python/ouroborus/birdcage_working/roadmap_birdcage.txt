@@ -122,3 +122,8 @@ DATE		EVENT		COMMENT
 16 ene 2008     birdcage 0.5.1  First release of birdcage as a package comprising of 
  				several modules.  This compiles in gcc under MinGW and
                                 includes agents as well as a broader scope of automata.
+
+12 feb 2008     birdcage 0.5.2  Increased agent's functionalities.  They now have direction
+                                and mobility
+
+18 feb 2008     birdcage 0.5.3  More agent's functionality: Eat mana! 

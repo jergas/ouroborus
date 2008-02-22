@@ -308,16 +308,16 @@ cdef class VonNeumannNeighborhood(Neighborhood_2D):
           x2     ---> the second integer coordinate value
           return -->> Null"""
 
-          self.neighbors_x1[0] = x1+1
-          self.neighbors_x2[0] = x2
+          self.neighbors_x1[0] = x1
+          self.neighbors_x2[0] = x2-1
 
-          self.neighbors_x1[1] = x1
-          self.neighbors_x2[1] = x2+1
+          self.neighbors_x1[1] = x1+1
+          self.neighbors_x2[1] = x2
 
-          self.neighbors_x1[2] = x1-1
-          self.neighbors_x2[2] = x2
+          self.neighbors_x1[2] = x1
+          self.neighbors_x2[2] = x2+1
               
-          self.neighbors_x1[3] = x1
-          self.neighbors_x2[3] = x2-1
+          self.neighbors_x1[3] = x1-1
+          self.neighbors_x2[3] = x2
 
 

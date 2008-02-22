@@ -27,11 +27,11 @@ import exceptions_birdcage as E
 
 
 
-cdef class Agent:  
+cdef class Agent:
      """Abstract base class for all agents"""
 
 
-     def  __init__(self, N.Neighborhood_2D corporality, N.Neighborhood_2D sensoriality, int prana, object address):
+     def  __init__(self, N.Neighborhood_2D corporality, N.Neighborhood_2D sensoriality, int prana, int mana, object address):
           """Create a generic Agent_2D object
         
           corporality  ---> a birdcage Neighborhood_2d object complete
@@ -39,7 +39,8 @@ cdef class Agent:
           sensoriality ---> a birdcage Neighborhood_2d object complete
                             with a two-dimensional topology
           prana        ---> an integer
-          foot         ---> a Python tuple, the address of a cell in the grid"""
+          mana         ---> an integer, a state of the automaton
+          address      ---> a Python tuple, the address of a cell in the grid"""
 
           self.corporality = corporality
           self.sensoriality = sensoriality
@@ -48,7 +49,8 @@ cdef class Agent:
              raise E.ConflictingTopologyError(self.corporality.topology.name, self.sensoriality.topology.name)
 
           self.topology = self.corporality.topology
-          self.prana = prana       
+          self.prana = prana
+          self.mana = mana
           self.name = "Abstract Agent"
 
 
@@ -161,7 +163,7 @@ cdef class Agent_2D(Agent):
      """Base class for all agents based on a two-dimensional automaton."""
 
 
-     def  __init__(self, N.Neighborhood_2D corporality, N.Neighborhood_2D sensoriality, int prana, object address):
+     def  __init__(self, N.Neighborhood_2D corporality, N.Neighborhood_2D sensoriality, int prana, int mana, object address):
           """Create a generic Agent_2D object
         
           corporality  ---> a birdcage Neighborhood_2d object complete
@@ -169,13 +171,142 @@ cdef class Agent_2D(Agent):
           sensoriality ---> a birdcage Neighborhood_2d object complete
                             with a two-dimensional topology
           prana        ---> an integer
-          foot         ---> a Python 2-tuple, the address of a cell in the grid"""
+          mana         ---> an integer, a state of the automaton
+          address      ---> a Python 2-tuple, the address of a cell in the grid"""
 
-          Agent.__init__(self, corporality, sensoriality, prana, address)
+          Agent.__init__(self, corporality, sensoriality, prana, mana, address)
           
-          if self.topology.pyx_normalize(address) == -1:
-               raise E.InvalidAddressError(address, self.topology.name)
- 
-          self.foot = address         
+          address = self.topology.normalize(address) 
+          (self.x1, self.x2) = (address[0], address[1])
+          self.directions = self.sensoriality.neighbors + 1
+          self.facing = 0
           self.name = "Agent 2-D"
 
+
+     def  tellAddress(self):
+          """Return the agent's address on the grid
+
+          return -->> a Python 2-tuple"""
+
+          return (self.x1, self.x2)
+
+     
+     def  move(self, object address):
+          """Move the agent to a new address
+
+          address ---> a Python 2-tuple, an address on the grid"""
+
+          if not (len(address) == 2):
+               raise E.InvalidAddressError(address, self.topology.name)
+
+          address = self.topology.normalize(address)
+          self.pyx_move(address[0], address[1])
+
+
+     cdef void pyx_move(self, int y1, int y2):
+          """Move the agent to a new address
+
+          x1 ---> the first integer coordinate value
+          x2 ---> the second integer coordinate value"""
+
+          self.x1 = self.topology.normal_x1(y1)
+          self.x2 = self.topology.normal_x2(y2)
+
+
+     def  tellDirections(self):
+          """Return all the cells in the agent's sensoriality
+
+          return -->> a Python list of addresses"""
+
+          cdef int i
+          cdef object directions
+
+          directions = [(self.x1, self.x2)]
+          for i from 0 <= i < (self.directions-1):
+              directions.append(self.sensoriality.listNeighbors((self.x1, self.x2))[i])
+          return directions
+
+
+     def  tellFacing(self):
+          """Return the cell which the agent is facing
+
+          return -->> a Python 2-tuple"""
+
+          cdef object facing
+
+          facing = self.tellDirections()[self.facing]
+          return self.topology.normalize(facing)
+
+
+     def  changeFacing(self, int facing):
+          """Change the direction in which the agent faces
+
+          facing ---> an integer
+          return -->> 1 if successful"""
+
+          if self.pyx_changeFacing(facing) == -1:
+              raise E.NotInNeighborhoodError(facing, self.sensoriality.name)
+          return 1
+
+
+     cdef int pyx_changeFacing(self, int facing):
+          """Change the direction in which the agent faces
+
+          facing ---> an integer
+          return -->> 1 if successful, -1 otherwise"""
+
+          if facing < 0 or facing >= self.directions:
+              return -1
+          else:
+              self.facing = facing
+
+
+     def  advance(self):
+          """Move the agent in the direction it's facing
+
+          return -->> True if the agent moved, False otherwise"""
+
+          if self.facing == 0:
+              return False
+          else:
+              self.pyx_advance()
+              return True
+
+
+     cdef int pyx_advance(self):
+          """Move the agent in the direction it's facing"""
+
+          cdef int y1, y2
+
+          if self.facing == 0:
+              return 0
+          else:
+              self.sensoriality.pyx_calculateNeighbors(self.x1, self.x2)
+              y1 = self.sensoriality.neighbors_x1[self.facing-1] 
+              y2 = self.sensoriality.neighbors_x2[self.facing-1] 
+              self.pyx_move(y1, y2)
+              return 1
+
+
+     def  eatMana(self):
+          """Eat prana from the underlying cell
+
+          return -->> True if successful, False otherwise"""
+
+          if self.pyx_eatMana() == 0:
+              return False
+          else:
+              return True
+
+
+     cdef int pyx_eatMana(self):
+          """Eat prana from the underlying cell
+
+          return -->> 1 if successful, 0 otherwise"""
+
+          if self.topology.pyx_get(self.x1, self.x2) == self.mana:
+              self.pyx_gainPrana(1)
+              self.topology.pyx_set(self.x1, self.x2, self.topology.background)
+              return 1
+          else:
+              return 0

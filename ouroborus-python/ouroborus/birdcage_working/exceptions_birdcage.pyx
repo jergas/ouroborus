@@ -62,3 +62,14 @@ class ConflictingTopologyError(BirdcageError):
 
       def __str__(self):
           print "\n%s does not match %s" % (self.name1, self.name2)
+
+
+class NotInNeighborhoodError(BirdcageError):
+      """Raise when an unacceptable value is passed to the neighborhood"""
+
+      def __init__(self, value, name):
+          self.value = value
+          self.name = name
+
+      def __str__(self):
+          print "\nvalue %s is not valid in a %s" % (self.value, self.name)
