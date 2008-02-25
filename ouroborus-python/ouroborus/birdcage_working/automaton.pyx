@@ -1,11 +1,13 @@
 # This module contains the automaton abstract class and
 # its derived classes
 
-# It was written in Pyrex 0.9.3 on January 8th 2008
+# It was written in Pyrex 0.9.6 on January 8th 2008
 # by Sat Tara Singh Khalsa. Deg Teg Fateh!
 
 # This Pyrex code was compiled on a Windows XP machine  
-# using MinGW's gcc compiler, and run from Python 2.5 
+# using MinGW's gcc compiler, and run from Python 2.5.
+# It has also been seen to compile successfully on
+# Ubuntu's GNU gcc
 
 # An Automaton is the highest level working object of the
 # birdcage engine. It includes a neighborhood system with

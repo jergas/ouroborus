@@ -117,7 +117,8 @@ DATE		EVENT		COMMENT
 
 19 dec 2006	ouroborus0.1.1	birdcage 0.3.1 included in the first release of ouroborus
 
-19 oct 2007	birdcage 0.4.1	Start work in cleaner version.
+19 oct 2007	birdcage 0.4.1	Start work in cleaner version. Upgrade to Pyrex 0.9.6 and
+				Python 2.5
 
 16 ene 2008     birdcage 0.5.1  First release of birdcage as a package comprising of 
  				several modules.  This compiles in gcc under MinGW and

@@ -1,11 +1,13 @@
 # This module contains the neighborhood abstract class and
 # its derived classes.
 
-# It was written in Pyrex 0.9.3 on November 16th 2007
+# It was written in Pyrex 0.9.6 on November 16th 2007
 # by Sat Tara Singh Khalsa. Deg Teg Fateh!
 
 # This Pyrex code was compiled on a Windows XP machine  
-# using MinGW's gcc compiler, and run from Python 2.5 
+# using MinGW's gcc compiler, and run from Python 2.5.
+# It has also been seen to compile successfully on
+# Ubuntu's GNU gcc
 
 # A neighborhood system defines the set of cells which are considered
 # to be 'adjacent' to any given cell. These may be inclusive

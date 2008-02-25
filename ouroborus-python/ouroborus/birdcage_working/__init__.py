@@ -37,7 +37,7 @@
 
 
 __name__ = 'birdcage'
-__version__ = '0.5.2'
+__version__ = '0.5.3'
 __author__ = 'Sat Tara S Khalsa <smonkey@prodigy.net.mx>'
 __copyright__ = 'Copyright 2006 (C) Project Ouroboros'
 __license__ = 'GPL'
