@@ -132,3 +132,6 @@ DATE		EVENT		COMMENT
 10 mar 2008     birdcage 0.5.4  Genome is introduced - agents have a genome, even though
                 		it has no bearing on execution at this time. A visual
 				display with curses has been added.
+
+12 mar 2008	birdcage 0.5.5	The curses display was modified. Birdcage code now 
+				compiles and executes successfully on Windows and UNIX

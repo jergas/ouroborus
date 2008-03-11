@@ -5,11 +5,12 @@ import operator as o
 import agent as a
 import automaton as u
 import genome as g
-import visual as v
+import visual2 as v
+import curses as c
 import random
 
-size = (80,27)
-iterate = 30000
+size = (60,20)
+iterate = 300
 
 tabula = {'aa':'self.changeFacing(3)', 'ab':'self.advance()', 'ap':'print self.tellAddress()'}
 poeio = ['a','a','a','b']
@@ -28,45 +29,38 @@ prydain.addAgent(bran)
 prydain.addAgent(gwydion)
 prydain.addAgent(amatheon)
 prydain.addAgent(gwion)
-prydain.set((11,10),1)
-prydain.set((9,10),1)
-prydain.set((10,11),1)
-prydain.set((10,9),1)
-bran.changeFacing(1)
-gwydion.changeFacing(2)
-amatheon.changeFacing(3)
-gwion.changeFacing(4)
+prydain.set((10,10),1)
 
-v.fireUpCurses()
-pad = v.makePad(size)
 
-v.updateLoop2(prydain, pad[0], size)
-v.refreshDisplay(pad)
+def main(stdscr):
+    v.updateLoop(prydain, stdscr, size)
+    stdscr.refresh()
 
-t = 0
-print "t = %i\r" % (t)
+    t = 0
+    print "t = %i\r" % (t)
     
-for i in range(iterate):
-    prydain.update()
-    t = t+1
-    v.updateLoop2(prydain, pad[0], size)
-    a = random.randint(0,4)
-    amatheon.changeFacing(a)
-    amatheon.advance()
-    a = random.randint(0,4)
-    bran.changeFacing(a)
-    bran.advance()
-    a = random.randint(0,4)
-    gwydion.changeFacing(a)
-    gwydion.advance()
-    a = random.randint(0,4)
-    gwion.changeFacing(a)
-    gwion.advance()
-    v.refreshDisplay(pad)
-    print "t = %i" % (t)
+    for i in range(iterate):
+        prydain.update()
+        t = t+1
+        a = random.randint(0,4)
+        amatheon.changeFacing(a)
+        amatheon.advance()
+        a = random.randint(0,4)
+        bran.changeFacing(a)
+        bran.advance()
+        a = random.randint(0,4)
+        gwydion.changeFacing(a)
+        gwydion.advance()
+        a = random.randint(0,4)
+        gwion.changeFacing(a)
+        gwion.advance()
+        v.updateLoop(prydain, stdscr, size)
+        stdscr.refresh()
+        print "t = %i" % (t)
+    raw_input("Done")
 
 
 
-raw_input("Done")
+if __name__ == '__main__': c.wrapper(main)
 
  

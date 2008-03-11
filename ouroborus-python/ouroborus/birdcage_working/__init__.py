@@ -37,7 +37,7 @@
 
 
 __name__ = 'birdcage'
-__version__ = '0.5.4'
-__author__ = 'Sat Tara S Khalsa <smonkey@prodigy.net.mx>'
+__version__ = '0.5.5'
+__author__ = 'Sat Tara S Khalsa <smonkey@prodigy.net.mx>, Edgar J Becerra III'
 __copyright__ = 'Copyright 2006 (C) Project Ouroboros'
 __license__ = 'GPL'
