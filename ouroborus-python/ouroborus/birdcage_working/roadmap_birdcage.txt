@@ -128,3 +128,7 @@ DATE		EVENT		COMMENT
                                 and mobility
 
 18 feb 2008     birdcage 0.5.3  More agent's functionality: Eat mana! 
+
+10 mar 2008     birdcage 0.5.4  Genome is introduced - agents have a genome, even though
+                		it has no bearing on execution at this time. A visual
+				display with curses has been added.

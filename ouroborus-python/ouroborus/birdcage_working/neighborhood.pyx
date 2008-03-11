@@ -88,7 +88,7 @@ cdef class Neighborhood_2D:
           return  -->> a Python list of coordinates, consisting of all
                        of the cell's neighbours"""
 
-          cdef int i
+          cdef int i, x1, x2
           cdef object coordinates
 
           if not (len(address) == 2):
@@ -99,7 +99,9 @@ cdef class Neighborhood_2D:
           self.pyx_calculateNeighbors(address[0], address[1])
 
           for i from 0 <= i < self.neighbors:
-              coordinates.append((self.neighbors_x1[i], self.neighbors_x2[i]))
+              x1 = self.topology.normal_x1(self.neighbors_x1[i])
+              x2 = self.topology.normal_x2(self.neighbors_x2[i])
+              coordinates.append((x1, x2))
 
           return coordinates
 

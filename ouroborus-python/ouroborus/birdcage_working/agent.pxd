@@ -7,6 +7,7 @@
 
 cimport topology as T
 cimport neighborhood as N
+cimport genome as G
 
 
 ####################################################################
@@ -16,8 +17,9 @@ cdef class Agent:
      cdef N.Neighborhood_2D corporality
      cdef N.Neighborhood_2D sensoriality
      cdef T.GridTopology topology
+     cdef G.Genome genome
      cdef int prana, mana
-     cdef object name
+     cdef object name, moira
 
      cdef int pyx_isAlive(self)
      cdef int pyx_tellPrana(self)

@@ -131,12 +131,36 @@ cdef class Automaton_2D:
           self.states = states
 
 
-     def  givePopulation(self):
+     def  tellPopulation(self):
           """Return the number of live agents
 
           return -->> an integer"""
 
           return len(self.agents)
+
+
+     def  tellAgents(self):
+          """Return the list of agents on the automaton
+
+          return -->> a Pythoh list of Agent_2D's"""
+
+          return self.agents
+
+
+     def  tellAgentAddresses(self):
+          """Return all agent's addresses as a list
+
+          return -->> a Python list of 2-tuples"""
+
+          cdef object addresses 
+          cdef A.Agent_2D agent
+
+          addresses = []
+
+          for agent in self.agents:
+              addresses.append(agent.tellAddress())
+
+          return addresses
 
 
      def  get(self, object address):
@@ -210,7 +234,7 @@ cdef class SynchronousAutomaton_2D(Automaton_2D):
               for x2 from 0 <= x2 < self.topology.size[1]:
                   self.rule.pyx_applyToTarget(x1, x2, self.workgrid)
 
-          self.topology = self.workgrid
+          (self.topology, self.workgrid) = (self.workgrid, self.topology)
           self.neighborhood.topology = self.topology
           self.rule.neighborhood.topology = self.topology
 
