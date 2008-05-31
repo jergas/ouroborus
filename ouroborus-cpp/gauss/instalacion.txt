@@ -1,8 +1,0 @@
-Instrucciones de instalación:
-
---Como primer paso es necesario instalar python-2.2.2 en la maquina en la que se va a utilizar el programa, para esto hay que hacer doble clic sobre el icono que dice phyton-2.2.2.exe el cual  se encuentra dentro de la carpeta python
-
---Como un segundo paso se debe de instalar VPython, para esto hay que hacer doble clic dentro sobre el icono que dice VPython-2003-06-15.exe, el cual se encuentra dentro de la carpeta python.
-
---Y por ultimo para ver el programa solo debes de hacer doble clic sobre el icono que dice Gauss.bat 
-
