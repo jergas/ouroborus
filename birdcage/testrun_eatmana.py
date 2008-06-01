@@ -23,7 +23,7 @@ size = (90,40)
 iterate = 30000
 
 # poeio is a sequence of words from tabula at module code
-poeio = ['a','i','z','d','z','n','z','m','z','a','a','w','a','r','a','c','a','a']
+poeio = ['a','i','z','d','z','n','z','m','z','a','a','w','a','r','a','c','a','a','a','e']
 # samskara is a genome binding poeio to tabula
 samskara = g.Genome(poeio, tabula, 2)
 # corpus is the relative filepath where the compiled genome will be saved
