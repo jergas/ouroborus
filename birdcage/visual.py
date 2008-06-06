@@ -35,6 +35,21 @@ def printAgent(stdscr, agent, displaywidth, displayheight):
         (x,y) = address
         if x < displaywidth and y < displayheight:
 	    stdscr.addch(y, x, ord("#"))
+	
+	
+def printTranslucentAgent(stdscr, agent, displaywidth, displayheight, automaton):
+    """Display a hash on the screen for every agent
+
+    stdscr    ---> a curses stdscr object
+    address   ---> a birdcage Agent_2D instance
+    displaywidth  ---> an integer
+    displayheight ---> an integer"""
+
+    corporality = agent.tellCorporality()
+    for address in corporality:
+        (x,y) = address
+        if x < displaywidth and y < displayheight:
+	    (automaton.get((x,y)) and [stdscr.addch(y, x, ord("@"))] or [stdscr.addch(y, x, ord("#"))])[0]
 
 
 def updateLoop(automaton, stdscr, displaywidth, displayheight):
@@ -54,3 +69,20 @@ def updateLoop(automaton, stdscr, displaywidth, displayheight):
     for agent in agents:
         printAgent(stdscr, agent, displaywidth, displayheight)
 
+
+def updateLoopTranslucent(automaton, stdscr, displaywidth, displayheight):
+    """update the curses display
+
+    automaton     ---> a birdcage automaton instance
+    stdscr        ---> a curses stdscr object
+    displaywidth  ---> an integer
+    displayheight ---> an integer"""
+
+    for x in range(displaywidth):
+        for y in range(displayheight):
+            printIcon(automaton, stdscr, (x,y))
+
+    agents = automaton.tellAgents()
+
+    for agent in agents:
+        printTranslucentAgent(stdscr, agent, displaywidth, displayheight, automaton)

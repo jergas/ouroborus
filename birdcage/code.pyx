@@ -14,7 +14,7 @@ tabula = {'ai':'import topology; import neighborhood; import rule; import operat
           'ae':'  agent.eatMana()',
           'zd':'def beBorn(topos):',
 	  'zn':'  ball = neighborhood.VonNeumannNeighborhood(topos)',
-	  'zm':'  myself = agent.Agent_2D(genome.Genome([],{},2),ball,ball,7,1,(30,8))',
+	  'zm':'  myself = agent.Agent_2D(genome.Genome([],{},2),ball,ball,50,1,(30,8))',
           'za':'  return myself',
 	  'pd':'def __print__():',
 	  'pp':'  return myself.tellAddress()'}
