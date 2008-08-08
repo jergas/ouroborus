@@ -81,7 +81,7 @@ def main(stdscr):
     # the main iteration cycle
     for i in range(iterate):
         # update the automaton
-        if i%17 == 0: prydain.update()
+        if i%17	 == 0: prydain.update()
         t = t+1
         # call a method from the dynamically compiled peoio to update the agents
         amatheon.wander(amatheonwy)

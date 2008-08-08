@@ -100,26 +100,7 @@ cdef class Automaton_2D:
 
           return -->> Null"""
 
-          cdef int i, j, population, mortality
-          cdef object termination
-          cdef A.Agent_2D agent
-
-          population = len(self.agents)
-          termination = []
-
-          for i from 0 <= i < population:
-              agent = self.agents[i]
-              agent.corporality.topology = self.topology
-              agent.sensoriality.topology = self.topology
-              agent.topology = self.topology
-              agent.pyx_update()
-              if not agent.pyx_isAlive():
-                  termination.append(agent)
-
-          mortality = len(termination)
-
-          for j from 0 <= j < mortality:
-              self.pyx_removeAgent(termination[j])
+          pass
 
 
      def  setStates(self, states):
@@ -198,8 +179,8 @@ cdef class AsynchronousAutomaton_2D(Automaton_2D):
 
           cdef int x1, x2
 
-          for x1 from 0 <= x1 < self.topology.size[0]:
-              for x2 from 0 <= x2 < self.topology.size[1]:
+          for  0 <= x1 < self.topology.size[0]:
+              for  0 <= x2 < self.topology.size[1]:
                   self.rule.pyx_apply(x1, x2)
 
           Automaton_2D.pyx_update(self)
