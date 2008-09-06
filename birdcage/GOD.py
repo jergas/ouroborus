@@ -82,8 +82,29 @@ class Generator:
 			cmdclass = {'build_ext':build_ext}
 			) 
 
-		# finally, append the module's name to the list of names
+		# finally, append the module's name to the list of names and return
 		ode.append(onoma)
+		return 1
+
+
+	def generateDisplay(self, earth, size, stdscr):
+		"""Initialise a curses display for the automaton and its agents
+		earth  ---> a birdcage automaton
+		size   ---> a 2-tuple with the grid's dimensions
+		stdscr ---> a curses standard screen object
+		return -->> a 3-tuple of values useful for display"""
+
+		# a little workaround to make curses work for any terminal size
+		(width, height) = size
+		(winheight,winwidth) = stdscr.getmaxyx()
+		displaywidth = (winwidth < width) and winwidth-1 or width
+		displayheight = (winheight < height) and winheight-1 or height
+		# run the visual display refresh cycle as initialisation
+		earth.set((40,10),1)
+		v.updateLoop(earth, stdscr, displaywidth, displayheight)
+		stdscr.refresh()
+		# return a 3-tuple useful for further display
+		return (stdscr, displaywidth, displayheight)
 
 
 class Organizer:
@@ -100,4 +121,7 @@ class Organizer:
 
 		self.earth = earth
 		self.book = book
+
+
+
 
