@@ -1,0 +1,1 @@
+## Defines the decay times for the partials of an additive synthesis note.from random import uniformdef decadencias(total, espectro_dist, minimo=0.1):		decadencias	= []	maximo	= total.pop(0) *.5		for x in espectro_dist:		una_decadencia = uniform(minimo, maximo)		decadencias.append(una_decadencia)	return decadencias
