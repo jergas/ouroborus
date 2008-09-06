@@ -1,11 +1,10 @@
 # import all the necessary modules:
 # these are the core birdcage modules:
-import topology as t
-import neighborhood as n
-import rule as r
-import operator as o
+import topology
+import neighborhood
+import rule
 import agent as a
-import automaton as u
+import automaton
 import genome as g
 from code import tabula
 # these are the modules used for display
@@ -21,18 +20,45 @@ import random
 
 class Generator:
 	"""This object creates a code object from a genome and appends it onto
-        the list of creatures"""
+        the list of creatures. It also performs other creation-related functions
+	such as generating a fully-functioning cellular automaton"""
 
 
 	def __init__(self, obstetrix):
 		"""Create a Generator instance
 
 		obstetrix ---> a string to head all generated filenames"""
+		
 		self.obstetrics = 0
 		self.obstetrix = obstetrix
 
 
-	def generate(self, poeio, ode):
+	def generateAutomaton(self, size, tdata, ndata, rdata, adata):
+		"""Create an instance of a birdcage automaton class
+
+		size   ---> a Python tuple of integers
+		tdata  ---> a Python tuple commencing with a string
+		ndata  ---> a Python tuple commencing with a string
+		rdata  ---> a Python tuple commencing with a string
+                adata  ---> a Python tuple commencing with a string
+		return -->> an Automaton object"""
+
+		topologyClass = getattr(topology, tdata[0])
+		topologyInstance = topologyClass(size, tdata[1])
+
+		neighborhoodClass = getattr(neighborhood, ndata[0])
+		neighborhoodInstance = neighborhoodClass(topologyInstance)
+
+		ruleClass = getattr(rule, rdata[0])
+		ruleInstance = ruleClass(neighborhoodInstance, rdata[1])
+
+		automatonClass = getattr(automaton, adata[0])
+		automatonInstance = automatonClass(ruleInstance)
+
+		return automatonInstance
+
+
+	def generateGenotype(self, poeio, ode):
 		"""Write and compile a file from a genome
 
 		poeio  ---> a list of characters
@@ -58,3 +84,20 @@ class Generator:
 
 		# finally, append the module's name to the list of names
 		ode.append(onoma)
+
+
+class Organizer:
+	"""This object coordinates the iteration-per-iteration functioning of the
+	automata and its agents. It calls on the Organizer and Destroyer when
+	necessary."""
+
+
+	def __init__(self, earth, book):
+		"""Create an Organizer instance
+
+		earth ---> some complete birdcage Automaton instance
+		book  ---> a list of agent code objects (genotypes)"""
+
+		self.earth = earth
+		self.book = book
+
