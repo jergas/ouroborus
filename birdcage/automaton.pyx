@@ -47,6 +47,14 @@ cdef class Automaton_2D:
           self.name = "Abstract Automaton 2-D"
 
 
+     def  returnTopology(self):
+          """Return the automaton's underlying topology object
+
+          return -->> a birdcage topology instance"""
+
+          return self.topology
+
+
      def  addAgent(self, A.Agent_2D agent):
           """Add an agent to the running list of agents
 

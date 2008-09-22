@@ -121,7 +121,61 @@ class Organizer:
 
 		self.earth = earth
 		self.book = book
+		self.annum = 0
 
 
+	def iterateAutomaton(self):
+		"""Iterate the birdcage automaton associated to the Organizer
 
+		return -->> 1"""
+
+		self.earth.update()
+		self.annum = self.annum + 1
+		return 1
+
+
+        def readBookOfLife(self, index, code, prana, mana, address):
+		"""Dynamically import the modules compiled by the Generator
+
+		This will also cause actual agent instances to be created
+		index   ---> an integer, the module's order in self.book
+		code    ---> a string with the genome's code
+		prana   ---> an integer with the agent's initial prana
+		mana    ---> an integer, a special state of the ca from the agent's viewpoint
+		address ---> a 2-tuple, the agent's birthplace
+		return  -->> 1 """
+
+		if type(self.book[index]) == type("string"):
+			module = __import__(self.book[index])
+			agent = module.birth(self.earth, code, prana, mana, address)
+			self.earth.addAgent(agent)
+			self.book[index] = (self.book[index], module, agent)
+
+			return 1
+
+	def iterateAgents(self):
+		"""Go through the list of agents and let them perform their actions
+
+		return -->> 1 """
+
+		for entity in self.book:
+			entity[1].live(entity[2])
+
+		return 1
+
+
+	def refreshDisplay(self, display):
+		"""Refresh the display on a curses terminal
+
+		display       ---> a 3-tuple as follows:
+		                   (stdscr, displaywidth, displayheight)
+		stdscr        ---> a curses standard screen object
+		displaywidth  ---> the integer width of the curses terminal
+		displayheight ---> the integer height of the curses terminal
+		return        -->> 1"""
+
+		v.updateLoop(self.earth, display[0], display[1], display[2])
+		display[0].refresh()
+		
+		
 

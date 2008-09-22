@@ -1,4 +1,14 @@
-tabula = {'ai':'import topology; import neighborhood; import rule; import operator; import automaton; import agent; import genome; import random',
+tabula = {'Yi':'import topology; import neighborhood; import agent',
+          'Yc':'corporality = neighborhood.VonNeumannNeighborhood',
+          'Ys':'sensoriality = neighborhood.VonNeumannNeighborhood',
+          'Cb':'def birth(earth, code, prana, mana, address):',
+          'Cd':'  myself = agent.Agent_2D(code,corporality(earth.returnTopology()),sensoriality(earth.returnTopology()),prana,mana,address)',
+          'Cr':'  return myself',
+          'Tf':'def live(agent):',
+          'Tp':'  pass'}
+  
+
+tabula_antica = {'ai':'import topolog; import neighborhood; import rule; import operator; import automaton; import agent; import genome; import random',
           'at':'topos = topology.ToroidTopology((90,40),0)',
 	  'ap':'change = rule.ReductionRule(ball,(operator.xor,0))',
 	  'au':'robot = automaton.SynchronousAutomaton_2D(change)',

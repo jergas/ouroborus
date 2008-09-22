@@ -1,13 +1,8 @@
 import GOD
 import curses
-import time
-print "imported GOD!"
-
 
 def main(stdscr):
 	mary = GOD.Generator("kristos")
-	print "instantiated Generator"
-
 
 	# the following lines contain all the data to build a complete automaton
 	size = (90,40)
@@ -16,28 +11,28 @@ def main(stdscr):
 	import operator
 	ruleData = ("ReductionRule", (operator.xor, 0))
 	automatonData = ("SynchronousAutomaton_2D", )
+        seedCode = "Y i Y c Y s C b C d C r T f T p"
 
 	# invoke God.Generator's automaton creation method with the data given above
 	terra = mary.generateAutomaton(size, topologyData, neighborData, ruleData, automatonData)
-	print "an earth has been created as", terra
-
 	biblos = []
-	print "the book of life is", biblos
-
 	magdalen = GOD.Organizer(terra, biblos)
-	print "instantiated Organizer"
-
-	avatars = 3
+	avatars = 1
+	doomsday = 200
 
 	for i in range(avatars):
-		mary.generateGenotype(["a","i"], biblos)
+		mary.generateGenotype(seedCode.split(" "), biblos)
+                magdalen.readBookOfLife(i, seedCode, 7, 1, (10,10))
 
-	print avatars, "files have been written"
+	display = mary.generateDisplay(terra, size, stdscr)
+	# here cometh the main iteration cycle
+	while magdalen.annum < doomsday:
+		magdalen.iterateAutomaton()
+		magdalen.refreshDisplay(display)
+	return 1
+	
 
-	print "magdalen's book of life is", magdalen.book
-
-
-	mary.generateDisplay(terra, size, stdscr)
-	time.sleep(3)
 # call the generic curses wrapper to maintain terminal sanity in all events
-if __name__ == '__main__': curses.wrapper(main)
+if __name__ == '__main__': end = curses.wrapper(main)
+print end
+

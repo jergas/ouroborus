@@ -1,4 +1,4 @@
-/* 0.9.7 on Thu Aug  7 22:59:42 2008 */
+/* 0.9.7.2 on Mon Sep 22 15:30:03 2008 */
 
 #define PY_SSIZE_T_CLEAN
 #include "Python.h"
@@ -49,6 +49,8 @@ static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb); /*proto*
 static void __Pyx_WriteUnraisable(char *name); /*proto*/
 
 static int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type); /*proto*/
+
+static PyObject *__Pyx_GetItemInt(PyObject *o, Py_ssize_t i); /*proto*/
 
 static int __Pyx_InternStrings(__Pyx_InternTabEntry *t); /*proto*/
 
@@ -379,6 +381,23 @@ static int __pyx_f_9automaton_12Automaton_2D___init__(PyObject *__pyx_v_self, Py
   return __pyx_r;
 }
 
+static PyObject *__pyx_f_9automaton_12Automaton_2D_returnTopology(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_9automaton_12Automaton_2D_returnTopology[] = "Return the automaton\'s underlying topology object\n\n          return -->> a birdcage topology instance";
+static PyObject *__pyx_f_9automaton_12Automaton_2D_returnTopology(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_r;
+  static char *__pyx_argnames[] = {0};
+  if (!PyArg_ParseTupleAndKeywords(__pyx_args, __pyx_kwds, "", __pyx_argnames)) return 0;
+  Py_INCREF(__pyx_v_self);
+  Py_INCREF(((PyObject *)((struct __pyx_obj_9automaton_Automaton_2D *)__pyx_v_self)->topology));
+  __pyx_r = ((PyObject *)((struct __pyx_obj_9automaton_Automaton_2D *)__pyx_v_self)->topology);
+  goto __pyx_L0;
+
+  __pyx_r = Py_None; Py_INCREF(Py_None);
+  __pyx_L0:;
+  Py_DECREF(__pyx_v_self);
+  return __pyx_r;
+}
+
 static PyObject *__pyx_f_9automaton_12Automaton_2D_addAgent(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static char __pyx_doc_9automaton_12Automaton_2D_addAgent[] = "Add an agent to the running list of agents\n\n          agent  ---> a birdcage Agent_2D object\n          return -->> None";
 static PyObject *__pyx_f_9automaton_12Automaton_2D_addAgent(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
@@ -388,7 +407,7 @@ static PyObject *__pyx_f_9automaton_12Automaton_2D_addAgent(PyObject *__pyx_v_se
   if (!PyArg_ParseTupleAndKeywords(__pyx_args, __pyx_kwds, "O", __pyx_argnames, &__pyx_v_agent)) return 0;
   Py_INCREF(__pyx_v_self);
   Py_INCREF((PyObject *)__pyx_v_agent);
-  if (!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_agent), __pyx_ptype_5agent_Agent_2D, 1, "agent")) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 50; goto __pyx_L1;}
+  if (!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_agent), __pyx_ptype_5agent_Agent_2D, 1, "agent")) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 58; goto __pyx_L1;}
   ((struct __pyx_vtabstruct_9automaton_Automaton_2D *)((struct __pyx_obj_9automaton_Automaton_2D *)__pyx_v_self)->__pyx_vtab)->pyx_addAgent(((struct __pyx_obj_9automaton_Automaton_2D *)__pyx_v_self),__pyx_v_agent);
 
   __pyx_r = Py_None; Py_INCREF(Py_None);
@@ -413,34 +432,34 @@ static void __pyx_f_9automaton_12Automaton_2D_pyx_addAgent(struct __pyx_obj_9aut
   Py_INCREF(__pyx_v_self);
   Py_INCREF((PyObject *)__pyx_v_agent);
 
-  /* "/home/panx/ouroborus/birdcage/automaton.pyx":65 */
-  if (PyObject_Cmp(((PyObject *)__pyx_v_agent->__pyx_base.topology), ((PyObject *)__pyx_v_self->topology), &__pyx_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; goto __pyx_L1;}
+  /* "/home/panx/ouroborus/birdcage/automaton.pyx":73 */
+  if (PyObject_Cmp(((PyObject *)__pyx_v_agent->__pyx_base.topology), ((PyObject *)__pyx_v_self->topology), &__pyx_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; goto __pyx_L1;}
   __pyx_1 = __pyx_1 != 0;
   if (__pyx_1) {
-    __pyx_2 = __Pyx_GetName(__pyx_m, __pyx_n_E); if (!__pyx_2) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; goto __pyx_L1;}
-    __pyx_3 = PyObject_GetAttr(__pyx_2, __pyx_n_ConflictingTopologyError); if (!__pyx_3) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; goto __pyx_L1;}
+    __pyx_2 = __Pyx_GetName(__pyx_m, __pyx_n_E); if (!__pyx_2) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; goto __pyx_L1;}
+    __pyx_3 = PyObject_GetAttr(__pyx_2, __pyx_n_ConflictingTopologyError); if (!__pyx_3) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; goto __pyx_L1;}
     Py_DECREF(__pyx_2); __pyx_2 = 0;
-    __pyx_2 = PyTuple_New(2); if (!__pyx_2) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; goto __pyx_L1;}
+    __pyx_2 = PyTuple_New(2); if (!__pyx_2) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; goto __pyx_L1;}
     Py_INCREF(__pyx_v_agent->__pyx_base.topology->__pyx_base.name);
     PyTuple_SET_ITEM(__pyx_2, 0, __pyx_v_agent->__pyx_base.topology->__pyx_base.name);
     Py_INCREF(__pyx_v_self->topology->__pyx_base.name);
     PyTuple_SET_ITEM(__pyx_2, 1, __pyx_v_self->topology->__pyx_base.name);
-    __pyx_4 = PyObject_CallObject(__pyx_3, __pyx_2); if (!__pyx_4) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; goto __pyx_L1;}
+    __pyx_4 = PyObject_CallObject(__pyx_3, __pyx_2); if (!__pyx_4) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; goto __pyx_L1;}
     Py_DECREF(__pyx_3); __pyx_3 = 0;
     Py_DECREF(__pyx_2); __pyx_2 = 0;
     __Pyx_Raise(__pyx_4, 0, 0);
     Py_DECREF(__pyx_4); __pyx_4 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; goto __pyx_L1;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; goto __pyx_L1;}
     goto __pyx_L2;
   }
   __pyx_L2:;
 
-  /* "/home/panx/ouroborus/birdcage/automaton.pyx":68 */
-  __pyx_3 = PyObject_GetAttr(__pyx_v_self->agents, __pyx_n_append); if (!__pyx_3) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 68; goto __pyx_L1;}
-  __pyx_2 = PyTuple_New(1); if (!__pyx_2) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 68; goto __pyx_L1;}
+  /* "/home/panx/ouroborus/birdcage/automaton.pyx":76 */
+  __pyx_3 = PyObject_GetAttr(__pyx_v_self->agents, __pyx_n_append); if (!__pyx_3) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; goto __pyx_L1;}
+  __pyx_2 = PyTuple_New(1); if (!__pyx_2) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; goto __pyx_L1;}
   Py_INCREF(((PyObject *)__pyx_v_agent));
   PyTuple_SET_ITEM(__pyx_2, 0, ((PyObject *)__pyx_v_agent));
-  __pyx_4 = PyObject_CallObject(__pyx_3, __pyx_2); if (!__pyx_4) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 68; goto __pyx_L1;}
+  __pyx_4 = PyObject_CallObject(__pyx_3, __pyx_2); if (!__pyx_4) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; goto __pyx_L1;}
   Py_DECREF(__pyx_3); __pyx_3 = 0;
   Py_DECREF(__pyx_2); __pyx_2 = 0;
   Py_DECREF(__pyx_4); __pyx_4 = 0;
@@ -465,7 +484,7 @@ static PyObject *__pyx_f_9automaton_12Automaton_2D_removeAgent(PyObject *__pyx_v
   if (!PyArg_ParseTupleAndKeywords(__pyx_args, __pyx_kwds, "O", __pyx_argnames, &__pyx_v_agent)) return 0;
   Py_INCREF(__pyx_v_self);
   Py_INCREF((PyObject *)__pyx_v_agent);
-  if (!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_agent), __pyx_ptype_5agent_Agent_2D, 1, "agent")) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 71; goto __pyx_L1;}
+  if (!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_agent), __pyx_ptype_5agent_Agent_2D, 1, "agent")) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 79; goto __pyx_L1;}
   ((struct __pyx_vtabstruct_9automaton_Automaton_2D *)((struct __pyx_obj_9automaton_Automaton_2D *)__pyx_v_self)->__pyx_vtab)->pyx_removeAgent(((struct __pyx_obj_9automaton_Automaton_2D *)__pyx_v_self),__pyx_v_agent);
 
   __pyx_r = Py_None; Py_INCREF(Py_None);
@@ -488,13 +507,13 @@ static void __pyx_f_9automaton_12Automaton_2D_pyx_removeAgent(struct __pyx_obj_9
   PyObject *__pyx_4 = 0;
   Py_INCREF(__pyx_v_self);
   Py_INCREF((PyObject *)__pyx_v_agent);
-  __pyx_1 = PySequence_Contains(__pyx_v_self->agents, ((PyObject *)__pyx_v_agent)); if (__pyx_1 < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; goto __pyx_L1;}
+  __pyx_1 = PySequence_Contains(__pyx_v_self->agents, ((PyObject *)__pyx_v_agent)); if (__pyx_1 < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; goto __pyx_L1;}
   if (__pyx_1) {
-    __pyx_2 = PyObject_GetAttr(__pyx_v_self->agents, __pyx_n_remove); if (!__pyx_2) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; goto __pyx_L1;}
-    __pyx_3 = PyTuple_New(1); if (!__pyx_3) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; goto __pyx_L1;}
+    __pyx_2 = PyObject_GetAttr(__pyx_v_self->agents, __pyx_n_remove); if (!__pyx_2) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 95; goto __pyx_L1;}
+    __pyx_3 = PyTuple_New(1); if (!__pyx_3) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 95; goto __pyx_L1;}
     Py_INCREF(((PyObject *)__pyx_v_agent));
     PyTuple_SET_ITEM(__pyx_3, 0, ((PyObject *)__pyx_v_agent));
-    __pyx_4 = PyObject_CallObject(__pyx_2, __pyx_3); if (!__pyx_4) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; goto __pyx_L1;}
+    __pyx_4 = PyObject_CallObject(__pyx_2, __pyx_3); if (!__pyx_4) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 95; goto __pyx_L1;}
     Py_DECREF(__pyx_2); __pyx_2 = 0;
     Py_DECREF(__pyx_3); __pyx_3 = 0;
     Py_DECREF(__pyx_4); __pyx_4 = 0;
@@ -543,7 +562,7 @@ static PyObject *__pyx_f_9automaton_12Automaton_2D_setStates(PyObject *__pyx_v_s
   if (!PyArg_ParseTupleAndKeywords(__pyx_args, __pyx_kwds, "O", __pyx_argnames, &__pyx_v_states)) return 0;
   Py_INCREF(__pyx_v_self);
   Py_INCREF(__pyx_v_states);
-  __pyx_1 = PyInt_AsLong(__pyx_v_states); if (PyErr_Occurred()) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 112; goto __pyx_L1;}
+  __pyx_1 = PyInt_AsLong(__pyx_v_states); if (PyErr_Occurred()) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 120; goto __pyx_L1;}
   ((struct __pyx_obj_9automaton_Automaton_2D *)__pyx_v_self)->states = __pyx_1;
 
   __pyx_r = Py_None; Py_INCREF(Py_None);
@@ -566,8 +585,8 @@ static PyObject *__pyx_f_9automaton_12Automaton_2D_tellPopulation(PyObject *__py
   static char *__pyx_argnames[] = {0};
   if (!PyArg_ParseTupleAndKeywords(__pyx_args, __pyx_kwds, "", __pyx_argnames)) return 0;
   Py_INCREF(__pyx_v_self);
-  __pyx_1 = PyObject_Length(((struct __pyx_obj_9automaton_Automaton_2D *)__pyx_v_self)->agents); if (__pyx_1 == -1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 120; goto __pyx_L1;}
-  __pyx_2 = PyInt_FromSsize_t(__pyx_1); if (!__pyx_2) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 120; goto __pyx_L1;}
+  __pyx_1 = PyObject_Length(((struct __pyx_obj_9automaton_Automaton_2D *)__pyx_v_self)->agents); if (__pyx_1 == -1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 128; goto __pyx_L1;}
+  __pyx_2 = PyInt_FromSsize_t(__pyx_1); if (!__pyx_2) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 128; goto __pyx_L1;}
   __pyx_r = __pyx_2;
   __pyx_2 = 0;
   goto __pyx_L0;
@@ -618,39 +637,39 @@ static PyObject *__pyx_f_9automaton_12Automaton_2D_tellAgentAddresses(PyObject *
   __pyx_v_addresses = Py_None; Py_INCREF(Py_None);
   __pyx_v_agent = ((struct __pyx_obj_5agent_Agent_2D *)Py_None); Py_INCREF(Py_None);
 
-  /* "/home/panx/ouroborus/birdcage/automaton.pyx":139 */
-  __pyx_1 = PyList_New(0); if (!__pyx_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 139; goto __pyx_L1;}
+  /* "/home/panx/ouroborus/birdcage/automaton.pyx":147 */
+  __pyx_1 = PyList_New(0); if (!__pyx_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 147; goto __pyx_L1;}
   Py_DECREF(__pyx_v_addresses);
   __pyx_v_addresses = __pyx_1;
   __pyx_1 = 0;
 
-  /* "/home/panx/ouroborus/birdcage/automaton.pyx":141 */
-  __pyx_1 = PyObject_GetIter(((struct __pyx_obj_9automaton_Automaton_2D *)__pyx_v_self)->agents); if (!__pyx_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 141; goto __pyx_L1;}
+  /* "/home/panx/ouroborus/birdcage/automaton.pyx":149 */
+  __pyx_1 = PyObject_GetIter(((struct __pyx_obj_9automaton_Automaton_2D *)__pyx_v_self)->agents); if (!__pyx_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 149; goto __pyx_L1;}
   for (;;) {
     __pyx_2 = PyIter_Next(__pyx_1);
     if (!__pyx_2) {
-      if (PyErr_Occurred()) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 141; goto __pyx_L1;}
+      if (PyErr_Occurred()) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 149; goto __pyx_L1;}
       break;
     }
-    if (!__Pyx_TypeTest(__pyx_2, __pyx_ptype_5agent_Agent_2D)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 141; goto __pyx_L1;}
+    if (!__Pyx_TypeTest(__pyx_2, __pyx_ptype_5agent_Agent_2D)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 149; goto __pyx_L1;}
     Py_DECREF(((PyObject *)__pyx_v_agent));
     __pyx_v_agent = ((struct __pyx_obj_5agent_Agent_2D *)__pyx_2);
     __pyx_2 = 0;
-    __pyx_2 = PyObject_GetAttr(__pyx_v_addresses, __pyx_n_append); if (!__pyx_2) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 142; goto __pyx_L1;}
-    __pyx_3 = PyObject_GetAttr(((PyObject *)__pyx_v_agent), __pyx_n_tellAddress); if (!__pyx_3) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 142; goto __pyx_L1;}
-    __pyx_4 = PyObject_CallObject(__pyx_3, 0); if (!__pyx_4) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 142; goto __pyx_L1;}
+    __pyx_2 = PyObject_GetAttr(__pyx_v_addresses, __pyx_n_append); if (!__pyx_2) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 150; goto __pyx_L1;}
+    __pyx_3 = PyObject_GetAttr(((PyObject *)__pyx_v_agent), __pyx_n_tellAddress); if (!__pyx_3) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 150; goto __pyx_L1;}
+    __pyx_4 = PyObject_CallObject(__pyx_3, 0); if (!__pyx_4) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 150; goto __pyx_L1;}
     Py_DECREF(__pyx_3); __pyx_3 = 0;
-    __pyx_3 = PyTuple_New(1); if (!__pyx_3) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 142; goto __pyx_L1;}
+    __pyx_3 = PyTuple_New(1); if (!__pyx_3) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 150; goto __pyx_L1;}
     PyTuple_SET_ITEM(__pyx_3, 0, __pyx_4);
     __pyx_4 = 0;
-    __pyx_4 = PyObject_CallObject(__pyx_2, __pyx_3); if (!__pyx_4) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 142; goto __pyx_L1;}
+    __pyx_4 = PyObject_CallObject(__pyx_2, __pyx_3); if (!__pyx_4) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 150; goto __pyx_L1;}
     Py_DECREF(__pyx_2); __pyx_2 = 0;
     Py_DECREF(__pyx_3); __pyx_3 = 0;
     Py_DECREF(__pyx_4); __pyx_4 = 0;
   }
   Py_DECREF(__pyx_1); __pyx_1 = 0;
 
-  /* "/home/panx/ouroborus/birdcage/automaton.pyx":144 */
+  /* "/home/panx/ouroborus/birdcage/automaton.pyx":152 */
   Py_INCREF(__pyx_v_addresses);
   __pyx_r = __pyx_v_addresses;
   goto __pyx_L0;
@@ -684,11 +703,11 @@ static PyObject *__pyx_f_9automaton_12Automaton_2D_get(PyObject *__pyx_v_self, P
   if (!PyArg_ParseTupleAndKeywords(__pyx_args, __pyx_kwds, "O", __pyx_argnames, &__pyx_v_address)) return 0;
   Py_INCREF(__pyx_v_self);
   Py_INCREF(__pyx_v_address);
-  __pyx_1 = PyObject_GetAttr(((PyObject *)((struct __pyx_obj_9automaton_Automaton_2D *)__pyx_v_self)->topology), __pyx_n_get); if (!__pyx_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 149; goto __pyx_L1;}
-  __pyx_2 = PyTuple_New(1); if (!__pyx_2) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 149; goto __pyx_L1;}
+  __pyx_1 = PyObject_GetAttr(((PyObject *)((struct __pyx_obj_9automaton_Automaton_2D *)__pyx_v_self)->topology), __pyx_n_get); if (!__pyx_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 157; goto __pyx_L1;}
+  __pyx_2 = PyTuple_New(1); if (!__pyx_2) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 157; goto __pyx_L1;}
   Py_INCREF(__pyx_v_address);
   PyTuple_SET_ITEM(__pyx_2, 0, __pyx_v_address);
-  __pyx_3 = PyObject_CallObject(__pyx_1, __pyx_2); if (!__pyx_3) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 149; goto __pyx_L1;}
+  __pyx_3 = PyObject_CallObject(__pyx_1, __pyx_2); if (!__pyx_3) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 157; goto __pyx_L1;}
   Py_DECREF(__pyx_1); __pyx_1 = 0;
   Py_DECREF(__pyx_2); __pyx_2 = 0;
   __pyx_r = __pyx_3;
@@ -723,14 +742,14 @@ static PyObject *__pyx_f_9automaton_12Automaton_2D_set(PyObject *__pyx_v_self, P
   if (!PyArg_ParseTupleAndKeywords(__pyx_args, __pyx_kwds, "Oi", __pyx_argnames, &__pyx_v_address, &__pyx_v_state)) return 0;
   Py_INCREF(__pyx_v_self);
   Py_INCREF(__pyx_v_address);
-  __pyx_1 = PyObject_GetAttr(((PyObject *)((struct __pyx_obj_9automaton_Automaton_2D *)__pyx_v_self)->topology), __pyx_n_set); if (!__pyx_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 154; goto __pyx_L1;}
-  __pyx_2 = PyInt_FromLong(__pyx_v_state); if (!__pyx_2) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 154; goto __pyx_L1;}
-  __pyx_3 = PyTuple_New(2); if (!__pyx_3) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 154; goto __pyx_L1;}
+  __pyx_1 = PyObject_GetAttr(((PyObject *)((struct __pyx_obj_9automaton_Automaton_2D *)__pyx_v_self)->topology), __pyx_n_set); if (!__pyx_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; goto __pyx_L1;}
+  __pyx_2 = PyInt_FromLong(__pyx_v_state); if (!__pyx_2) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; goto __pyx_L1;}
+  __pyx_3 = PyTuple_New(2); if (!__pyx_3) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; goto __pyx_L1;}
   Py_INCREF(__pyx_v_address);
   PyTuple_SET_ITEM(__pyx_3, 0, __pyx_v_address);
   PyTuple_SET_ITEM(__pyx_3, 1, __pyx_2);
   __pyx_2 = 0;
-  __pyx_2 = PyObject_CallObject(__pyx_1, __pyx_3); if (!__pyx_2) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 154; goto __pyx_L1;}
+  __pyx_2 = PyObject_CallObject(__pyx_1, __pyx_3); if (!__pyx_2) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; goto __pyx_L1;}
   Py_DECREF(__pyx_1); __pyx_1 = 0;
   Py_DECREF(__pyx_3); __pyx_3 = 0;
   Py_DECREF(__pyx_2); __pyx_2 = 0;
@@ -766,21 +785,21 @@ static int __pyx_f_9automaton_24AsynchronousAutomaton_2D___init__(PyObject *__py
   if (!PyArg_ParseTupleAndKeywords(__pyx_args, __pyx_kwds, "O", __pyx_argnames, &__pyx_v_rule)) return -1;
   Py_INCREF((PyObject *)__pyx_v_self);
   Py_INCREF(__pyx_v_rule);
-  if (!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rule), __pyx_ptype_4rule_Rule_2D, 1, "rule")) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 165; goto __pyx_L1;}
+  if (!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rule), __pyx_ptype_4rule_Rule_2D, 1, "rule")) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 173; goto __pyx_L1;}
 
-  /* "/home/panx/ouroborus/birdcage/automaton.pyx":171 */
-  __pyx_1 = PyObject_GetAttr(((PyObject *)__pyx_ptype_9automaton_Automaton_2D), __pyx_n___init__); if (!__pyx_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 171; goto __pyx_L1;}
-  __pyx_2 = PyTuple_New(2); if (!__pyx_2) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 171; goto __pyx_L1;}
+  /* "/home/panx/ouroborus/birdcage/automaton.pyx":179 */
+  __pyx_1 = PyObject_GetAttr(((PyObject *)__pyx_ptype_9automaton_Automaton_2D), __pyx_n___init__); if (!__pyx_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 179; goto __pyx_L1;}
+  __pyx_2 = PyTuple_New(2); if (!__pyx_2) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 179; goto __pyx_L1;}
   Py_INCREF(__pyx_v_self);
   PyTuple_SET_ITEM(__pyx_2, 0, __pyx_v_self);
   Py_INCREF(((PyObject *)__pyx_v_rule));
   PyTuple_SET_ITEM(__pyx_2, 1, ((PyObject *)__pyx_v_rule));
-  __pyx_3 = PyObject_CallObject(__pyx_1, __pyx_2); if (!__pyx_3) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 171; goto __pyx_L1;}
+  __pyx_3 = PyObject_CallObject(__pyx_1, __pyx_2); if (!__pyx_3) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 179; goto __pyx_L1;}
   Py_DECREF(__pyx_1); __pyx_1 = 0;
   Py_DECREF(__pyx_2); __pyx_2 = 0;
   Py_DECREF(__pyx_3); __pyx_3 = 0;
 
-  /* "/home/panx/ouroborus/birdcage/automaton.pyx":172 */
+  /* "/home/panx/ouroborus/birdcage/automaton.pyx":180 */
   Py_INCREF(__pyx_k3p);
   Py_DECREF(((struct __pyx_obj_9automaton_AsynchronousAutomaton_2D *)__pyx_v_self)->__pyx_base.name);
   ((struct __pyx_obj_9automaton_AsynchronousAutomaton_2D *)__pyx_v_self)->__pyx_base.name = __pyx_k3p;
@@ -807,21 +826,21 @@ static void __pyx_f_9automaton_24AsynchronousAutomaton_2D_pyx_update(struct __py
   long __pyx_3;
   Py_INCREF((PyObject *)__pyx_v_self);
 
-  /* "/home/panx/ouroborus/birdcage/automaton.pyx":182 */
-  __pyx_1 = PySequence_GetItem(__pyx_v_self->__pyx_base.topology->__pyx_base.size, 0); if (!__pyx_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 182; goto __pyx_L1;}
-  __pyx_2 = PyInt_AsLong(__pyx_1); if (PyErr_Occurred()) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 182; goto __pyx_L1;}
+  /* "/home/panx/ouroborus/birdcage/automaton.pyx":190 */
+  __pyx_1 = __Pyx_GetItemInt(__pyx_v_self->__pyx_base.topology->__pyx_base.size, 0); if (!__pyx_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 190; goto __pyx_L1;}
+  __pyx_2 = PyInt_AsLong(__pyx_1); if (PyErr_Occurred()) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 190; goto __pyx_L1;}
   Py_DECREF(__pyx_1); __pyx_1 = 0;
   for (__pyx_v_x1 = 0; __pyx_v_x1 < __pyx_2; ++__pyx_v_x1) {
-    __pyx_1 = PySequence_GetItem(__pyx_v_self->__pyx_base.topology->__pyx_base.size, 1); if (!__pyx_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 183; goto __pyx_L1;}
-    __pyx_3 = PyInt_AsLong(__pyx_1); if (PyErr_Occurred()) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 183; goto __pyx_L1;}
+    __pyx_1 = __Pyx_GetItemInt(__pyx_v_self->__pyx_base.topology->__pyx_base.size, 1); if (!__pyx_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 191; goto __pyx_L1;}
+    __pyx_3 = PyInt_AsLong(__pyx_1); if (PyErr_Occurred()) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 191; goto __pyx_L1;}
     Py_DECREF(__pyx_1); __pyx_1 = 0;
     for (__pyx_v_x2 = 0; __pyx_v_x2 < __pyx_3; ++__pyx_v_x2) {
-      __pyx_1 = ((struct __pyx_vtabstruct_4rule_Rule_2D *)__pyx_v_self->__pyx_base.rule->__pyx_vtab)->pyx_apply(__pyx_v_self->__pyx_base.rule,__pyx_v_x1,__pyx_v_x2); if (!__pyx_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 184; goto __pyx_L1;}
+      __pyx_1 = ((struct __pyx_vtabstruct_4rule_Rule_2D *)__pyx_v_self->__pyx_base.rule->__pyx_vtab)->pyx_apply(__pyx_v_self->__pyx_base.rule,__pyx_v_x1,__pyx_v_x2); if (!__pyx_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 192; goto __pyx_L1;}
       Py_DECREF(__pyx_1); __pyx_1 = 0;
     }
   }
 
-  /* "/home/panx/ouroborus/birdcage/automaton.pyx":186 */
+  /* "/home/panx/ouroborus/birdcage/automaton.pyx":194 */
   __pyx_vtabptr_9automaton_Automaton_2D->pyx_update(((struct __pyx_obj_9automaton_Automaton_2D *)__pyx_v_self));
 
   goto __pyx_L0;
@@ -849,30 +868,30 @@ static int __pyx_f_9automaton_23SynchronousAutomaton_2D___init__(PyObject *__pyx
   if (!PyArg_ParseTupleAndKeywords(__pyx_args, __pyx_kwds, "O", __pyx_argnames, &__pyx_v_rule)) return -1;
   Py_INCREF((PyObject *)__pyx_v_self);
   Py_INCREF(__pyx_v_rule);
-  if (!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rule), __pyx_ptype_4rule_Rule_2D, 1, "rule")) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 196; goto __pyx_L1;}
+  if (!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rule), __pyx_ptype_4rule_Rule_2D, 1, "rule")) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 204; goto __pyx_L1;}
 
-  /* "/home/panx/ouroborus/birdcage/automaton.pyx":202 */
-  __pyx_1 = PyObject_GetAttr(((PyObject *)__pyx_ptype_9automaton_Automaton_2D), __pyx_n___init__); if (!__pyx_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 202; goto __pyx_L1;}
-  __pyx_2 = PyTuple_New(2); if (!__pyx_2) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 202; goto __pyx_L1;}
+  /* "/home/panx/ouroborus/birdcage/automaton.pyx":210 */
+  __pyx_1 = PyObject_GetAttr(((PyObject *)__pyx_ptype_9automaton_Automaton_2D), __pyx_n___init__); if (!__pyx_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 210; goto __pyx_L1;}
+  __pyx_2 = PyTuple_New(2); if (!__pyx_2) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 210; goto __pyx_L1;}
   Py_INCREF(__pyx_v_self);
   PyTuple_SET_ITEM(__pyx_2, 0, __pyx_v_self);
   Py_INCREF(((PyObject *)__pyx_v_rule));
   PyTuple_SET_ITEM(__pyx_2, 1, ((PyObject *)__pyx_v_rule));
-  __pyx_3 = PyObject_CallObject(__pyx_1, __pyx_2); if (!__pyx_3) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 202; goto __pyx_L1;}
+  __pyx_3 = PyObject_CallObject(__pyx_1, __pyx_2); if (!__pyx_3) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 210; goto __pyx_L1;}
   Py_DECREF(__pyx_1); __pyx_1 = 0;
   Py_DECREF(__pyx_2); __pyx_2 = 0;
   Py_DECREF(__pyx_3); __pyx_3 = 0;
 
-  /* "/home/panx/ouroborus/birdcage/automaton.pyx":203 */
+  /* "/home/panx/ouroborus/birdcage/automaton.pyx":211 */
   Py_INCREF(__pyx_k4p);
   Py_DECREF(((struct __pyx_obj_9automaton_SynchronousAutomaton_2D *)__pyx_v_self)->__pyx_base.name);
   ((struct __pyx_obj_9automaton_SynchronousAutomaton_2D *)__pyx_v_self)->__pyx_base.name = __pyx_k4p;
 
-  /* "/home/panx/ouroborus/birdcage/automaton.pyx":204 */
-  __pyx_1 = PyObject_GetAttr(((PyObject *)((struct __pyx_obj_9automaton_SynchronousAutomaton_2D *)__pyx_v_self)->__pyx_base.topology), __pyx_n_clone); if (!__pyx_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 204; goto __pyx_L1;}
-  __pyx_2 = PyObject_CallObject(__pyx_1, 0); if (!__pyx_2) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 204; goto __pyx_L1;}
+  /* "/home/panx/ouroborus/birdcage/automaton.pyx":212 */
+  __pyx_1 = PyObject_GetAttr(((PyObject *)((struct __pyx_obj_9automaton_SynchronousAutomaton_2D *)__pyx_v_self)->__pyx_base.topology), __pyx_n_clone); if (!__pyx_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 212; goto __pyx_L1;}
+  __pyx_2 = PyObject_CallObject(__pyx_1, 0); if (!__pyx_2) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 212; goto __pyx_L1;}
   Py_DECREF(__pyx_1); __pyx_1 = 0;
-  if (!__Pyx_TypeTest(__pyx_2, __pyx_ptype_8topology_GridTopology)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 204; goto __pyx_L1;}
+  if (!__Pyx_TypeTest(__pyx_2, __pyx_ptype_8topology_GridTopology)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 212; goto __pyx_L1;}
   Py_DECREF(((PyObject *)((struct __pyx_obj_9automaton_SynchronousAutomaton_2D *)__pyx_v_self)->workgrid));
   ((struct __pyx_obj_9automaton_SynchronousAutomaton_2D *)__pyx_v_self)->workgrid = ((struct __pyx_obj_8topology_GridTopology *)__pyx_2);
   __pyx_2 = 0;
@@ -900,21 +919,21 @@ static void __pyx_f_9automaton_23SynchronousAutomaton_2D_pyx_update(struct __pyx
   PyObject *__pyx_4 = 0;
   Py_INCREF((PyObject *)__pyx_v_self);
 
-  /* "/home/panx/ouroborus/birdcage/automaton.pyx":214 */
-  __pyx_1 = PySequence_GetItem(__pyx_v_self->__pyx_base.topology->__pyx_base.size, 0); if (!__pyx_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 214; goto __pyx_L1;}
-  __pyx_2 = PyInt_AsLong(__pyx_1); if (PyErr_Occurred()) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 214; goto __pyx_L1;}
+  /* "/home/panx/ouroborus/birdcage/automaton.pyx":222 */
+  __pyx_1 = __Pyx_GetItemInt(__pyx_v_self->__pyx_base.topology->__pyx_base.size, 0); if (!__pyx_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 222; goto __pyx_L1;}
+  __pyx_2 = PyInt_AsLong(__pyx_1); if (PyErr_Occurred()) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 222; goto __pyx_L1;}
   Py_DECREF(__pyx_1); __pyx_1 = 0;
   for (__pyx_v_x1 = 0; __pyx_v_x1 < __pyx_2; ++__pyx_v_x1) {
-    __pyx_1 = PySequence_GetItem(__pyx_v_self->__pyx_base.topology->__pyx_base.size, 1); if (!__pyx_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 215; goto __pyx_L1;}
-    __pyx_3 = PyInt_AsLong(__pyx_1); if (PyErr_Occurred()) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 215; goto __pyx_L1;}
+    __pyx_1 = __Pyx_GetItemInt(__pyx_v_self->__pyx_base.topology->__pyx_base.size, 1); if (!__pyx_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 223; goto __pyx_L1;}
+    __pyx_3 = PyInt_AsLong(__pyx_1); if (PyErr_Occurred()) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 223; goto __pyx_L1;}
     Py_DECREF(__pyx_1); __pyx_1 = 0;
     for (__pyx_v_x2 = 0; __pyx_v_x2 < __pyx_3; ++__pyx_v_x2) {
-      __pyx_1 = ((struct __pyx_vtabstruct_4rule_Rule_2D *)__pyx_v_self->__pyx_base.rule->__pyx_vtab)->pyx_applyToTarget(__pyx_v_self->__pyx_base.rule,__pyx_v_x1,__pyx_v_x2,__pyx_v_self->workgrid); if (!__pyx_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 216; goto __pyx_L1;}
+      __pyx_1 = ((struct __pyx_vtabstruct_4rule_Rule_2D *)__pyx_v_self->__pyx_base.rule->__pyx_vtab)->pyx_applyToTarget(__pyx_v_self->__pyx_base.rule,__pyx_v_x1,__pyx_v_x2,__pyx_v_self->workgrid); if (!__pyx_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 224; goto __pyx_L1;}
       Py_DECREF(__pyx_1); __pyx_1 = 0;
     }
   }
 
-  /* "/home/panx/ouroborus/birdcage/automaton.pyx":218 */
+  /* "/home/panx/ouroborus/birdcage/automaton.pyx":226 */
   __pyx_1 = ((PyObject *)__pyx_v_self->workgrid);
   Py_INCREF(__pyx_1);
   __pyx_4 = ((PyObject *)__pyx_v_self->__pyx_base.topology);
@@ -926,17 +945,17 @@ static void __pyx_f_9automaton_23SynchronousAutomaton_2D_pyx_update(struct __pyx
   __pyx_v_self->workgrid = ((struct __pyx_obj_8topology_GridTopology *)__pyx_4);
   __pyx_4 = 0;
 
-  /* "/home/panx/ouroborus/birdcage/automaton.pyx":219 */
+  /* "/home/panx/ouroborus/birdcage/automaton.pyx":227 */
   Py_INCREF(((PyObject *)__pyx_v_self->__pyx_base.topology));
   Py_DECREF(((PyObject *)__pyx_v_self->__pyx_base.neighborhood->topology));
   __pyx_v_self->__pyx_base.neighborhood->topology = __pyx_v_self->__pyx_base.topology;
 
-  /* "/home/panx/ouroborus/birdcage/automaton.pyx":220 */
+  /* "/home/panx/ouroborus/birdcage/automaton.pyx":228 */
   Py_INCREF(((PyObject *)__pyx_v_self->__pyx_base.topology));
   Py_DECREF(((PyObject *)__pyx_v_self->__pyx_base.rule->neighborhood->topology));
   __pyx_v_self->__pyx_base.rule->neighborhood->topology = __pyx_v_self->__pyx_base.topology;
 
-  /* "/home/panx/ouroborus/birdcage/automaton.pyx":222 */
+  /* "/home/panx/ouroborus/birdcage/automaton.pyx":230 */
   __pyx_vtabptr_9automaton_Automaton_2D->pyx_update(((struct __pyx_obj_9automaton_Automaton_2D *)__pyx_v_self));
 
   goto __pyx_L0;
@@ -1037,6 +1056,7 @@ static int __pyx_tp_clear_9automaton_Automaton_2D(PyObject *o) {
 }
 
 static struct PyMethodDef __pyx_methods_9automaton_Automaton_2D[] = {
+  {"returnTopology", (PyCFunction)__pyx_f_9automaton_12Automaton_2D_returnTopology, METH_VARARGS|METH_KEYWORDS, __pyx_doc_9automaton_12Automaton_2D_returnTopology},
   {"addAgent", (PyCFunction)__pyx_f_9automaton_12Automaton_2D_addAgent, METH_VARARGS|METH_KEYWORDS, __pyx_doc_9automaton_12Automaton_2D_addAgent},
   {"removeAgent", (PyCFunction)__pyx_f_9automaton_12Automaton_2D_removeAgent, METH_VARARGS|METH_KEYWORDS, __pyx_doc_9automaton_12Automaton_2D_removeAgent},
   {"update", (PyCFunction)__pyx_f_9automaton_12Automaton_2D_update, METH_VARARGS|METH_KEYWORDS, __pyx_doc_9automaton_12Automaton_2D_update},
@@ -1502,18 +1522,18 @@ PyMODINIT_FUNC initautomaton(void) {
   __pyx_vtable_9automaton_AsynchronousAutomaton_2D.__pyx_base = *__pyx_vtabptr_9automaton_Automaton_2D;
   *(void(**)(void))&__pyx_vtable_9automaton_AsynchronousAutomaton_2D.__pyx_base.pyx_update = (void(*)(void))__pyx_f_9automaton_24AsynchronousAutomaton_2D_pyx_update;
   __pyx_type_9automaton_AsynchronousAutomaton_2D.tp_base = __pyx_ptype_9automaton_Automaton_2D;
-  if (PyType_Ready(&__pyx_type_9automaton_AsynchronousAutomaton_2D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 159; goto __pyx_L1;}
-  if (__Pyx_SetVtable(__pyx_type_9automaton_AsynchronousAutomaton_2D.tp_dict, __pyx_vtabptr_9automaton_AsynchronousAutomaton_2D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 159; goto __pyx_L1;}
-  if (PyObject_SetAttrString(__pyx_m, "AsynchronousAutomaton_2D", (PyObject *)&__pyx_type_9automaton_AsynchronousAutomaton_2D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 159; goto __pyx_L1;}
+  if (PyType_Ready(&__pyx_type_9automaton_AsynchronousAutomaton_2D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 167; goto __pyx_L1;}
+  if (__Pyx_SetVtable(__pyx_type_9automaton_AsynchronousAutomaton_2D.tp_dict, __pyx_vtabptr_9automaton_AsynchronousAutomaton_2D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 167; goto __pyx_L1;}
+  if (PyObject_SetAttrString(__pyx_m, "AsynchronousAutomaton_2D", (PyObject *)&__pyx_type_9automaton_AsynchronousAutomaton_2D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 167; goto __pyx_L1;}
   __pyx_ptype_9automaton_AsynchronousAutomaton_2D = &__pyx_type_9automaton_AsynchronousAutomaton_2D;
   __pyx_vtabptr_9automaton_SynchronousAutomaton_2D = &__pyx_vtable_9automaton_SynchronousAutomaton_2D;
   __pyx_vtable_9automaton_SynchronousAutomaton_2D.__pyx_base = *__pyx_vtabptr_9automaton_Automaton_2D;
   *(void(**)(void))&__pyx_vtable_9automaton_SynchronousAutomaton_2D.__pyx_base.pyx_update = (void(*)(void))__pyx_f_9automaton_23SynchronousAutomaton_2D_pyx_update;
   __pyx_type_9automaton_SynchronousAutomaton_2D.tp_base = __pyx_ptype_9automaton_Automaton_2D;
   __pyx_type_9automaton_SynchronousAutomaton_2D.tp_free = _PyObject_GC_Del;
-  if (PyType_Ready(&__pyx_type_9automaton_SynchronousAutomaton_2D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 191; goto __pyx_L1;}
-  if (__Pyx_SetVtable(__pyx_type_9automaton_SynchronousAutomaton_2D.tp_dict, __pyx_vtabptr_9automaton_SynchronousAutomaton_2D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 191; goto __pyx_L1;}
-  if (PyObject_SetAttrString(__pyx_m, "SynchronousAutomaton_2D", (PyObject *)&__pyx_type_9automaton_SynchronousAutomaton_2D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 191; goto __pyx_L1;}
+  if (PyType_Ready(&__pyx_type_9automaton_SynchronousAutomaton_2D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 199; goto __pyx_L1;}
+  if (__Pyx_SetVtable(__pyx_type_9automaton_SynchronousAutomaton_2D.tp_dict, __pyx_vtabptr_9automaton_SynchronousAutomaton_2D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 199; goto __pyx_L1;}
+  if (PyObject_SetAttrString(__pyx_m, "SynchronousAutomaton_2D", (PyObject *)&__pyx_type_9automaton_SynchronousAutomaton_2D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 199; goto __pyx_L1;}
   __pyx_ptype_9automaton_SynchronousAutomaton_2D = &__pyx_type_9automaton_SynchronousAutomaton_2D;
   __pyx_ptype_8topology_Topology = __Pyx_ImportType("topology", "Topology", sizeof(struct __pyx_obj_8topology_Topology)); if (!__pyx_ptype_8topology_Topology) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 13; goto __pyx_L1;}
   if (__Pyx_GetVtable(__pyx_ptype_8topology_Topology->tp_dict, &__pyx_vtabptr_8topology_Topology) < 0) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 13; goto __pyx_L1;}
@@ -1543,7 +1563,7 @@ PyMODINIT_FUNC initautomaton(void) {
   if (PyObject_SetAttr(__pyx_m, __pyx_n_E, __pyx_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 23; goto __pyx_L1;}
   Py_DECREF(__pyx_1); __pyx_1 = 0;
 
-  /* "/home/panx/ouroborus/birdcage/automaton.pyx":207 */
+  /* "/home/panx/ouroborus/birdcage/automaton.pyx":215 */
   return;
   __pyx_L1:;
   Py_XDECREF(__pyx_1);
@@ -1703,6 +1723,21 @@ static int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type) {
     PyErr_Format(PyExc_TypeError, "Cannot convert %s to %s",
         obj->ob_type->tp_name, type->tp_name);
     return 0;
+}
+
+static PyObject *__Pyx_GetItemInt(PyObject *o, Py_ssize_t i) {
+    PyTypeObject *t = o->ob_type;
+    PyObject *r;
+    if (t->tp_as_sequence && t->tp_as_sequence->sq_item)
+        r = PySequence_GetItem(o, i);
+    else {
+        PyObject *j = PyInt_FromLong(i);
+        if (!j)
+            return 0;
+        r = PyObject_GetItem(o, j);
+        Py_DECREF(j);
+    }
+    return r;
 }
 
 static int __Pyx_InternStrings(__Pyx_InternTabEntry *t) {

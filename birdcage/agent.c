@@ -1,4 +1,4 @@
-/* 0.9.7 on Thu Aug  7 22:58:18 2008 */
+/* 0.9.7.2 on Mon Sep 22 16:58:02 2008 */
 
 #define PY_SSIZE_T_CLEAN
 #include "Python.h"
@@ -45,6 +45,8 @@ static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list); /*proto*/
 static PyObject *__Pyx_GetName(PyObject *dict, PyObject *name); /*proto*/
 
 static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb); /*proto*/
+
+static PyObject *__Pyx_GetItemInt(PyObject *o, Py_ssize_t i); /*proto*/
 
 static int __Pyx_InternStrings(__Pyx_InternTabEntry *t); /*proto*/
 
@@ -186,9 +188,9 @@ struct __pyx_obj_5agent_Agent {
   struct __pyx_obj_12neighborhood_Neighborhood_2D *corporality;
   struct __pyx_obj_12neighborhood_Neighborhood_2D *sensoriality;
   struct __pyx_obj_8topology_GridTopology *topology;
-  struct __pyx_obj_6genome_Genome *genome;
   int prana;
   int mana;
+  PyObject *code;
   PyObject *name;
   PyObject *moira;
 };
@@ -240,7 +242,7 @@ static char __pyx_k2[] = "Abstract Agent";
 
 static int __pyx_f_5agent_5Agent___init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static int __pyx_f_5agent_5Agent___init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  struct __pyx_obj_6genome_Genome *__pyx_v_genome = 0;
+  PyObject *__pyx_v_code = 0;
   struct __pyx_obj_12neighborhood_Neighborhood_2D *__pyx_v_corporality = 0;
   struct __pyx_obj_12neighborhood_Neighborhood_2D *__pyx_v_sensoriality = 0;
   int __pyx_v_prana;
@@ -251,21 +253,20 @@ static int __pyx_f_5agent_5Agent___init__(PyObject *__pyx_v_self, PyObject *__py
   PyObject *__pyx_2 = 0;
   PyObject *__pyx_3 = 0;
   PyObject *__pyx_4 = 0;
-  static char *__pyx_argnames[] = {"genome","corporality","sensoriality","prana","mana","address",0};
-  if (!PyArg_ParseTupleAndKeywords(__pyx_args, __pyx_kwds, "OOOiiO", __pyx_argnames, &__pyx_v_genome, &__pyx_v_corporality, &__pyx_v_sensoriality, &__pyx_v_prana, &__pyx_v_mana, &__pyx_v_address)) return -1;
+  static char *__pyx_argnames[] = {"code","corporality","sensoriality","prana","mana","address",0};
+  if (!PyArg_ParseTupleAndKeywords(__pyx_args, __pyx_kwds, "OOOiiO", __pyx_argnames, &__pyx_v_code, &__pyx_v_corporality, &__pyx_v_sensoriality, &__pyx_v_prana, &__pyx_v_mana, &__pyx_v_address)) return -1;
   Py_INCREF(__pyx_v_self);
-  Py_INCREF(__pyx_v_genome);
+  Py_INCREF(__pyx_v_code);
   Py_INCREF(__pyx_v_corporality);
   Py_INCREF(__pyx_v_sensoriality);
   Py_INCREF(__pyx_v_address);
-  if (!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_genome), __pyx_ptype_6genome_Genome, 1, "genome")) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; goto __pyx_L1;}
   if (!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_corporality), __pyx_ptype_12neighborhood_Neighborhood_2D, 1, "corporality")) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; goto __pyx_L1;}
   if (!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_sensoriality), __pyx_ptype_12neighborhood_Neighborhood_2D, 1, "sensoriality")) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; goto __pyx_L1;}
 
   /* "/home/panx/ouroborus/birdcage/agent.pyx":48 */
-  Py_INCREF(((PyObject *)__pyx_v_genome));
-  Py_DECREF(((PyObject *)((struct __pyx_obj_5agent_Agent *)__pyx_v_self)->genome));
-  ((struct __pyx_obj_5agent_Agent *)__pyx_v_self)->genome = __pyx_v_genome;
+  Py_INCREF(__pyx_v_code);
+  Py_DECREF(((struct __pyx_obj_5agent_Agent *)__pyx_v_self)->code);
+  ((struct __pyx_obj_5agent_Agent *)__pyx_v_self)->code = __pyx_v_code;
 
   /* "/home/panx/ouroborus/birdcage/agent.pyx":49 */
   Py_INCREF(((PyObject *)__pyx_v_corporality));
@@ -305,10 +306,9 @@ static int __pyx_f_5agent_5Agent___init__(PyObject *__pyx_v_self, PyObject *__py
   ((struct __pyx_obj_5agent_Agent *)__pyx_v_self)->topology = ((struct __pyx_obj_5agent_Agent *)__pyx_v_self)->corporality->topology;
 
   /* "/home/panx/ouroborus/birdcage/agent.pyx":57 */
-  __pyx_3 = ((struct __pyx_vtabstruct_6genome_Genome *)((struct __pyx_obj_5agent_Agent *)__pyx_v_self)->genome->__pyx_vtab)->pyx_parse(((struct __pyx_obj_5agent_Agent *)__pyx_v_self)->genome); if (!__pyx_3) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; goto __pyx_L1;}
+  Py_INCREF(Py_None);
   Py_DECREF(((struct __pyx_obj_5agent_Agent *)__pyx_v_self)->moira);
-  ((struct __pyx_obj_5agent_Agent *)__pyx_v_self)->moira = __pyx_3;
-  __pyx_3 = 0;
+  ((struct __pyx_obj_5agent_Agent *)__pyx_v_self)->moira = Py_None;
 
   /* "/home/panx/ouroborus/birdcage/agent.pyx":59 */
   ((struct __pyx_obj_5agent_Agent *)__pyx_v_self)->prana = __pyx_v_prana;
@@ -331,7 +331,7 @@ static int __pyx_f_5agent_5Agent___init__(PyObject *__pyx_v_self, PyObject *__py
   __pyx_r = -1;
   __pyx_L0:;
   Py_DECREF(__pyx_v_self);
-  Py_DECREF(__pyx_v_genome);
+  Py_DECREF(__pyx_v_code);
   Py_DECREF(__pyx_v_corporality);
   Py_DECREF(__pyx_v_sensoriality);
   Py_DECREF(__pyx_v_address);
@@ -516,7 +516,7 @@ static char __pyx_k3[] = "Agent 2-D";
 
 static int __pyx_f_5agent_8Agent_2D___init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static int __pyx_f_5agent_8Agent_2D___init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  struct __pyx_obj_6genome_Genome *__pyx_v_genome = 0;
+  PyObject *__pyx_v_code = 0;
   struct __pyx_obj_12neighborhood_Neighborhood_2D *__pyx_v_corporality = 0;
   struct __pyx_obj_12neighborhood_Neighborhood_2D *__pyx_v_sensoriality = 0;
   int __pyx_v_prana;
@@ -529,14 +529,13 @@ static int __pyx_f_5agent_8Agent_2D___init__(PyObject *__pyx_v_self, PyObject *_
   PyObject *__pyx_4 = 0;
   int __pyx_5;
   int __pyx_6;
-  static char *__pyx_argnames[] = {"genome","corporality","sensoriality","prana","mana","address",0};
-  if (!PyArg_ParseTupleAndKeywords(__pyx_args, __pyx_kwds, "OOOiiO", __pyx_argnames, &__pyx_v_genome, &__pyx_v_corporality, &__pyx_v_sensoriality, &__pyx_v_prana, &__pyx_v_mana, &__pyx_v_address)) return -1;
+  static char *__pyx_argnames[] = {"code","corporality","sensoriality","prana","mana","address",0};
+  if (!PyArg_ParseTupleAndKeywords(__pyx_args, __pyx_kwds, "OOOiiO", __pyx_argnames, &__pyx_v_code, &__pyx_v_corporality, &__pyx_v_sensoriality, &__pyx_v_prana, &__pyx_v_mana, &__pyx_v_address)) return -1;
   Py_INCREF((PyObject *)__pyx_v_self);
-  Py_INCREF(__pyx_v_genome);
+  Py_INCREF(__pyx_v_code);
   Py_INCREF(__pyx_v_corporality);
   Py_INCREF(__pyx_v_sensoriality);
   Py_INCREF(__pyx_v_address);
-  if (!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_genome), __pyx_ptype_6genome_Genome, 1, "genome")) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 172; goto __pyx_L1;}
   if (!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_corporality), __pyx_ptype_12neighborhood_Neighborhood_2D, 1, "corporality")) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 172; goto __pyx_L1;}
   if (!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_sensoriality), __pyx_ptype_12neighborhood_Neighborhood_2D, 1, "sensoriality")) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 172; goto __pyx_L1;}
 
@@ -547,8 +546,8 @@ static int __pyx_f_5agent_8Agent_2D___init__(PyObject *__pyx_v_self, PyObject *_
   __pyx_4 = PyTuple_New(7); if (!__pyx_4) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 184; goto __pyx_L1;}
   Py_INCREF(__pyx_v_self);
   PyTuple_SET_ITEM(__pyx_4, 0, __pyx_v_self);
-  Py_INCREF(((PyObject *)__pyx_v_genome));
-  PyTuple_SET_ITEM(__pyx_4, 1, ((PyObject *)__pyx_v_genome));
+  Py_INCREF(__pyx_v_code);
+  PyTuple_SET_ITEM(__pyx_4, 1, __pyx_v_code);
   Py_INCREF(((PyObject *)__pyx_v_corporality));
   PyTuple_SET_ITEM(__pyx_4, 2, ((PyObject *)__pyx_v_corporality));
   Py_INCREF(((PyObject *)__pyx_v_sensoriality));
@@ -577,10 +576,10 @@ static int __pyx_f_5agent_8Agent_2D___init__(PyObject *__pyx_v_self, PyObject *_
   __pyx_4 = 0;
 
   /* "/home/panx/ouroborus/birdcage/agent.pyx":187 */
-  __pyx_2 = PySequence_GetItem(__pyx_v_address, 0); if (!__pyx_2) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 187; goto __pyx_L1;}
+  __pyx_2 = __Pyx_GetItemInt(__pyx_v_address, 0); if (!__pyx_2) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 187; goto __pyx_L1;}
   __pyx_5 = PyInt_AsLong(__pyx_2); if (PyErr_Occurred()) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 187; goto __pyx_L1;}
   Py_DECREF(__pyx_2); __pyx_2 = 0;
-  __pyx_3 = PySequence_GetItem(__pyx_v_address, 1); if (!__pyx_3) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 187; goto __pyx_L1;}
+  __pyx_3 = __Pyx_GetItemInt(__pyx_v_address, 1); if (!__pyx_3) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 187; goto __pyx_L1;}
   __pyx_6 = PyInt_AsLong(__pyx_3); if (PyErr_Occurred()) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 187; goto __pyx_L1;}
   Py_DECREF(__pyx_3); __pyx_3 = 0;
   ((struct __pyx_obj_5agent_Agent_2D *)__pyx_v_self)->x1 = __pyx_5;
@@ -608,7 +607,7 @@ static int __pyx_f_5agent_8Agent_2D___init__(PyObject *__pyx_v_self, PyObject *_
   __pyx_r = -1;
   __pyx_L0:;
   Py_DECREF((PyObject *)__pyx_v_self);
-  Py_DECREF(__pyx_v_genome);
+  Py_DECREF(__pyx_v_code);
   Py_DECREF(__pyx_v_corporality);
   Py_DECREF(__pyx_v_sensoriality);
   Py_DECREF(__pyx_v_address);
@@ -817,10 +816,10 @@ static PyObject *__pyx_f_5agent_8Agent_2D_move(PyObject *__pyx_v_self, PyObject 
   __pyx_5 = 0;
 
   /* "/home/panx/ouroborus/birdcage/agent.pyx":228 */
-  __pyx_4 = PySequence_GetItem(__pyx_v_address, 0); if (!__pyx_4) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 228; goto __pyx_L1;}
+  __pyx_4 = __Pyx_GetItemInt(__pyx_v_address, 0); if (!__pyx_4) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 228; goto __pyx_L1;}
   __pyx_2 = PyInt_AsLong(__pyx_4); if (PyErr_Occurred()) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 228; goto __pyx_L1;}
   Py_DECREF(__pyx_4); __pyx_4 = 0;
-  __pyx_3 = PySequence_GetItem(__pyx_v_address, 1); if (!__pyx_3) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 228; goto __pyx_L1;}
+  __pyx_3 = __Pyx_GetItemInt(__pyx_v_address, 1); if (!__pyx_3) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 228; goto __pyx_L1;}
   __pyx_6 = PyInt_AsLong(__pyx_3); if (PyErr_Occurred()) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 228; goto __pyx_L1;}
   Py_DECREF(__pyx_3); __pyx_3 = 0;
   ((struct __pyx_vtabstruct_5agent_Agent_2D *)((struct __pyx_obj_5agent_Agent_2D *)__pyx_v_self)->__pyx_base.__pyx_vtab)->pyx_move(((struct __pyx_obj_5agent_Agent_2D *)__pyx_v_self),__pyx_2,__pyx_6);
@@ -901,7 +900,7 @@ static PyObject *__pyx_f_5agent_8Agent_2D_tellDirections(PyObject *__pyx_v_self,
     __pyx_5 = PyObject_CallObject(__pyx_3, __pyx_1); if (!__pyx_5) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 251; goto __pyx_L1;}
     Py_DECREF(__pyx_3); __pyx_3 = 0;
     Py_DECREF(__pyx_1); __pyx_1 = 0;
-    __pyx_6 = PySequence_GetItem(__pyx_5, __pyx_v_i); if (!__pyx_6) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 251; goto __pyx_L1;}
+    __pyx_6 = __Pyx_GetItemInt(__pyx_5, __pyx_v_i); if (!__pyx_6) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 251; goto __pyx_L1;}
     Py_DECREF(__pyx_5); __pyx_5 = 0;
     __pyx_3 = PyTuple_New(1); if (!__pyx_3) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 251; goto __pyx_L1;}
     PyTuple_SET_ITEM(__pyx_3, 0, __pyx_6);
@@ -952,7 +951,7 @@ static PyObject *__pyx_f_5agent_8Agent_2D_tellFacing(PyObject *__pyx_v_self, PyO
   __pyx_1 = PyObject_GetAttr(__pyx_v_self, __pyx_n_tellDirections); if (!__pyx_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 262; goto __pyx_L1;}
   __pyx_2 = PyObject_CallObject(__pyx_1, 0); if (!__pyx_2) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 262; goto __pyx_L1;}
   Py_DECREF(__pyx_1); __pyx_1 = 0;
-  __pyx_1 = PySequence_GetItem(__pyx_2, ((struct __pyx_obj_5agent_Agent_2D *)__pyx_v_self)->facing); if (!__pyx_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 262; goto __pyx_L1;}
+  __pyx_1 = __Pyx_GetItemInt(__pyx_2, ((struct __pyx_obj_5agent_Agent_2D *)__pyx_v_self)->facing); if (!__pyx_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 262; goto __pyx_L1;}
   Py_DECREF(__pyx_2); __pyx_2 = 0;
   Py_DECREF(__pyx_v_facing);
   __pyx_v_facing = __pyx_1;
@@ -1225,7 +1224,7 @@ static PyObject *__pyx_tp_new_5agent_Agent(PyTypeObject *t, PyObject *a, PyObjec
   p->corporality = ((struct __pyx_obj_12neighborhood_Neighborhood_2D *)Py_None); Py_INCREF(Py_None);
   p->sensoriality = ((struct __pyx_obj_12neighborhood_Neighborhood_2D *)Py_None); Py_INCREF(Py_None);
   p->topology = ((struct __pyx_obj_8topology_GridTopology *)Py_None); Py_INCREF(Py_None);
-  p->genome = ((struct __pyx_obj_6genome_Genome *)Py_None); Py_INCREF(Py_None);
+  p->code = Py_None; Py_INCREF(Py_None);
   p->name = Py_None; Py_INCREF(Py_None);
   p->moira = Py_None; Py_INCREF(Py_None);
   return o;
@@ -1236,7 +1235,7 @@ static void __pyx_tp_dealloc_5agent_Agent(PyObject *o) {
   Py_XDECREF(((PyObject *)p->corporality));
   Py_XDECREF(((PyObject *)p->sensoriality));
   Py_XDECREF(((PyObject *)p->topology));
-  Py_XDECREF(((PyObject *)p->genome));
+  Py_XDECREF(p->code);
   Py_XDECREF(p->name);
   Py_XDECREF(p->moira);
   (*o->ob_type->tp_free)(o);
@@ -1254,8 +1253,8 @@ static int __pyx_tp_traverse_5agent_Agent(PyObject *o, visitproc v, void *a) {
   if (p->topology) {
     e = (*v)(((PyObject*)p->topology), a); if (e) return e;
   }
-  if (p->genome) {
-    e = (*v)(((PyObject*)p->genome), a); if (e) return e;
+  if (p->code) {
+    e = (*v)(p->code, a); if (e) return e;
   }
   if (p->name) {
     e = (*v)(p->name, a); if (e) return e;
@@ -1278,8 +1277,8 @@ static int __pyx_tp_clear_5agent_Agent(PyObject *o) {
   t = ((PyObject *)p->topology); 
   p->topology = ((struct __pyx_obj_8topology_GridTopology *)Py_None); Py_INCREF(Py_None);
   Py_XDECREF(t);
-  t = ((PyObject *)p->genome); 
-  p->genome = ((struct __pyx_obj_6genome_Genome *)Py_None); Py_INCREF(Py_None);
+  t = p->code; 
+  p->code = Py_None; Py_INCREF(Py_None);
   Py_XDECREF(t);
   t = p->name; 
   p->name = Py_None; Py_INCREF(Py_None);
@@ -1758,6 +1757,21 @@ raise_error:
     Py_XDECREF(type);
     Py_XDECREF(tb);
     return;
+}
+
+static PyObject *__Pyx_GetItemInt(PyObject *o, Py_ssize_t i) {
+    PyTypeObject *t = o->ob_type;
+    PyObject *r;
+    if (t->tp_as_sequence && t->tp_as_sequence->sq_item)
+        r = PySequence_GetItem(o, i);
+    else {
+        PyObject *j = PyInt_FromLong(i);
+        if (!j)
+            return 0;
+        r = PyObject_GetItem(o, j);
+        Py_DECREF(j);
+    }
+    return r;
 }
 
 static int __Pyx_InternStrings(__Pyx_InternTabEntry *t) {

@@ -33,10 +33,10 @@ cdef class Agent:
      """Abstract base class for all agents"""
 
 
-     def  __init__(self, G.Genome genome, N.Neighborhood_2D corporality, N.Neighborhood_2D sensoriality, int prana, int mana, object address):
+     def  __init__(self, object code, N.Neighborhood_2D corporality, N.Neighborhood_2D sensoriality, int prana, int mana, object address):
           """Create a generic Agent_2D object
         
-          genome       ---> a birdcage Genome object
+          code         ---> a string which will bind with a birdcage Genome object
           corporality  ---> a birdcage Neighborhood_2d object complete
                             with a two-dimensional topology
           sensoriality ---> a birdcage Neighborhood_2d object complete
@@ -45,7 +45,7 @@ cdef class Agent:
           mana         ---> an integer, a state of the automaton
           address      ---> a Python tuple, the address of a cell in the grid"""
 
-          self.genome = genome
+          self.code = code
           self.corporality = corporality
           self.sensoriality = sensoriality
 
@@ -54,7 +54,7 @@ cdef class Agent:
 
           self.topology = self.corporality.topology
 
-          self.moira = self.genome.pyx_parse()
+          self.moira = None
 
           self.prana = prana
           self.mana = mana
@@ -169,10 +169,10 @@ cdef class Agent_2D(Agent):
      """Base class for all agents based on a two-dimensional automaton."""
 
 
-     def  __init__(self, G.Genome genome, N.Neighborhood_2D corporality, N.Neighborhood_2D sensoriality, int prana, int mana, object address):
+     def  __init__(self, object code, N.Neighborhood_2D corporality, N.Neighborhood_2D sensoriality, int prana, int mana, object address):
           """Create a generic Agent_2D object
         
-          genome       ---> a birdcage Genome object
+          code         ---> a string which will bind with a birdcage Genome object
           corporality  ---> a birdcage Neighborhood_2d object complete
                             with a two-dimensional topology
           sensoriality ---> a birdcage Neighborhood_2d object complete
@@ -181,7 +181,7 @@ cdef class Agent_2D(Agent):
           mana         ---> an integer, a state of the automaton
           address      ---> a Python 2-tuple, the address of a cell in the grid"""
 
-          Agent.__init__(self, genome, corporality, sensoriality, prana, mana, address)
+          Agent.__init__(self, code, corporality, sensoriality, prana, mana, address)
           
           address = self.topology.normalize(address) 
           (self.x1, self.x2) = (address[0], address[1])
