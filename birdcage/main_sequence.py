@@ -28,6 +28,7 @@ def main(stdscr):
 	# here cometh the main iteration cycle
 	while magdalen.annum < doomsday:
 		magdalen.iterateAutomaton()
+		magdalen.iterateAgents()
 		magdalen.refreshDisplay(display)
 	return 1
 	
