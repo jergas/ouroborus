@@ -4,7 +4,7 @@ tabula = {'Yi':'import topology; import neighborhood; import agent',
           'Cb':'def birth(earth, code, prana, mana, address):',
           'Cd':'  myself = agent.Agent_2D(code,corporality(earth.returnTopology()),sensoriality(earth.returnTopology()),prana,mana,address)',
           'Cr':'  return myself',
-          'Tf':'def live(agent):',
+          'Tl':'def live(agent):',
           'Tp':'  pass'}
   
 

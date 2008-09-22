@@ -11,7 +11,7 @@ def main(stdscr):
 	import operator
 	ruleData = ("ReductionRule", (operator.xor, 0))
 	automatonData = ("SynchronousAutomaton_2D", )
-        seedCode = "Y i Y c Y s C b C d C r T f T p"
+        seedCode = "Y i Y c Y s C b C d C r T l T p"
 
 	# invoke God.Generator's automaton creation method with the data given above
 	terra = mary.generateAutomaton(size, topologyData, neighborData, ruleData, automatonData)
