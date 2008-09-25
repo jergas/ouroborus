@@ -14,11 +14,12 @@ def main(stdscr):
         seedCode = "Y i Y c Y s C b C d C r T l T p"
 
 	# invoke God.Generator's automaton creation method with the data given above
-	terra = mary.generateAutomaton(size, topologyData, neighborData, ruleData, automatonData)
 	biblos = []
-	magdalen = GOD.Organizer(terra, biblos)
 	avatars = 1
-	doomsday = 200
+	doomsday = 30000	
+	terra = mary.generateAutomaton(size, topologyData, neighborData, ruleData, automatonData)
+	magdalen = GOD.Organizer(terra, biblos)
+	
 
 	for i in range(avatars):
 		mary.generateGenotype(seedCode.split(" "), biblos)
@@ -30,6 +31,7 @@ def main(stdscr):
 		magdalen.iterateAutomaton()
 		magdalen.iterateAgents()
 		magdalen.refreshDisplay(display)
+
 	return 1
 	
 

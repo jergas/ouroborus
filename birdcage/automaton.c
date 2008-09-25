@@ -1,4 +1,4 @@
-/* 0.9.7.2 on Mon Sep 22 15:30:03 2008 */
+/* 0.9.7.2 on Thu Sep 25 06:57:35 2008 */
 
 #define PY_SSIZE_T_CLEAN
 #include "Python.h"
@@ -233,9 +233,9 @@ struct __pyx_obj_5agent_Agent {
   struct __pyx_obj_12neighborhood_Neighborhood_2D *corporality;
   struct __pyx_obj_12neighborhood_Neighborhood_2D *sensoriality;
   struct __pyx_obj_8topology_GridTopology *topology;
-  struct __pyx_obj_6genome_Genome *genome;
   int prana;
   int mana;
+  PyObject *code;
   PyObject *name;
   PyObject *moira;
 };
@@ -1555,8 +1555,8 @@ PyMODINIT_FUNC initautomaton(void) {
   if (__Pyx_GetVtable(__pyx_ptype_6genome_Genome->tp_dict, &__pyx_vtabptr_6genome_Genome) < 0) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 12; goto __pyx_L1;}
   __pyx_ptype_5agent_Agent = __Pyx_ImportType("agent", "Agent", sizeof(struct __pyx_obj_5agent_Agent)); if (!__pyx_ptype_5agent_Agent) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 14; goto __pyx_L1;}
   if (__Pyx_GetVtable(__pyx_ptype_5agent_Agent->tp_dict, &__pyx_vtabptr_5agent_Agent) < 0) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 14; goto __pyx_L1;}
-  __pyx_ptype_5agent_Agent_2D = __Pyx_ImportType("agent", "Agent_2D", sizeof(struct __pyx_obj_5agent_Agent_2D)); if (!__pyx_ptype_5agent_Agent_2D) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 34; goto __pyx_L1;}
-  if (__Pyx_GetVtable(__pyx_ptype_5agent_Agent_2D->tp_dict, &__pyx_vtabptr_5agent_Agent_2D) < 0) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 34; goto __pyx_L1;}
+  __pyx_ptype_5agent_Agent_2D = __Pyx_ImportType("agent", "Agent_2D", sizeof(struct __pyx_obj_5agent_Agent_2D)); if (!__pyx_ptype_5agent_Agent_2D) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 33; goto __pyx_L1;}
+  if (__Pyx_GetVtable(__pyx_ptype_5agent_Agent_2D->tp_dict, &__pyx_vtabptr_5agent_Agent_2D) < 0) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 33; goto __pyx_L1;}
 
   /* "/home/panx/ouroborus/birdcage/automaton.pyx":23 */
   __pyx_1 = __Pyx_Import(__pyx_n_exceptions_birdcage, 0); if (!__pyx_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 23; goto __pyx_L1;}

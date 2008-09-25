@@ -1,4 +1,4 @@
-/* 0.9.7.2 on Mon Sep 22 17:28:24 2008 */
+/* 0.9.7.2 on Thu Sep 25 06:57:37 2008 */
 
 #define PY_SSIZE_T_CLEAN
 #include "Python.h"
@@ -85,7 +85,7 @@ static PyObject *__pyx_n_Ys;
 static PyObject *__pyx_n_Cb;
 static PyObject *__pyx_n_Cd;
 static PyObject *__pyx_n_Cr;
-static PyObject *__pyx_n_Tf;
+static PyObject *__pyx_n_Tl;
 static PyObject *__pyx_n_Tp;
 static PyObject *__pyx_n_tabula;
 static PyObject *__pyx_n_ai;
@@ -143,7 +143,7 @@ static __Pyx_InternTabEntry __pyx_intern_tab[] = {
   {&__pyx_n_Cb, "Cb"},
   {&__pyx_n_Cd, "Cd"},
   {&__pyx_n_Cr, "Cr"},
-  {&__pyx_n_Tf, "Tf"},
+  {&__pyx_n_Tl, "Tl"},
   {&__pyx_n_Tp, "Tp"},
   {&__pyx_n_Yc, "Yc"},
   {&__pyx_n_Yi, "Yi"},
@@ -232,7 +232,7 @@ PyMODINIT_FUNC initcode(void) {
   if (PyDict_SetItem(__pyx_1, __pyx_n_Cb, __pyx_k8p) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; goto __pyx_L1;}
   if (PyDict_SetItem(__pyx_1, __pyx_n_Cd, __pyx_k10p) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; goto __pyx_L1;}
   if (PyDict_SetItem(__pyx_1, __pyx_n_Cr, __pyx_k12p) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; goto __pyx_L1;}
-  if (PyDict_SetItem(__pyx_1, __pyx_n_Tf, __pyx_k14p) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; goto __pyx_L1;}
+  if (PyDict_SetItem(__pyx_1, __pyx_n_Tl, __pyx_k14p) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; goto __pyx_L1;}
   if (PyDict_SetItem(__pyx_1, __pyx_n_Tp, __pyx_k16p) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; goto __pyx_L1;}
   if (PyObject_SetAttr(__pyx_m, __pyx_n_tabula, __pyx_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; goto __pyx_L1;}
   Py_DECREF(__pyx_1); __pyx_1 = 0;
