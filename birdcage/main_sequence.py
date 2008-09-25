@@ -1,6 +1,14 @@
 import GOD
 import curses
 
+####Ernesto's edit
+##Module(s) imported for sound purposes
+import time
+import Csound_Interface
+print "Imported sound engine"
+Csound_Interface.initCsound()
+####End Ernesto's edit
+
 def main(stdscr):
 	mary = GOD.Generator("kristos")
 
@@ -23,7 +31,10 @@ def main(stdscr):
 
 	for i in range(avatars):
 		mary.generateGenotype(seedCode.split(" "), biblos)
-                magdalen.readBookOfLife(i, seedCode, 7, 1, (10,10))
+####Ernesto's edit
+        Csound_Interface.csoundNote()
+####End Ernesto's edit
+        magdalen.readBookOfLife(i, seedCode, 7, 1, (10,10))
 
 	display = mary.generateDisplay(terra, size, stdscr)
 	# here cometh the main iteration cycle
