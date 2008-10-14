@@ -2,7 +2,7 @@
 import csnd
 
 from Csound_Note import note
-from random import choice, randint
+from random import choice, randint, random
 
 csound = csnd.CppSound()
 perf = csnd.CsoundPerformanceThread(csound)
@@ -30,25 +30,36 @@ nchnls = 2	; # de canales
 ; instrument 1: Stereo sinusoidal oscilator with linear envelope 
 
     instr 1
-ileft = sqrt(p6)
-iright = sqrt (1-p6)
-kctrl	linen p4, p7, p3, p8
-asig	oscili kctrl,p5,1
+idur		= p3		; in seconds
+iamp		= p4		; 0-32767
+ifreq		= p5		; in hz
+ileft		= sqrt(p6)	; between 0-1, 1 is hard left
+iright		= sqrt(1-p6)	; ibidem
+iattkt		= p7		; in seconds
+idcyt		= p8		; ibidem
+imaxampdur	= idur - (iattkt + idcyt)
+klinenv	linseg 0, iattkt, iamp, imaxampdur, iamp, idcyt, 0
+asig	oscili klinenv,ifreq,1
     outs asig * ileft, asig * iright
     endin
 
-; p1 instrument n.
-; p2 start time
-; p3 duration
-; p4 amplitude (0-32767)
-; p5 frquency (en hz)
-; p6 panning (0-1, 1 es izquierda)
-; p7 attack time
-; p8 decay time
+    instr 2
+idur		= p3		; in seconds
+iamp		= p4		; 0-32767
+ifreq		= p5		; in hz
+ileft		= sqrt(p6)	; between 0-1, 1 is hard left
+iright		= sqrt(1-p6)	; ibidem
+iattkt		= p7		; in seconds
+idcyt		= p8		; ibidem
+imaxampdur	= idur - (iattkt + idcyt)
+kexpenv	expseg 0.001, iattkt, iamp, imaxampdur, iamp, idcyt, 0.001
+asig	oscili kexpenv,ifreq,1
+    outs asig * ileft, asig * iright
+    endin
 
 </CsInstruments>
 <CsScore>
-f1 0 4096 10 1       ; use GEN10 to compute a sine wave
+f1 0 4096 10 1       ; a sine wave
 
 ; ten hours of silence:
 i1	0	36000	0	3000	0	0	0
@@ -72,7 +83,7 @@ def csoundNote():
     noteDur     = [2, 3, 5, 7, 11, 13]
     try:
             spectrum = note(randint(200, 800), randint(10, 150), choice(specType),
-                    choice(distFactor), 0, choice(noteDur))
+                    choice(distFactor), random(), choice(noteDur))
             while len(spectrum) > 0:
                 partial = spectrum.pop(0)
                 perf.InputMessage(partial)   
