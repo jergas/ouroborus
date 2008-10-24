@@ -97,4 +97,4 @@ Applying the GIGO (garbag in garbage out) rule.'
         perf.Stop()
         perf.Join()
 if __name__ == "__main__":
-    HelloWorld()
+    initCsound()

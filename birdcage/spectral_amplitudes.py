@@ -4,7 +4,7 @@
 #maximum amp. is exceded, the sound waves will be truncated in the digital to
 #analogue converter.
 ##Import the necessary modules:from linear_scaler import scaleToRangefrom random import gammavariate##Generate and scale the maximum amplitudes of the note's partials
-def amplitudes(distSpectrum, limit=25000):
+def amplitudes(distSpectrum, limit=15000):
     spectAmps	= []
     for x in distSpectrum:
         
