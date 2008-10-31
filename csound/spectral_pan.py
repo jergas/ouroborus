@@ -1,2 +1,0 @@
-## Gives a stereophonic range to an additive synthesis note. While very close by,
-#each partial has a spatial x-axis deviation from the fundamental.from random import gaussdef spectralPan(panning, distSpectrum):		spatialization 	= [panning]	counter		= len(distSpectrum) - 1		while counter > 0:		onePan = gauss(panning, .01)		if 0 < onePan < 1:			spatialization.append(onePan)			counter = counter -1	return spatialization

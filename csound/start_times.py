@@ -1,2 +1,0 @@
-## Defines the start times for the partials of an additive synthesis note.##Import the necessary modules:from random import expovariate
-##Generate the start times of the note's partials.def startTimes(distSpectrum, limit=.5):		starts	= [0]	counter	= len(distSpectrum) - 1		while counter >0:		oneStart = expovariate(2)	####Play with this value when there's sound		if oneStart <= limit and oneStart >= .001:			starts.append(oneStart)			counter = counter - 1	starts.sort()	return starts
