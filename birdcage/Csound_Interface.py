@@ -1,7 +1,7 @@
 ## Method to generate a Distorted Harmonic Spectrum note.
 import csnd
 
-from Csound_Note import note
+from Csound_Note import noteI1
 from random import choice, randint, random
 
 csound = csnd.CppSound()
@@ -13,7 +13,7 @@ perf = csnd.CsoundPerformanceThread(csound)
 #starts playing.
 def initCsound():
     
-    csound.setPythonMessageCallback()
+    #csound.setPythonMessageCallback()
     csound.setCSD('''
 <CsoundSynthesizer>
 <CsOptions>
@@ -27,33 +27,38 @@ ksmps = 10	; sr/kr
 nchnls = 2	; # de canales
 
 
-; instrument 1: Stereo sinusoidal oscilator with linear envelope 
-
+; instrument 1: Stereo sinusoidal oscilator with linear envelope
     instr 1
-idur		= p3		; in seconds
-iamp		= p4		; 0-32767
-ifreq		= p5		; in hz
-ileft		= sqrt(p6)	; between 0-1, 1 is hard left
-iright		= sqrt(1-p6)	; ibidem
-iattkt		= p7		; in seconds
-idcyt		= p8		; ibidem
-imaxampdur	= idur - (iattkt + idcyt)
-klinenv	linseg 0, iattkt, iamp, imaxampdur, iamp, idcyt, 0
-asig	oscili klinenv,ifreq,1
+idur			= p3		; in seconds
+iamp			= p4		; 0-32767
+ifreq			= p5		; in hz
+ileft			= sqrt(p6)	; between 0-1, 1 is hard left
+iright			= sqrt(1-p6)	; ibidem
+iattkt			= p7		; in seconds
+idcyt			= p8		; ibidem
+imaxampdur		= idur - (iattkt + idcyt)
+kampenv		expseg .001, iattkt, iamp, imaxampdur, iamp, idcyt, .001
+asig		oscili kampenv,ifreq,1
     outs asig * ileft, asig * iright
     endin
 
+; instrument 1: Stereo sinusoidal oscilator with linear envelope, and glissando pitch.
     instr 2
-idur		= p3		; in seconds
-iamp		= p4		; 0-32767
-ifreq		= p5		; in hz
-ileft		= sqrt(p6)	; between 0-1, 1 is hard left
-iright		= sqrt(1-p6)	; ibidem
-iattkt		= p7		; in seconds
-idcyt		= p8		; ibidem
-imaxampdur	= idur - (iattkt + idcyt)
-kexpenv	expseg 0.001, iattkt, iamp, imaxampdur, iamp, idcyt, 0.001
-asig	oscili kexpenv,ifreq,1
+idur			= p3		; in seconds
+iamp			= p4		; 0-32767
+ifreq1			= p5		; in hz
+ifreq2			= p6		; in hz
+ileft			= sqrt(p7)	; between 0-1, 1 is hard left
+iright			= sqrt(1-p7)	; ibidem
+iattkt			= p8		; in seconds
+idcyt			= p9		; ibidem
+imaxampdur		= idur - (iattkt + idcyt)
+iglissdur1		= p3 * 0.5
+iglisssust		= p3 * 0.25
+iglissdur2		= p3 * 0.25
+kampenv		linseg 0, iattkt, iamp, imaxampdur, iamp, idcyt, 0
+kfreqgliss	expseg ifreq1, iglissdur1, ifreq2, iglisssust, ifreq2, iglissdur2, ifreq1
+asig		oscili kampenv, kfreqgliss, 1
     outs asig * ileft, asig * iright
     endin
 
@@ -76,13 +81,13 @@ e ; end of the score
 #note, waits for the user's instructions and sends the selected parameters
 #to Csound. These instructions are repeated while the user choses a valid
 #option.
-def csoundNote():
+def csoundNoteI1():
     specType    = [0, 1, 2, 3]
     distFactor  = [.5, .55, .60, .65, .70, .75, .80, .85, .90, .95, 1,
                 1.05, 1.15, 1.20, 1.25, 1.30, 1.35, 1.40, 1.45, 1.50]
     noteDur     = [2, 3, 5, 7, 11, 13]
     try:
-            spectrum = note(randint(200, 800), randint(10, 150), choice(specType),
+            spectrum = noteI1(randint(200, 800), randint(10, 150), choice(specType),
                     choice(distFactor), random(), choice(noteDur))
             while len(spectrum) > 0:
                 partial = spectrum.pop(0)

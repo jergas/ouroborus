@@ -36,7 +36,7 @@ def main(stdscr):
 #### Ernesto's edit
 ## Plays a single note when an agent is instantiated.
 #### Some latency issues have still to be dealt with.
-        	Csound_Interface.csoundNote()
+        	Csound_Interface.csoundNoteI1()
 #### End Ernesto's edit
         magdalen.readBookOfLife(i, seedCode, 7, 1, (10,10))
 
@@ -51,8 +51,8 @@ def main(stdscr):
 		magdalen.iterateAgents()
 		magdalen.refreshDisplay(display)
 #### Ernesto's edit
-## Changes a global within Background_sound.py. This causes the iteration of the background sound
-# loops (and thus its threads) to end.
+## Stops the sound server, and changes a global within Background_sound.py. This causes the iteration of the background sound loops (and thus its threads) to end.
+	Csound_Interface.per.stop()
 	Background_sound.mainIterCycle = 0
 ####End Ernesto's edit
 
