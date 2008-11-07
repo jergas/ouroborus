@@ -31,15 +31,16 @@ nchnls = 2	; # de canales
     instr 1
 idur			= p3		; in seconds
 iamp			= p4		; 0-32767
-ifreq			= p5		; in hz
+icntrfreq		= p5		; in hz
 ileft			= sqrt(p6)	; between 0-1, 1 is hard left
 iright			= sqrt(1-p6)	; ibidem
 iattkt			= p7		; in seconds
 idcyt			= p8		; ibidem
 imaxampdur		= idur - (iattkt + idcyt)
-kampenv		expseg .001, iattkt, iamp, imaxampdur, iamp, idcyt, .001
-asig		oscili kampenv,ifreq,1
-    outs asig * ileft, asig * iright
+kampenv		envlpx iamp, .0001, idur, 1, 2, 0.1, .001
+apink		pinkish kampenv, 0
+ares		reson apink, icntrfreq, 20		
+    outs ares * ileft, ares * iright
     endin
 
 ; instrument 1: Stereo sinusoidal oscilator with linear envelope, and glissando pitch.
@@ -65,6 +66,7 @@ asig		oscili kampenv, kfreqgliss, 1
 </CsInstruments>
 <CsScore>
 f1 0 4096 10 1       ; a sine wave
+f2 0 129 -7 0 128 1
 
 ; ten hours of silence:
 i1	0	36000	0	3000	0	0	0
@@ -85,10 +87,10 @@ def csoundNoteI1():
     specType    = [0, 1, 2, 3]
     distFactor  = [.5, .55, .60, .65, .70, .75, .80, .85, .90, .95, 1,
                 1.05, 1.15, 1.20, 1.25, 1.30, 1.35, 1.40, 1.45, 1.50]
-    noteDur     = [2, 3, 5, 7, 11, 13]
+    noteDur     = random() + 0.5
     try:
-            spectrum = noteI1(randint(200, 800), randint(10, 150), choice(specType),
-                    choice(distFactor), random(), choice(noteDur))
+            spectrum = noteI1(randint(440, 880), randint(10, 150), choice(specType),
+                    choice(distFactor), random(), noteDur)
             while len(spectrum) > 0:
                 partial = spectrum.pop(0)
                 perf.InputMessage(partial)   

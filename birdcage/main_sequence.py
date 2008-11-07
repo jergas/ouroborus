@@ -52,7 +52,7 @@ def main(stdscr):
 		magdalen.refreshDisplay(display)
 #### Ernesto's edit
 ## Stops the sound server, and changes a global within Background_sound.py. This causes the iteration of the background sound loops (and thus its threads) to end.
-	Csound_Interface.per.stop()
+	Csound_Interface.perf.Stop()
 	Background_sound.mainIterCycle = 0
 ####End Ernesto's edit
 
