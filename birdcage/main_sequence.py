@@ -1,18 +1,10 @@
 import GOD
 import curses
-
-#### Ernesto's edit
-## Module(s) imported for sound purposes
-import time
-import Csound_Interface
-import Background_sound
-print "Imported sound engine"
-## Starts the sound server
-Csound_Interface.initCsound()
-#### End Ernesto's edit
+import sound
 
 def main(stdscr):
 	mary = GOD.Generator("kristos")
+	sound.startSoundServer()
 
 	# the following lines contain all the data to build a complete automaton
 	size = (90,40)
@@ -21,41 +13,30 @@ def main(stdscr):
 	import operator
 	ruleData = ("ReductionRule", (operator.xor, 0))
 	automatonData = ("SynchronousAutomaton_2D", )
-        seedCode = "Y i Y c Y s C b C d C r T l T p"
+	seedCode = "Y i Y c Y s C b C d C r T l T p"
 
 	# invoke God.Generator's automaton creation method with the data given above
 	biblos = []
 	avatars = 1
-	doomsday = 30000	
+	doomsday = 1000	
 	terra = mary.generateAutomaton(size, topologyData, neighborData, ruleData, automatonData)
 	magdalen = GOD.Organizer(terra, biblos)
 	
 
 	for i in range(avatars):
 		mary.generateGenotype(seedCode.split(" "), biblos)
-#### Ernesto's edit
-## Plays a single note when an agent is instantiated.
-#### Some latency issues have still to be dealt with.
-        	Csound_Interface.csoundNoteI1()
-#### End Ernesto's edit
-        magdalen.readBookOfLife(i, seedCode, 7, 1, (10,10))
+		sound.playSingleNote()
+	magdalen.readBookOfLife(i, seedCode, 7, 1, (10,10))
 
 	display = mary.generateDisplay(terra, size, stdscr)
-#### Ernesto's edit
-## Starts the background sound threads.
-	Background_sound.playback()
-#### End Ernesto's edit
+	sound.startBackground()
 	# here cometh the main iteration cycle
 	while magdalen.annum < doomsday:
 		magdalen.iterateAutomaton()
 		magdalen.iterateAgents()
 		magdalen.refreshDisplay(display)
-#### Ernesto's edit
-## Stops the sound server, and changes a global within Background_sound.py. This causes the iteration of the background sound loops (and thus its threads) to end.
-	Csound_Interface.perf.Stop()
-	Background_sound.mainIterCycle = 0
-####End Ernesto's edit
 
+	sound.stopSoundServer()
 	return 1
 	
 
