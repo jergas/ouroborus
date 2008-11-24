@@ -1,20 +1,18 @@
-## Method to generate a Distorted Harmonic Spectrum note.
-import csnd
-
-from Csound_Note import noteI1
 from random import choice, randint, random
+## Import Python's Csound library
+import csnd
+## Import user defined method.
+from Csound_Note import noteI1
 
+## Instantiate Csound's API, and it's performance class.
 csound = csnd.CppSound()
 perf = csnd.CsoundPerformanceThread(csound)
 
-## It makes an instance of the Csound Api, sets a string that works as a
-#CSD file with the appropriate options, exports it to csound, compiles
-#the CSD, starts a performance thread, and
-#starts playing.
 def initCsound():
-    
-    #csound.setPythonMessageCallback()
-    csound.setCSD('''
+	"""Makes an instance of the Csound Api, sets a string that works as a CSD file with the appropriate
+	options, exports it to csound, compiles the CSD, starts a performance thread, and starts playing."""
+	#csound.setPythonMessageCallback()
+	csound.setCSD('''
 <CsoundSynthesizer>
 <CsOptions>
 csound -odac -+rtaudio=alsa -b8192 -B8192 -m0 -d temp.orc temp.sco
@@ -27,7 +25,7 @@ ksmps = 10	; sr/kr
 nchnls = 2	; # de canales
 
 
-; instrument 1: Stereo sinusoidal oscilator with linear envelope
+; instrument 1: Stereo filtered pink noise with amplitude envelope.
     instr 1
 idur			= p3		; in seconds
 iamp			= p4		; 0-32767
@@ -74,34 +72,31 @@ e ; end of the score
 </CsScore>
 </CsoundSynthesizer>
 
-    ''')
-    csound.exportForPerformance()
-    csound.compile()
+	''')
+	csound.exportForPerformance()
+	csound.compile()
+	perf.Play()
 
-    perf.Play()
-##Displays options for the next set of partials to be used in the next
-#note, waits for the user's instructions and sends the selected parameters
-#to Csound. These instructions are repeated while the user choses a valid
-#option.
 def csoundNoteI1():
-    specType    = [0, 1, 2, 3]
-    distFactor  = [.5, .55, .60, .65, .70, .75, .80, .85, .90, .95, 1,
-                1.05, 1.15, 1.20, 1.25, 1.30, 1.35, 1.40, 1.45, 1.50]
-    noteDur     = random() + 0.5
-    try:
-            spectrum = noteI1(randint(440, 880), randint(10, 150), choice(specType),
-                    choice(distFactor), random(), noteDur)
-            while len(spectrum) > 0:
-                partial = spectrum.pop(0)
-                perf.InputMessage(partial)   
-    except:
-        print """
+	""" Generates the sound that derives from the instantiation of a birdcage agent.""" 
+	specType	= [0, 1, 2, 3]
+	distFactor	= [.5, .55, .60, .65, .70, .75, .80, .85, .90, .95, 1,
+			1.05, 1.15, 1.20, 1.25, 1.30, 1.35, 1.40, 1.45, 1.50]
+	noteDur		= random() + 0.5
+	try:
+		spectrum = noteI1(randint(440, 880), randint(10, 150), choice(specType),
+					choice(distFactor), random(), noteDur)
+		while len(spectrum) > 0:
+			partial = spectrum.pop(0)
+			perf.InputMessage(partial)   
+	except:
+		print """
 CsoundModulesError...
 
 Applying the GIGO (garbag in garbage out) rule.'
 
 """
-        perf.Stop()
-        perf.Join()
+		perf.Stop()
+		perf.Join()
 if __name__ == "__main__":
-    initCsound()
+	initCsound()

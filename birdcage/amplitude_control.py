@@ -5,21 +5,35 @@
 ## Globals
 panicAmplitude 		= 32767 # No more sound will be added until expected amps go under maxOverallAmp
 maxOverallAmplitude	= 30000 # Maximum expected Amplitude
-targetPrincipalAmps	= 17000 # Amplitude target for principal sound
-targetBackgroundAmps	= 13000 # Amplitude target for background sound
-##Generate and scale the maximum amplitudes of instrument 1 note's partialsdef spectralAmplitudesI1(distSpectrum1, limit=500):
+targetPrincipalAmps	= 17000.0 # Amplitude target for principal sound
+targetBackgroundAmps	= 13000.0 # Amplitude target for background sound
 
+def scaling(aList, newTotal):
+	"""Scales the values in aList so they add up to newTotal"""
+	inAmpTotal	= 0.0
+	newAmps		= []
+
+	for x in aList:
+		inAmpTotal = inAmpTotal + x
+	scaleFactor = newTotal / inAmpTotal
+	for x in aList:
+		newAmp = x * scaleFactor
+		newAmps.append(newAmp)
+	return newAmps
+def spectralAmplitudesI1(distSpectrum):
+	"""Gives equal amplitude values to a note's partials so that its total amplitude equals
+	targetPrincipalAmps minus an attenuation factor (due to pinkish's unstable amplitude output)."""
+	spectAmps		= []
+	spectralDensity		= len(distSpectrum)
+	pinkAmpAtenuation	= targetPrincipalAmps - (targetPrincipalAmps * 0.7)
+	oneAmp			= pinkAmpAtenuation / spectralDensity
+
+	for x in distSpectrum:		spectAmps.append(oneAmp)	return spectAmps
+def spectralAmplitudesI2(distSpectrum1):
+	""" Makes uniformlly distributed amplitudes to a note's partials, so that they add up to
+	targetBackgroundAmps"""
 	spectAmps	= []
+	noteTotalAmp	= targetBackgroundAmps / 3.0
 
 	for x in distSpectrum1:        
-		oneAmp = uniform(.001, 1)		spectAmps.append(oneAmp)	spectAmps.sort()	spectAmps.reverse()	scaledSpectAmps = scaleToRange(spectAmps, limit * 0.25, limit)	return scaledSpectAmps
-
-##Generate and scale the maximum amplitudes of instrument 2 note's partials.def spectralAmplitudesI2(distSpectrum1, TotalPartialsDensity):
-
-	spectAmps	= []
-	spectralDensity	= len(distSpectrum1)
-	noteTotalAmp	= targetBackgroundAmps / 3.0
-	oneAmp		= noteTotalAmp / spectralDensity
-
-
-	for x in distSpectrum1:		spectAmps.append(oneAmp)	return spectAmps
+		oneAmp = uniform(.001, 1)		spectAmps.append(oneAmp)	spectAmps.sort()	spectAmps.reverse()	scaledSpectAmps = scaling(spectAmps, noteTotalAmp)	return scaledSpectAmps	return spectAmps
