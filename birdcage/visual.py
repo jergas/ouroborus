@@ -19,7 +19,7 @@ def printIcon(automaton, stdscr, address):
     address   ---> a 2-tuple, a cell in the c.a. grid"""
 
     (x,y) = address
-    stdscr.addch(y, x, icon(automaton.get(address)))
+    stdscr.addch(y, x, icon(automaton.get(address)), c.color_pair(1))
 
 
 def printAgent(stdscr, agent, displaywidth, displayheight):
@@ -34,7 +34,7 @@ def printAgent(stdscr, agent, displaywidth, displayheight):
     for address in corporality:
         (x,y) = address
         if x < displaywidth and y < displayheight:
-	    stdscr.addch(y, x, ord("#"))
+	    stdscr.addch(y, x, ord("#"), c.color_pair(2))
 	
 	
 def printTranslucentAgent(stdscr, agent, displaywidth, displayheight, automaton):
@@ -49,7 +49,7 @@ def printTranslucentAgent(stdscr, agent, displaywidth, displayheight, automaton)
     for address in corporality:
         (x,y) = address
         if x < displaywidth and y < displayheight:
-	    (automaton.get((x,y)) and [stdscr.addch(y, x, ord("@"))] or [stdscr.addch(y, x, ord("#"))])[0]
+	    (automaton.get((x,y)) and [stdscr.addch(y, x, ord("@"), c.color_pair(2))] or [stdscr.addch(y, x, ord("#"), c.color_pair(2))])[0]
 
 
 def updateLoop(automaton, stdscr, displaywidth, displayheight):

@@ -15,7 +15,7 @@ def initCsound():
 	csound.setCSD('''
 <CsoundSynthesizer>
 <CsOptions>
-csound -odac -+rtaudio=alsa -b8192 -B8192 -m0 -d temp.orc temp.sco
+csound -odac -+rtaudio=alsa -b512 -B16384 -m0 -d temp.orc temp.sco
 </CsOptions>
 
 <CsInstruments>
