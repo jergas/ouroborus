@@ -7,10 +7,7 @@ def main(stdscr):
 	sound.startSoundServer()
 
 	# setting the curses colour pairs
-	curses.init_pair(1, curses.COLOR_RED, curses.COLOR_BLACK)
-	curses.init_pair(2, curses.COLOR_GREEN, curses.COLOR_BLACK)
-	curses.init_pair(3, curses.COLOR_YELLOW, curses.COLOR_BLACK)
-	curses.init_pair(4, curses.COLOR_BLUE, curses.COLOR_BLACK)
+	setcursescolors()
 
 	# the following lines contain all the data to build a complete automaton
 	size = (90,40)
@@ -44,7 +41,13 @@ def main(stdscr):
 
 	sound.stopSoundServer()
 	return 1
-	
+
+def setcursescolors():
+	curses.init_pair(1, curses.COLOR_RED, curses.COLOR_BLACK)
+	curses.init_pair(2, curses.COLOR_GREEN, curses.COLOR_BLACK)
+	curses.init_pair(3, curses.COLOR_YELLOW, curses.COLOR_BLACK)
+	curses.init_pair(4, curses.COLOR_BLUE, curses.COLOR_BLACK)
+
 
 # call the generic curses wrapper to maintain terminal sanity in all events
 if __name__ == '__main__': curses.wrapper(main)

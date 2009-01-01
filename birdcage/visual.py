@@ -19,7 +19,7 @@ def printIcon(automaton, stdscr, address):
     address   ---> a 2-tuple, a cell in the c.a. grid"""
 
     (x,y) = address
-    stdscr.addch(y, x, icon(automaton.get(address)), c.color_pair(1))
+    stdscr.addch(y, x, icon(automaton.get(address)), c.color_pair(3))
 
 
 def printAgent(stdscr, agent, displaywidth, displayheight):
