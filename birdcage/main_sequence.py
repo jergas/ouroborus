@@ -41,6 +41,6 @@ def main(stdscr):
 	
 
 # call the generic curses wrapper to maintain terminal sanity in all events
-if __name__ == '__main__': end = curses.wrapper(main)
-print end
+if __name__ == '__main__': curses.wrapper(main)
+
 
