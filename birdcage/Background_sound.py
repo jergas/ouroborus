@@ -1,8 +1,9 @@
 ## Import the necessary built-in modules
 import time, threading
-from random import choice, randint
+from random import choice, randint, sample, uniform, random
 ## Import the necessary user-defined modules
-from Csound_Interface import initCsound, perf
+from Csound_Interface import initCsound, perf, csound
+from csd_generator import namesChannels
 import Csound_Note
 
 ## Variable to stop the threads' iterations. Changed externally (by main_sequence.py)
@@ -39,11 +40,16 @@ class backgroundSound1(threading.Thread):
 		overallPanning		= .75
 		noteDuration		= 17
 		IncrDecrHarmonics	= 1
+
 		while mainIterCycle == 1:
-			spectrum = Csound_Note.noteI2(fundamentalFrequency, noOfPartials, specType, 					startDistorFact, targetDistorFact, overallPanning, noteDuration)
+			instrumentNos = range(2, (2 + noOfPartials))
+			channelNos = range(1, (1 + noOfPartials))
+			spectrum = Csound_Note.noteBackground(instrumentNos.pop(0), fundamentalFrequency, 					noOfPartials, specType, startDistorFact, targetDistorFact, overallPanning,
+				noteDuration)
 			while len(spectrum) > 0:
                 		partial = spectrum.pop(0)
                 		perf.InputMessage(partial)
+				csound.SetChannel('chan%s' %(channelNos.pop(0)), 1)
 			startDistorFact = targetDistorFact
 			while 1:
 				newValue = targetDistorFact
@@ -85,11 +91,17 @@ class backgroundSound2(threading.Thread):
 		overallPanning		= .5
 		noteDuration		= 13
 		IncrDecrHarmonics	= 1
+
 		while mainIterCycle == 1:
-			spectrum = Csound_Note.noteI2(fundamentalFrequency, noOfPartials, specType, 					startDistorFact, targetDistorFact, overallPanning, noteDuration)
+			instrumentNos		= range(15, (15 + noOfPartials))
+			channelNos = range(14, (14 + noOfPartials))
+			spectrum = Csound_Note.noteBackground(instrumentNos.pop(0),fundamentalFrequency,
+				noOfPartials, specType, startDistorFact, targetDistorFact, overallPanning,
+				noteDuration)
 			while len(spectrum) > 0:
                 		partial = spectrum.pop(0)
                 		perf.InputMessage(partial)
+				csound.SetChannel('chan%s' %(channelNos.pop(0)), 1)
 			startDistorFact = targetDistorFact
 			while 1:
 				newValue = targetDistorFact
@@ -123,6 +135,7 @@ class backgroundSound2(threading.Thread):
 class backgroundSound3(threading.Thread):
 	"""Threading class for the background sound."""
 	def run(self):
+		instrumentNos		= range(28, 41)
 		fundamentalFrequency	= 137.5
 		noOfPartials		= 2
 		specType		= 1
@@ -131,11 +144,17 @@ class backgroundSound3(threading.Thread):
 		overallPanning		= .25
 		noteDuration		= 19
 		IncrDecrHarmonics 	= 1
+
 		while mainIterCycle == 1:
-			spectrum = Csound_Note.noteI2(fundamentalFrequency, noOfPartials, specType, 					startDistorFact, targetDistorFact, overallPanning, noteDuration)
+			instrumentNos = range(28, (28 + noOfPartials))
+			channelNos = range(27, (27 + noOfPartials))
+			spectrum = Csound_Note.noteBackground(instrumentNos.pop(0),fundamentalFrequency,
+				noOfPartials, specType, startDistorFact, targetDistorFact, overallPanning,
+				noteDuration)
 			while len(spectrum) > 0:
                 		partial = spectrum.pop(0)
                 		perf.InputMessage(partial)
+				csound.SetChannel('chan%s' %(channelNos.pop(0)), 1)
 			startDistorFact = targetDistorFact
 			while 1:
 				newValue = targetDistorFact
@@ -166,6 +185,30 @@ class backgroundSound3(threading.Thread):
 					break
 			time.sleep(noteDuration)
 
+class harmonicsGatingContol(threading.Thread):
+	"""PROOF OF CONCEPT CLASS. Will be linked to the display of the simulation. Turns harmonics of the background sounds on and off"""
+	def run(self):
+		while mainIterCycle == 1:
+			gatedChannels	= []
+			channels1	 = backgroundSound1().run().channelNos
+			channels2	 = backgroundSound2().run().channelNos
+			channels3	 = backgroundSound3().run().channelNos
+
+			del channels1[0]
+			del channels2[0]
+			del channels3[0]
+
+			gateableChannels	= channels1 + channels2 + channels3
+			noOfChannelsToGate	= len(gateableChannels)
+			NoOfGates		= randint(1, noOfChannelsToGate)
+			channelsToBeGated	= sample(gateableChannels, NoOfGates)
+
+			while len(channelsToBeGated) > 0:
+				channelToGate = channelsToBeGated.pop(0, (len(channelsToBeGated) - 1))
+				gatedChannels.append(channelToBeGated)
+				csound.SetChannel('chan%s' %(channelToBeGated), 0)
+				time.sleep(random())
+
 
 ## Background Sound's playback method.
 def playback():
@@ -173,6 +216,7 @@ def playback():
 	backgroundSound1().start()
 	backgroundSound2().start()
 	backgroundSound3().start()
+	harmonicsGatingContol().start()
 
 if __name__ == "__main__":
 	initCsound()
