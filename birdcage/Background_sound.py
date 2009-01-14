@@ -188,7 +188,7 @@ class backgroundSound3(threading.Thread):
 class harmonicsGatingContol(threading.Thread):
 	"""PROOF OF CONCEPT CLASS. Will be linked to the display of the simulation. Turns harmonics of the background sounds on and off"""
 	def run(self):
-		while mainIterCycle == 1:
+		while backgroundSound1().isAlive() and backgroundSound1().isAlive() and backgroundSound1().isAlive():
 			gatedChannels	= []
 			channels1	 = backgroundSound1().run().channelNos
 			channels2	 = backgroundSound2().run().channelNos
