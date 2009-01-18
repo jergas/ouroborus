@@ -223,7 +223,7 @@ def playback():
 	backgroundSound1().start()
 	backgroundSound2().start()
 	backgroundSound3().start()
-	#harmonicsGatingContol().start()
+	##harmonicsGatingContol().start()
 
 if __name__ == "__main__":
 	initCsound()
