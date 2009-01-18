@@ -32,25 +32,28 @@ globalNoOfPartialsCounter = Counter(nextTotalNoOfPartials)
 class backgroundSound1(threading.Thread):
 	"""Threading class for the background sound."""
 	def run(self):
-		fundamentalFrequency	= 165
-		noOfPartials		= 2
+		fundamentalFrequency	= 164.81
+		noOfPartials		= 13
 		specType		= 0
 		startDistorFact		= 0.75
 		targetDistorFact	= 0.78
 		overallPanning		= .75
-		noteDuration		= 17
+		noteDuration		= 13
 		IncrDecrHarmonics	= 1
 
 		while mainIterCycle == 1:
 			instrumentNos = range(2, (2 + noOfPartials))
 			channelNos = range(1, (1 + noOfPartials))
-			spectrum = Csound_Note.noteBackground(instrumentNos.pop(0), fundamentalFrequency, 					noOfPartials, specType, startDistorFact, targetDistorFact, overallPanning,
-				noteDuration)
+			spectrum = Csound_Note.noteBackground(1, fundamentalFrequency, noOfPartials,
+				specType, startDistorFact, targetDistorFact, overallPanning, noteDuration)
 			while len(spectrum) > 0:
                 		partial = spectrum.pop(0)
-                		perf.InputMessage(partial)
-				csound.SetChannel('chan%s' %(channelNos.pop(0)), 1)
+				partialPlusInstr = partial.replace('i1', ('i' + str(instrumentNos.pop(0))))
+				perf.InputMessage(partialPlusInstr)
+				channel = channelNos.pop(0)
+				csound.SetChannel('chan%s' %(channel), 1)
 			startDistorFact = targetDistorFact
+			noteDuration		= -13
 			while 1:
 				newValue = targetDistorFact
 				if newValue > 0.6 and newValue < 1.15:
@@ -62,47 +65,49 @@ class backgroundSound1(threading.Thread):
 				if newValue >= 0.5 and newValue <= 1.25:
 					targetDistorFact = newValue
 					break
-			if IncrDecrHarmonics == 1:
-				noOfPartials = noOfPartials + 1
-				globalNoOfPartialsCounter.updateCounter(1)
-				if noOfPartials > 13:
-					IncrDecrHarmonics = 0
-			elif IncrDecrHarmonics == 0:
-				noOfPartials = noOfPartials - 1
-				globalNoOfPartialsCounter.updateCounter(-1)
-				if noOfPartials < 3:
-					IncrDecrHarmonics = 1
+#			if IncrDecrHarmonics == 1:
+#				noOfPartials = noOfPartials + 1
+#				globalNoOfPartialsCounter.updateCounter(1)
+#				if noOfPartials > 13:
+#					IncrDecrHarmonics = 0
+#			elif IncrDecrHarmonics == 0:
+#				noOfPartials = noOfPartials - 1
+#				globalNoOfPartialsCounter.updateCounter(-1)
+#				if noOfPartials < 3:
+#					IncrDecrHarmonics = 1
 			nextTotalNoOfPartials = globalNoOfPartialsCounter.value
 			Csound_Note.TotalPartialsDensity = nextTotalNoOfPartials
 			while 1:
 				overallPanning = (randint(-3, 3) *.05)
 				if overallPanning >= 0 and overallPanning <=1:
 					break
-			time.sleep(noteDuration)
+			time.sleep(noteDuration * -1)
 
 class backgroundSound2(threading.Thread):
 	"""Threading class for the background sound."""
 	def run(self):
-		fundamentalFrequency	= 110
-		noOfPartials		= 2
+		fundamentalFrequency	= 196
+		noOfPartials		= 13
 		specType		= 2
 		startDistorFact		= 0.78
 		targetDistorFact	= 0.75
 		overallPanning		= .5
-		noteDuration		= 13
+		noteDuration		= 17
 		IncrDecrHarmonics	= 1
 
 		while mainIterCycle == 1:
 			instrumentNos		= range(15, (15 + noOfPartials))
 			channelNos = range(14, (14 + noOfPartials))
-			spectrum = Csound_Note.noteBackground(instrumentNos.pop(0),fundamentalFrequency,
-				noOfPartials, specType, startDistorFact, targetDistorFact, overallPanning,
-				noteDuration)
+			spectrum = Csound_Note.noteBackground(1, fundamentalFrequency, noOfPartials,
+				specType, startDistorFact, targetDistorFact, overallPanning, noteDuration)
 			while len(spectrum) > 0:
                 		partial = spectrum.pop(0)
-                		perf.InputMessage(partial)
-				csound.SetChannel('chan%s' %(channelNos.pop(0)), 1)
+				partialPlusInstr = partial.replace('i1', ('i' + str(instrumentNos.pop(0))))
+				perf.InputMessage(partialPlusInstr)
+				channel = channelNos.pop(0)
+				csound.SetChannel('chan%s' %(channel), 1)
 			startDistorFact = targetDistorFact
+			noteDuration		= -17
 			while 1:
 				newValue = targetDistorFact
 				if newValue > 0.6 and newValue < 1.15:
@@ -114,30 +119,30 @@ class backgroundSound2(threading.Thread):
 				if newValue >= 0.5 and newValue <= 1.25:
 					targetDistorFact = newValue
 					break
-			if IncrDecrHarmonics == 1:
-				noOfPartials = noOfPartials + 1
-				globalNoOfPartialsCounter.updateCounter(1)
-				if noOfPartials > 13:
-					IncrDecrHarmonics = 0
-			elif IncrDecrHarmonics == 0:
-				noOfPartials = noOfPartials - 1
-				globalNoOfPartialsCounter.updateCounter(-1)
-				if noOfPartials < 3:
-					IncrDecrHarmonics = 1
+#			if IncrDecrHarmonics == 1:
+#				noOfPartials = noOfPartials + 1
+#				globalNoOfPartialsCounter.updateCounter(1)
+#				if noOfPartials > 13:
+#					IncrDecrHarmonics = 0
+#			elif IncrDecrHarmonics == 0:
+#				noOfPartials = noOfPartials - 1
+#				globalNoOfPartialsCounter.updateCounter(-1)
+#				if noOfPartials < 3:
+#					IncrDecrHarmonics = 1
 			nextTotalNoOfPartials = globalNoOfPartialsCounter.value
 			Csound_Note.TotalPartialsDensity = nextTotalNoOfPartials
 			while 1:
 				overallPanning = (randint(-3, 3) *.05)
 				if overallPanning >= 0 and overallPanning <=1:
 					break
-			time.sleep(noteDuration)
+			time.sleep(noteDuration * -1)
 
 class backgroundSound3(threading.Thread):
 	"""Threading class for the background sound."""
 	def run(self):
 		instrumentNos		= range(28, 41)
-		fundamentalFrequency	= 137.5
-		noOfPartials		= 2
+		fundamentalFrequency	= 138.59
+		noOfPartials		= 13
 		specType		= 1
 		startDistorFact		= 1
 		targetDistorFact	= 1
@@ -148,14 +153,16 @@ class backgroundSound3(threading.Thread):
 		while mainIterCycle == 1:
 			instrumentNos = range(28, (28 + noOfPartials))
 			channelNos = range(27, (27 + noOfPartials))
-			spectrum = Csound_Note.noteBackground(instrumentNos.pop(0),fundamentalFrequency,
-				noOfPartials, specType, startDistorFact, targetDistorFact, overallPanning,
-				noteDuration)
+			spectrum = Csound_Note.noteBackground(1, fundamentalFrequency, noOfPartials,
+				specType, startDistorFact, targetDistorFact, overallPanning, noteDuration)
 			while len(spectrum) > 0:
                 		partial = spectrum.pop(0)
-                		perf.InputMessage(partial)
-				csound.SetChannel('chan%s' %(channelNos.pop(0)), 1)
+				partialPlusInstr = partial.replace('i1', ('i' + str(instrumentNos.pop(0))))
+				perf.InputMessage(partialPlusInstr)
+				channel = channelNos.pop(0)
+				csound.SetChannel('chan%s' %(channel), 1)
 			startDistorFact = targetDistorFact
+			noteDuration		= -19
 			while 1:
 				newValue = targetDistorFact
 				if newValue > 0.6 and newValue < 1.15:
@@ -167,28 +174,28 @@ class backgroundSound3(threading.Thread):
 				if newValue >= 0.5 and newValue <= 1.25:
 					targetDistorFact = newValue
 					break
-			if IncrDecrHarmonics == 1:
-				noOfPartials = noOfPartials + 1
-				globalNoOfPartialsCounter.updateCounter(1)
-				if noOfPartials > 13:
-					IncrDecrHarmonics = 0
-			elif IncrDecrHarmonics == 0:
-				noOfPartials = noOfPartials - 1
-				globalNoOfPartialsCounter.updateCounter(-1)
-				if noOfPartials < 3:
-					IncrDecrHarmonics = 1
+#			if IncrDecrHarmonics == 1:
+#				noOfPartials = noOfPartials + 1
+#				globalNoOfPartialsCounter.updateCounter(1)
+#				if noOfPartials > 13:
+#					IncrDecrHarmonics = 0
+#			elif IncrDecrHarmonics == 0:
+#				noOfPartials = noOfPartials - 1
+#				globalNoOfPartialsCounter.updateCounter(-1)
+#				if noOfPartials < 3:
+#					IncrDecrHarmonics = 1
 			nextTotalNoOfPartials = globalNoOfPartialsCounter.value
 			Csound_Note.TotalPartialsDensity = nextTotalNoOfPartials
 			while 1:
 				overallPanning = (randint(-3, 3) *.05)
 				if overallPanning >= 0 and overallPanning <=1:
 					break
-			time.sleep(noteDuration)
+			time.sleep(noteDuration * -1)
 
 class harmonicsGatingContol(threading.Thread):
 	"""PROOF OF CONCEPT CLASS. Will be linked to the display of the simulation. Turns harmonics of the background sounds on and off"""
 	def run(self):
-		while backgroundSound1().isAlive() and backgroundSound1().isAlive() and backgroundSound1().isAlive():
+		while backgroundSound1().isAlive() and backgroundSound2().isAlive() and backgroundSound3().isAlive():
 			gatedChannels	= []
 			channels1	 = backgroundSound1().run().channelNos
 			channels2	 = backgroundSound2().run().channelNos
@@ -207,7 +214,7 @@ class harmonicsGatingContol(threading.Thread):
 				channelToGate = channelsToBeGated.pop(0, (len(channelsToBeGated) - 1))
 				gatedChannels.append(channelToBeGated)
 				csound.SetChannel('chan%s' %(channelToBeGated), 0)
-				time.sleep(random())
+				
 
 
 ## Background Sound's playback method.
@@ -216,7 +223,7 @@ def playback():
 	backgroundSound1().start()
 	backgroundSound2().start()
 	backgroundSound3().start()
-	harmonicsGatingContol().start()
+	#harmonicsGatingContol().start()
 
 if __name__ == "__main__":
 	initCsound()

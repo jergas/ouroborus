@@ -32,22 +32,18 @@ instrument2	= """
     instr 2
 kchan	chnget "chan1"
 
-idur			= p3		; in seconds
+idur			= abs(p3)	; in seconds
 iamp			= p4		; 0-32767
 ifreq1			= p5		; in hz
 ifreq2			= p6		; in hz
+idurminenv		= idur - .03
 ileft			= sqrt(p7)	; between 0-1, 1 is hard left
 iright			= sqrt(1-p7)	; ibidem
-iattkt			= p8		; in seconds
-idcyt			= p9		; ibidem
-imaxampdur		= idur - (iattkt + idcyt)
-iglissdur1		= p3 * 0.5
-iglisssust		= p3 * 0.25
-iglissdur2		= p3 * 0.25
+iglissdur		= p3 - 2
 kgate			= kchan
 
-kampenv		linseg 0, iattkt, iamp, imaxampdur, iamp, idcyt, 0
-kfreqgliss	expseg ifreq1, iglissdur1, ifreq2, iglisssust, ifreq2, iglissdur2, ifreq1
+kampenv		linseg 0, .02, iamp, idurminenv, iamp, .01, 0
+kfreqgliss	expseg ifreq1, 1, ifreq1, iglissdur, ifreq2, 1, ifreq2
 asig		oscili kampenv * kgate, kfreqgliss, 1
     outs asig * ileft, asig * iright
     endin
