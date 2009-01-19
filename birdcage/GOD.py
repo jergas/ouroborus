@@ -11,6 +11,7 @@ from code import tabula
 import visual as v
 import curses as c
 # these are the ingredients for the Pyrex compile spell
+import sys
 import distutils.core 
 from distutils.extension import Extension
 from Pyrex.Distutils import build_ext
@@ -76,6 +77,10 @@ class Generator:
 		samskara.incorporate(corpus)
 
 		# now we invoke the pyrex compiler to create the module
+		# this is a hack to do away with the command line arguments Pyrex expects
+		commandLineArgs = ['build_ext', '--inplace']
+		sys.argv.extend(commandLineArgs)
+		# and the actual call to the compiler using the Pyrex build_ext command
 		distutils.core.setup(
 			name = onoma,
 			ext_modules = [Extension(onoma,[corpus])],
