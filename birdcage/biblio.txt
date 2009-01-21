@@ -1,0 +1,22 @@
+	Ouroborus: Bibliography
+
+Cellular Automaton:
+	Our automaton is based on this library:
+
+	- http://www.alcyone.com/software/cage/
+
+
+Csound:
+	 IntroductionToUsingTheCsoundAPI y CsoundAPIReference:
+
+	- http://www.csounds.com/articles/RoryWalsh_CsoundAPI.pdf
+	- http://csound.sourceforge.net/refman.pdf
+
+Threads in Python:
+	Sorted in order of relevance and/or clarity:
+
+	- http://blog.doughellmann.com/2008/01/pymotw-threading_13.html
+	- http://www.devshed.com/c/a/Python/Basic-Threading-in-Python/1/
+	- http://aspn.activestate.com/ASPN/Mail/Message/python-Tutor/2039462
+	- http://linuxgazette.net/107/pai.html
+	- http://heather.cs.ucdavis.edu/~matloff/Python/PyThreads.pdf
