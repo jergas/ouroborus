@@ -1,6 +1,7 @@
 import GOD
 import curses
 import sound
+import random
 
 def main(stdscr):
 	mary = GOD.Generator("kristos")
@@ -10,7 +11,9 @@ def main(stdscr):
 	setCursesColors()
 
 	# the following lines contain all the data to build a complete automaton
-	size = (90,40)
+	width = 100
+	height = 35
+	size = (width, height)
 	topologyData = ("GridTopology", 0)
 	neighborData = ("VonNeumannNeighborhood", )
 	import operator
@@ -20,7 +23,7 @@ def main(stdscr):
 
 	# invoke God.Generator's automaton creation method with the data given above
 	biblos = []
-	avatars = 1
+	avatars = 14
 	doomsday = 1000	
 	terra = mary.generateAutomaton(size, topologyData, neighborData, ruleData, automatonData)
 	magdalen = GOD.Organizer(terra, biblos)
@@ -28,8 +31,12 @@ def main(stdscr):
 
 	for i in range(avatars):
 		mary.generateGenotype(seedCode.split(" "), biblos)
+		print "generated agent", i # debugging
 		sound.playSingleNote()
-	magdalen.readBookOfLife(i, seedCode, 7, 1, (10,10))
+		print "biblos is", biblos # debugging
+		(x, y) = (random.randint(0, width-1), random.randint(0, height-1))
+		magdalen.readBookOfLife(i, seedCode, 7, 1, (x, y))
+		print "biblos is", biblos # debugging
 
 	display = mary.generateDisplay(terra, size, stdscr)
 	sound.startBackground()

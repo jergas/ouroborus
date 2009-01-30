@@ -33,7 +33,7 @@ def printAgent(stdscr, agent, displaywidth, displayheight):
     corporality = agent.tellCorporality()
     for address in corporality:
         (x,y) = address
-        if x < displaywidth and y < displayheight:
+        if 0 <= x and x <= displaywidth and 0 <= y and y <= displayheight:
 	    stdscr.addch(y, x, ord("#"), c.color_pair(2))
 	
 	

@@ -86,6 +86,8 @@ class Generator:
 			ext_modules = [Extension(onoma,[corpus])],
 			cmdclass = {'build_ext':build_ext}
 			) 
+		# bring the command line back to its original condition
+		del sys.argv[-2:]
 
 		# finally, append the module's name to the list of names and return
 		ode.append(onoma)
@@ -105,7 +107,8 @@ class Generator:
 		displaywidth = (winwidth < width) and winwidth-1 or width
 		displayheight = (winheight < height) and winheight-1 or height
 		# run the visual display refresh cycle as initialisation
-		earth.set((40,10),1)
+		seed = earth.returnTopology().random()
+		earth.set(seed,1)
 		v.updateLoop(earth, stdscr, displaywidth, displayheight)
 		stdscr.refresh()
 		# return a 3-tuple useful for further display
