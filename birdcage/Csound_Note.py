@@ -6,10 +6,10 @@
 from partials_durations import partialsDurationsfrom amplitude_control import spectralAmplitudesI1, spectralAmplitudesI2from spectral_pan import spectralPanfrom attack_times import attackTimesfrom decay_times import decayTimes
 
 # Global variables for amplitude control. Changed by Background_sound.py.
-PartialsDensityT1	= 2
-PartialsDensityT2	= 2
-PartialsDensityT3	= 2
-TotalPartialsDensity	= 6
+PartialsDensityT1	= 13
+PartialsDensityT2	= 13
+PartialsDensityT3	= 13
+TotalPartialsDensity	= 39
 
 ## Method for a single note from the Distorted Harmonic Spectrum Model, with instrument 1.def noteI1(fundamental, noOfHarmonics, spectrumType, distortion, overallPanning,
 		totalDuration):
@@ -39,7 +39,15 @@ TotalPartialsDensity	= 6
 	spectrumChoice1		= species1.pop(spectrumType)
 	partials1		= spectrumChoice1(noOfHarmonics)
 	distSpectrum2		= distortedSpectrum(fundamental, partials1,
-					distortion2)## Defines the start times of the partials. In seconds	startTimesCSD		= startTimes(distSpectrum1)## Defines the durations of the partials. In seconds	durationsCSD		= partialsDurations(startTimesCSD, totalDuration)## Defines the amplitudes of the partials. Between (0-32767)	amplitudesCSD		= spectralAmplitudesI2(distSpectrum1)##Gives a little "space" to the note. Just like when humans speak: low tones
+					distortion2)
+
+	if len(distSpectrum1) > len(distSpectrum2):
+		extra = distSpectrum1[-1]
+		distSpectrum2.append(extra)
+	if len(distSpectrum1) < len(distSpectrum2):
+		extra = distSpectrum2[-1]
+		distSpectrum1.append(extra)
+## Defines the start times of the partials. In seconds	startTimesCSD		= startTimes(distSpectrum1)## Defines the durations of the partials. In seconds	durationsCSD		= partialsDurations(startTimesCSD, totalDuration)## Defines the amplitudes of the partials. Between (0-32767)	amplitudesCSD		= spectralAmplitudesI2(distSpectrum1)##Gives a little "space" to the note. Just like when humans speak: low tones
 #resonate towards the chest and high ones towrds the forehead.	spectralPanCSD		= spectralPan(overallPanning, distSpectrum1)## Contains the csound notes that integrate an additive synthesis note.	partialsCSD		= []								## Constructs the csound score lines (each string is a line) for an additive
 #synthesis note.	while len(distSpectrum1) > 0:		noteCSD = ("i%s %s %s %s %s %s %s" %(instrument,
 				startTimesCSD.pop(0), durationsCSD.pop(0),

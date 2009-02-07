@@ -27,7 +27,7 @@ def declarationChannels(number):
 	channelsDeclaration = ''
 
 	for x in channelList:
-		channelsDeclaration = channelsDeclaration + 'chn_k ' + x + ', 1, 1, 1, 0, 1\n'
+		channelsDeclaration = channelsDeclaration + 'chn_k ' + str(x) + ', 1, 0\n'
 	return channelsDeclaration
 
 def recursiveInstrumentDefinition(noOfCopies):

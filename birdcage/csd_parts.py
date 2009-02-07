@@ -2,7 +2,7 @@
 
 csOptions	= """<CsoundSynthesizer>
 <CsOptions>
-csound -odac -+rtaudio=alsa -b8192 -B8192 -d temp.orc temp.sco
+csound -odac -+rtaudio=alsa -b8192 -B8192 -d -m0 temp.orc temp.sco
 </CsOptions>"""
 orchestraHeader	= """<CsInstruments>
 sr = 44100	; sample rate
@@ -36,14 +36,13 @@ idur			= abs(p3)	; in seconds
 iamp			= p4		; 0-32767
 ifreq1			= p5		; in hz
 ifreq2			= p6		; in hz
-idurminenv		= idur - .03
+idurminenv		= idur - .04
 ileft			= sqrt(p7)	; between 0-1, 1 is hard left
 iright			= sqrt(1-p7)	; ibidem
-iglissdur		= p3 - 2
 kgate			= kchan
 
-kampenv		linseg 0, .02, iamp, idurminenv, iamp, .01, 0
-kfreqgliss	expseg ifreq1, 1, ifreq1, iglissdur, ifreq2, 1, ifreq2
+kampenv		linseg 0, .02, iamp, idurminenv, iamp, .02, 0
+kfreqgliss	expseg ifreq1, idur, ifreq2
 asig		oscili kampenv * kgate, kfreqgliss, 1
     outs asig * ileft, asig * iright
     endin
