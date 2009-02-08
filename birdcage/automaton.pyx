@@ -98,12 +98,12 @@ cdef class Automaton_2D:
      def  update(self):
           """Perform an entire state transition cycle
 
-          return -->> None"""
+          return -->> population"""
 
-          self.pyx_update()
+          return self.pyx_update()
 
 
-     cdef void pyx_update(self):
+     cdef int pyx_update(self):
           """Perform an entire state transition cycle
 
           return -->> Null"""
@@ -180,18 +180,22 @@ cdef class AsynchronousAutomaton_2D(Automaton_2D):
           self.name = "Asynchronous Automaton 2-D"
 
 
-     cdef void pyx_update(self):
+     cdef int pyx_update(self):
           """Override Automaton.pyx__update
 
           return -->> Null"""
 
           cdef int x1, x2
+          cdef int population
+          population = 0
 
           for  0 <= x1 < self.topology.size[0]:
               for  0 <= x2 < self.topology.size[1]:
-                  self.rule.pyx_apply(x1, x2)
+                  population = population + self.rule.pyx_apply(x1, x2)
 
           Automaton_2D.pyx_update(self)
+
+          return population
 
 ####################################################################
 
@@ -212,19 +216,23 @@ cdef class SynchronousAutomaton_2D(Automaton_2D):
           self.workgrid = self.topology.clone()
 
 
-     cdef void pyx_update(self):
-          """Override Automaton.pyx__update
+     cdef int pyx_update(self):
+          """Override Automaton_2D.pyx__update
 
-          return -->> Null"""
+          return -->> population"""
 
           cdef int x1, x2
+          cdef int population
+          population = 0
 
-          for x1 from 0 <= x1 < self.topology.size[0]:
-              for x2 from 0 <= x2 < self.topology.size[1]:
-                  self.rule.pyx_applyToTarget(x1, x2, self.workgrid)
+          for 0 <= x1 < self.topology.size[0]:
+              for 0 <= x2 < self.topology.size[1]:
+                  population = population + self.rule.pyx_applyToTarget(x1, x2, self.workgrid)
 
           (self.topology, self.workgrid) = (self.workgrid, self.topology)
           self.neighborhood.topology = self.topology
           self.rule.neighborhood.topology = self.topology
 
           Automaton_2D.pyx_update(self)
+
+          return population

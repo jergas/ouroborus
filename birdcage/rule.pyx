@@ -83,12 +83,12 @@ cdef class Rule_2D:
           address ---> a Python 2-tuple, the address of a cell in the grid
           target ---> a birdcage GridTopology object such as a working
                       grid in a synchronous automaton
-          return  -->> None"""
+          return  -->> state"""
 
           if not (len(address) == 2):
                raise E.InvalidAddressError(address, self.neighborhood.topology.name)
 
-          self.pyx_applyToTarget(address[0], address[1], target)
+          return self.pyx_applyToTarget(address[0], address[1], target)
 
 
      cdef pyx_applyToTarget(self, int x1, int x2, T.GridTopology target):
@@ -145,12 +145,13 @@ cdef class ReductionRule(Rule_2D):
           x2     ---> the second integer coordinate value
           target ---> a birdcage GridTopology object such as a working
                       grid in a synchronous automaton
-          return -->> Null"""
+          return -->> state"""
 
           cdef int state
 
           state = self.neighborhood.pyx_reduceStates(x1, x2, self.param[0], self.param[1])
           target.pyx_set(x1, x2, state)
+          return state
 
 #####################################################################
 

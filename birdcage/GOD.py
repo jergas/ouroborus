@@ -145,11 +145,10 @@ class Organizer:
 	def iterateAutomaton(self):
 		"""Iterate the birdcage automaton associated to the Organizer
 
-		return -->> 1"""
+		return -->> population"""
 
-		self.earth.update()
 		self.annum = self.annum + 1
-		return 1
+		return self.earth.update()
 
 
         def readBookOfLife(self, index, code, prana, mana, address, generator):

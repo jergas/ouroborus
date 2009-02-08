@@ -24,7 +24,7 @@ cdef class Automaton_2D:
 
      cdef void pyx_addAgent(self, A.Agent_2D agent)
      cdef void pyx_removeAgent(self, A.Agent_2D agent)
-     cdef void pyx_update(self)
+     cdef int pyx_update(self)
 
 ####################################################################
 
@@ -35,7 +35,7 @@ cdef class AsynchronousAutomaton_2D(Automaton_2D):
 
      cdef void pyx_addAgent(self, A.Agent_2D agent)
      cdef void pyx_removeAgent(self, A.Agent_2D agent)
-     cdef void pyx_update(self)
+     cdef int pyx_update(self)
 
 ####################################################################
 
@@ -47,4 +47,4 @@ cdef class SynchronousAutomaton_2D(Automaton_2D):
 
      cdef void pyx_addAgent(self, A.Agent_2D agent)
      cdef void pyx_removeAgent(self, A.Agent_2D agent)
-     cdef void pyx_update(self)
+     cdef int pyx_update(self)
