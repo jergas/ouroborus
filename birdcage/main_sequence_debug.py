@@ -6,10 +6,10 @@ import sys
 
 def main(stdscr):
 	mary = GOD.Generator("kristos")
-	sound.startSoundServer()
+	#sound.startSoundServer()
 
 	# setting the curses colour pairs
-	setCursesColors()
+	#setCursesColors()
 
 	# the following lines contain all the data to build a complete automaton
 	# size = (width, height) = (int(sys.argv[-4]),int(sys.argv[-3]))
@@ -35,13 +35,13 @@ def main(stdscr):
 
 	for i in range(avatars):
 		mary.generateGenotype(seedCode.split(" "), biblos)
-		#print "generated agent", i # debugging
-		sound.playSingleNote()
-		#print "biblos is", biblos # debugging
+		print "generated agent", i # debugging
+		#sound.playSingleNote()
+		print "biblos is", biblos # debugging
 		(x, y) = (30, 8)		
 		#(x, y) = (random.randint(0, width-1), random.randint(0, height-1))
 		magdalen.readBookOfLife(i, seedCode, 7, 1, (x, y), mary)
-		#print "biblos is", biblos # debugging
+		print "biblos is", biblos # debugging
 
 	
 	#for i in range(avatars):
@@ -53,21 +53,21 @@ def main(stdscr):
 	#	magdalen.readBookOfLife(i, seedCode, 7, 1, (x, y))
 	#	print "biblos is", biblos # debugging
 
-	display = mary.generateDisplay(terra, size, stdscr)
-	sound.startBackground()
+	#display = mary.generateDisplay(terra, size, stdscr)
+	#sound.startBackground()
 	# here cometh the main iteration cycle
 	while magdalen.annum < doomsday:
-		#print "time is", magdalen.annum
-		#print "biblos is", biblos
+		print "time is", magdalen.annum
+		print "biblos is", biblos
 		magdalen.iterateAutomaton()
 		for i in range(len(biblos)): 
 			magdalen.readBookOfLife(i, "a", 0, 0, (50,8), mary)
-			if magdalen.annum == 750:
+			if magdalen.annum == 10:
 				biblos[0][3].gainPrana(5)
 		#magdalen.iterateAgents()
-		magdalen.refreshDisplay(display)
+		#magdalen.refreshDisplay(display)
 
-	sound.stopSoundServer()
+	#sound.stopSoundServer()
 	return biblos
 
 def setCursesColors():

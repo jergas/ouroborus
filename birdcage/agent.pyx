@@ -77,6 +77,14 @@ cdef class Agent:
           return self.prana > 0
 
 
+     def  tellCode(self):
+          """Return the Agent's code string
+
+          return -->> the Agent's code as a string"""
+
+          return self.code
+
+
      def  tellPrana(self):
           """Return the amount of prana the Agent has
 
@@ -330,7 +338,7 @@ cdef class Agent_2D(Agent):
           return -->> 1 if successful, 0 otherwise"""
 
           if self.topology.pyx_get(self.x1, self.x2) == self.mana:
-              self.pyx_gainPrana(5)
+              self.pyx_gainPrana(1)
               self.topology.pyx_set(self.x1, self.x2, self.topology.background)
               return 1
           else:

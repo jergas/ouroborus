@@ -59,6 +59,16 @@ class Generator:
 		return automatonInstance
 
 
+	def writeBookOfLife(self, rhyme, ode):
+		"""Write a genetic code into the book of life
+
+		rhyme  ---> a string with the code
+		ode    ---> a list of names
+		return -->> 1"""
+
+		
+
+
 	def generateGenotype(self, poeio, ode):
 		"""Write and compile a file from a genome
 
@@ -90,7 +100,7 @@ class Generator:
 		del sys.argv[-2:]
 
 		# finally, append the module's name to the list of names and return
-		ode.append(onoma)
+		ode.append([self.obstetrics, onoma, None, None, {"prayer":"BE_BIRTHED"}])
 		return 1
 
 
@@ -142,7 +152,7 @@ class Organizer:
 		return 1
 
 
-        def readBookOfLife(self, index, code, prana, mana, address):
+        def readBookOfLife(self, index, code, prana, mana, address, generator):
 		"""Dynamically import the modules compiled by the Generator
 
 		This will also cause actual agent instances to be created
@@ -153,13 +163,29 @@ class Organizer:
 		address ---> a 2-tuple, the agent's birthplace
 		return  -->> 1 """
 
-		if type(self.book[index]) == type("string"):
-			module = __import__(self.book[index])
+		if self.book[index][4]["prayer"] == "BE_BIRTHED":
+			#print self.book[index][1], "prays to be birthed"
+			module = __import__(self.book[index][1])
 			agent = module.birth(self.earth, code, prana, mana, address)
 			self.earth.addAgent(agent)
-			self.book[index] = (self.book[index], module, agent)
+			self.book[index][2] = module
+			self.book[index][3] = agent
+			self.book[index][4]["prayer"] = "LIVE"
+			# = (self.book[index], module, agent, {"prayer":"LIVE"})
 
 			return 1
+
+		elif self.book[index][4]["prayer"] == "LIVE":
+			self.book[index][2].live(self.book[index][3],self.book,self.book[index][0])
+			
+			return 1
+
+		elif self.book[index][4]["prayer"] == "GRANT_CHILD":
+			generator.generateGenotype(self.book[index][4]["code"].split(" "), self.book)
+			self.book[index][4]["prayer"] = "LIVE"
+			#print "creature birthed"
+			#print "book of life is", self.book
+
 
 	def iterateAgents(self):
 		"""Go through the list of agents and let them perform their actions
