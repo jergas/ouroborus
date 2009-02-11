@@ -60,7 +60,7 @@ def main(stdscr):
 	while magdalen.annum < doomsday:
 		#print "time is", magdalen.annum
 		#print "biblos is", biblos
-		print float(magdalen.iterateAutomaton()) / operator.mul(width,height)
+		magdalen.iterateAutomaton()
 		for i in range(len(biblos)): 
 			magdalen.readBookOfLife(i, "a", 0, 0, (50,8), mary)
 			if magdalen.annum == 750:
