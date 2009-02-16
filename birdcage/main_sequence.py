@@ -5,7 +5,11 @@ import sound
 import random
 import sys
 
-def main(stdscr):
+
+def startExecutionVisualSound():
+	curses.wrapper(mainVisualSound)
+
+def mainVisualSound(stdscr):
 	mary = GOD.Generator("kristos")
 	sound.startSoundServer()
 
@@ -25,7 +29,7 @@ def main(stdscr):
 
 	# invoke God.Generator's automaton creation method with the data given above
 	# (avatars, doomsday)= sys.argv[-2:]
-	(avatars, doomsday)= (1, 1500)
+	(avatars, doomsday) = (1, 1500)
 	# del sys.argv[-2:]
 	avatars = int(avatars)
 	doomsday = int(doomsday)
@@ -45,15 +49,6 @@ def main(stdscr):
 		#print "biblos is", biblos # debugging
 
 	
-	#for i in range(avatars):
-	#	mary.generateGenotype(seedCode.split(" "), biblos)
-	#	print "generated agent", i # debugging
-	#	sound.playSingleNote()
-	#	print "biblos is", biblos # debugging
-	#	(x, y) = (random.randint(0, width-1), random.randint(0, height-1))
-	#	magdalen.readBookOfLife(i, seedCode, 7, 1, (x, y))
-	#	print "biblos is", biblos # debugging
-
 	display = mary.generateDisplay(terra, size, stdscr)
 	sound.startBackground()
 	# here cometh the main iteration cycle
@@ -69,6 +64,7 @@ def main(stdscr):
 		magdalen.refreshDisplay(display)
 
 	sound.stopSoundServer()
+	del sys.argv[1:]
 	return biblos
 
 def setCursesColors():
@@ -77,8 +73,14 @@ def setCursesColors():
 	curses.init_pair(3, curses.COLOR_YELLOW, curses.COLOR_BLACK)
 	curses.init_pair(4, curses.COLOR_BLUE, curses.COLOR_BLACK)
 
+def startExecutionVisual():
+	print "visual execution"
+
+def startExecutionDebug():
+	print "debugging mode"
+
 
 # call the generic curses wrapper to maintain terminal sanity in all events
-if __name__ == '__main__': curses.wrapper(main)
+#if __name__ == '__main__': curses.wrapper(main)
 
 
