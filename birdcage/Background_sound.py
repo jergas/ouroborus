@@ -4,9 +4,10 @@ from random import choice, randint, sample, uniform, random
 ## Import the necessary user-defined modules
 from Csound_Interface import initCsound, perf, csound
 import Csound_Note
+import globals_background_sound as gB
 
-## Variable to stop the threads' iterations. Changed externally (by main_sequence.py)
-mainIterCycle		= 1
+## Variable to stop the threads' iterations. Changed externally (by sound.py)
+
 ## Rest of global variables
 downBiasedStep		= [-.03, -.02, -.01, -.03, -.02, -.01, .01, .02, .03]
 upBiasedStep		= [-.03, -.02, -.01, .01, .02, .03, .01, .02, .03]
@@ -24,7 +25,7 @@ class Counter(object):
 		finally:
 			self.lock.release()
 
-def backgroundSound(noteDuration, fundamentalFrequency, specType, firstInstr):
+def backgroundSound1Voice(noteDuration, fundamentalFrequency, specType, firstInstr):
 	noOfPartials		= 13
 	startDistorFact		= 0.75
 	targetDistorFact	= 0.8
@@ -33,7 +34,7 @@ def backgroundSound(noteDuration, fundamentalFrequency, specType, firstInstr):
 	firstChannel		= firstInstr - 1
 	sleepBeforeGate		= noteDuration - 0.5
 
-	while mainIterCycle == 1:
+	while gB.mainIterCycle == 1:
 		instrumentNos	= range(firstInstr, (firstInstr + noOfPartials))
 		channelNosOn	= range(firstChannel, (firstChannel + noOfPartials))
 		channelNosOff	= channelNosOn[:]
@@ -42,8 +43,6 @@ def backgroundSound(noteDuration, fundamentalFrequency, specType, firstInstr):
 		for x in spectrum:
 			partialPlusInstr = x.replace('i1', ('i' + str(instrumentNos.pop(0))))
 			perf.InputMessage(partialPlusInstr)
-			channelOn = channelNosOn.pop(0)
-#			csound.SetChannel("chan%s" %(channelOn), 1)
 		startDistorFact = targetDistorFact
 		while 1:
 			newValue = targetDistorFact
@@ -62,56 +61,64 @@ def backgroundSound(noteDuration, fundamentalFrequency, specType, firstInstr):
 				break
 		time.sleep(abs(sleepBeforeGate))
 
+def changeState(cellState, counter, controlList):
+	if cellState == 1:
+		controlList.append(1)
+	elif cellState == 0:
+		if counter == 1:
+			controlList.append(0)
+			counter = 0
+		elif counter < 1:
+			counter += 1
+	return (counter, controlList)
+
+def cellsStates(soundCellsStates):
+
+	(gB.deadCell1Count, gB.liveDeadCells) = changeState(soundCellsStates[0], gB.deadCell1Count, gB.liveDeadCells)
+	(gB.deadCell2Count, gB.liveDeadCells) = changeState(soundCellsStates[1], gB.deadCell2Count, gB.liveDeadCells)
+	(gB.deadCell3Count, gB.liveDeadCells) = changeState(soundCellsStates[2], gB.deadCell3Count, gB.liveDeadCells)
+
+	return gB.liveDeadCells
+
 def controlBackgroundSound():
-	allChannels		= range(1, 40)
-	soundingChannels	= allChannels
-	mutedChannels		= []
+	
+	ChannelsThread1		= range(1, 14)
+	ChannelsThread2		= range(14, 27)
+	ChannelsThread3		= range(27, 40)
+	channelsCombinations	= [ChannelsThread1, ChannelsThread2, ChannelsThread3]
+	channelsUniverse	= set(ChannelsThread1 + ChannelsThread2 + ChannelsThread3)
+	currentState		= gB.liveDeadCells
+	newState		= currentState
 
-	for x in allChannels:
-		csound.SetChannel("chan%s" %(x), 1)
+	while gB.mainIterCycle == 1:
+		while currentState == newState:
+			newState = cellsStates(gB.liveDeadCells)
+		currentState = newState
 
-	while mainIterCycle == 1:
-		maxSample = len(soundingChannels)
-		channelsToMute = sample(soundingChannels, randint(3, maxSample))
-		time.sleep(random() *5)
-		for x in channelsToMute:
-			csound.SetChannel("chan%s" %(x), 0)
-			soundingChannels.remove(x)
-			mutedChannels.append(x)
-		maxSample = len(mutedChannels)
-		channelsToUnMute = sample(mutedChannels, randint(3, maxSample))
-		time.sleep(random() *5)
-		for x in channelsToUnMute:
-			csound.SetChannel("chan%s" %(x), 1)
-			mutedChannels.remove(x)
-			soundingChannels.append(x)
-			
+		for x, y in zip(newState, channelsCombinations):
+			if x ==1:
+				for z in y:
+					csound.SetChannel("chan%s" %(z), 0)
+			if x ==0:
+				for z in y:
+					csound.SetChannel("chan%s" %(z), 1)
 
-#		while len(spectrum) > 0:
-#			channelOn = channelNosOn.pop(0)
-#			csound.SetChannel("chan%s" %(channelOn), 1)
-		
-#		while len(channelNosOff) > 0:
-#			time.sleep(timeGate)
-#			channelOff = channelNosOff.pop(0)
-#			csound.SetChannel("chan%s" %(channelOff), 0)
-
-
-## Background Sound's playback method.
 def playback():
 	""" Background_sound's playback method"""
 	argsList	= [(-17, 82.405, 3, 2), (-13, 98, 2, 15), (-23, 69.295, 1, 27)]
 	voiceNo		= 1
 
 	for x in argsList:
-		threadName = 'voice' + str(voiceNo)
-		voice = threading.Thread(name=threadName, target=backgroundSound, args=x)
+		threadName = 'BackgroundVoice' + str(voiceNo)
+		voice = threading.Thread(name=threadName, target=backgroundSound1Voice, args=x)
 		voice.start()
 		voiceNo = voiceNo + 1
-	#controlBackgroundSound()
-	controlThread = threading.Thread(name='soundControl', target=controlBackgroundSound)
+
+def control():
+	controlThread = threading.Thread(name='backgroundVoicesControl', target=controlBackgroundSound)
 	controlThread.start()
 
 if __name__ == "__main__":
 	initCsound()
 	playback()
+	control()

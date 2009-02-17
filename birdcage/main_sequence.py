@@ -51,6 +51,7 @@ def mainVisualSound(stdscr):
 	
 	display = mary.generateDisplay(terra, size, stdscr)
 	sound.startBackground()
+	sound.startBackgroundControl()
 	# here cometh the main iteration cycle
 	while magdalen.annum < doomsday:
 		#print "time is", magdalen.annum
@@ -62,6 +63,7 @@ def mainVisualSound(stdscr):
 				biblos[0][3].gainPrana(5)
 		#magdalen.iterateAgents()
 		magdalen.refreshDisplay(display)
+		sound.inputDataControl(terra.get((22,18)), terra.get((40,19)), terra.get((64,17)))
 
 	sound.stopSoundServer()
 	del sys.argv[1:]

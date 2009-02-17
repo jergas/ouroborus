@@ -6,8 +6,8 @@ from Csound_Note import noteI1
 import csd_generator
 
 ## Instantiate Csound's API, and it's performance class.
-csound = csnd.CppSound()
-perf = csnd.CsoundPerformanceThread(csound)
+csound	= csnd.CppSound()
+perf	= csnd.CsoundPerformanceThread(csound)
 
 def initCsound():
 	"""Makes an instance of the Csound Api, sets a string that works as a CSD file with the appropriate
@@ -18,6 +18,11 @@ def initCsound():
 	csound.exportForPerformance()
 	csound.compile()
 	perf.Play()
+
+def endCsound():
+	perf.Stop()
+	perf.Join()
+	csound.cleanup()
 
 def csoundNoteI1():
 	""" Generates the sound that derives from the instantiation of a birdcage agent.""" 

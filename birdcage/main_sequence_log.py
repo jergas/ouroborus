@@ -71,15 +71,13 @@ def main(stdscr):
 			newbirth = magdalen.readBookOfLife(i, "a", 0, 0, (50,8), mary)
 			if magdalen.annum == 750:
 				biblos[0][3].gainPrana(5)
-			if magdalen.annum == 760 and i == 1:
-				biblos[i][3].gainPrana(12)
-			iterText.write('\nagent=' + str(biblos[i][0]) + 'births? ' + str(newbirth))
+#			if magdalen.annum == 760 and i == 1:
+#				biblos[i][3].gainPrana(12)
+#			iterText.write('\nagent=' + str(biblos[i][0]) + 'births? ' + str(newbirth))
 			iterText.write('   prana=' + str(biblos[i][3].tellPrana()))
 		#magdalen.iterateAgents()
 		magdalen.refreshDisplay(display)
-		sound.inputDataControl(terra.get((42,19)), 1)
-		sound.inputDataControl(terra.get((40,19)), 2)
-		sound.inputDataControl(terra.get((64,19)), 3)
+		sound.inputDataControl(terra.get((22,18)), terra.get((40,19)), terra.get((64,18)))
 
 	sound.stopSoundServer()
 	return biblos
