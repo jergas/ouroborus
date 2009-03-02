@@ -59,26 +59,36 @@ def main(stdscr):
 	sound.startBackgroundControl()
 	# here cometh the main iteration cycle
 	iterText = open('iterText.txt', 'w')
+	maxPop = 0
+	minPop = 1
 	while magdalen.annum < doomsday:
 
 		population = magdalen.iterateAutomaton()
+		populationNorm = float(population) / operator.mul(width,height)
+		iterText.write('\nMaximumPopulation = ' + str(populationNorm))
+		if populationNorm > maxPop:
+			maxPop = populationNorm
+		if populationNorm < minPop:
+			minPop = populationNorm
 		#print "time is", magdalen.annum
 		#print "biblos is", biblos
-		iterText.write('\n------' + '\nannum=' + str(magdalen.annum) + '\n' + str(biblos))
-		iterText.write('\npopulation=' + str(float(population) / operator.mul(width,height)))
-		iterText.write('\nstate(5,5)=' + str(terra.get((40,10))))
+		#iterText.write('\n------' + '\nannum=' + str(magdalen.annum) + '\n' + str(biblos))
+		#iterText.write('\npopulation=' + str(float(population) / operator.mul(width,height)))
+		#iterText.write('\nstate(5,5)=' + str(terra.get((40,10))))
 		for i in range(len(biblos)): 
 			newbirth = magdalen.readBookOfLife(i, "a", 0, 0, (50,8), mary)
 			if magdalen.annum == 750:
 				biblos[0][3].gainPrana(5)
 #			if magdalen.annum == 760 and i == 1:
 #				biblos[i][3].gainPrana(12)
-#			iterText.write('\nagent=' + str(biblos[i][0]) + 'births? ' + str(newbirth))
-			iterText.write('   prana=' + str(biblos[i][3].tellPrana()))
+#			#iterText.write('\nagent=' + str(biblos[i][0]) + 'births? ' + str(newbirth))
+			#iterText.write('   prana=' + str(biblos[i][3].tellPrana()))
 		#magdalen.iterateAgents()
 		magdalen.refreshDisplay(display)
-		sound.inputDataControl(terra.get((22,18)), terra.get((40,19)), terra.get((64,18)))
+		soundControlCells = [terra.get((22,18)), terra.get((40,19)), terra.get((64,17))]
+		sound.inputDataControl(soundControlCells, populationNorm)
 
+	iterText.write('MaximumPopulation = ' + str(maxPop) + '\nMinimumPopulation = ' + str(minPop))
 	sound.stopSoundServer()
 	return biblos
 

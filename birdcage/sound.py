@@ -21,8 +21,9 @@ def startBackgroundControl():
 	"""Starts the background sound control thread"""
 	background.control()
 
-def inputDataControl(cell1, cell2, cell3):
-	gB.liveDeadCells = [cell1, cell2, cell3]
+def inputDataControl(soundControlCells, populationNorm):
+	gB.soundControlCells = soundControlCells
+	gB. populationNorm = populationNorm
 
 def stopSoundServer():
 	"""Stop all sound.
@@ -32,6 +33,8 @@ def stopSoundServer():
 	(and thus its threads) to end."""
 	Csound_Interface.endCsound()
 	gB.mainIterCycle = 0
+
+	
 
 
 

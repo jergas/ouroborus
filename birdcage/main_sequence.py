@@ -56,14 +56,16 @@ def mainVisualSound(stdscr):
 	while magdalen.annum < doomsday:
 		#print "time is", magdalen.annum
 		#print "biblos is", biblos
-		magdalen.iterateAutomaton()
+		population = magdalen.iterateAutomaton()
+		populationNorm = float(population) / operator.mul(width,height)
 		for i in range(len(biblos)): 
 			magdalen.readBookOfLife(i, "a", 0, 0, (50,8), mary)
 			if magdalen.annum == 750:
 				biblos[0][3].gainPrana(5)
 		#magdalen.iterateAgents()
 		magdalen.refreshDisplay(display)
-		sound.inputDataControl(terra.get((22,18)), terra.get((40,19)), terra.get((64,17)))
+		soundControlCells = [terra.get((22,18)), terra.get((40,19)), terra.get((64,17))]
+		sound.inputDataControl(soundControlCells, populationNorm)
 
 	sound.stopSoundServer()
 	del sys.argv[1:]

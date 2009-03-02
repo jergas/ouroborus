@@ -3,6 +3,7 @@ import time, threading
 from random import choice, randint, sample, uniform, random
 ## Import the necessary user-defined modules
 from Csound_Interface import initCsound, perf, csound
+from linear_scaler import scaleValueToRange
 import Csound_Note
 import globals_background_sound as gB
 
@@ -74,34 +75,53 @@ def changeState(cellState, counter, controlList):
 
 def cellsStates(soundCellsStates):
 
-	(gB.deadCell1Count, gB.liveDeadCells) = changeState(soundCellsStates[0], gB.deadCell1Count, gB.liveDeadCells)
-	(gB.deadCell2Count, gB.liveDeadCells) = changeState(soundCellsStates[1], gB.deadCell2Count, gB.liveDeadCells)
-	(gB.deadCell3Count, gB.liveDeadCells) = changeState(soundCellsStates[2], gB.deadCell3Count, gB.liveDeadCells)
+	(gB.deadCell1Count, gB.soundControlCells) = changeState(soundCellsStates[0], gB.deadCell1Count, gB.soundControlCells)
+	(gB.deadCell2Count, gB.soundControlCells) = changeState(soundCellsStates[1], gB.deadCell2Count, gB.soundControlCells)
+	(gB.deadCell3Count, gB.soundControlCells) = changeState(soundCellsStates[2], gB.deadCell3Count, gB.soundControlCells)
 
-	return gB.liveDeadCells
+	return gB.soundControlCells
 
 def controlBackgroundSound():
 	
 	ChannelsThread1		= range(1, 14)
 	ChannelsThread2		= range(14, 27)
 	ChannelsThread3		= range(27, 40)
-	channelsCombinations	= [ChannelsThread1, ChannelsThread2, ChannelsThread3]
-	channelsUniverse	= set(ChannelsThread1 + ChannelsThread2 + ChannelsThread3)
-	currentState		= gB.liveDeadCells
-	newState		= currentState
+	onChans			= []
+	#channelsCombinations	= [ChannelsThread1, ChannelsThread2, ChannelsThread3]
+	offChans		= ChannelsThread1 + ChannelsThread2 + ChannelsThread3
+	#channelsUniverse	= set(ChannelsThread1 + ChannelsThread2 + ChannelsThread3)
+	#currentState		= gB.soundControlCells
+	#newState		= currentState
 
 	while gB.mainIterCycle == 1:
-		while currentState == newState:
-			newState = cellsStates(gB.liveDeadCells)
-		currentState = newState
+		currentPartialsOn = round(scaleValueToRange(gB.populationNorm, .001875, .31375, 1, 9))
+		if currentPartialsOn > len(onChans):
+			updatePartials = currentPartialsOn - len(onChans)
+			for x in range(0, updatePartials):
+				newOn = offChans.pop(randint(0, len(offChans)-1))
+				csound.SetChannel("chan%s" %(newOn), 1)
+				onChans.append(newOn)
+		if currentPartialsOn < len(onChans):
+			updatePartials = len(onChans) - currentPartialsOn
+			for x in range(0, updatePartials):
+				newOff = onChans.pop(randint(0, len(onChans)-1))
+				csound.SetChannel("chan%s" %(newOff), 0.05)
+				offChans.append(newOff)
+		
+			
 
-		for x, y in zip(newState, channelsCombinations):
-			if x ==1:
-				for z in y:
-					csound.SetChannel("chan%s" %(z), 0)
-			if x ==0:
-				for z in y:
-					csound.SetChannel("chan%s" %(z), 1)
+
+#		while currentState == newState:
+#			newState = cellsStates(gB.soundControlCells)
+#		currentState = newState
+
+#		for x, y in zip(newState, channelsCombinations):
+#			if x ==1:
+#				for z in y:
+#					csound.SetChannel("chan%s" %(z), 0)
+#			if x ==0:
+#				for z in y:
+#					csound.SetChannel("chan%s" %(z), 1)
 
 def playback():
 	""" Background_sound's playback method"""
