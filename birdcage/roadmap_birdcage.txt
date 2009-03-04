@@ -26,8 +26,10 @@ VERSION		FEATURES							DEADLINE
 0.4 (DROPPED)	clean-up and generalise code, include at least one other	-----------
 		automaton
 
-0.5 (WORKING)	as 0.4 but resolve deprecated dependencies and compile in	1 Dec 2007
+0.5 (DONE)	as 0.4 but resolve deprecated dependencies and compile in	1 Dec 2007
                 gcc
+
+0.6 (WORKING)	allow for robust genetics, feeding and asexual reproduction
 
 0.9		optimise all the logical functionalities currently in cage	-----------
 
@@ -134,3 +136,5 @@ DATE		EVENT		COMMENT
 				display with curses has been added.
 
 28 may 2008	birdcage 0.5.5	The genome is dynamically compiled as a pyrex module.
+
+19 feb 2009	ouroborus 0.2.0	A genetically robust, GOD-centered architecture based on birdcage.

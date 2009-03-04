@@ -59,16 +59,6 @@ class Generator:
 		return automatonInstance
 
 
-	def writeBookOfLife(self, rhyme, ode):
-		"""Write a genetic code into the book of life
-
-		rhyme  ---> a string with the code
-		ode    ---> a list of names
-		return -->> 1"""
-
-		
-
-
 	def generateGenotype(self, poeio, ode):
 		"""Write and compile a file from a genome
 
@@ -182,6 +172,7 @@ class Organizer:
 		elif self.book[index][4]["prayer"] == "GRANT_CHILD":
 			generator.generateGenotype(self.book[index][4]["code"].split(" "), self.book)
 			self.book[index][4]["prayer"] = "LIVE"
+			del self.book[index][4]["code"]
 			#print "creature birthed"
 			#print "book of life is", self.book
 
