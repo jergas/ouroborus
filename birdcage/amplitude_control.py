@@ -25,7 +25,7 @@ def scaling(aList, newTotal):
 	targetPrincipalAmps minus an attenuation factor (due to pinkish's unstable amplitude output)."""
 	spectAmps		= []
 	spectralDensity		= len(distSpectrum)
-	pinkAmpAtenuation	= targetPrincipalAmps - (targetPrincipalAmps * 0.8)
+	pinkAmpAtenuation	= targetPrincipalAmps - (targetPrincipalAmps * 0.9)
 	oneAmp			= pinkAmpAtenuation / spectralDensity
 
 	for x in distSpectrum:		spectAmps.append(oneAmp)	return spectAmps

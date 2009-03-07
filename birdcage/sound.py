@@ -21,9 +21,10 @@ def startBackgroundControl():
 	"""Starts the background sound control thread"""
 	background.control()
 
-def inputDataControl(soundControlCells, populationNorm):
+def inputDataControl(soundControlCells, populationNorm, annum):
 	gB.soundControlCells = soundControlCells
-	gB. populationNorm = populationNorm
+	gB.populationNorm = populationNorm
+	gB.annum = annum
 
 def stopSoundServer():
 	"""Stop all sound.

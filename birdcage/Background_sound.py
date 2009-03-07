@@ -26,11 +26,10 @@ class Counter(object):
 		finally:
 			self.lock.release()
 
-def backgroundSound1Voice(noteDuration, fundamentalFrequency, specType, firstInstr):
+def backgroundSound1Voice(noteDuration, fundamentalFrequency, panning, specType, firstInstr):
 	noOfPartials		= 13
 	startDistorFact		= 0.75
 	targetDistorFact	= 0.8
-	overallPanning		= .5
 	IncrDecrHarmonics	= 1
 	firstChannel		= firstInstr - 1
 	sleepBeforeGate		= noteDuration - 0.5
@@ -40,7 +39,7 @@ def backgroundSound1Voice(noteDuration, fundamentalFrequency, specType, firstIns
 		channelNosOn	= range(firstChannel, (firstChannel + noOfPartials))
 		channelNosOff	= channelNosOn[:]
 		spectrum = Csound_Note.noteBackground(1, fundamentalFrequency, noOfPartials,
-			specType, startDistorFact, targetDistorFact, overallPanning, noteDuration)
+			specType, startDistorFact, targetDistorFact, panning, noteDuration)
 		for x in spectrum:
 			partialPlusInstr = x.replace('i1', ('i' + str(instrumentNos.pop(0))))
 			perf.InputMessage(partialPlusInstr)
@@ -55,10 +54,6 @@ def backgroundSound1Voice(noteDuration, fundamentalFrequency, specType, firstIns
 				newValue = newValue + choice(upBiasedStep)
 			if newValue >= 0.5 and newValue <= 1.25:
 				targetDistorFact = newValue
-				break
-		while 1:
-			overallPanning = (randint(-3, 3) *.05)
-			if overallPanning >= 0 and overallPanning <=1:
 				break
 		time.sleep(abs(sleepBeforeGate))
 
@@ -86,27 +81,69 @@ def controlBackgroundSound():
 	ChannelsThread1		= range(1, 14)
 	ChannelsThread2		= range(14, 27)
 	ChannelsThread3		= range(27, 40)
-	onChans			= []
+	onChansT1		= []
+	onChansT2		= []
+	onChansT3		= []
+	offChansT1		= ChannelsThread1
+	offChansT2		= ChannelsThread2
+	offChansT3		= ChannelsThread3
+	annumCurrentState	= gB.annum
+	annumNewState		= annumCurrentState
 	#channelsCombinations	= [ChannelsThread1, ChannelsThread2, ChannelsThread3]
-	offChans		= ChannelsThread1 + ChannelsThread2 + ChannelsThread3
 	#channelsUniverse	= set(ChannelsThread1 + ChannelsThread2 + ChannelsThread3)
 	#currentState		= gB.soundControlCells
 	#newState		= currentState
+	iterText = open('iterText.txt', 'w')
 
 	while gB.mainIterCycle == 1:
-		currentPartialsOn = round(scaleValueToRange(gB.populationNorm, .001875, .31375, 1, 9))
-		if currentPartialsOn > len(onChans):
-			updatePartials = currentPartialsOn - len(onChans)
-			for x in range(0, updatePartials):
-				newOn = offChans.pop(randint(0, len(offChans)-1))
-				csound.SetChannel("chan%s" %(newOn), 1)
-				onChans.append(newOn)
-		if currentPartialsOn < len(onChans):
-			updatePartials = len(onChans) - currentPartialsOn
-			for x in range(0, updatePartials):
-				newOff = onChans.pop(randint(0, len(onChans)-1))
-				csound.SetChannel("chan%s" %(newOff), 0.05)
-				offChans.append(newOff)
+		while annumCurrentState == annumNewState:
+			annumNewState = gB.annum
+		annumCurrentState = annumNewState
+		iterText.write('\nannum = ' + str(gB.annum) + '\npopulationNorm=' + str(gB.populationNorm))
+		allPartialsOn = []
+		onChans = []
+		offChans = []
+		possiblePartialsOn = round(scaleValueToRange(gB.populationNorm, .001875, .31375, 1, 39))
+
+		if annumNewState % 5 == 0:
+			partialsOnT1 = possiblePartialsOn // 3
+			allPartialsOn.append(partialsOnT1)
+			onChans.append(onChansT1)
+			offChans.append(offChansT1)
+		if annumNewState % 3 == 0:
+			partialsOnT2 = (possiblePartialsOn // 3) + (possiblePartialsOn % 3)
+			allPartialsOn.append(partialsOnT2)
+			onChans.append(onChansT2)
+			offChans.append(offChansT2)
+		if annumNewState % 7 == 0:
+			partialsOnT3 = possiblePartialsOn // 3
+			allPartialsOn.append(partialsOnT3)
+			onChans.append(onChansT3)
+			offChans.append(offChansT3)
+		
+		for w, x, y in zip(allPartialsOn, onChans, offChans):
+			if w > len(x):
+				updatePartials = w - len(x)
+				for z in range(0, int(updatePartials)):
+					newOn = y.pop(0)
+					csound.SetChannel("chan%s" %(newOn), 1)
+					x.append(newOn)
+			if w < len(x):
+				updatePartials = len(x) - w
+				for z in range(0, int(updatePartials)):
+					newOff = x.pop(randint(0, len(x)-1))
+					csound.SetChannel("chan%s" %(newOff), 0.125)
+					y.append(newOff)
+		if annumNewState % 105 == 0:
+			time.sleep(.11)
+			iterText.write('\nannum divisible by 105!!!!')
+		elif annumNewState % 35 == 0:
+			time.sleep(.07)
+			iterText.write('\nannum divisible by 35!!!!')
+		elif annumNewState % 15 == 0:
+			time.sleep(.05)
+			iterText.write('\nannum divisible by 15!!!!')
+
 		
 			
 
@@ -125,7 +162,7 @@ def controlBackgroundSound():
 
 def playback():
 	""" Background_sound's playback method"""
-	argsList	= [(-17, 82.405, 3, 2), (-13, 98, 2, 15), (-23, 69.295, 1, 27)]
+	argsList	= [(-17, 150, 0.25, 0, 2), (-13, 100, 0.5, 3, 15), (-23, 125, 0.75, 1, 27)]
 	voiceNo		= 1
 
 	for x in argsList:

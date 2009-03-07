@@ -2,7 +2,7 @@
 
 # Greetings! This script orchestrates execution for an ouroborus artificial life environment
 #
-# Coded by Sat Tara Singh, Jergas Apwith and Ernesto Llescas
+# Coded by Sat Tara Singh, Jergas Apwith and Ernesto Illescas
 #
 # As of today --- 23 February 2009 --- it includes the following features:
 #
@@ -38,6 +38,7 @@
 import GOD
 import random
 import sys
+import time
 
 def startExecutionAudiovisual():
 	"""start normal execution cycle with sound and visual display
@@ -45,7 +46,7 @@ def startExecutionAudiovisual():
 	return -->> 1
 
 	Visual display through curses terminal control module
-	Sound effectus through csound courtesy of Ernesto Llescas"""
+	Sound effectus through csound courtesy of Ernesto Illescas"""
 
 	print "Ready for full audiovisual execution...commence primary ignition!"
 
@@ -115,7 +116,8 @@ def mainAudiovisual(stdscr):
 		#magdalen.iterateAgents()
 		magdalen.refreshDisplay(display)
 		soundControlCells = [terra.get((22,18)), terra.get((40,19)), terra.get((64,17))]
-		sound.inputDataControl(soundControlCells, populationNorm)
+		sound.inputDataControl(soundControlCells, populationNorm, magdalen.annum)
+		time.sleep(0.0001)
 
 	sound.stopSoundServer()
 	del sys.argv[1:]
