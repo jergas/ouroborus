@@ -89,33 +89,34 @@ def controlBackgroundSound():
 	offChansT3		= ChannelsThread3
 	annumCurrentState	= gB.annum
 	annumNewState		= annumCurrentState
+	counter			= 1
 	#channelsCombinations	= [ChannelsThread1, ChannelsThread2, ChannelsThread3]
 	#channelsUniverse	= set(ChannelsThread1 + ChannelsThread2 + ChannelsThread3)
 	#currentState		= gB.soundControlCells
 	#newState		= currentState
-	iterText = open('iterText.txt', 'w')
+	#iterText = open('iterText.txt', 'w')
 
 	while gB.mainIterCycle == 1:
 		while annumCurrentState == annumNewState:
 			annumNewState = gB.annum
 		annumCurrentState = annumNewState
-		iterText.write('\nannum = ' + str(gB.annum) + '\npopulationNorm=' + str(gB.populationNorm))
+		#iterText.write('\nannum = ' + str(gB.annum) + '\npopulationNorm=' + str(gB.populationNorm))
 		allPartialsOn = []
 		onChans = []
 		offChans = []
 		possiblePartialsOn = round(scaleValueToRange(gB.populationNorm, .001875, .31375, 1, 39))
 
-		if annumNewState % 5 == 0:
+		if counter % 5 == 0:
 			partialsOnT1 = possiblePartialsOn // 3
 			allPartialsOn.append(partialsOnT1)
 			onChans.append(onChansT1)
 			offChans.append(offChansT1)
-		if annumNewState % 3 == 0:
+		if counter % 3 == 0:
 			partialsOnT2 = (possiblePartialsOn // 3) + (possiblePartialsOn % 3)
 			allPartialsOn.append(partialsOnT2)
 			onChans.append(onChansT2)
 			offChans.append(offChansT2)
-		if annumNewState % 7 == 0:
+		if counter % 7 == 0:
 			partialsOnT3 = possiblePartialsOn // 3
 			allPartialsOn.append(partialsOnT3)
 			onChans.append(onChansT3)
@@ -134,15 +135,16 @@ def controlBackgroundSound():
 					newOff = x.pop(randint(0, len(x)-1))
 					csound.SetChannel("chan%s" %(newOff), 0.125)
 					y.append(newOff)
-		if annumNewState % 105 == 0:
+		if counter % 105 == 0:
 			time.sleep(.11)
-			iterText.write('\nannum divisible by 105!!!!')
-		elif annumNewState % 35 == 0:
+			#iterText.write('\nannum divisible by 105!!!!')
+		elif counter % 35 == 0:
 			time.sleep(.07)
-			iterText.write('\nannum divisible by 35!!!!')
-		elif annumNewState % 15 == 0:
+			#iterText.write('\nannum divisible by 35!!!!')
+		elif counter % 15 == 0:
 			time.sleep(.05)
-			iterText.write('\nannum divisible by 15!!!!')
+			#iterText.write('\nannum divisible by 15!!!!')
+		counter += 1
 
 		
 			

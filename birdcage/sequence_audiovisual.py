@@ -100,7 +100,6 @@ def main(stdscr):
 		magdalen.refreshDisplay(display)
 		soundControlCells = [terra.get((22,18)), terra.get((40,19)), terra.get((64,17))]
 		sound.inputDataControl(soundControlCells, populationNorm, magdalen.annum)
-		time.sleep(0.0001)
 
 	sound.stopSoundServer()
 	del sys.argv[1:]

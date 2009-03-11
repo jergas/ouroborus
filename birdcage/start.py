@@ -25,7 +25,7 @@ def main(mode = "Audiovisual", submode = "Normal"):
 		try:
 			module = __import__("sequence_"+mode.lower())
 		except ImportError:
-			module = __import__("sequence_bug")
+			module = __import__("sequence_debug")
 		function = getattr(module, "startExecution"+submode, module.startExecutionNormal)
 		return function
 
