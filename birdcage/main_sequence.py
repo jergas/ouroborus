@@ -234,7 +234,7 @@ def startExecutionDebug():
 	seedCode = "Y i Y c Y s C b C d C r T l T e T r R d R p R c R l"
 
 	# avatars is the number of initial creatures, and doomsday the number of iterations	
-	(avatars, doomsday) = (1, 7)
+	(avatars, doomsday) = (2, 7)
 	# biblos is a list which whill contain essential runtime information
 	biblos = []
 
@@ -258,8 +258,8 @@ def startExecutionDebug():
 
 		# GOD.Organizer reads the data in biblos and calls actual agent objects
 		# into being from the code in the modules compiled by mary
-		(x, y) = (30, 8)		
-		magdalen.readBookOfLife(i, seedCode, 7, 1, (x, y), mary)
+		(x, y) = (random.randint(0, width-1), random.randint(0, height-1))	
+		magdalen.readBookOfLife(i, seedCode, random.randint(1,7), 1, (x, y), mary)
 		print "magdalen read biblos and instantiated an agent from the genome"
 		print "the book of life, biblos, reads:\t", biblos
 	print "the initial population phase has finished\n"
@@ -280,7 +280,7 @@ def startExecutionDebug():
 
 		# this is an arbitrary intervention to artificially augment a creature's prana
 		if magdalen.annum == 3:
-			biblos[0][3].gainPrana(5)
+			biblos[0][3].gainPrana(12)
 			print "a creature's prana has been increased by divine gift"
 		
 		print "\n"

@@ -2,12 +2,47 @@
 #
 # Coded by Sat Tara Singh Khalsa and Jergas Apwith 
 #
-# In its present form --- 19th February 2009 --- it carries the following features
+# In its present form --- 9th March 2009 --- it carries the following features
 #
 # 	* take various command-line options to define execution mode
-#	* invoke the corresponding function from the main_sequence module
+#	* invoke the corresponding function from the corresponding module
 #	* you may of course hack your own tailor-made execution mode
 #
+# Read some history at EOF
+
+import sys, string
+
+def main(mode = "Audiovisual", submode = "Normal"):
+	"""Main executable program. Sort between the variants of the execution sequence.
+
+	return -->> 1
+
+	If you want to write your own execution mode go to the Foo module and write 
+	a startExecutionBar function orchestrating execution as you like it, then
+	invoke it from the command line by casting >>python start.py Foo Bar """
+
+	def chooseExecutionMode():
+		try:
+			module = __import__("sequence_"+mode.lower())
+		except ImportError:
+			module = __import__("sequence_bug")
+		function = getattr(module, "startExecution"+submode, module.startExecutionNormal)
+		return function
+
+	chooseExecutionMode()()
+	return 1
+
+
+if __name__ == "__main__":
+	(mode, submode) = ("Audiovisual", "Normal")
+	if len(sys.argv) == 3:
+		submode = sys.argv.pop()
+		mode = sys.argv.pop()
+	while len(sys.argv) > 1:
+		del sys.argv[-1]
+	main(mode, submode)
+
+
 # History
 #	
 # This little "ignition" module was added by Sat Tara Singh while working late one
@@ -20,38 +55,11 @@
 # suggestion that I use a debugger. Very smart, surely, but as I did then, let me 
 # ask again: who debugs the debugger? 
 #
-#
-
-
-import main_sequence
-import sys
-
-def main(tag = "Audiovisual"):
-	"""Main executable program. Sort between various variants of the script.
-
-	return -->> 1
-
-	If you want to write your own execution mode go to the main_sequence module
-	and write a startFoo function orchestrating execution as you like it, then
-	invoke it from the command line by casting >>python start.py Foo  """
-
-	def chooseExecutionMode():
-		module = sys.modules["main_sequence"]
-		function = getattr(module, "startExecution"+tag, module.startExecutionAudiovisual)
-		return function
-
-	chooseExecutionMode()()
-	return 1
-
-
-if __name__ == "__main__":
-	if len(sys.argv) > 1: 
-		tag = sys.argv.pop()
-	else:
-		tag = "Audiovisual"
-	
-	main(tag)
-
+# A few days later we ran into a mess when we realised Ernesto and I were working
+# simultaneously on main_sequence. To solve this, I split the execution sequences
+# into separate modules. I did this while sitting backwards on a train from the
+# best and most decadent city in the world, which is Calcutta, towards Shantiniketan
+# where Rabindranath Tagore put his ideal university.
 
 
 
