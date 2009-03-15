@@ -21,7 +21,6 @@
 import GOD
 import random
 import sys
-import time
 
 def startExecutionNormal():
 	"""start normal execution cycle with sound and visual display
@@ -63,7 +62,7 @@ def main(stdscr):
 
 	# invoke God.Generator's automaton creation method with the data given above
 	# (avatars, doomsday)= sys.argv[-2:]
-	(avatars, doomsday) = (1, 1500)
+	(avatars, doomsday) = (1, 15000)
 	# del sys.argv[-2:]
 	avatars = int(avatars)
 	doomsday = int(doomsday)

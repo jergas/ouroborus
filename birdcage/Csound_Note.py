@@ -3,7 +3,7 @@
 #csound notes. Note that each string in the returned list is a csound score
 #line for.
 ##Import the necessary modules:from random import random, choice, randint, uniformfrom numeric_series import *from distorted_spectrum import distortedSpectrumfrom start_times import startTimes
-from partials_durations import partialsDurationsfrom amplitude_control import spectralAmplitudesI1, spectralAmplitudesI2from spectral_pan import spectralPanfrom attack_times import attackTimesfrom decay_times import decayTimes
+from partials_durations import partialsDurationsfrom amplitude_control import spectralAmplitudesI1, spectralAmplitudesI2from spectral_pan import spectralPanfrom envelope_methods import attackTimes, decayTimes, gaussianMidPoints
 
 # Global variables for amplitude control. Changed by Background_sound.py.
 PartialsDensityT1	= 13
@@ -47,8 +47,10 @@ TotalPartialsDensity	= 39
 	if len(distSpectrum1) < len(distSpectrum2):
 		extra = distSpectrum2[-1]
 		distSpectrum1.append(extra)
-## Defines the start times of the partials. In seconds	startTimesCSD		= startTimes(distSpectrum1)## Defines the durations of the partials. In seconds	durationsCSD		= partialsDurations(startTimesCSD, totalDuration)## Defines the amplitudes of the partials. Between (0-32767)	amplitudesCSD		= spectralAmplitudesI2(distSpectrum1)## Contains the csound notes that integrate an additive synthesis note.	partialsCSD		= []								## Constructs the csound score lines (each string is a line) for an additive
-#synthesis note.	while len(distSpectrum1) > 0:		noteCSD = ("i%s %s %s %s %s %s %s" %(instrument,
+## Defines the start times of the partials. In seconds	startTimesCSD		= startTimes(distSpectrum1)## Defines the durations of the partials. In seconds	durationsCSD		= partialsDurations(startTimesCSD, totalDuration)## Defines the amplitudes of the partials. Between (0-32767)	amplitudesCSD		= spectralAmplitudesI2(distSpectrum1)
+##
+	durToEnvMaxCSD		= gaussianMidPoints(durationsCSD[0], distSpectrum1)## Contains the csound notes that integrate an additive synthesis note.	partialsCSD		= []								## Constructs the csound score lines (each string is a line) for an additive
+#synthesis note.	while len(distSpectrum1) > 0:		noteCSD = ("i%s %s %s %s %s %s %s %s" %(instrument,
 				startTimesCSD.pop(0), durationsCSD.pop(0),
 				amplitudesCSD.pop(0), distSpectrum1.pop(0),
-				distSpectrum2.pop(0), panning))		partialsCSD.append(noteCSD)	return partialsCSD
+				distSpectrum2.pop(0), panning, durToEnvMaxCSD.pop(0)))		partialsCSD.append(noteCSD)	return partialsCSD

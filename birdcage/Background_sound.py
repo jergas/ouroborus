@@ -7,6 +7,7 @@ from linear_scaler import scaleValueToRange
 import Csound_Note
 import globals_background_sound as gB
 
+
 ## Variable to stop the threads' iterations. Changed externally (by sound.py)
 
 ## Rest of global variables
@@ -26,36 +27,36 @@ class Counter(object):
 		finally:
 			self.lock.release()
 
-def backgroundSound1Voice(noteDuration, fundamentalFrequency, panning, specType, firstInstr):
+def backgroundSound1Voice(duration, fundamentalFrequency, panning, specType, firstInstr):
 	noOfPartials		= 13
 	startDistorFact		= 0.75
-	targetDistorFact	= 0.8
+	targetDistorFact	= startDistorFact + (randint(-10, 10) *.01)
 	IncrDecrHarmonics	= 1
 	firstChannel		= firstInstr - 1
-	sleepBeforeGate		= noteDuration - 0.5
+	soundDuration		= duration + choice([2, 3, 5, 7, 11, 13])
 
 	while gB.mainIterCycle == 1:
 		instrumentNos	= range(firstInstr, (firstInstr + noOfPartials))
 		channelNosOn	= range(firstChannel, (firstChannel + noOfPartials))
 		channelNosOff	= channelNosOn[:]
 		spectrum = Csound_Note.noteBackground(1, fundamentalFrequency, noOfPartials,
-			specType, startDistorFact, targetDistorFact, panning, noteDuration)
+			specType, startDistorFact, targetDistorFact, panning, duration)
 		for x in spectrum:
 			partialPlusInstr = x.replace('i1', ('i' + str(instrumentNos.pop(0))))
 			perf.InputMessage(partialPlusInstr)
 		startDistorFact = targetDistorFact
 		while 1:
 			newValue = targetDistorFact
-			if newValue > 0.6 and newValue < 1.15:
-				newValue = newValue + (randint(-3, 3) *.01)
-			elif newValue >= 1.15:
+			if newValue > 0.25 and newValue < 1.25:
+				newValue = newValue + (randint(-5, 5) *.01)
+			elif newValue >= 1.25:
 				newValue = newValue + choice(downBiasedStep)
-			elif newValue <= 0.6:
+			elif newValue <= 0.25:
 				newValue = newValue + choice(upBiasedStep)
-			if newValue >= 0.5 and newValue <= 1.25:
+			if newValue >= 0.01 and newValue <= 1.5:
 				targetDistorFact = newValue
 				break
-		time.sleep(abs(sleepBeforeGate))
+		time.sleep(abs(duration))
 
 def changeState(cellState, counter, controlList):
 	if cellState == 1:
@@ -74,7 +75,7 @@ def cellsStates(soundCellsStates):
 	(gB.deadCell2Count, gB.soundControlCells) = changeState(soundCellsStates[1], gB.deadCell2Count, gB.soundControlCells)
 	(gB.deadCell3Count, gB.soundControlCells) = changeState(soundCellsStates[2], gB.deadCell3Count, gB.soundControlCells)
 
-	return gB.soundControlCells
+	return gB.soundControlCells	
 
 def controlBackgroundSound():
 	
@@ -89,7 +90,8 @@ def controlBackgroundSound():
 	offChansT3		= ChannelsThread3
 	annumCurrentState	= gB.annum
 	annumNewState		= annumCurrentState
-	counter			= 1
+	wheightedGates		= [0.5]*7 + [0.25]*5 + [0.125]*3 + [0.0625]*2 + [.03125]*17
+	counter			= 1.0
 	#channelsCombinations	= [ChannelsThread1, ChannelsThread2, ChannelsThread3]
 	#channelsUniverse	= set(ChannelsThread1 + ChannelsThread2 + ChannelsThread3)
 	#currentState		= gB.soundControlCells
@@ -100,50 +102,52 @@ def controlBackgroundSound():
 		while annumCurrentState == annumNewState:
 			annumNewState = gB.annum
 		annumCurrentState = annumNewState
-		#iterText.write('\nannum = ' + str(gB.annum) + '\npopulationNorm=' + str(gB.populationNorm))
 		allPartialsOn = []
 		onChans = []
 		offChans = []
 		possiblePartialsOn = round(scaleValueToRange(gB.populationNorm, .001875, .31375, 1, 39))
+		updatePartials = 0
 
-		if counter % 5 == 0:
+		if counter % 7 == 0:
 			partialsOnT1 = possiblePartialsOn // 3
 			allPartialsOn.append(partialsOnT1)
 			onChans.append(onChansT1)
 			offChans.append(offChansT1)
-		if counter % 3 == 0:
+			updatePartials += 1
+		if counter % 5 == 0:
 			partialsOnT2 = (possiblePartialsOn // 3) + (possiblePartialsOn % 3)
 			allPartialsOn.append(partialsOnT2)
 			onChans.append(onChansT2)
 			offChans.append(offChansT2)
-		if counter % 7 == 0:
+			updatePartials += 1
+		if counter % 11 == 0:
 			partialsOnT3 = possiblePartialsOn // 3
 			allPartialsOn.append(partialsOnT3)
 			onChans.append(onChansT3)
 			offChans.append(offChansT3)
-		
-		for w, x, y in zip(allPartialsOn, onChans, offChans):
-			if w > len(x):
-				updatePartials = w - len(x)
-				for z in range(0, int(updatePartials)):
-					newOn = y.pop(0)
-					csound.SetChannel("chan%s" %(newOn), 1)
-					x.append(newOn)
-			if w < len(x):
-				updatePartials = len(x) - w
-				for z in range(0, int(updatePartials)):
-					newOff = x.pop(randint(0, len(x)-1))
-					csound.SetChannel("chan%s" %(newOff), 0.125)
-					y.append(newOff)
+			updatePartials += 1
+		if updatePartials != 0:
+			for w, x, y in zip(allPartialsOn, onChans, offChans):
+				if w > len(x):
+					updatePartials = w - len(x)
+					for z in range(0, int(updatePartials)):
+						newOn = y.pop(0)
+						csound.SetChannel("chan%s" %(newOn), 1)
+						x.append(newOn)
+				if w < len(x):
+					updatePartials = len(x) - w
+					for z in range(0, int(updatePartials)):
+						newOff = x.pop(randint(0, len(x)-1))
+						csound.SetChannel("chan%s" %(newOff), choice(wheightedGates))
+						y.append(newOff)
 		if counter % 105 == 0:
-			time.sleep(.11)
-			#iterText.write('\nannum divisible by 105!!!!')
+			time.sleep(0.013)
 		elif counter % 35 == 0:
-			time.sleep(.07)
-			#iterText.write('\nannum divisible by 35!!!!')
+			time.sleep(.011)
+		elif counter % 21 == 0:
+			time.sleep(.007)
 		elif counter % 15 == 0:
-			time.sleep(.05)
-			#iterText.write('\nannum divisible by 15!!!!')
+			time.sleep(.005)
 		counter += 1
 
 		
@@ -164,7 +168,7 @@ def controlBackgroundSound():
 
 def playback():
 	""" Background_sound's playback method"""
-	argsList	= [(-17, 150, 0.25, 0, 2), (-13, 100, 0.5, 3, 15), (-23, 125, 0.75, 1, 27)]
+	argsList	= [(-23, 150, 0.25, 0, 2), (-19, 100, 0.5, 3, 15), (-29, 125, 0.75, 1, 27)]
 	voiceNo		= 1
 
 	for x in argsList:

@@ -34,15 +34,17 @@ kchan	chnget "chan1"
 
 idur			= abs(p3)	; in seconds
 iamp			= p4		; 0-32767
+iamp1			= iamp *.01
 ifreq1			= p5		; in hz
 ifreq2			= p6		; in hz
-idurminenv		= idur - .04
+idurtoenvmax		= p8 - .02
+idurback		= idur - idurtoenvmax - .02
 ileft			= sqrt(p7)	; between 0-1, 1 is hard left
 iright			= sqrt(1-p7)	; ibidem
 kgate			= kchan
 
-kampenv		linseg 0, .02, iamp, idurminenv, iamp, .02, 0
-kfreqgliss	expseg ifreq1, idur, ifreq2
+kampenv		linseg 0, .02, iamp1, idurtoenvmax, iamp, idurback, iamp1, .02, 0
+kfreqgliss	expseg ifreq1, idur * .1, ifreq1, idur * .8, ifreq2, idur *.1, ifreq2
 asig		oscili kampenv * kgate, kfreqgliss, 1
     outs asig * ileft, asig * iright
     endin

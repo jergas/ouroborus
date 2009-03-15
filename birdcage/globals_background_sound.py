@@ -6,4 +6,5 @@ deadCell3Count		= 0
 soundControlCells	= [1, 1, 1]
 populationNorm		= .0025
 annum			= 0
+doomsday		= 15000
 
