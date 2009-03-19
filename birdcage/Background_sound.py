@@ -27,13 +27,12 @@ class Counter(object):
 		finally:
 			self.lock.release()
 
-def backgroundSound1Voice(duration, fundamentalFrequency, panning, specType, firstInstr):
+def backgroundSound1Voice(firstInstr, duration, fundamentalFrequency, startDistorFact, specType, specChangeBias, panning):
 	noOfPartials		= 13
-	startDistorFact		= 0.75
-	targetDistorFact	= startDistorFact + (randint(-10, 10) *.01)
+	targetDistorFact	= startDistorFact + scaleValueToRange(gB.populationNorm, .001875, .31375, 0, 0.1)
 	IncrDecrHarmonics	= 1
 	firstChannel		= firstInstr - 1
-	soundDuration		= duration + choice([2, 3, 5, 7, 11, 13])
+	soundDuration		= duration
 
 	while gB.mainIterCycle == 1:
 		instrumentNos	= range(firstInstr, (firstInstr + noOfPartials))
@@ -45,17 +44,18 @@ def backgroundSound1Voice(duration, fundamentalFrequency, panning, specType, fir
 			partialPlusInstr = x.replace('i1', ('i' + str(instrumentNos.pop(0))))
 			perf.InputMessage(partialPlusInstr)
 		startDistorFact = targetDistorFact
-		while 1:
-			newValue = targetDistorFact
-			if newValue > 0.25 and newValue < 1.25:
-				newValue = newValue + (randint(-5, 5) *.01)
-			elif newValue >= 1.25:
-				newValue = newValue + choice(downBiasedStep)
-			elif newValue <= 0.25:
-				newValue = newValue + choice(upBiasedStep)
-			if newValue >= 0.01 and newValue <= 1.5:
-				targetDistorFact = newValue
-				break
+		if specChangeBias == 0:
+			targetDistorFact = startDistorFact + scaleValueToRange(gB.populationNorm, .001875, .31375, -0.5, 0.5)
+		elif specChangeBias == 1:
+			targetDistorFact = startDistorFact + scaleValueToRange(gB.populationNorm, .001875, .31375, 0, 0.1)
+		elif specChangeBias == 2:
+			targetDistorFact = startDistorFact + scaleValueToRange(gB.populationNorm, .001875, .31375, -.1, 0)
+		if targetDistorFact > .1:
+			specChangeBias = 2
+		if targetDistorFact < .002:
+			specChangeBias = 1
+		if targetDistorFact < 0:
+			targetDistorFact = 0.0001
 		time.sleep(abs(duration))
 
 def changeState(cellState, counter, controlList):
@@ -168,7 +168,7 @@ def controlBackgroundSound():
 
 def playback():
 	""" Background_sound's playback method"""
-	argsList	= [(-23, 150, 0.25, 0, 2), (-19, 100, 0.5, 3, 15), (-29, 125, 0.75, 1, 27)]
+	argsList	= [(2, -13, 300, 0.005, 0, 1, 0.25), (15, -11, 300, 0.003, 3, 0, 0.5), (27, -17, 300, 0.007, 1, 2, 0.75)]
 	voiceNo		= 1
 
 	for x in argsList:
