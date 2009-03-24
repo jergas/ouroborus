@@ -17,6 +17,7 @@
 
 
 import GOD
+from bookentry import BookEntry
 import random
 import sys
 import time
@@ -59,20 +60,21 @@ def startExecutionNormal():
 
 	# cycle through avatars to populate the automaton with some initial creatures"
 	print "ready to populate terra"
-	for i in range(avatars):
 		# GOD.Generator will compile a module for each creature, and append
 		# it to the list biblos along with its name
-		mary.generateGenotype(seedCode.split(" "), biblos)
-		print "mary compiled a genome and wrote it in biblos"
-		print "the book of life, biblos, reads:\t", biblos
-		print "\n"
+		#mary.generateGenotypeNew(seedCode.split(" "), biblos)
+		#print "mary compiled a genome and wrote it in biblos"
+		#print "the book of life, biblos, reads:"
+		#for entry in biblos: print entry
+		#print "\n"
+	return
 
 		# GOD.Organizer reads the data in biblos and calls actual agent objects
 		# into being from the code in the modules compiled by mary
-		(x, y) = (random.randint(0, width-1), random.randint(0, height-1))	
-		magdalen.readBookOfLife(i, seedCode, random.randint(1,7), 1, (x, y), mary)
-		print "magdalen read biblos and instantiated an agent from the genome"
-		print "the book of life, biblos, reads:\t", biblos
+		#(x, y) = (random.randint(0, width-1), random.randint(0, height-1))	
+		#magdalen.readBookOfLife(i, seedCode, random.randint(1,7), 1, (x, y), mary)
+		#print "magdalen read biblos and instantiated an agent from the genome"
+		#print "the book of life, biblos, reads:\t", biblos
 	print "the initial population phase has finished\n"
 
 	

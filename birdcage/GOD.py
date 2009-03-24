@@ -7,6 +7,8 @@ import agent as a
 import automaton
 import genome as g
 from code import tabula
+# other ouroborus core modules
+from bookentry import BookEntry
 # these are the modules used for display
 import visual as v
 import curses as c
@@ -59,14 +61,15 @@ class Generator:
 		return automatonInstance
 
 
-	def generateGenotype(self, poeio, ode):
+	def generateGenotypeNew(self, poeio, ode):
 		"""Write and compile a file from a genome
 
 		poeio  ---> a list of characters
 		ode    ---> a list of names
-		return -->> 1"""
+		return -->> 1
 
-		self.obstetrics += 1
+		New version compatible with the new BookEntry class"""
+
 		# samskara is a genome binding poeio to tabula
 		samskara = g.Genome(poeio, tabula, 2)
 		# create a name for the module object
@@ -90,7 +93,44 @@ class Generator:
 		del sys.argv[-2:]
 
 		# finally, append the module's name to the list of names and return
-		ode.append([self.obstetrics, onoma, None, None, {"prayer":"BE_BIRTHED"}])
+		ode.append(BookEntry(onoma)) 
+		self.obstetrics += 1 
+		return 1
+
+
+
+	def generateGenotype(self, poeio, ode):
+		"""Write and compile a file from a genome
+
+		poeio  ---> a list of characters
+		ode    ---> a list of names
+		return -->> 1"""
+
+		self.obstetrics += 1 #old
+		# samskara is a genome binding poeio to tabula
+		samskara = g.Genome(poeio, tabula, 2)
+		# create a name for the module object
+		onoma = self.obstetrix+str(self.obstetrics)
+		# corpus is the relative filepath where the compiled genome will be saved
+		corpus = 'creatures/'+onoma+'.pyx'
+		# this incantation actually writes the .pyx file with the translated poeio code
+		samskara.incorporate(corpus)
+
+		# now we invoke the pyrex compiler to create the module
+		# this is a hack to do away with the command line arguments Pyrex expects
+		commandLineArgs = ['build_ext', '--inplace']
+		sys.argv.extend(commandLineArgs)
+		# and the actual call to the compiler using the Pyrex build_ext command
+		distutils.core.setup(
+			name = onoma,
+			ext_modules = [Extension(onoma,[corpus])],
+			cmdclass = {'build_ext':build_ext}
+			) 
+		# bring the command line back to its original condition
+		del sys.argv[-2:]
+
+		# finally, append the module's name to the list of names and return
+		ode.append([self.obstetrics, onoma, None, None, {"prayer":"BE_BIRTHED"}]) #old
 		return 1
 
 
@@ -141,16 +181,23 @@ class Organizer:
 		return self.earth.update()
 
 
+        def readBookOfLifeNew(self, name, **keywords):
+		"""New and more pythonic version of this core function"""
+
+		
+
+
         def readBookOfLife(self, index, code, prana, mana, address, generator):
 		"""Dynamically import the modules compiled by the Generator
 
 		This will also cause actual agent instances to be created
-		index   ---> an integer, the module's order in self.book
-		code    ---> a string with the genome's code
-		prana   ---> an integer with the agent's initial prana
-		mana    ---> an integer, a special state of the ca from the agent's viewpoint
-		address ---> a 2-tuple, the agent's birthplace
-		return  -->> 1 """
+		index     ---> an integer, the module's order in self.book
+		code      ---> a string with the genome's code
+		prana     ---> an integer with the agent's initial prana
+		mana      ---> an integer, a special state of the ca from the agent's viewpoint
+		address   ---> a 2-tuple, the agent's birthplace
+		generator ---> an instance of GOD.Generator
+		return    -->> 1 """
 
 		if self.book[index][4]["prayer"] == "BE_BIRTHED":
 			#print self.book[index][1], "prays to be birthed"
@@ -160,7 +207,7 @@ class Organizer:
 			self.book[index][2] = module
 			self.book[index][3] = agent
 			self.book[index][4]["prayer"] = "LIVE"
-			# = (self.book[index], module, agent, {"prayer":"LIVE"})
+		
 
 			return 1
 
@@ -173,8 +220,8 @@ class Organizer:
 			generator.generateGenotype(self.book[index][4]["code"].split(" "), self.book)
 			self.book[index][4]["prayer"] = "LIVE"
 			del self.book[index][4]["code"]
-			#print "creature birthed"
-			#print "book of life is", self.book
+			
+			return 1
 
 
 	def iterateAgents(self):
