@@ -60,13 +60,15 @@ def startExecutionNormal():
 
 	# cycle through avatars to populate the automaton with some initial creatures"
 	print "ready to populate terra"
+	while avatars:
 		# GOD.Generator will compile a module for each creature, and append
 		# it to the list biblos along with its name
-		#mary.generateGenotypeNew(seedCode.split(" "), biblos)
-		#print "mary compiled a genome and wrote it in biblos"
-		#print "the book of life, biblos, reads:"
-		#for entry in biblos: print entry
-		#print "\n"
+		mary.generateGenotypeNew(seedCode.split(" "), biblos)
+		print "mary compiled a genome and wrote it in biblos"
+		print "the book of life, biblos, reads:"
+		for entry in biblos: print entry
+		print "\n"
+		avatars =- 1
 	return
 
 		# GOD.Organizer reads the data in biblos and calls actual agent objects
