@@ -12,7 +12,7 @@ class BookEntry:
 		self.name = name
 		self.module = None
 		self.agent = None
-		self.fatum = {"prayer":"BE_BIRTHED"}
+		self.fatum = {"prayer":"BeBirthed"}
 
 	def __str__(self):
 		display = ["Name of entry in BOL: "+self.name, "Entry's fatum:"]

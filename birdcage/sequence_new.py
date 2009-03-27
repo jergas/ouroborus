@@ -56,6 +56,7 @@ def startExecutionNormal():
 
 	# now call a GOD.Organizer to oversee this automaton
 	magdalen = GOD.Organizer(terra, biblos)
+	magdalen.generator = mary
 	print "an Organizer called magdalen has been assigned to oversee terra"
 
 	# cycle through avatars to populate the automaton with some initial creatures"
@@ -68,16 +69,20 @@ def startExecutionNormal():
 		print "the book of life, biblos, reads:"
 		for entry in biblos: print entry
 		print "\n"
-		avatars =- 1
-	return
+		avatars -= 1
 
-		# GOD.Organizer reads the data in biblos and calls actual agent objects
-		# into being from the code in the modules compiled by mary
-		#(x, y) = (random.randint(0, width-1), random.randint(0, height-1))	
+
+	# magdalen reads the data in biblos and calls actual agent objects
+	# into being from the code in the modules compiled by mary
+	for entry in biblos:	
+		#(x, y) = (random.randint(0, width-1), random.randint(0, height-1))
+		entry.fatum["code"]= seedCode
+		magdalen.readBookOfLifeNew(entry)
 		#magdalen.readBookOfLife(i, seedCode, random.randint(1,7), 1, (x, y), mary)
 		#print "magdalen read biblos and instantiated an agent from the genome"
 		#print "the book of life, biblos, reads:\t", biblos
 	print "the initial population phase has finished\n"
+	return
 
 	
 	# here cometh the main iteration cycle

@@ -74,7 +74,7 @@ class Generator:
 		samskara = g.Genome(poeio, tabula, 2)
 		# create a name for the module object
 		onoma = self.obstetrix+str(self.obstetrics)
-		# corpus is the relative filepath where the compiled genome will be saved
+		# corpus is the relative filepath where the Pyrex genome code will be saved
 		corpus = 'creatures/'+onoma+'.pyx'
 		# this incantation actually writes the .pyx file with the translated poeio code
 		samskara.incorporate(corpus)
@@ -168,6 +168,7 @@ class Organizer:
 		book  ---> a list of agent code objects (genotypes)"""
 
 		self.earth = earth
+		self.generator = None
 		self.book = book
 		self.annum = 0
 
@@ -181,8 +182,21 @@ class Organizer:
 		return self.earth.update()
 
 
-        def readBookOfLifeNew(self, name, **keywords):
-		"""New and more pythonic version of this core function"""
+        def readBookOfLifeNew(self, bookentry):
+		"""New and more pythonic version of this core function
+
+		bookentry ---> a BookEntry object
+		return    -->> 1"""
+
+		prayer = bookentry.fatum["prayer"]
+		return getattr(self, "grantPrayer"+prayer)(bookentry)
+
+
+	def grantPrayerBeBirthed(self, bookentry):
+		"""Make an agent perform its standard live method"""
+
+		print "BeBorn"
+		return 1
 
 		
 
