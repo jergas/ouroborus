@@ -4,6 +4,7 @@ from random import choice, randint, sample, uniform, random
 ## Import the necessary user-defined modules
 from Csound_Interface import initCsound, perf, csound
 from linear_scaler import scaleValueToRange
+from equal_temper import pitchInCentsToFreq
 import Csound_Note
 import globals_background_sound as gB
 
@@ -15,45 +16,45 @@ downBiasedStep		= [-.03, -.02, -.01, -.03, -.02, -.01, .01, .02, .03]
 upBiasedStep		= [-.03, -.02, -.01, .01, .02, .03, .01, .02, .03]
 nextTotalNoOfPartials	= 39
 
-class Counter(object):
-	""" A thread safe counter (by means of lock implementation)"""
-	def __init__(self, start):
-		self.lock = threading.Lock()
-		self.value = start
-	def updateCounter(self, plusOrMin):
-		self.lock.acquire()
-		try:
-			self.value = self.value + plusOrMin
-		finally:
-			self.lock.release()
+#class Counter(object):
+#	""" A thread safe counter (by means of lock implementation)"""
+#	def __init__(self, start):
+#		self.lock = threading.Lock()
+#		self.value = start
+#	def updateCounter(self, plusOrMin):
+#		self.lock.acquire()
+#		try:
+#			self.value = self.value + plusOrMin
+#		finally:
+#			self.lock.release()
 
-def backgroundSound1Voice(firstInstr, duration, fundamentalFrequency, startDistorFact, specType, specChangeBias, panning):
+def backgroundSound1Voice(firstInstr, duration, pitch, startDistorFact, specType, changeBias, panning):
+	fundamentalFreq		= pitchInCentsToFreq(pitch)
 	noOfPartials		= 13
-	targetDistorFact	= startDistorFact + scaleValueToRange(gB.populationNorm, .001875, .31375, 0, 0.1)
-	IncrDecrHarmonics	= 1
+	targetDistorFact	= startDistorFact + scaleValueToRange(gB.populationNorm, .001875, .31375, 0, 0.2)
 	firstChannel		= firstInstr - 1
 	soundDuration		= duration
 
 	while gB.mainIterCycle == 1:
 		instrumentNos	= range(firstInstr, (firstInstr + noOfPartials))
 		channelNosOn	= range(firstChannel, (firstChannel + noOfPartials))
-		channelNosOff	= channelNosOn[:]
-		spectrum = Csound_Note.noteBackground(1, fundamentalFrequency, noOfPartials,
+		spectrum = Csound_Note.noteBackground(1, fundamentalFreq, noOfPartials,
 			specType, startDistorFact, targetDistorFact, panning, duration)
 		for x in spectrum:
 			partialPlusInstr = x.replace('i1', ('i' + str(instrumentNos.pop(0))))
 			perf.InputMessage(partialPlusInstr)
+		fundamentalFreq = pitchInCentsToFreq(pitch + randint(-50, 50))
 		startDistorFact = targetDistorFact
-		if specChangeBias == 0:
+		if changeBias == 0:
 			targetDistorFact = startDistorFact + scaleValueToRange(gB.populationNorm, .001875, .31375, -0.5, 0.5)
-		elif specChangeBias == 1:
+		elif changeBias == 1:
 			targetDistorFact = startDistorFact + scaleValueToRange(gB.populationNorm, .001875, .31375, 0, 0.1)
-		elif specChangeBias == 2:
+		elif changeBias == 2:
 			targetDistorFact = startDistorFact + scaleValueToRange(gB.populationNorm, .001875, .31375, -.1, 0)
-		if targetDistorFact > .1:
-			specChangeBias = 2
+		if targetDistorFact > .15:
+			changeBias = 2
 		if targetDistorFact < .002:
-			specChangeBias = 1
+			changeBias = 1
 		if targetDistorFact < 0:
 			targetDistorFact = 0.0001
 		time.sleep(abs(duration))
@@ -96,7 +97,6 @@ def controlBackgroundSound():
 	#channelsUniverse	= set(ChannelsThread1 + ChannelsThread2 + ChannelsThread3)
 	#currentState		= gB.soundControlCells
 	#newState		= currentState
-	#iterText = open('iterText.txt', 'w')
 
 	while gB.mainIterCycle == 1:
 		while annumCurrentState == annumNewState:
@@ -140,14 +140,30 @@ def controlBackgroundSound():
 						newOff = x.pop(randint(0, len(x)-1))
 						csound.SetChannel("chan%s" %(newOff), choice(wheightedGates))
 						y.append(newOff)
-		if counter % 105 == 0:
+
+
+		if gB.soundControlCells == [1, 1, 1]:
+			time.sleep(0.017)
+		elif gB.soundControlCells == [1, 1, 0]:
 			time.sleep(0.013)
+		elif gB.soundControlCells == [1, 0, 1]:
+			time.sleep(0.011)
+		elif gB.soundControlCells == [0, 1, 1]:
+			time.sleep(0.007)
+		elif gB.soundControlCells == [1, 0, 0]:
+			time.sleep(0.005)
+		elif gB.soundControlCells == [0, 1, 0]:
+			time.sleep(0.003)
+		elif gB.soundControlCells == [0, 0, 1]:
+			time.sleep(0.002)
+		if counter % 105 == 0:
+			time.sleep(0.031)
 		elif counter % 35 == 0:
-			time.sleep(.011)
+			time.sleep(.029)
 		elif counter % 21 == 0:
-			time.sleep(.007)
+			time.sleep(.023)
 		elif counter % 15 == 0:
-			time.sleep(.005)
+			time.sleep(.019)
 		counter += 1
 
 		
@@ -168,7 +184,7 @@ def controlBackgroundSound():
 
 def playback():
 	""" Background_sound's playback method"""
-	argsList	= [(2, -13, 300, 0.005, 0, 1, 0.25), (15, -11, 300, 0.003, 3, 0, 0.5), (27, -17, 300, 0.007, 1, 2, 0.75)]
+	argsList	= [(2, -11, 3400, 0.005, 0, 1, 0.25), (15, -7, 3400, 0.003, 3, 0, 0.5), (27, -13, 3400, 0.007, 1, 2, 0.75)]
 	voiceNo		= 1
 
 	for x in argsList:

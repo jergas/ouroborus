@@ -97,7 +97,7 @@ def main(stdscr):
 				biblos[0][3].gainPrana(5)
 		#magdalen.iterateAgents()
 		magdalen.refreshDisplay(display)
-		soundControlCells = [terra.get((22,18)), terra.get((40,19)), terra.get((64,17))]
+		soundControlCells = [terra.get((22,18)), terra.get((40,18)), terra.get((64,18))]
 		sound.inputDataControl(soundControlCells, populationNorm, magdalen.annum)
 
 	sound.stopSoundServer()

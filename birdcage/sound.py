@@ -22,9 +22,10 @@ def startBackgroundControl():
 	background.control()
 
 def inputDataControl(soundControlCells, populationNorm, annum):
-	gB.soundControlCells = soundControlCells
 	gB.populationNorm = populationNorm
 	gB.annum = annum
+	index = 0
+	gB.soundControlCells = soundControlCells
 
 def stopSoundServer():
 	"""Stop all sound.

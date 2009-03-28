@@ -43,7 +43,7 @@ ileft			= sqrt(p7)	; between 0-1, 1 is hard left
 iright			= sqrt(1-p7)	; ibidem
 kgate			= kchan
 
-kampenv		expseg 0.001, .02, iamp1, idurtoenvmax, iamp, idurback, iamp1, .02, 0.001
+kampenv		expseg 0.001, .5, iamp1, idurtoenvmax, iamp, idurback, iamp1, .5, 0.001
 kfreqgliss	expseg ifreq1, idur * .1, ifreq1, idur * .8, ifreq2, idur *.1, ifreq2
 asig		oscili kampenv * kgate, kfreqgliss, 1
     outs asig * ileft, asig * iright
