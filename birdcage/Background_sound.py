@@ -31,7 +31,7 @@ nextTotalNoOfPartials	= 39
 def backgroundSound1Voice(firstInstr, duration, pitch, startDistorFact, specType, changeBias, panning):
 	fundamentalFreq		= pitchInCentsToFreq(pitch)
 	noOfPartials		= 13
-	targetDistorFact	= startDistorFact + scaleValueToRange(gB.populationNorm, .001875, .31375, 0, 0.2)
+	targetDistorFact	= startDistorFact + scaleValueToRange(gB.populationNorm[0], .001875, .31375, 0, 0.2)
 	firstChannel		= firstInstr - 1
 	soundDuration		= duration
 
@@ -46,37 +46,18 @@ def backgroundSound1Voice(firstInstr, duration, pitch, startDistorFact, specType
 		fundamentalFreq = pitchInCentsToFreq(pitch + randint(-50, 50))
 		startDistorFact = targetDistorFact
 		if changeBias == 0:
-			targetDistorFact = startDistorFact + scaleValueToRange(gB.populationNorm, .001875, .31375, -0.5, 0.5)
+			targetDistorFact = startDistorFact + scaleValueToRange(gB.populationNorm[0], .001875, .31375, -0.04, 0.004)
 		elif changeBias == 1:
-			targetDistorFact = startDistorFact + scaleValueToRange(gB.populationNorm, .001875, .31375, 0, 0.1)
+			targetDistorFact = startDistorFact + scaleValueToRange(gB.populationNorm[0], .001875, .31375, 0, 0.08)
 		elif changeBias == 2:
-			targetDistorFact = startDistorFact + scaleValueToRange(gB.populationNorm, .001875, .31375, -.1, 0)
+			targetDistorFact = startDistorFact + scaleValueToRange(gB.populationNorm[0], .001875, .31375, -.08, 0)
 		if targetDistorFact > .15:
 			changeBias = 2
-		if targetDistorFact < .002:
+		if targetDistorFact < .0001:
 			changeBias = 1
 		if targetDistorFact < 0:
 			targetDistorFact = 0.0001
-		time.sleep(abs(duration))
-
-def changeState(cellState, counter, controlList):
-	if cellState == 1:
-		controlList.append(1)
-	elif cellState == 0:
-		if counter == 1:
-			controlList.append(0)
-			counter = 0
-		elif counter < 1:
-			counter += 1
-	return (counter, controlList)
-
-def cellsStates(soundCellsStates):
-
-	(gB.deadCell1Count, gB.soundControlCells) = changeState(soundCellsStates[0], gB.deadCell1Count, gB.soundControlCells)
-	(gB.deadCell2Count, gB.soundControlCells) = changeState(soundCellsStates[1], gB.deadCell2Count, gB.soundControlCells)
-	(gB.deadCell3Count, gB.soundControlCells) = changeState(soundCellsStates[2], gB.deadCell3Count, gB.soundControlCells)
-
-	return gB.soundControlCells	
+		time.sleep(abs(duration) - 1)	
 
 def controlBackgroundSound():
 	
@@ -89,7 +70,7 @@ def controlBackgroundSound():
 	offChansT1		= ChannelsThread1
 	offChansT2		= ChannelsThread2
 	offChansT3		= ChannelsThread3
-	annumCurrentState	= gB.annum
+	annumCurrentState	= gB.annum[0]
 	annumNewState		= annumCurrentState
 	wheightedGates		= [0.5]*7 + [0.25]*5 + [0.125]*3 + [0.0625]*2 + [.03125]*17
 	counter			= 1.0
@@ -100,12 +81,12 @@ def controlBackgroundSound():
 
 	while gB.mainIterCycle == 1:
 		while annumCurrentState == annumNewState:
-			annumNewState = gB.annum
+			annumNewState = gB.annum[0]
 		annumCurrentState = annumNewState
 		allPartialsOn = []
 		onChans = []
 		offChans = []
-		possiblePartialsOn = round(scaleValueToRange(gB.populationNorm, .001875, .31375, 1, 39))
+		possiblePartialsOn = round(scaleValueToRange(gB.populationNorm[0], .001875, .31375, 1, 39))
 		updatePartials = 0
 
 		if counter % 7 == 0:
@@ -184,7 +165,7 @@ def controlBackgroundSound():
 
 def playback():
 	""" Background_sound's playback method"""
-	argsList	= [(2, -11, 3400, 0.005, 0, 1, 0.25), (15, -7, 3400, 0.003, 3, 0, 0.5), (27, -13, 3400, 0.007, 1, 2, 0.75)]
+	argsList	= [(2, -24, 3400, 0.005, 0, 1, 0.25), (15, -20, 3400, 0.003, 3, 0, 0.5), (27, -30, 3400, 0.007, 1, 2, 0.75)]
 	voiceNo		= 1
 
 	for x in argsList:
