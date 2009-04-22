@@ -4,6 +4,26 @@ tabula = {'Yi':'import topology; import neighborhood; import agent',
           'Cb':'def birth(earth, code, prana, mana, address):',
           'Cd':'  myself = agent.Agent_2D(code,corporality(earth.returnTopology()),sensoriality(earth.returnTopology()),prana,mana,address)',
           'Cr':'  return myself',
+          'Tl':'def live(creature):',
+          'Tp':'  prayer = "Live"',
+          'Te':'  creature.gainPrana(1)',
+          'Tc':'  if creature.tellPrana() > 11:',
+          'Tr':'      reproduce(creature)',
+          'Tg':'      prayer = "GrantChild"',
+          'To':'  return prayer',
+          'Rd':'def reproduce(creature):',
+          'Rl':'  creature.losePrana(10)',}
+
+
+
+  
+
+tabula_antica = {'Yi':'import topology; import neighborhood; import agent',
+          'Yc':'corporality = neighborhood.VonNeumannNeighborhood',
+          'Ys':'sensoriality = neighborhood.VonNeumannNeighborhood',
+          'Cb':'def birth(earth, code, prana, mana, address):',
+          'Cd':'  myself = agent.Agent_2D(code,corporality(earth.returnTopology()),sensoriality(earth.returnTopology()),prana,mana,address)',
+          'Cr':'  return myself',
           'Tl':'def live(creature, numen, index):',
           'Te':'  pass # creature.eatMana()',
           'Tr':'  if creature.tellPrana() > 11: reproduce(creature, numen, index)',
@@ -12,25 +32,4 @@ tabula = {'Yi':'import topology; import neighborhood; import agent',
           'Rp':'  numen[index-1][4]["prayer"]="GRANT_CHILD"',
           'Rc':'  numen[index-1][4]["code"]=creature.tellCode()',
           'Rl':'  creature.losePrana(10)'}
-  
 
-tabula_antica = {'ai':'import topolog; import neighborhood; import rule; import operator; import automaton; import agent; import genome; import random',
-          'at':'topos = topology.ToroidTopology((90,40),0)',
-	  'ap':'change = rule.ReductionRule(ball,(operator.xor,0))',
-	  'au':'robot = automaton.SynchronousAutomaton_2D(change)',
-          'ic':'class corpus:',
-          'ii':'  ',
-          'id':'def __init__(self, topos):',
-          'it':'  self.topos = topos',
-	  'an':'  self.ball = neighborhood.VonNeumannNeighborhood(topos)',
-          'aw':'def wander(agent):',
-	  'ar':'  direction = random.randint(0,4)',
-          'ac':'  agent.changeFacing(direction)',
-          'aa':'  agent.advance()',
-          'ae':'  agent.eatMana()',
-          'zd':'def beBorn(topos):',
-	  'zn':'  ball = neighborhood.VonNeumannNeighborhood(topos)',
-	  'zm':'  myself = agent.Agent_2D(genome.Genome([],{},2),ball,ball,50,1,(30,8))',
-          'za':'  return myself',
-	  'pd':'def __print__():',
-	  'pp':'  return myself.tellAddress()'}

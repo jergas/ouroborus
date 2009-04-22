@@ -43,10 +43,10 @@ def startExecutionNormal():
 	# the seedCode is the genetic code given to the initial creatures
 	# look at the module code for meaning of the genome; tamper with this
 	# at your own peril!
-	seedCode = "Y i Y c Y s C b C d C r T l T e T r R d R p R c R l"
+	seedCode = "Y i Y c Y s C b C d C r T l T p T e T c T r T g T o R d R l"
 
 	# avatars is the number of initial creatures, and doomsday the number of iterations	
-	(avatars, doomsday) = (2, 7)
+	(avatars, doomsday) = (1, 17)
 	# biblos is a list which whill contain essential runtime information
 	biblos = []
 
@@ -57,6 +57,7 @@ def startExecutionNormal():
 	# now call a GOD.Organizer to oversee this automaton
 	magdalen = GOD.Organizer(terra, biblos)
 	magdalen.generator = mary
+	(magdalen.width, magdalen.height) = (width, height)
 	print "an Organizer called magdalen has been assigned to oversee terra"
 
 	# cycle through avatars to populate the automaton with some initial creatures"
@@ -66,42 +67,54 @@ def startExecutionNormal():
 		# it to the list biblos along with its name
 		mary.generateGenotypeNew(seedCode.split(" "), biblos)
 		print "mary compiled a genome and wrote it in biblos"
-		print "the book of life, biblos, reads:"
-		for entry in biblos: print entry
-		print "\n"
 		avatars -= 1
 
+	print "the book of life, biblos, reads:"
+	for entry in biblos: print entry
+	print "\n"
 
 	# magdalen reads the data in biblos and calls actual agent objects
 	# into being from the code in the modules compiled by mary
 	for entry in biblos:	
-		#(x, y) = (random.randint(0, width-1), random.randint(0, height-1))
-		entry.fatum["code"]= seedCode
+		# set some initial parameters in each entry's fatum
+		entry.fatum["code"] = seedCode
+		entry.fatum["prana"] = 7
+		entry.fatum["mana"] = 1
+		(x, y) = (random.randint(0, width-1), random.randint(0, height-1))
+		entry.fatum["address"] = (x, y)
 		magdalen.readBookOfLifeNew(entry)
-		#magdalen.readBookOfLife(i, seedCode, random.randint(1,7), 1, (x, y), mary)
-		#print "magdalen read biblos and instantiated an agent from the genome"
-		#print "the book of life, biblos, reads:\t", biblos
+		print "magdalen read biblos and instantiated an agent from the genome"
+
+	print "the book of life, biblos, reads:"
+	for entry in biblos: print entry
+	print "\n"
+
 	print "the initial population phase has finished\n"
-	return
+
 
 	
 	# here cometh the main iteration cycle
 	while magdalen.annum < doomsday:
 		print "the time now is \t", magdalen.annum
-		print "the book of life, biblos, reads:\t", biblos
+		print "the book of life, biblos, reads:"
+		for entry in biblos: print entry
+		print "\n"
 		# GOD.Organizer iterates the c.a. and makes sure the world keeps revolving
 		magdalen.iterateAutomaton()
 		print "terra has been updated"
 		print "magdalen will now read the book of life"
 		# GOD.Organizer parses the whole length of biblos
-		for i in range(len(biblos)): 
-			magdalen.readBookOfLife(i, "a", 0, 0, (50,8), mary)
+		for entry in biblos:
+			magdalen.readBookOfLifeNew(entry)
 		print "the book has been read"
+		print "the book of life, biblos, reads:"
+		for entry in biblos: print entry
+		print "\n"
 
 		# this is an arbitrary intervention to artificially augment a creature's prana
-		if magdalen.annum == 3:
-			biblos[0][3].gainPrana(12)
-			print "a creature's prana has been increased by divine gift"
+		# if magdalen.annum == 3:
+		#	biblos[0][3].gainPrana(12)
+		#	print "a creature's prana has been increased by divine gift"
 		
 		print "\n"
 

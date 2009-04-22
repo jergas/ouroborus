@@ -6,7 +6,7 @@ import rule
 import agent as a
 import automaton
 import genome as g
-from code import tabula
+from code import tabula, tabula_antica
 # other ouroborus core modules
 from bookentry import BookEntry
 # these are the modules used for display
@@ -108,7 +108,7 @@ class Generator:
 
 		self.obstetrics += 1 #old
 		# samskara is a genome binding poeio to tabula
-		samskara = g.Genome(poeio, tabula, 2)
+		samskara = g.Genome(poeio, tabula_antica, 2)
 		# create a name for the module object
 		onoma = self.obstetrix+str(self.obstetrics)
 		# corpus is the relative filepath where the compiled genome will be saved
@@ -171,6 +171,7 @@ class Organizer:
 		self.generator = None
 		self.book = book
 		self.annum = 0
+		(self.width, self.height) = (0,0)
 
 
 	def iterateAutomaton(self):
@@ -186,19 +187,61 @@ class Organizer:
 		"""New and more pythonic version of this core function
 
 		bookentry ---> a BookEntry object
-		return    -->> 1"""
+		return    -->> 1
 
+		in essence this function redirects to various methods
+		aptly named according to the entity's prayer type"""
+
+		# look for the entity's prayer		
 		prayer = bookentry.fatum["prayer"]
-		return getattr(self, "grantPrayer"+prayer)(bookentry)
+		default = self.grantPrayerLive
+		# call the appropriate grantPrayer method by prayer type
+		return getattr(self, "grantPrayer"+prayer, default)(bookentry)
 
 
 	def grantPrayerBeBirthed(self, bookentry):
-		"""Make an agent perform its standard live method"""
+		"""Populate an agent's BookEntry and place it on the c.a.
 
-		print "BeBorn"
+		bookentry ---> a BookEntry object
+		return    -->> 1"""
+
+		# import the module (compiled by the generator) and place it in bookentry
+		bookentry.callModule()
+		# call the module's birth function to instantiate an agent object
+		bookentry.instantiateAgent(self.earth)
+		# add the agent to the c.a.'s list of agents
+		self.earth.addAgent(bookentry.agent)
+		# set the agent's prayer back to its default state
+		bookentry.fatum["prayer"] = "Live"
 		return 1
 
-		
+
+	def grantPrayerLive(self, bookentry):
+		"""Allow an agent to perform its standard live method
+
+		return -->> 1"""
+
+		return bookentry.agentLive()
+
+
+	def grantPrayerGrantChild(self, bookentry):
+		"""Make a new entry for an agent which has reproduced
+
+		return -->> 1"""
+
+		# the Generator compiles the new module and writes it in the book
+		code = bookentry.fatum["code"].split(" ")
+		self.generator.generateGenotypeNew(code, self.book)
+		# add some necessary data to the new entry
+		child = self.book[-1]
+		child.fatum["code"] = bookentry.fatum["code"]
+		child.fatum["prana"] = 7
+		child.fatum["mana"] = 1
+		(x, y) = (random.randint(0, self.width-1), random.randint(0, self.height-1))
+		child.fatum["address"] = (x, y)
+		# set the agent's prayer back to live
+		bookentry.fatum["prayer"] = "Live"
+		return 1
 
 
         def readBookOfLife(self, index, code, prana, mana, address, generator):
