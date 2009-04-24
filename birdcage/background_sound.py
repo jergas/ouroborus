@@ -86,19 +86,19 @@ def ctrlBckgrndSnd():
 		updatepartls = 0
 		# Test how many partials will be attenuated or boosted, and
 		# prepares the lists that do the trick.
-		if not counter % 7:
+		if counter % 7 == 0:
 			partlsOnT1 = possiblepartlsOn // 3
 			allpartlsOn.append(partlsOnT1)
 			onChans.append(onChansT1)
 			offChans.append(offChansT1)
 			updatepartls += 1
-		if counter % 5 is 0:
+		if counter % 5 == 0:
 			partlsOnT2 = (possiblepartlsOn // 3) + (possiblepartlsOn % 3)
 			allpartlsOn.append(partlsOnT2)
 			onChans.append(onChansT2)
 			offChans.append(offChansT2)
 			updatepartls += 1
-		if not counter % 11:
+		if counter % 11 == 0:
 			partlsOnT3 = possiblepartlsOn // 3
 			allpartlsOn.append(partlsOnT3)
 			onChans.append(onChansT3)
@@ -122,27 +122,27 @@ def ctrlBckgrndSnd():
 						y.append(newOff)
 		# Introduces (slight) discontinuity to the update of partial's
 		# intencity.		
-		if SGlobals.sndCtrlCells is [1, 1, 1]:
+		if SGlobals.sndCtrlCells == [1, 1, 1]:
 			time.sleep(0.017)
-		elif SGlobals.sndCtrlCells is [1, 1, 0]:
+		elif SGlobals.sndCtrlCells == [1, 1, 0]:
 			time.sleep(0.013)
-		elif SGlobals.sndCtrlCells is [1, 0, 1]:
+		elif SGlobals.sndCtrlCells == [1, 0, 1]:
 			time.sleep(0.011)
-		elif SGlobals.sndCtrlCells is [0, 1, 1]:
+		elif SGlobals.sndCtrlCells == [0, 1, 1]:
 			time.sleep(0.007)
-		elif SGlobals.sndCtrlCells is [1, 0, 0]:
+		elif SGlobals.sndCtrlCells == [1, 0, 0]:
 			time.sleep(0.005)
-		elif SGlobals.sndCtrlCells is [0, 1, 0]:
+		elif SGlobals.sndCtrlCells == [0, 1, 0]:
 			time.sleep(0.003)
-		elif SGlobals.sndCtrlCells is [0, 0, 1]:
+		elif SGlobals.sndCtrlCells == [0, 0, 1]:
 			time.sleep(0.002)
-		if not counter % 105:
+		if counter % 105 == 0:
 			time.sleep(0.031)
-		elif not counter % 35:
+		elif counter % 35 == 0:
 			time.sleep(.029)
-		elif not counter % 21:
+		elif counter % 21 == 0:
 			time.sleep(.023)
-		elif not counter % 15:
+		elif counter % 15== 0:
 			time.sleep(.019)
 		counter += 1
 
