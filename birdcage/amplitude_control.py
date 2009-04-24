@@ -6,7 +6,7 @@
 panicAmplitude 		= 32767 # No more sound will be added until expected amps go under maxOverallAmp
 maxOverallAmplitude	= 30000 # Maximum expected Amplitude
 targetPrincipalAmps	= 17000.0 # Amplitude target for principal sound
-targetBackgroundAmps	= 13000.0 # Amplitude target for background sound
+targetBackgroundAmps	= 30000.0 # Amplitude target for background sound
 
 def scaling(aList, newTotal):
 	"""Scales the values in aList so they add up to newTotal"""

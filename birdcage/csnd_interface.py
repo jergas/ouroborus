@@ -2,29 +2,29 @@ from random import choice, randint, random
 ## Import Python's Csound library
 import csnd
 ## Import user defined methods.
-from Csound_Note import noteI1
+from csnd_note import noteI1
 import csd_generator
 
 ## Instantiate Csound's API, and it's performance class.
-csound	= csnd.CppSound()
-perf	= csnd.CsoundPerformanceThread(csound)
+cSnd	= csnd.CppSound()
+perf	= csnd.CsoundPerformanceThread(cSnd)
 
-def initCsound():
+def initCSnd():
 	"""Makes an instance of the Csound Api, sets a string that works as a CSD file with the appropriate
-	options, exports it to csound, compiles the CSD, starts a performance thread, and starts playing."""
+	options, exports it to cSnd, compiles the CSD, starts a performance thread, and starts playing."""
 	
-	#csound.setPythonMessageCallback()
-	csound.setCSD(csd_generator.makeCSD(39))
-	csound.exportForPerformance()
-	csound.compile()
+	#cSnd.setPythonMessageCallback()
+	cSnd.setCSD(csd_generator.makeCSD(39))
+	cSnd.exportForPerformance()
+	cSnd.compile()
 	perf.Play()
 
-def endCsound():
+def endCsnd():
 	perf.Stop()
 	perf.Join()
-	csound.cleanup()
+	cSnd.cleanup()
 
-def csoundNoteI1():
+def cSndNoteI1():
 	""" Generates the sound that derives from the instantiation of a birdcage agent.""" 
 	specType	= [0, 1, 2, 3]
 	distFactor	= [.5, .55, .60, .65, .70, .75, .80, .85, .90, .95, 1,
@@ -46,4 +46,4 @@ Applying the GIGO (garbag in garbage out) rule.'
 		perf.Stop()
 		perf.Join()
 if __name__ == "__main__":
-	initCsound()
+	INITCsound()

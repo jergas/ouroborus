@@ -90,15 +90,16 @@ def main(stdscr):
 		#print "time is", magdalen.annum
 		#print "biblos is", biblos
 		population = magdalen.iterateAutomaton()
-		populationNorm = float(population) / operator.mul(width,height)
+		populNorm = float(population) / operator.mul(width,height)
 		for i in range(len(biblos)): 
 			magdalen.readBookOfLife(i, "a", 0, 0, (50,8), mary)
 			if magdalen.annum == 750:
 				biblos[0][3].gainPrana(5)
 		#magdalen.iterateAgents()
 		magdalen.refreshDisplay(display)
-		soundControlCells = [terra.get((22,18)), terra.get((40,18)), terra.get((64,18))]
-		sound.inputDataControl(soundControlCells, populationNorm, magdalen.annum)
+		sndCtrlCells = [terra.get((22,18)), terra.get((40,18)),
+						terra.get((64,18))]
+		sound.inputDataControl(sndCtrlCells, populNorm)
 
 	sound.stopSoundServer()
 	del sys.argv[1:]
