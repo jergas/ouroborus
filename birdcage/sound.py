@@ -3,9 +3,11 @@
 # sounds (at present in early development), to start the background
 # sound threads, to feed them with data, and to stop sound altogether.
 
+# Sound-related submodules.
 import csnd_interface as csndInterface
 import background_sound as background
-import sound_globals as SGlobals
+import agents_sound as agentsSound
+import sound_globals as sGlobals
 
 
 def startSoundServer():
@@ -14,10 +16,10 @@ def startSoundServer():
 	csndInterface.initCSnd()
 
 
-def playSingleNote():
+def agentBirth():
 	"""Plays a single note when an agent is instantiated.
 	"""
-	csndInterface.cSndNoteI1()
+	agentsSound.birthSound()
 
 
 def startBackground():
@@ -41,8 +43,8 @@ def inputDataControl(sndCtrlCells, populNorm):
 						three automaton's cells.
 	populationNORM		---> The automaton's normalized cell population
 	"""
-	SGlobals.populNorm 	= [populNorm]
-	SGlobals.sndCtrlCells = sndCtrlCells
+	sGlobals.populNorm 	= [populNorm]
+	sGlobals.sndCtrlCells = sndCtrlCells
 
 
 def stopSoundServer():
@@ -51,4 +53,4 @@ def stopSoundServer():
 	background sound loops (and thus its threads) to end.
 	"""
 	csndInterface.endCsnd()
-	SGlobals.mainIterCycle = 0
+	sGlobals.mainIterCycle = 0

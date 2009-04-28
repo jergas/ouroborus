@@ -1,49 +1,36 @@
+## This module intantiates the Csound API and its performance class.
+# It also contains the methods for preparing Csound for performance,
+# and to end the performance.
+
 from random import choice, randint, random
-## Import Python's Csound library
+# Csound API library.
 import csnd
-## Import user defined methods.
-from csnd_note import noteI1
-import csd_generator
+# Sound-related submodules.
+import csd_generator as csdGenerator
 
 ## Instantiate Csound's API, and it's performance class.
 cSnd	= csnd.CppSound()
 perf	= csnd.CsoundPerformanceThread(cSnd)
 
+
 def initCSnd():
-	"""Makes an instance of the Csound Api, sets a string that works as a CSD file with the appropriate
-	options, exports it to cSnd, compiles the CSD, starts a performance thread, and starts playing."""
-	
-	#cSnd.setPythonMessageCallback()
-	cSnd.setCSD(csd_generator.makeCSD(39))
+	"""Generates a single-file Csound structured data (CSD) string,
+	sets it in the Csound API, exports it for performance, compiles it,
+	and starts the 	performance.
+	"""
+	#cSnd.setPythonMessageCallback() # useful for debugging.
+	csd = csdGenerator.makeCSD(39) # the (hard-wired) number of csound
+									# background instruments is 39.
+	cSnd.setCSD(csd)
 	cSnd.exportForPerformance()
 	cSnd.compile()
 	perf.Play()
 
 def endCsnd():
+	""" Stops playback (Top()). Releases any resources associated with
+	the performance thread(Join()). Prints information about the end of
+	a performance, and closes the audio device (cleanup()).
+	"""
 	perf.Stop()
 	perf.Join()
 	cSnd.cleanup()
-
-def cSndNoteI1():
-	""" Generates the sound that derives from the instantiation of a birdcage agent.""" 
-	specType	= [0, 1, 2, 3]
-	distFactor	= [.5, .55, .60, .65, .70, .75, .80, .85, .90, .95, 1,
-			1.05, 1.15, 1.20, 1.25, 1.30, 1.35, 1.40, 1.45, 1.50]
-	noteDur		= random() + 0.5
-	try:
-		spectrum = noteI1(randint(440, 880), randint(10, 150), choice(specType),
-					choice(distFactor), random(), noteDur)
-		while len(spectrum) > 0:
-			partial = spectrum.pop(0)
-			perf.InputMessage(partial)   
-	except:
-		print """
-CsoundModulesError...
-
-Applying the GIGO (garbag in garbage out) rule.'
-
-"""
-		perf.Stop()
-		perf.Join()
-if __name__ == "__main__":
-	INITCsound()

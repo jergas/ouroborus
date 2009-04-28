@@ -1,5 +1,14 @@
 	Ouroborus: Bibliography
 
+Idiomatic Python and optimization:
+	Tips and guidelines for idiomatic code and for optimization where taken from:
+
+	- http://jaynes.colorado.edu/PythonIdioms.html
+	- http://www.chrisarndt.de/talks/rupy/2008/output/slides.html#testing-for-none
+	- http://www.python.org/dev/peps/pep-0008/
+	- http://diveintopython.org/download/diveintopython-pdf-5.4.zip
+
+
 Cellular Automaton:
 	Our automaton is based on this library:
 
@@ -7,10 +16,11 @@ Cellular Automaton:
 
 
 Csound:
-	 IntroductionToUsingTheCsoundAPI y CsoundAPIReference:
+	 IntroductionToUsingTheCsoundAPI and CsoundAPIReference:
 
 	- http://www.csounds.com/articles/RoryWalsh_CsoundAPI.pdf
 	- http://csound.sourceforge.net/refman.pdf
+
 
 Threads in Python:
 	Sorted in order of relevance and/or clarity:

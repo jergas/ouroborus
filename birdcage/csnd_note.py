@@ -11,7 +11,7 @@ PartialsDensityT2	= 13
 PartialsDensityT3	= 13
 TotalPartialsDensity	= 39
 
-## Method for a single note from the Distorted Harmonic Spectrum Model, with instrument 1.def noteI1(fundamental, noOfHarmonics, spectrumType, distortion, overallPanning,
+## Method for a single note from the Distorted Harmonic Spectrum Model, with instrument 1.def birthNote(fundamental, noOfHarmonics, spectrumType, distortion, overallPanning,
 		totalDuration):
 ## Which kind of partials will be present in a note.
 	species		= [evenPartials, oddPartials,

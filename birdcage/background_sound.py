@@ -1,13 +1,15 @@
- 
+## Contains the background sound generation and control methods, which
+# are converted into threads by playbak() and control(), respectively.
 
+# Python's native libraries
 import time, threading
 from random import choice, randint, uniform
-
+# Sound-related submodules
 from csnd_interface import initCSnd, perf, cSnd
 from linear_scaler import scaleValToRng
 from equal_temper import centsToFreq
 import csnd_note as csndNote
-import sound_globals as SGlobals
+import sound_globals as sGlobals
 
 
 def oneBckgrndVox(frstInstr, dur, ptch, strtDistr, specType, distrBias, pan):
@@ -24,10 +26,10 @@ def oneBckgrndVox(frstInstr, dur, ptch, strtDistr, specType, distrBias, pan):
 	"""
 	fundFrec		= centsToFreq(ptch)
 	numOfPartls		= 13
-	endDistrFact	= strtDistr + scaleValToRng(SGlobals.populNorm[0],
+	endDistrFact	= strtDistr + scaleValToRng(sGlobals.populNorm[0],
 												.001875, .31375, 0, 0.2)
 
-	while SGlobals.mainIterCycle == 1:
+	while sGlobals.mainIterCycle == 1:
 		# Generate instrument nos. (for each partial) and a spectrum.
 		instrNos = range(frstInstr, (frstInstr + numOfPartls))
 		spectrum = csndNote.bckgrndNote(1, fundFrec, numOfPartls, specType,
@@ -41,14 +43,14 @@ def oneBckgrndVox(frstInstr, dur, ptch, strtDistr, specType, distrBias, pan):
 		fundFrec = centsToFreq(ptch + randint(-50, 50))
 		strtDistr = endDistrFact
 		if not distrBias:
-			endDistrFact = strtDistr + scaleValToRng(SGlobals.populNorm[0],
+			endDistrFact = strtDistr + scaleValToRng(sGlobals.populNorm[0],
 													.001875, .31375, -0.04,
 													0.004)
 		elif distrBias is 1:
-			endDistrFact = strtDistr + scaleValToRng(SGlobals.populNorm[0],
+			endDistrFact = strtDistr + scaleValToRng(sGlobals.populNorm[0],
 													.001875, .31375, 0, 0.08)
 		elif distrBias is 2:
-			endDistrFact = strtDistr + scaleValToRng(SGlobals.populNorm[0],
+			endDistrFact = strtDistr + scaleValToRng(sGlobals.populNorm[0],
 													.001875, .31375, -.08, 0)
 		if endDistrFact > .15:
 			distrBias = 2
@@ -77,11 +79,11 @@ def ctrlBckgrndSnd():
 	wheightedGates	= [0.5]*7 + [0.25]*5 + [0.125]*3 + [0.0625]*2 + [.03125]*17
 	counter			= 1.0
 
-	while SGlobals.mainIterCycle == 1:
+	while sGlobals.mainIterCycle == 1:
 		allpartlsOn		= []
 		onChans				= []
 		offChans			= []
-		possiblepartlsOn 	= round(scaleValToRng(SGlobals.populNorm[0],
+		possiblepartlsOn 	= round(scaleValToRng(sGlobals.populNorm[0],
 												.001875, .31375, 1, 39))
 		updatepartls = 0
 		# Test how many partials will be attenuated or boosted, and
@@ -122,19 +124,19 @@ def ctrlBckgrndSnd():
 						y.append(newOff)
 		# Introduces (slight) discontinuity to the update of partial's
 		# intencity.		
-		if SGlobals.sndCtrlCells == [1, 1, 1]:
+		if sGlobals.sndCtrlCells == [1, 1, 1]:
 			time.sleep(0.017)
-		elif SGlobals.sndCtrlCells == [1, 1, 0]:
+		elif sGlobals.sndCtrlCells == [1, 1, 0]:
 			time.sleep(0.013)
-		elif SGlobals.sndCtrlCells == [1, 0, 1]:
+		elif sGlobals.sndCtrlCells == [1, 0, 1]:
 			time.sleep(0.011)
-		elif SGlobals.sndCtrlCells == [0, 1, 1]:
+		elif sGlobals.sndCtrlCells == [0, 1, 1]:
 			time.sleep(0.007)
-		elif SGlobals.sndCtrlCells == [1, 0, 0]:
+		elif sGlobals.sndCtrlCells == [1, 0, 0]:
 			time.sleep(0.005)
-		elif SGlobals.sndCtrlCells == [0, 1, 0]:
+		elif sGlobals.sndCtrlCells == [0, 1, 0]:
 			time.sleep(0.003)
-		elif SGlobals.sndCtrlCells == [0, 0, 1]:
+		elif sGlobals.sndCtrlCells == [0, 0, 1]:
 			time.sleep(0.002)
 		if counter % 105 == 0:
 			time.sleep(0.031)

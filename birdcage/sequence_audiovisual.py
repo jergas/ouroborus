@@ -74,7 +74,7 @@ def main(stdscr):
 	for i in range(avatars):
 		mary.generateGenotype(seedCode.split(" "), biblos)
 		#print "generated agent", i # debugging
-		sound.playSingleNote()
+		sound.agentBirth()
 		#print "biblos is", biblos # debugging
 		(x, y) = (30, 8)		
 		#(x, y) = (random.randint(0, width-1), random.randint(0, height-1))
