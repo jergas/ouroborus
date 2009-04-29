@@ -8,7 +8,7 @@ from random import choice, randint, uniform
 from csnd_interface import initCSnd, perf, cSnd
 from linear_scaler import scaleValToRng
 from equal_temper import centsToFreq
-import csnd_note as csndNote
+import csnd_notes as csndNotes
 import sound_globals as sGlobals
 
 
@@ -32,8 +32,8 @@ def oneBckgrndVox(frstInstr, dur, ptch, strtDistr, specType, distrBias, pan):
 	while sGlobals.mainIterCycle == 1:
 		# Generate instrument nos. (for each partial) and a spectrum.
 		instrNos = range(frstInstr, (frstInstr + numOfPartls))
-		spectrum = csndNote.bckgrndNote(1, fundFrec, numOfPartls, specType,
-									strtDistr, endDistrFact, pan, dur)
+		spectrum = csndNotes.bckgrndNote(1, fundFrec, numOfPartls, specType,
+										strtDistr, endDistrFact, pan, dur)
 		# Assign the spectrum's partial an intrument no., and feed them
 		# to csound.
 		for x in spectrum:

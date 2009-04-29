@@ -6,7 +6,7 @@
 from random import random, randint, choice
 # Sound-related submodules.
 from csnd_interface import perf
-from csnd_note import birthNote
+from csnd_notes import birthNote
 
 
 def birthSound():

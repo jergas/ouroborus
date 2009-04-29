@@ -39,9 +39,9 @@ def inputDataControl(sndCtrlCells, populNorm):
 	background sound. These global sound-control variables 'live'
 	in sound_globals.py.
 
-	sndCtrlCells	---> Three element list containing the state of
+	sndCtrlCells	---> three element list containing the state of
 						three automaton's cells.
-	populationNORM		---> The automaton's normalized cell population
+	populationNORM	---> the automaton's normalized cell population
 	"""
 	sGlobals.populNorm 	= [populNorm]
 	sGlobals.sndCtrlCells = sndCtrlCells
