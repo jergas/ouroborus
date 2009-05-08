@@ -23,8 +23,7 @@
 #	* The sequence's visualization (still under construction)
 #	* If your'e trying to understand how the code works, refere to
 #		sequence_new.py
-#
-# Read some history at EOF
+
 
 # Python's native libraries
 import curses

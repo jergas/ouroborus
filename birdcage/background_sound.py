@@ -6,9 +6,9 @@ import time, threading
 from random import choice, randint, uniform
 # Sound-related submodules
 from csnd_interface import initCSnd, perf, cSnd
-from linear_scaler import scaleValToRng
+import numeric_series as numSer
 from equal_temper import centsToFreq
-import csnd_notes as csndNotes
+from Csnd_notes import BckgrndNote
 import sound_globals as sGlobals
 
 
@@ -20,44 +20,49 @@ def oneBckgrndVox(frstInstr, dur, ptch, strtDistr, specType, distrBias, pan):
 	dur			---> Time that each note of the voice will last
 	ptch		---> Initial ptch of the fundamental frecuency
 	strtDistr	---> The initial spectral-distortion factor
-	specType	---> Spectrum type (all, even, fibonacci or prime)
+	specType	---> Spectrum type (odd, even, fibonacci or prime)
 	distrBias	---> A bias for how the spectrum will tend to vary
 	pan			---> Note's panning
 	"""
-	fundFrec		= centsToFreq(ptch)
+	fundFreq		= centsToFreq(ptch)
 	numOfPartls		= 13
-	endDistrFact	= strtDistr + scaleValToRng(sGlobals.populNorm[0],
+	endDistrFact	= strtDistr + numSer.scaleValToRng(sGlobals.populNorm[0],
 												.001875, .31375, 0, 0.2)
+	instrNos 		= range(frstInstr, (frstInstr + numOfPartls))
+	# Instantiate the background sound note class.
+	bckgrndNote = BckgrndNote(instrNos, fundFreq, numOfPartls, specType,
+								strtDistr, endDistrFact, pan, dur)
 
 	while sGlobals.mainIterCycle == 1:
-		# Generate instrument nos. (for each partial) and a spectrum.
-		instrNos = range(frstInstr, (frstInstr + numOfPartls))
-		spectrum = csndNotes.bckgrndNote(1, fundFrec, numOfPartls, specType,
-										strtDistr, endDistrFact, pan, dur)
-		# Assign the spectrum's partial an intrument no., and feed them
-		# to csound.
+		spectrum	= bckgrndNote.mkScoStrings()
+		# Feed the partials to Csound.
 		for x in spectrum:
-			partialInstrNo = x.replace('i1', ('i' + str(instrNos.pop(0))))
-			perf.InputMessage(partialInstrNo)
+			perf.InputMessage(x)
 		# Change the parameters for the next note.
-		fundFrec = centsToFreq(ptch + randint(-50, 50))
+		fundFreq = centsToFreq(ptch + randint(-50, 50))
+		bckgrndNote.fundFreq = fundFreq
 		strtDistr = endDistrFact
+		bckgrndNote.distor = strtDistr
 		if not distrBias:
-			endDistrFact = strtDistr + scaleValToRng(sGlobals.populNorm[0],
+			endDistrFact = strtDistr + numSer.scaleValToRng(sGlobals.populNorm[0],
 													.001875, .31375, -0.04,
 													0.004)
+			bckgrndNote.distor2 = endDistrFact
 		elif distrBias is 1:
-			endDistrFact = strtDistr + scaleValToRng(sGlobals.populNorm[0],
+			endDistrFact = strtDistr + numSer.scaleValToRng(sGlobals.populNorm[0],
 													.001875, .31375, 0, 0.08)
+			bckgrndNote.distor2 = endDistrFact
 		elif distrBias is 2:
-			endDistrFact = strtDistr + scaleValToRng(sGlobals.populNorm[0],
+			endDistrFact = strtDistr + numSer.scaleValToRng(sGlobals.populNorm[0],
 													.001875, .31375, -.08, 0)
+			bckgrndNote.distor2 = endDistrFact
 		if endDistrFact > .15:
 			distrBias = 2
 		if endDistrFact < .0001:
 			distrBias = 1
 		if endDistrFact < 0:
 			endDistrFact = 0.0001
+			bckgrndNote.distor2 = endDistrFact
 		time.sleep(abs(dur) - 1)	
 
 
@@ -83,7 +88,7 @@ def ctrlBckgrndSnd():
 		allpartlsOn		= []
 		onChans				= []
 		offChans			= []
-		possiblepartlsOn 	= round(scaleValToRng(sGlobals.populNorm[0],
+		possiblepartlsOn 	= round(numSer.scaleValToRng(sGlobals.populNorm[0],
 												.001875, .31375, 1, 39))
 		updatepartls = 0
 		# Test how many partials will be attenuated or boosted, and
