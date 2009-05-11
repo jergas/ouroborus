@@ -7,12 +7,12 @@ tabula = {'Yi':'import topology; import neighborhood; import agent',
           'Tl':'def live(creature):',
           'Tp':'  prayer = "Live"',
           'Te':'  creature.gainPrana(1)',
-          'Tc':'  if creature.tellPrana() > 11:',
+          'Tc':'  if creature.tellPrana() > 110:',
           'Tr':'      reproduce(creature)',
           'Tg':'      prayer = "GrantChild"',
           'To':'  return prayer',
           'Rd':'def reproduce(creature):',
-          'Rl':'  creature.losePrana(10)',}
+          'Rl':'  creature.losePrana(103)',}
 
 
 
