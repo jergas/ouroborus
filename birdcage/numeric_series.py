@@ -1,43 +1,0 @@
-## It generates a series with even numbers -plus 1 at the beginning, since it
-#represents the fundamental frequency- with a number of elements that reflects
-#the spectral density of a note.from math import sqrt
-def even(noOfHarmonics=1):## The maximum number of harmonics is 500 since the 501st pair harmonic is the
-#1002nd, who's frequency, given the lowest audible fundamental (20hz), is over
-#the audible range (20000hz).    if noOfHarmonics > 500:        noOfHarmonics = 500## It constructs a series of even numbers plus one.     partials    = []  # container for the list to be generated    even        = 2		# first positive even number    counter     = 0		# counter
-    while counter < noOfHarmonics:        partials.append(even)        even = even+2        counter = counter+1    return partials##It generates a harmonic series with odd partials with a number of elements
-#that reflects the spectral density of a note.def odd(noOfHarmonics=1):## The maximum number of harmonics is 499 since the 500th odd harmonic is the
-#1001st, who's frequency, given the lowest audible fundamental (20hz), is over
-#the audible range (20000hz).	if noOfHarmonics > 499:		noOfHarmonics = 499## It constructs a series of odd partials. 	partials    = [] # container for the list to be generated	odd         = 1		# first odd number	counter     = 0		# counter		while counter < noOfHarmonics:		partials.append(odd)		odd = odd+2		counter = counter+1	return partials## Generates a fibonacci sequence -with just a "1" at the beginning, since
-#duplicating "1" implies giving twice the weight to the fundamental pitch- with
-#a number of elements that reflects the spectral density of a note.def fibo(noOfHarmonics=1):	## The maximum number of harmonics is 14 since the 15th fibonacci harmonic is 1597, who's#frequency, given the lowest audible fundamental (20hz), is over the audible range (20000hz).		if noOfHarmonics > 14:		noOfHarmonics = 14## It constructs a series of fibonacci partials without duplicating "1".		partials    = []    # container for the list to be generated	a           = 1		# first fibonacci number	b           = 1		# second fibonacci number	counter     = 0     #counter		while counter < noOfHarmonics:		partials.append(b)		a, b = b, a+b		counter = counter+1	return partials	##Generates a prime number sequence -plus 1 at the beginning, since it
-#represents the fundamental frequency- with a number of elements that reflects
-#the spectral density of a note.def prime(noOfHarmonics=1):## The maximum number of harmonics is 168 since the 169th prime harmonic is
-#1009, who's frequency, given the lowest audible fundamental (20hz), is over
-#the audible range (20000hz).		if noOfHarmonics > 168:		noOfHarmonics = 168		## It constructs a series of prime partials plus "1" at the beginning.		partials    = []    # container for the list to be generated	candidate   = 2		# candidate for being prime (starts with the first prime)	counter     = 0     # counter	while counter < noOfHarmonics:		maxTest = int(sqrt(candidate))+1		for x in range (2, maxTest):			if candidate % x == 0:				candidate = candidate+1				break		else:			partials.append(candidate)			candidate = candidate+1			counter = counter+1	return partials
-
-
-###
-
-
-def scaling(aList, newTotal):
-	"""Scales the values in aList so they add up to newTotal"""
-	inAmpTotal	= 0.0
-	newAmps		= []
-
-	for x in aList:
-		inAmpTotal = inAmpTotal + x
-	scaleFactor = newTotal / inAmpTotal
-	for x in aList:
-		newAmp = x * scaleFactor
-		newAmps.append(newAmp)
-	return newAmps
-
-
-def scaleValToRng(value, oldMin, oldMax, newMin, newMax):	"""Scales a value within a range to it's equivalent in a new range.
-	value	---> the value to be scaled.
-	oldMin	---> the minimum of the old range
-	oldMax	---> the maximum of the old range
-	newMin	---> the minimum of the new range
-	newMax	---> the maximum of the new range
-	return 	--> a scaled value
-	"""	oldRange	= (oldMax*1.0) - oldMin	newRange	= newMax - newMin	ratio		= newRange/oldRange	scaledValue	= ((value - oldMin) * ratio + newMin)	return scaledValue

@@ -40,6 +40,9 @@ class BirthNote(object):
 	def mkspectData(self):
 		""" Constructs the neccesary data for each partial of the
 		spectrum.
+		return	--> A list of tuples, ereturn	--> A list of tuples, each tuple is a full list of
+					parameters to construct a Csound note-statementach tuple is a full list of
+					parameters to construct a Csound note-statement
 		"""
 		self.partls			= Spctrm.mkPartls(self.spectType, self.numOfPartls)
 		self.dSpect			= Spctrm.dSpect(self.fundFreq, self.partls,
@@ -57,6 +60,7 @@ class BirthNote(object):
 	def mkScoStrings(self):
 		""" Generates a set of Csound score statements (notes) that
 		comprehend a spectral note.
+		return	--> a list of strings, each of which is a note statement
 		"""
 		data			= self.mkspectData()
 		formatString 	= ''.join(['i%-8s ', '%-8s ' * (len(data[0]) -1)])		spectrSco		= []
@@ -94,6 +98,8 @@ class BckgrndNote(BirthNote):
 	def mkspectData(self):
 		""" Constructs the neccesary data for each partial of the
 		spectrum.
+		return	--> A list of tuples, each tuple is a full list of
+					parameters to construct a Csound note-statement
 		"""
 		self.partls			= Spctrm.mkPartls(self.spectType, self.numOfPartls)
 		self.dSpect			= Spctrm.dSpect(self.fundFreq, self.partls,

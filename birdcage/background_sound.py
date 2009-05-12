@@ -2,14 +2,18 @@
 # are converted into threads by playbak() and control(), respectively.
 
 # Python's native libraries
-import time, threading
+import time
+import threading
 from random import choice, randint, uniform
 # Sound-related submodules
 from csnd_interface import initCSnd, perf, cSnd
-import numeric_series as numSer
+import Numeric_utils as NU
 from equal_temper import centsToFreq
 from Csnd_notes import BckgrndNote
 import sound_globals as sGlobals
+
+# Instantiate the numeric scaling class. 
+Scaling = NU.Scaling()
 
 
 def oneBckgrndVox(frstInstr, dur, ptch, strtDistr, specType, distrBias, pan):
@@ -26,7 +30,7 @@ def oneBckgrndVox(frstInstr, dur, ptch, strtDistr, specType, distrBias, pan):
 	"""
 	fundFreq		= centsToFreq(ptch)
 	numOfPartls		= 13
-	endDistrFact	= strtDistr + numSer.scaleValToRng(sGlobals.populNorm[0],
+	endDistrFact	= strtDistr + Scaling.valToRng(sGlobals.populNorm[0],
 												.001875, .31375, 0, 0.2)
 	instrNos 		= range(frstInstr, (frstInstr + numOfPartls))
 	# Instantiate the background sound note class.
@@ -44,16 +48,16 @@ def oneBckgrndVox(frstInstr, dur, ptch, strtDistr, specType, distrBias, pan):
 		strtDistr = endDistrFact
 		bckgrndNote.distor = strtDistr
 		if not distrBias:
-			endDistrFact = strtDistr + numSer.scaleValToRng(sGlobals.populNorm[0],
+			endDistrFact = strtDistr + Scaling.valToRng(sGlobals.populNorm[0],
 													.001875, .31375, -0.04,
 													0.004)
 			bckgrndNote.distor2 = endDistrFact
 		elif distrBias is 1:
-			endDistrFact = strtDistr + numSer.scaleValToRng(sGlobals.populNorm[0],
+			endDistrFact = strtDistr + Scaling.valToRng(sGlobals.populNorm[0],
 													.001875, .31375, 0, 0.08)
 			bckgrndNote.distor2 = endDistrFact
 		elif distrBias is 2:
-			endDistrFact = strtDistr + numSer.scaleValToRng(sGlobals.populNorm[0],
+			endDistrFact = strtDistr + Scaling.valToRng(sGlobals.populNorm[0],
 													.001875, .31375, -.08, 0)
 			bckgrndNote.distor2 = endDistrFact
 		if endDistrFact > .15:
@@ -88,7 +92,7 @@ def ctrlBckgrndSnd():
 		allpartlsOn		= []
 		onChans				= []
 		offChans			= []
-		possiblepartlsOn 	= round(numSer.scaleValToRng(sGlobals.populNorm[0],
+		possiblepartlsOn 	= round(Scaling.valToRng(sGlobals.populNorm[0],
 												.001875, .31375, 1, 39))
 		updatepartls = 0
 		# Test how many partials will be attenuated or boosted, and

@@ -3,8 +3,11 @@
 
 import random
 
-import numeric_series as numSer
+import Numeric_utils as NU
 
+# Instantiate the numeric utilities classes.
+Scaling = NU.Scaling()
+Series	= NU.Series(1)
 
 class Spctrm:
 	""" Contains the methods to generate harmonic-based notes.
@@ -17,9 +20,9 @@ class Spctrm:
 		numOfPartls	---> number of partials to generate
 		return		--> a partial-series list
 		"""
-		kinds			= [numSer.odd, numSer.even, numSer.fibo, numSer.prime]
-		kindChoice		= kinds.pop(spectType)
-		partls			= kindChoice(numOfPartls)		return partls
+		kinds		= [Series.odd, Series.even, Series.fibo, Series.prime]
+		kindChoice	= kinds.pop(spectType)
+		partls		= kindChoice(numOfPartls)		return partls
 
 
 	def dSpect(self, fundFreq, partls, distor):		""" Constructs a distorted harmonic spectrum based on the 
@@ -45,8 +48,9 @@ class StrtTms:
 	def expoSpct(self, dSpect, limit=.3):		"""Makes exponential start times. The start times are ordered,
 		so that lower partials start earlier.
 		dSpect	---> a distorted-harmonic-spectrum list
+		limit	---> how late after the firs partial starts can the
+					last one begin. Default= .3 secs
 		return	--> a list of start times
-		limit=.3
 		"""		strts	= [0]		
 		for x in xrange(len(dSpect) - 1):			oneStrt = random.expovariate(2)			if oneStrt <= limit and oneStrt >= .001:				strts.append(oneStrt)		strts.sort()		return strts
 
@@ -97,7 +101,7 @@ class Amps:
 		spectAmps	= []
 
 		for x in xrange(len(dSpect)):        
-			oneAmp = random.uniform(.001, 1)			spectAmps.append(oneAmp)		spectAmps.sort()		spectAmps.reverse()		scaledSpectAmps = numSer.scaling(spectAmps, self.trgtBckgrndAmps)		return scaledSpectAmps
+			oneAmp = random.uniform(.001, 1)			spectAmps.append(oneAmp)		spectAmps.sort()		spectAmps.reverse()		scaledSpectAmps = Scaling.lstToTotl(spectAmps, self.trgtBckgrndAmps)		return scaledSpectAmps
 
 
 class Pan:
