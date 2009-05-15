@@ -56,14 +56,17 @@ def main(stdscr):
 	threads.
 	stdscr	---> a curses standard screen object
 	"""
-	(magdalen, doomsday, terra, display, size) = initSimulation(stdscr)
-
+	# Call the initialization method, and set the variables needed by
+	#the Simaulation and the Audiovisual threads.
+	(magdalen, doomsday, terra, display, size, biblos) = initSimulation(stdscr)
+	# Instantiate two threads with target methods simulationLoop() and
+	#audiovisualLoop().
 	simulation = threading.Thread(name='Simulation', target=simulationLoop,
 								args=(magdalen, doomsday))
 	audiovisual = threading.Thread(name='Audiovisual', target=audioVisualLoop,
 								args=(magdalen, doomsday, terra, display,
-										size))
-
+										size, biblos))
+	# Start the thread instances.
 	simulation.start()
 	audiovisual.start()
 
@@ -76,7 +79,8 @@ def initSimulation(stdscr):
 	stdscr	---> a curses standard screen object
 	return	--> a tuple containing: instances of GOD.organizer,
 				doomsday (number of iterations the simulation will
-				last), a c.a., a display, and ths c.a.'s size
+				last), a c.a., a display, ths c.a.'s size, and biblos
+				(a list with essential runtime information).
 	"""
 	# Instantiate a generator.
 	mary = GOD.Generator("kristos")
@@ -120,7 +124,7 @@ def initSimulation(stdscr):
 	sound.startSoundServer()
 	sound.startBackground()
 	sound.startBackgroundControl()
-	return (magdalen, doomsday, terra, display, size)
+	return (magdalen, doomsday, terra, display, size, biblos)
 
 
 def simulationLoop(magdalen, doomsday):
@@ -136,7 +140,7 @@ def simulationLoop(magdalen, doomsday):
 		magdalen.iterateAutomaton()
 
 
-def audioVisualLoop(magdalen, doomsday, terra, display, size):
+def audioVisualLoop(magdalen, doomsday, terra, display, size, biblos):
 	""" The audiovisual loop happens here.
 	magdalen	---> a GOD.organizer's instance
 	doomsday	---> the number of iterations that the simulation
@@ -144,17 +148,17 @@ def audioVisualLoop(magdalen, doomsday, terra, display, size):
 	terra		---> A birdcage cellular automaton's instance
 	display		---> A GOD.generator display instance
 	size		---> A tuple representing the c.a.'s size
+	biblos		---> A list with essential runtime information
 	"""
 	(width, height)	= size
 	
-	### First get background going, then deal with this.
-	#for i in range(avatars):
-	#	mary.generateGenotype(seedCode.split(" "), biblos) # NO MARY!!!
-	#	sound.agentBirth()
-	###
 	while magdalen.annum < doomsday:
 		# Update sound-control data
-		population = magdalen.iterateAutomaton() ##!!! extra c.a. iter.
+		population = magdalen.iterateAutomaton() ##!!! extra c.a. iter!!!!!
+		# GOD.Organizer parses the whole length of biblos
+		for entry in biblos:
+			magdalen.readBookOfLifeNew(entry)
+		# Update the data needed by the background sound engine.
 		populNorm = float(population) / operator.mul(width,height)
 		sndCtrlCells = [terra.get((22,18)), terra.get((40,18)),
 						terra.get((64,18))]
