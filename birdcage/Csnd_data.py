@@ -105,12 +105,25 @@ idurback		= idur - idurtoenvmax - .02
 ileft			= sqrt(p7)					; between 0-1, 1 is hard left
 iright			= sqrt(1-p7)
 kgate			= kchan
+; test if the note is tied
+ir		tival
+i1	= -1
+; if the note is tied, skip the oscili initialization and define an amp. envlp.
+	tigoto tied
+i1		= 0
 ; amplitude envelope
-kampenv		expseg 0.001, .5, iamp1, idurtoenvmax, iamp, idurback, iamp1, .5, 0.001
+kampenv		expseg 0.001, 1, iamp1, idurtoenvmax, iamp, idurback, iamp1, .5, 0.001
+tied:
+; skip this section if the note is tied.
+if ir == 0 kgoto oscilator
+; amplitude envelope for tied notes.
+kampenvtied		expseg 0.001, .5, iamp1, idurtoenvmax, iamp, idurback, iamp1, .5, 0.001
+kampenv = kampenv + kampenvtied
+oscilator:
 ; frequency glissando.
 kfreqgliss	expseg ifreq1, idur * .1, ifreq1, idur * .8, ifreq2, idur *.1, ifreq2
 ; oscilator with amplitude and frequency envelopes
-asig		oscili kampenv * kgate, kfreqgliss, 1
+asig		oscili kampenv * kgate, kfreqgliss, 1, i1
 ; stereo output
     outs asig * ileft, asig * iright
     endin
