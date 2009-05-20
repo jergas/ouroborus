@@ -83,12 +83,16 @@ class Generator:
 		# this is a hack to do away with the command line arguments Pyrex expects
 		commandLineArgs = ['build_ext', '--inplace']
 		sys.argv.extend(commandLineArgs)
+		# send gcc's output to a file instead of the terminal
+		sys.stdout = file("dump.txt","w")
 		# and the actual call to the compiler using the Pyrex build_ext command
 		distutils.core.setup(
 			name = onoma,
 			ext_modules = [Extension(onoma,[corpus])],
 			cmdclass = {'build_ext':build_ext}
 			) 
+		# restore the standard output to its default
+		sys.stdout = sys.__stdout__
 		# bring the command line back to its original condition
 		del sys.argv[-2:]
 
