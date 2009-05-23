@@ -1,3 +1,5 @@
+#!/usr/bin/python
+#
 # This baby is the start button for the whole ouroborus microworld
 #
 # Coded by Sat Tara Singh Khalsa and Jergas Apwith 
@@ -26,7 +28,7 @@ def main(mode = "Audiovisual", submode = "Normal"):
 			module = __import__("sequence_"+mode.lower())
 		except ImportError:
 			module = __import__("sequence_debug")
-		function = getattr(module, "startExecution"+submode, module.startExecutionNormal)
+		function = getattr(module, "startExecution"+submode.capitalize(), module.startExecutionNormal)
 		return function
 
 	chooseExecutionMode()()
@@ -60,6 +62,4 @@ if __name__ == "__main__":
 # into separate modules. I did this while sitting backwards on a train from the
 # best and most decadent city in the world, which is Calcutta, towards Shantiniketan
 # where Rabindranath Tagore put his ideal university.
-
-
 
