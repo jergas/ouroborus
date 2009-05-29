@@ -87,30 +87,37 @@ def ctrlBckgrndSnd():
 	offChansT3		= chansT3
 	wheightedGates	= [0.5]*7 + [0.25]*5 + [0.125]*3 + [0.0625]*2 + [.03125]*17
 	counter			= 1.0
+	oldPartialsOn	=	0
 
 	while sGlobals.mainIterCycle == 1:
-		allpartlsOn		= []
+		allpartlsOn			= []
 		onChans				= []
 		offChans			= []
-		possiblepartlsOn 	= round(Scaling.valToRng(sGlobals.populNorm[0],
+		updatepartls 		= 0
+		possiblePartlsOn	= round(Scaling.valToRng(sGlobals.populNorm[0],
 												.001875, .31375, 1, 39))
-		updatepartls = 0
+		# Wait until number of the automaton's live cells has varied.
+		# (needed when running the threaded version of the threaded
+		# execution).
+		while oldPartialsOn == possiblePartlsOn:
+			break
+		oldPartialsOn = possiblePartlsOn
 		# Test how many partials will be attenuated or boosted, and
 		# prepares the lists that do the trick.
 		if counter % 7 == 0:
-			partlsOnT1 = possiblepartlsOn // 3
+			partlsOnT1 = possiblePartlsOn // 3
 			allpartlsOn.append(partlsOnT1)
 			onChans.append(onChansT1)
 			offChans.append(offChansT1)
 			updatepartls += 1
 		if counter % 5 == 0:
-			partlsOnT2 = (possiblepartlsOn // 3) + (possiblepartlsOn % 3)
+			partlsOnT2 = (possiblePartlsOn // 3) + (possiblePartlsOn % 3)
 			allpartlsOn.append(partlsOnT2)
 			onChans.append(onChansT2)
 			offChans.append(offChansT2)
 			updatepartls += 1
 		if counter % 11 == 0:
-			partlsOnT3 = possiblepartlsOn // 3
+			partlsOnT3 = possiblePartlsOn // 3
 			allpartlsOn.append(partlsOnT3)
 			onChans.append(onChansT3)
 			offChans.append(offChansT3)
@@ -133,28 +140,28 @@ def ctrlBckgrndSnd():
 						y.append(newOff)
 		# Introduces (slight) discontinuity to the update of partial's
 		# intencity.		
-		if sGlobals.sndCtrlCells == [1, 1, 1]:
-			time.sleep(0.017)
-		elif sGlobals.sndCtrlCells == [1, 1, 0]:
-			time.sleep(0.013)
-		elif sGlobals.sndCtrlCells == [1, 0, 1]:
-			time.sleep(0.011)
-		elif sGlobals.sndCtrlCells == [0, 1, 1]:
-			time.sleep(0.007)
-		elif sGlobals.sndCtrlCells == [1, 0, 0]:
-			time.sleep(0.005)
-		elif sGlobals.sndCtrlCells == [0, 1, 0]:
-			time.sleep(0.003)
-		elif sGlobals.sndCtrlCells == [0, 0, 1]:
-			time.sleep(0.002)
-		if counter % 105 == 0:
-			time.sleep(0.031)
-		elif counter % 35 == 0:
-			time.sleep(.029)
-		elif counter % 21 == 0:
-			time.sleep(.023)
-		elif counter % 15== 0:
-			time.sleep(.019)
+#		if sGlobals.sndCtrlCells == [1, 1, 1]:
+#			time.sleep(0.017)
+#		elif sGlobals.sndCtrlCells == [1, 1, 0]:
+#			time.sleep(0.013)
+#		elif sGlobals.sndCtrlCells == [1, 0, 1]:
+#			time.sleep(0.011)
+#		elif sGlobals.sndCtrlCells == [0, 1, 1]:
+#			time.sleep(0.007)
+#		elif sGlobals.sndCtrlCells == [1, 0, 0]:
+#			time.sleep(0.005)
+#		elif sGlobals.sndCtrlCells == [0, 1, 0]:
+#			time.sleep(0.003)
+#		elif sGlobals.sndCtrlCells == [0, 0, 1]:
+#			time.sleep(0.002)
+#		if counter % 105 == 0:
+#			time.sleep(0.031)
+#		elif counter % 35 == 0:
+#			time.sleep(.029)
+#		elif counter % 21 == 0:
+#			time.sleep(.023)
+#		elif counter % 15== 0:
+#			time.sleep(.019)
 		counter += 1
 
 
