@@ -30,7 +30,7 @@ def initCSnd():
 	perf.Play()
 
 def endCsnd():
-	""" Stops playback (Top()). Releases any resources associated with
+	""" Stops playback (Stop()). Releases any resources associated with
 	the performance thread(Join()). Prints information about the end of
 	a performance, and closes the audio device (cleanup()).
 	"""

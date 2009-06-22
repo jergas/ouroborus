@@ -11,7 +11,6 @@
 #
 #	* A sweet spot between the simulation's speed and the audiovisual's
 #		lack of it has yet to be found
-#	* The terminal is not cleaned after the execution ends
 #	* Background sound algorithms must be updated to accomodate the
 #		threaded execution.
 #
@@ -46,6 +45,10 @@ def startExecutionNormal():
 	Sonorization through csound courtesy of Ernesto Illescas
 	"""
 	print "Ready for full audiovisual execution...commence primary ignition!"
+	# Start-up Csound (should be done here so Csound's start-up and
+	#compilation messages are kept away from the simulation by
+	#curses.wrapper()
+	sound.startSoundServer()
 	curses.wrapper(main)
 	return 1
 
@@ -65,9 +68,15 @@ def main(stdscr):
 									target=Sequence.simulationLoop)
 	audiovisual = threading.Thread(name='Audiovisual',
 									target=Sequence.audioVisualLoop)
-	# Start the thread instances.
+	# Start the thread instances, and then wait until they've finished,
+	# so they don't interfere with curses' clean-up.
 	simulation.start()
 	audiovisual.start()
+	simulation.join()
+	audiovisual.join()
+
+	del sys.argv[1:]
+	print "Done"
 
 
 class ThreadedSequence(object):
@@ -93,13 +102,13 @@ class ThreadedSequence(object):
 		mary = GOD.Generator("kristos")
 		# The following lines contain all the data to build a complete
 		# cellular automaton.
-		self.size = (width, height) = (80,20)
+		self.size = (width, height) = (80, 570)
 		topologyData = ("GridTopology", 0)
 		neighborData = ("VonNeumannNeighborhood", )
 		ruleData = ("ReductionRule", (operator.xor, 0))
 		automatonData = ("SynchronousAutomaton_2D", )
 		seedCode = "Y i Y c Y s C b C d C r T l T p T e T c T r T g T o R d R l"
-		(avatars, self.doomsday) = (1, 15000)
+		(avatars, self.doomsday) = (1, 50)
 		self.biblos = []
 		# Invoke GOD.Generator's automaton creation method with the data
 		# given above.
@@ -128,13 +137,11 @@ class ThreadedSequence(object):
 		# Initialize an attribute to hold the automaton's population.
 		self.population = 0
 
-		# Generate a display, and start the sound server and threads.
+		# Generate a display, and start the sound threads.
 		setCursesColors()
 		self.display = mary.generateDisplay(self.terra, self.size, stdscr)
-		sound.startSoundServer()
 		sound.startBackground()
 		sound.startBackgroundControl()
-
 		# Create a thread-condition object to keep the simulation and
 		# audiovisual threads synchronized.
 		self.lock				= threading.Lock()
@@ -153,23 +160,26 @@ class ThreadedSequence(object):
 
 		# Main iteration cycle
 		while self.magdalen.annum < self.doomsday:
+
 			# GOD.Organizer iterates the c.a., while updating the population
 			# attribute.
 			# If loopsPerVisual loops of the simulation have transcurred,
-			# notify the audiovisual thread, so that it loops once.			
+			# notify the audiovisual thread, so that it loops once.
+			self.threadCondition.acquire()		
 			if loopsPerVisual == counter:
-
-				self.threadCondition.acquire()
-
 				self.population = self.magdalen.iterateAutomaton()
-
 				self.threadCondition.notify()
-				self.threadCondition.wait()				
-				self.threadCondition.release()
-				counter = 0
+				self.threadCondition.wait()
+				counter = 1
 			else:
 				self.population = self.magdalen.iterateAutomaton()
 				counter += 1
+			self.threadCondition.release()
+		# This last part makes sure that, if this thread finishes before
+		# the audiovisual one, the latter does not remain locked.
+		self.threadCondition.acquire()
+		self.threadCondition.notify()
+		self.threadCondition.release()	
 
 
 	def audioVisualLoop(self):
@@ -203,10 +213,12 @@ class ThreadedSequence(object):
 			self.threadCondition.notify()
 			self.threadCondition.wait()
 			self.threadCondition.release()
-
+		# This last part makes sure that, if this thread finishes before
+		# the simulation one, the latter does not remain locked.
+		self.threadCondition.acquire()
+		self.threadCondition.notify()
+		self.threadCondition.release()	
 		sound.stopSoundServer()
-		del sys.argv[1:]
-		print "Done"
 
 
 
