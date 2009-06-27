@@ -23,7 +23,7 @@ import random
 
 class Generator:
 	"""This object creates a code object from a genome and appends it onto
-        the list of creatures. It also performs other creation-related functions
+	the list of creatures. It also performs other creation-related functions
 	such as generating a fully-functioning cellular automaton"""
 
 
@@ -43,7 +43,7 @@ class Generator:
 		tdata  ---> a Python tuple commencing with a string
 		ndata  ---> a Python tuple commencing with a string
 		rdata  ---> a Python tuple commencing with a string
-                adata  ---> a Python tuple commencing with a string
+		adata  ---> a Python tuple commencing with a string
 		return -->> an Automaton object"""
 
 		topologyClass = getattr(topology, tdata[0])
@@ -187,7 +187,7 @@ class Organizer:
 		return self.earth.update()
 
 
-        def readBookOfLifeNew(self, bookentry):
+	def readBookOfLifeNew(self, bookentry):
 		"""New and more pythonic version of this core function
 
 		bookentry ---> a BookEntry object
@@ -248,7 +248,7 @@ class Organizer:
 		return 1
 
 
-        def readBookOfLife(self, index, code, prana, mana, address, generator):
+	def readBookOfLife(self, index, code, prana, mana, address, generator):
 		"""Dynamically import the modules compiled by the Generator
 
 		This will also cause actual agent instances to be created
@@ -300,7 +300,7 @@ class Organizer:
 		"""Refresh the display on a curses terminal
 
 		display       ---> a 3-tuple as follows:
-		                   (stdscr, displaywidth, displayheight)
+						(stdscr, displaywidth, displayheight)
 		stdscr        ---> a curses standard screen object
 		displaywidth  ---> the integer width of the curses terminal
 		displayheight ---> the integer height of the curses terminal
