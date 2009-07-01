@@ -58,7 +58,7 @@ def main(stdscr):
 	import operator
 	ruleData = ("ReductionRule", (operator.xor, 0))
 	automatonData = ("SynchronousAutomaton_2D", )
-	seedCode = "Y i Y c Y s C b C d C r T l T e T r R d R p R c R l"
+	seedCode = "Yi Yc Ys Cb Cd Cr Tl Te Tr Rd Rp Rc Rl"
 
 	# invoke God.Generator's automaton creation method with the data given above
 	# (avatars, doomsday)= sys.argv[-2:]
@@ -72,7 +72,7 @@ def main(stdscr):
 
 
 	for i in range(avatars):
-		mary.generateGenotype(seedCode.split(" "), biblos)
+		mary.generateGenotype(list(seedCode.replace(" ","")), biblos)
 		#print "generated agent", i # debugging
 		sound.agentBirth()
 		#print "biblos is", biblos # debugging
