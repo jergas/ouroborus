@@ -37,7 +37,10 @@ cdef class Genome:
                           into a string of executable Python code
           wordlength ---> an integer, the length of each word"""
  
-          self.text = text
+          if  isinstance(text, list):
+              self.text = text
+          else:
+              self.text = list(text.replace(" ",""))
           self.table = table
           self.wordlength = wordlength
 

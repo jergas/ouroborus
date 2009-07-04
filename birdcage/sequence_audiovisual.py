@@ -72,7 +72,7 @@ def main(stdscr):
 
 
 	for i in range(avatars):
-		mary.generateGenotype(list(seedCode.replace(" ","")), biblos)
+		mary.generateGenotype(seedCode, biblos)
 		#print "generated agent", i # debugging
 		sound.agentBirth()
 		#print "biblos is", biblos # debugging
