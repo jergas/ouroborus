@@ -102,13 +102,13 @@ class ThreadedSequence(object):
 		mary = GOD.Generator("kristos")
 		# The following lines contain all the data to build a complete
 		# cellular automaton.
-		self.size = (width, height) = (80, 570)
+		self.size = (width, height) = (80, 20)
 		topologyData = ("GridTopology", 0)
 		neighborData = ("VonNeumannNeighborhood", )
 		ruleData = ("ReductionRule", (operator.xor, 0))
 		automatonData = ("SynchronousAutomaton_2D", )
 		seedCode = "Y i Y c Y s C b C d C r T l T p T e T c T r T g T o R d R l"
-		(avatars, self.doomsday) = (1, 50)
+		(avatars, self.doomsday) = (1, 1000)
 		self.biblos = []
 		# Invoke GOD.Generator's automaton creation method with the data
 		# given above.
