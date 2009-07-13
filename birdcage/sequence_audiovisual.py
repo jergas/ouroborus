@@ -19,6 +19,7 @@
 
 
 import GOD
+from bookentry import BookEntry
 import random
 import sys
 
@@ -58,28 +59,35 @@ def main(stdscr):
 	import operator
 	ruleData = ("ReductionRule", (operator.xor, 0))
 	automatonData = ("SynchronousAutomaton_2D", )
-	seedCode = "Yi Yc Ys Cb Cd Cr Tl Te Tr Rd Rp Rc Rl"
+	seedCode = "Y i Y c Y s C b C d C r T l T p T e T c T r T g T o R d R l"
 
 	# invoke God.Generator's automaton creation method with the data given above
 	# (avatars, doomsday)= sys.argv[-2:]
-	(avatars, doomsday) = (1, 15000)
+	(avatars, doomsday) = (1, 570)
 	# del sys.argv[-2:]
 	avatars = int(avatars)
 	doomsday = int(doomsday)
 	biblos = []
 	terra = mary.generateAutomaton(size, topologyData, neighborData, ruleData, automatonData)
 	magdalen = GOD.Organizer(terra, biblos)
+	magdalen.generator = mary
+	(magdalen.width, magdalen.height) = (width, height)
 
+	# cycle through avatars to populate the automaton with some initial creatures"
+	while avatars:
+		# GOD.Generator will compile a module for each creature, and append
+		# it to the list biblos along with its name
+		mary.generateGenotypeNew(seedCode.split(" "), biblos)
+		avatars -= 1
 
-	for i in range(avatars):
-		mary.generateGenotype(seedCode, biblos)
-		#print "generated agent", i # debugging
-		sound.agentBirth()
-		#print "biblos is", biblos # debugging
-		(x, y) = (30, 8)		
-		#(x, y) = (random.randint(0, width-1), random.randint(0, height-1))
-		magdalen.readBookOfLife(i, seedCode, 7, 1, (x, y), mary)
-		#print "biblos is", biblos # debugging
+	for entry in biblos:	
+		# set some initial parameters in each entry's fatum
+		entry.fatum["code"] = seedCode
+		entry.fatum["prana"] = 7
+		entry.fatum["mana"] = 1
+		(x, y) = (random.randint(0, width-1), random.randint(0, height-1))
+		entry.fatum["address"] = (x, y)
+		magdalen.readBookOfLifeNew(entry)
 
 	
 	display = mary.generateDisplay(terra, size, stdscr)
@@ -91,10 +99,8 @@ def main(stdscr):
 		#print "biblos is", biblos
 		population = magdalen.iterateAutomaton()
 		populNorm = float(population) / operator.mul(width,height)
-		for i in range(len(biblos)): 
-			magdalen.readBookOfLife(i, "a", 0, 0, (50,8), mary)
-			if magdalen.annum == 750:
-				biblos[0][3].gainPrana(5)
+		for entry in biblos:
+			magdalen.readBookOfLifeNew(entry)
 		#magdalen.iterateAgents()
 		magdalen.refreshDisplay(display)
 		sndCtrlCells = [terra.get((22,18)), terra.get((40,18)),
