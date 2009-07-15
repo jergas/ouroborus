@@ -13,8 +13,8 @@ cdef enum:
 cdef class Topology:  
      """Abstract base class for all topologies"""
 
-     cdef int dimension, background, cells
-     cdef object size, zero, name
+     cdef public int dimension, background, cells
+     cdef public object size, zero, name
 
      cdef int pyx_isNormalized(self, object address)
      cdef object pyx_normalize(self, object address)

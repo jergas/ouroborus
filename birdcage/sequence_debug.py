@@ -47,7 +47,7 @@ def startExecutionNormal():
 	seedCode = "Y i Y c Y s C b C d C r T l T p T e T c T r T g T o R d R l"
 
 	# avatars is the number of initial creatures, and doomsday the number of iterations	
-	(avatars, doomsday) = (1, 17)
+	(avatars, doomsday) = (1, 1000)
 	# biblos is a list which whill contain essential runtime information
 	biblos = []
 

@@ -35,6 +35,7 @@ class BookEntry:
 		self.module = None
 		self.agent = None
 		self.fatum = {"prayer":"BeBirthed"}
+		self.automaton = None
 
 	def __str__(self):
 		display = ["Name of entry in BOL: "+self.name, "Entry's fatum:"]
@@ -58,7 +59,7 @@ class BookEntry:
 		mana = self.fatum["mana"]		
 		address = self.fatum["address"]
 		self.agent = self.module.birth(automaton, code, prana, mana, address)
-
+		self.automaton = automaton
 
 	def agentLive(self):
 		"""Call on the agent to perform its live method
@@ -69,6 +70,7 @@ class BookEntry:
 		self.fatum["prana"] = self.agent.tellPrana() # simply update some data now
 		self.fatum["address"] = self.agent.tellAddress()
 		return 1
+
 
 # History
 #
