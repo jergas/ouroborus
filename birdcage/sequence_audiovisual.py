@@ -23,6 +23,14 @@ from bookentry import BookEntry
 import random
 import sys
 
+
+def setCursesColors():
+	curses.init_pair(1, curses.COLOR_RED, curses.COLOR_BLACK)
+	curses.init_pair(2, curses.COLOR_GREEN, curses.COLOR_BLACK)
+	curses.init_pair(3, curses.COLOR_YELLOW, curses.COLOR_BLACK)
+	curses.init_pair(4, curses.COLOR_BLUE, curses.COLOR_BLACK)
+
+
 def startExecutionNormal():
 	"""start normal execution cycle with sound and visual display
 
@@ -45,6 +53,8 @@ def startExecutionNormal():
 def main(stdscr):
 
 	mary = GOD.Generator("kristos")
+
+	# start the sound server
 	sound.startSoundServer()
 
 	# setting the curses colour pairs
@@ -59,16 +69,20 @@ def main(stdscr):
 	import operator
 	ruleData = ("ReductionRule", (operator.xor, 0))
 	automatonData = ("SynchronousAutomaton_2D", )
+
+	# the seedCode is the genetic code given to the initial creatures
+	# look at the module code for meaning of the genome; tamper with this
+	# at your own peril!
 	seedCode = "Y i Y c Y s C b C d C r T l T p T e T c T r T g T o R d R l"
 
-	# invoke God.Generator's automaton creation method with the data given above
-	# (avatars, doomsday)= sys.argv[-2:]
+	# avatars is the number of initial creatures, and doomsday the number of iterations
 	(avatars, doomsday) = (1, 570)
-	# del sys.argv[-2:]
-	avatars = int(avatars)
-	doomsday = int(doomsday)
+	# biblos is a list which whill contain essential runtime information
 	biblos = []
+	# invoke GOD.Generator's automaton creation method with the data given above
 	terra = mary.generateAutomaton(size, topologyData, neighborData, ruleData, automatonData)
+
+	# now call a GOD.Organizer to oversee this automaton
 	magdalen = GOD.Organizer(terra, biblos)
 	magdalen.generator = mary
 	(magdalen.width, magdalen.height) = (width, height)
@@ -80,6 +94,8 @@ def main(stdscr):
 		mary.generateGenotypeNew(seedCode.split(" "), biblos)
 		avatars -= 1
 
+	# magdalen reads the data in biblos and calls actual agent objects
+	# into being from the code in the modules compiled by mary
 	for entry in biblos:	
 		# set some initial parameters in each entry's fatum
 		entry.fatum["code"] = seedCode
@@ -88,20 +104,22 @@ def main(stdscr):
 		(x, y) = (random.randint(0, width-1), random.randint(0, height-1))
 		entry.fatum["address"] = (x, y)
 		magdalen.readBookOfLifeNew(entry)
-
 	
 	display = mary.generateDisplay(terra, size, stdscr)
+
+	# start the background sound and its control thread
 	sound.startBackground()
 	sound.startBackgroundControl()
+
 	# here cometh the main iteration cycle
 	while magdalen.annum < doomsday:
-		#print "time is", magdalen.annum
-		#print "biblos is", biblos
+		# GOD.Organizer iterates the c.a. and makes sure the world keeps revolving. Also, populationNorm is calculated in order to determine (sound) spectral density.
 		population = magdalen.iterateAutomaton()
 		populNorm = float(population) / operator.mul(width,height)
+		# GOD.Organizer parses the whole length of biblos
 		for entry in biblos:
 			magdalen.readBookOfLifeNew(entry)
-		#magdalen.iterateAgents()
+		# The display and the sound control data are updated.
 		magdalen.refreshDisplay(display)
 		sndCtrlCells = [terra.get((22,18)), terra.get((40,18)),
 						terra.get((64,18))]
@@ -109,13 +127,8 @@ def main(stdscr):
 
 	sound.stopSoundServer()
 	del sys.argv[1:]
-	return biblos
-
-def setCursesColors():
-	curses.init_pair(1, curses.COLOR_RED, curses.COLOR_BLACK)
-	curses.init_pair(2, curses.COLOR_GREEN, curses.COLOR_BLACK)
-	curses.init_pair(3, curses.COLOR_YELLOW, curses.COLOR_BLACK)
-	curses.init_pair(4, curses.COLOR_BLUE, curses.COLOR_BLACK)
+	print "Done"
+	return 1
 
 
 
