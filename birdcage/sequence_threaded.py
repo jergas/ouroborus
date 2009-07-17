@@ -11,8 +11,10 @@
 #
 #	* A sweet spot between the simulation's speed and the audiovisual's
 #		lack of it has yet to be found
+#	* The terminal window is not re-established if the application is
+#		terminated via ctrl^c
 #	* Background sound algorithms must be updated to accomodate the
-#		threaded execution.
+#		threaded execution
 #
 # It includes the following features:
 #
@@ -35,6 +37,12 @@ import GOD
 from bookentry import BookEntry
 import sound
 
+def setCursesColors():
+	curses.init_pair(1, curses.COLOR_RED, curses.COLOR_BLACK)
+	curses.init_pair(2, curses.COLOR_GREEN, curses.COLOR_BLACK)
+	curses.init_pair(3, curses.COLOR_YELLOW, curses.COLOR_BLACK)
+	curses.init_pair(4, curses.COLOR_BLUE, curses.COLOR_BLACK)
+
 
 def startExecutionNormal():
 	"""Start normal execution cycle with sound and visual display
@@ -47,8 +55,11 @@ def startExecutionNormal():
 	print "Ready for full audiovisual execution...commence primary ignition!"
 	# Start-up Csound (should be done here so Csound's start-up and
 	#compilation messages are kept away from the simulation by
-	#curses.wrapper()
+	#curses.wrapper().
 	sound.startSoundServer()
+	# curses.wrapper is the kosher way to fire up curses visual services; it
+	#guarantees that the terminal will not be left stranded in an ocean of
+	#insanity if the program terminates exceptionally.
 	curses.wrapper(main)
 	return 1
 
@@ -93,10 +104,6 @@ class ThreadedSequence(object):
 		initial creatures (broken). Generates a display, and
 		starts sound.
 		stdscr	---> a curses standard screen object
-		return	--> a tuple containing: instances of GOD.organizer,
-					doomsday (number of iterations the simulation will
-					last), a c.a., a display, ths c.a.'s size, and biblos
-					(a list with essential runtime information).
 		"""
 		# Instantiate a generator.
 		mary = GOD.Generator("kristos")
@@ -107,13 +114,20 @@ class ThreadedSequence(object):
 		neighborData = ("VonNeumannNeighborhood", )
 		ruleData = ("ReductionRule", (operator.xor, 0))
 		automatonData = ("SynchronousAutomaton_2D", )
+		# The seedCode is the genetic code given to the initial creatures look
+		# at the module code for meaning of the genome. Tamper with this at your
+		# own peril!
 		seedCode = "Y i Y c Y s C b C d C r T l T p T e T c T r T g T o R d R l"
+		# avatars is the number of initial creatures, and doomsday is the number
+		# of iterations.
 		(avatars, self.doomsday) = (1, 1000)
+		# biblos is a list which whill contain essential runtime information.
 		self.biblos = []
 		# Invoke GOD.Generator's automaton creation method with the data
 		# given above.
-		self.terra = mary.generateAutomaton(self.size, topologyData, neighborData, ruleData,
-										automatonData)
+		self.terra = mary.generateAutomaton(self.size, topologyData,
+											neighborData, ruleData, 
+											automatonData)
 		# Call a GOD.Organizer to oversee this automaton.
 		self.magdalen = GOD.Organizer(self.terra, self.biblos)
 		self.magdalen.generator = mary
@@ -150,30 +164,34 @@ class ThreadedSequence(object):
 
 	def simulationLoop(self):
 		"""The simulation's main iteration cycle happens here.
-		magdalen	---> a GOD.organizer's instance
-		doomsday	---> the number of iterations that the simulation
-						will undergo
-		return		--> 1
 		"""	
 		loopsPerVisual	= 2
 		counter			= 2
 
 		# Main iteration cycle
 		while self.magdalen.annum < self.doomsday:
-
-			# GOD.Organizer iterates the c.a., while updating the population
-			# attribute.
+			# Aquire a thread-synchronizing condition.
+			self.threadCondition.acquire()
+			# Iterate the c.a., while updating the population attribute. Parse
+			# the whole length of biblos.
 			# If loopsPerVisual loops of the simulation have transcurred,
-			# notify the audiovisual thread, so that it loops once.
-			self.threadCondition.acquire()		
+			# notify the audiovisual thread, so that it loops once. Otherwise,
+			# only iterate the simulation.		
 			if loopsPerVisual == counter:
 				self.population = self.magdalen.iterateAutomaton()
+				for entry in self.biblos:
+					self.magdalen.readBookOfLifeNew(entry)
+				# Notify the audiovisual loop, so it continues its course.
 				self.threadCondition.notify()
+				# Wait for a notification from the audiovisual loop.
 				self.threadCondition.wait()
 				counter = 1
 			else:
 				self.population = self.magdalen.iterateAutomaton()
+				for entry in self.biblos:
+					self.magdalen.readBookOfLifeNew(entry)
 				counter += 1
+			# Release the thread-synchronizing condition.
 			self.threadCondition.release()
 		# This last part makes sure that, if this thread finishes before
 		# the audiovisual one, the latter does not remain locked.
@@ -184,23 +202,12 @@ class ThreadedSequence(object):
 
 	def audioVisualLoop(self):
 		""" The audiovisual loop happens here.
-		magdalen	---> a GOD.organizer's instance
-		doomsday	---> the number of iterations that the simulation
-						will undergo
-		terra		---> A birdcage cellular automaton's instance
-		display		---> A GOD.generator display instance
-		size		---> A tuple representing the c.a.'s size
-		biblos		---> A list with essential runtime information
 		"""
 		(width, height)	= self.size
 		
 		while self.magdalen.annum < self.doomsday:
-
+			# Aquire a thread-synchronizing condition.
 			self.threadCondition.acquire()
-			
-			# GOD.Organizer parses the whole length of biblos
-			for entry in self.biblos:
-				self.magdalen.readBookOfLifeNew(entry)
 			# Update the data needed by the background sound engine.
 			populNorm = float(self.population) / operator.mul(width,height)
 			sndCtrlCells = [self.terra.get((22,18)), self.terra.get((40,18)),
@@ -209,9 +216,11 @@ class ThreadedSequence(object):
 			self.magdalen.refreshDisplay(self.display)
 			# Update the audio
 			sound.inputDataControl(sndCtrlCells, populNorm)
-
+			# Notify the simulation loop, so it continues its course.
 			self.threadCondition.notify()
+			# Wait for a notification from the simulation loop.
 			self.threadCondition.wait()
+			# Release the thread-synchronizing condition.
 			self.threadCondition.release()
 		# This last part makes sure that, if this thread finishes before
 		# the simulation one, the latter does not remain locked.
@@ -219,11 +228,3 @@ class ThreadedSequence(object):
 		self.threadCondition.notify()
 		self.threadCondition.release()	
 		sound.stopSoundServer()
-
-
-
-def setCursesColors():
-	curses.init_pair(1, curses.COLOR_RED, curses.COLOR_BLACK)
-	curses.init_pair(2, curses.COLOR_GREEN, curses.COLOR_BLACK)
-	curses.init_pair(3, curses.COLOR_YELLOW, curses.COLOR_BLACK)
-	curses.init_pair(4, curses.COLOR_BLUE, curses.COLOR_BLACK)
