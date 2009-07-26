@@ -16,8 +16,24 @@ class TopologySampleValues(u.TestCase):
                      ((10,10,10,10), 0),
                      ((10,10,10,10,10,10,10), 3) )
 
+
+    def testTopologyCanBeCreated(self):
+        """Topology must instantiate with the sample values"""
+
+        for size, background in self.sampleValues:
+            topology = t.Topology(size, background)
+
+
+    def testTopologyHasSizeAsGiven(self):
+        """Topology.size must be the list given at instantiation"""
+
+        for size, background in self.sampleValues:
+            topology = t.Topology(size, background)
+            self.assertEqual(size,topology.size)
+
+
     def testTopologyHasBackgroundAsGiven(self):
-        """Topology.background must be an integer"""
+        """Topology.background must be the integer given at instantiation"""
 
         for size, background in self.sampleValues:
             topology = t.Topology(size, background)
