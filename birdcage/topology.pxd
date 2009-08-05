@@ -25,7 +25,7 @@ cdef class GridTopology(Topology):
      """A two-dimensional, bounded topology consisting of a rectangular
      grid of cells, base class for 2D topologies"""
 
-     cdef int border, width, height
+     cdef public int border, width, height
      cdef int cell[caliber][caliber]
 
     
