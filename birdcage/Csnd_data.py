@@ -51,8 +51,8 @@ csound -odac -+rtaudio=alsa -b8192 -B8192 -d -m0 temp.orc temp.sco
 		"""
 		orchestraHeader	= """
 <CsInstruments>
-sr = 44100	; sample rate
-kr = 4410	; control rate
+sr = 22050	; sample rate
+kr = 2205	; control rate
 ksmps = 10	; sr/kr
 nchnls = 2	; # of channels
 

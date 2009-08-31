@@ -120,7 +120,7 @@ class ThreadedSequence(object):
 		seedCode = "Y i Y c Y s C b C d C r T l T p T e T c T r T g T o R d R l"
 		# avatars is the number of initial creatures, and doomsday is the number
 		# of iterations.
-		(avatars, self.doomsday) = (1, 1000)
+		(avatars, self.doomsday) = (1, 570)
 		# biblos is a list which whill contain essential runtime information.
 		self.biblos = []
 		# Invoke GOD.Generator's automaton creation method with the data

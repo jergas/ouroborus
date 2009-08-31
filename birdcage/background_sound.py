@@ -29,9 +29,11 @@ def oneBckgrndVox(frstInstr, dur, ptch, strtDistr, specType, distrBias, pan):
 	pan			---> Note's panning
 	"""
 	fundFreq		= centsToFreq(ptch)
-	numOfPartls		= 13
+	numOfPartls		= 12
 	endDistrFact	= strtDistr + Scaling.valToRng(sGlobals.populNorm[0],
-												.001875, .31375, 0, 0.2)
+													sGlobals.populMin[0],
+													sGlobals.populMax[0],
+													0, 0.2)
 	instrNos 		= range(frstInstr, (frstInstr + numOfPartls))
 	# Instantiate the background sound note class.
 	bckgrndNote = BckgrndNote(instrNos, fundFreq, numOfPartls, specType,
@@ -49,16 +51,21 @@ def oneBckgrndVox(frstInstr, dur, ptch, strtDistr, specType, distrBias, pan):
 		bckgrndNote.distor = strtDistr
 		if not distrBias:
 			endDistrFact = strtDistr + Scaling.valToRng(sGlobals.populNorm[0],
-													.001875, .31375, -0.04,
-													0.004)
+														sGlobals.populMin[0],
+														sGlobals.populMax[0],
+														-0.04, 0.004)
 			bckgrndNote.distor2 = endDistrFact
 		elif distrBias is 1:
 			endDistrFact = strtDistr + Scaling.valToRng(sGlobals.populNorm[0],
-													.001875, .31375, 0, 0.08)
+														sGlobals.populMin[0],
+														sGlobals.populMax[0],
+														0, 0.08)
 			bckgrndNote.distor2 = endDistrFact
 		elif distrBias is 2:
 			endDistrFact = strtDistr + Scaling.valToRng(sGlobals.populNorm[0],
-													.001875, .31375, -.08, 0)
+														sGlobals.populMin[0],
+														sGlobals.populMax[0],
+														-.08, 0)
 			bckgrndNote.distor2 = endDistrFact
 		if endDistrFact > .15:
 			distrBias = 2
@@ -100,6 +107,7 @@ def ctrlBckgrndSnd():
 		# (needed when running the threaded version of the threaded
 		# execution).
 		while oldPartialsOn == possiblePartlsOn:
+			time.sleep(.01)
 			break
 		oldPartialsOn = possiblePartlsOn
 		# Test how many partials will be attenuated or boosted, and
@@ -162,7 +170,10 @@ def ctrlBckgrndSnd():
 #			time.sleep(.023)
 #		elif counter % 15== 0:
 #			time.sleep(.019)
+		if sGlobals.populNorm[0] > sGlobals.populMax[0]:
+			sGlobals.populMax[0] = sGlobals.populNorm[0]
 		counter += 1
+		time.sleep(.01)
 
 
 def playback():

@@ -24,30 +24,33 @@ class Series(object):
 		noOfElements	---> the desired elements in the series
 		"""		evenLst    = []
 		even        = 2
-		# If series is intended for a harmonic series, limit the value
-		#to the audible range (controlled by the self.harmonic).
-		if self.harmonic == 1 and noOfElmnts > 500:			noOfElmnts = 500
+		# If series is intended for a harmonic series, limit the series
+		# so that its last harmonic is below 1/2 of the sample rate
+		# (assuming a fundamental of 20hz and a distortion facotr of 1).
+		if self.harmonic == 1 and noOfElmnts > 250:			noOfElmnts = 250
 
 		for x in xrange(noOfElmnts):			evenLst.append(even)			even = even + 2		return evenLst	def odd(self, noOfElmnts):		""" Constructs an odd-number series of noOfElements.
 		noOfElements	---> the desired elements in the series
 		"""		oddLst    = []		odd         = 1		counter     = 0
-		# If series is intended for a harmonic series, limit the value
-		#to the audible range (controlled by the self.harmonic).
-		if self.harmonic == 1 and noOfElmnts > 499:			noOfElmnts = 499				for x in xrange(noOfElmnts):			oddLst.append(odd)			odd = odd+2		return oddLst
+		# If series is intended for a harmonic series, limit the series
+		# so that its last harmonic is below 1/2 of the sample rate
+		# (assuming a fundamental of 20hz and a distortion facotr of 1).
+		if self.harmonic == 1 and noOfElmnts > 250:			noOfElmnts = 250				for x in xrange(noOfElmnts):			oddLst.append(odd)			odd = odd+2		return oddLst
 	def fibo(self, noOfElmnts):		""" Constructs a fibonacci-number series of noOfElements.
 		noOfElements	---> the desired elements in the series		"""		fiboLst    = []		a           = 0		b           = 1
-		# If series is intended for a harmonic series, limit the value
-		#to the audible range (controlled by the self.harmonic), and do
-		#not repeat 1 at the beginning of the series (i.e. don't double
-		#the fundamental.
-		if self.harmonic == 1 and noOfElmnts > 14:			noOfElmnts = 14
+		# If series is intended for a harmonic series, limit the series
+		# so that its last harmonic is below 1/2 of the sample rate
+		# (assuming a fundamental of 20hz and a distortion facotr of 1).
+		if noOfElmnts > 12:			noOfElmnts = 12
+		if self.harmonic == 1:
 			a = 1				for x in xrange(noOfElmnts):			fiboLst.append(b)			a, b = b, a+b		return fiboLst	def prime(self, noOfElmnts):
 		""" Constructs a prime-number series of noOfElements.
 		noOfElements	---> the desired elements in the series
 		"""		primeLst    = []		candidate   = 2		counter     = 0
-		# If series is intended for a harmonic series, limit the value
-		#to the audible range (controlled by the self.harmonic).
-		if self.harmonic == 1 and noOfElmnts > 168:			noOfElmnts = 168		while counter < noOfElmnts:			maxTest = int(sqrt(candidate)) + 1			for x in range(2, maxTest):				if candidate % x == 0:					candidate += 1					break			else:				primeLst.append(candidate)				candidate += 1				counter += 1		return primeLst
+		# If series is intended for a harmonic series, limit the series
+		# so that its last harmonic is below 1/2 of the sample rate
+		# (assuming a fundamental of 20hz and a distortion facotr of 1).
+		if self.harmonic == 1 and noOfElmnts > 95:			noOfElmnts = 95		while counter < noOfElmnts:			maxTest = int(sqrt(candidate)) + 1			for x in range(2, maxTest):				if candidate % x == 0:					candidate += 1					break			else:				primeLst.append(candidate)				candidate += 1				counter += 1		return primeLst
 
 
 class Scaling(object):
