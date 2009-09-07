@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+<title>Project Ouroborus - Downloading the Package</title>
+<link href="style.css" type="text/css" rel="stylesheet" title="Standard"  />
+<style>
+div#logo							 {
+											 position: relative;
+											 left: 250px;
+											 top: 70px;
+											 margin-left: -200px;
+											 float: right;
+											 }
+</style>
+</head>
+<body>
+
+
+<div class="section" id="intro">
+<a name="intro"></a>
+<h1>Downloading the Package: Ouroborus!</h1>
+
+
+<p>You have chosen to partake of our journey and download Project Ouroborus. It
+is proper that a prayer be said at the commencement of a sojourn, and whether
+this be a fanciful stroll along the forest's edge or a lifetime voyage you now
+undertake, we pray that you may find in this material inspiration for your own 
+contemplation, and that thus inspired you may then give back to others that
+each may follow his or her path, and all together we may profit.</p>
+
+<p>Here we present our lapis philosophorum, that those with eyes may see it:</p>
+
+<h2><a href="ouroborus.zip">Project Ouroborus - version 0.1.0</a> (.zip 82KB)</h2>
+
+<p>And some additional information:</p>
+
+<ul>
+<li><a href="#Installation">Installation Instructions</a></li>
+<li><a href="#Dependencies">Overview of Dependencies</a></li>
+<li><a href="#Releases">Earlier Releases</a></li>
+</ul>
+
+</div>
+<div class="section" id="Installation">
+<h2><a name="Installation"></a>Installation Instructions</h2>
+
+<p><span class="bigword">Windows: </span>Ouroborus has been successfully
+installed and run on Windows XP. We do not have an installer wizard at this
+time (offers of help perfectly welcome...) but the procedure is pretty
+straightforward:</p>
+
+<ol>
+<li>Download the .zip file and unzip it.</li>
+<li>Move the whole ouroborus folder into your Python site-packages directory. 
+It will typically be found at <code>c:\Python24\Lib\site-packages</code></li>
+<li>You're really done, but to make matters simpler, you could paste a copy
+of <code>start_ouroborus.py</code> onto your desktop or other readily accessible
+location - just double click on it and pronto! Ouroborus is running...</li>
+</ol>
+
+<p><span class="bigword">UNIX: </span>All of our code is written in either Python or 
+Pyrex, and should be platform-independent; however half-hearted attempts at
+running Ouroborus on OS-X failed...if you wish to have a go, please report
+your success (or lack thereof). As a guess, the <code>dos2unix</code> utiity 
+could be of help...is that what it's called? (blushing)</p>
+<p><a href="#intro" class="home">TOP</a></p>
+<p><a href="index.html" class="home">HOME</a></p>
+</div>
+<div class="section" id="Dependencies">
+<h2><a name="Dependencies"></a>List of Dependencies</h2>
+
+<p>Python prouds itself to be backwards-compatible, so if you download the
+newest versions of the following software Ouroborus should <em>in theory</em> 
+run perfectly fine. Sadly, we have found this to be false. We are currently
+working in solving our dependency issues; however if you download and install
+the versions provided here (once again for Windows only, apologies to UNIX
+hackers), you should be able to get Ouroborus up and
+running.</p>
+
+<p><span class="bigword">Python: </span>Download an old version, 
+<a href="python-2.3.4.exe">2.3.4,</a> of this paragon of free languages.
+The newest build may
+be downloaded from the <a href="http://www.python.org">official website.</a>
+Ouroborus would not be at all without Guido's precious gem. <strong>version
+tested: 2.3.4</strong></p>
+
+<p><span class="bigword">wxPython: </span>This is a prerequisite for running
+Pygame. The version we use is 
+<a href="wxPython2.6-win32-unicode-2.6.1.0-py23.exe">2.6-Unicode.</a>
+You may of course check out wxPython's <a href="http://www.wxpython.org">own website.</a>
+<strong>version tested: 2.6-win32-unicode2.6.1.0-Python2.3</strong></p>
+
+<p><span class="bigword">Pygame: </span>A package designed primarily for
+video game display. Here we offer 
+<a href="pygame-1.6.win32-py2.3.exe">version 1.6</a> for
+guaranteed compatibility. 
+Download the latest version from its <a href="http://www.pygame.org">homepage.</a>
+This is used by the view modules. <strong>version tested: 1.6-win32-Python2.3</strong>
+</p>
+
+<p><span class="bigword">Numeric: </span>A no-longer-maintained package also 
+known as <a href="http://numpy.scipy.org">numeric Python.</a> It is used by
+the view and mundem modules. The version needed by Ouroborus at present is
+<a href="Numeric-24.2.win32-py2.3.exe">Numeric 24.2.</a>
+<strong> version tested: 24.2-win32-Python2.3</strong>
+</p>
+
+<p><span class="bigword">Pyrex: </span>An extension of Python which allows
+you to effortlessly optimise otherwise sluggish code. Look for it in its 
+<a href="http://www.cosc.canterbury.ac.nz/greg.ewing/python/Pyrex/">own website.</a> The birdcage cellular 
+automaton engine is written in this language. <strong>YOU DO NOT NEED TO INSTALL
+PYREX</strong> in order to run Ouroborus, but you do if you wish to tinker
+with the engine. Here is the
+<a href="Pyrex-0.9.3.tar.gz">version we used.</a> <strong>version tested: 0.9.3</strong></p>
+<p><a href="#intro" class="home">TOP</a></p>
+<p><a href="index.html" class="home">HOME</a></p>
+</div>
+<div class="section" id="Releases">
+<h2><a name="Releases"></a>Earlier Releases</h2>
+
+<p>A complete downloadable list of earlier releases, in reverse chronological
+order, for those interested in our obscure history. Please remember to remove
+the version number from the downloaded directory's name, if you wish to run it!</p>
+
+<ul>
+<li><a href="ouroborus_0.1.0.zip">version 0.1.0</a> (January 12th 2007) First 
+albeit rudimentary communication between two munditos.</li>
+<li><a href="ouroborus_0.0.2.zip">version 0.0.2</a> (December 29th 2006) First 
+version to have an easy-start button.</li>
+<li><a href="ouroborus_0.0.1.zip">version 0.0.1</a> (December 18th 2006) First 
+release ever!</li>
+</ul>
+<p><a href="#intro" class="home">TOP</a></p>
+<p><a href="index.html" class="home">HOME</a></p>
+</div>
+</body>
+</html>
+
+
+
