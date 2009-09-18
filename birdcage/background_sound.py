@@ -199,8 +199,8 @@ def control():
 									target=ctrlBckgrndSnd)
 	controlThread.start()
 
-if __name__ == "__main__":
 # This was used for debugging, and may become handy again.
+if __name__ == "__main__":
 	initCSnd()
 	playback()
 	control()

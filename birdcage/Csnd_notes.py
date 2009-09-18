@@ -13,59 +13,24 @@ Env		= NM.Env()
 
 
 class BirthNote(object):
-	""" Note class for the sound played when an agent is instantiated,
-	at the beginning of the simulation. Such sound is destined to
-	deprecation, although the class is not.
+	""" Note class for the sound played when an agent is born.
 	"""
-	def __init__(self, fundFreq, numOfPartls, spectType, distor, pan, dur):
-		""" Atributes used to construct a set of csound score
-		statements, which constitute a spectral note.
-		fundFreq	---> the fundamental frequency
-		numOfPartls	---> number of partials that the note will have
-		spectType	---> type of spectrum (0=odd partls, 1=even partls,
-							2=fibonacci partls and 3=prime partls)
-		distor		---> note's spectral distortion factor
-		pan			---> note's over-all panning
-		dur			---> note's total duration
+	def __init__(self):
+		""" Atributes used to construct a csound score
+		statement.
+		dur	---> note's total duration
 		"""
-		self.fundFreq		= fundFreq
-		self.numOfPartls	= numOfPartls
-		self.spectType		= spectType
-		self.distor			= distor
-		self.pan			= pan
-		self.dur			= dur
+		self.dur			= 0.5
 		self.instrNo		= 1
 
-
-	def mkspectData(self):
-		""" Constructs the neccesary data for each partial of the
-		spectrum.
-		return	--> A list of tuples, ereturn	--> A list of tuples, each tuple is a full list of
-					parameters to construct a Csound note-statementach tuple is a full list of
-					parameters to construct a Csound note-statement
-		"""
-		self.partls			= Spctrm.mkPartls(self.spectType, self.numOfPartls)
-		self.dSpect			= Spctrm.dSpect(self.fundFreq, self.partls,
-												self.distor)
-		self. instrNos		= [self.instrNo] * len(self.dSpect)		self.strts			= StrtTms.expoSpct(self.dSpect)
-		self.durs			= Durs.spectDurs(self.strts, self.dur)
-		self.amps			= Amps.spectEqlAmpsPnk(self.dSpect)
-		self.spectPan		= Pan.spctrlPans(self.pan, self.dSpect)
-		self.attcks			= Env.attckTs(self.durs[:1], self.dSpect)
-		self.decs			= Env.decTs(self.durs[:1], self.dSpect)
-
-		return zip(self.instrNos, self.strts, self.durs, self.amps, self.dSpect,
-					self.spectPan, self.attcks, self.decs)
 
 	def mkScoStrings(self):
 		""" Generates a set of Csound score statements (notes) that
 		comprehend a spectral note.
 		return	--> a list of strings, each of which is a note statement
 		"""
-		data			= self.mkspectData()
-		formatString 	= ''.join(['i%-8s ', '%-8s ' * (len(data[0]) -1)])		spectrSco		= []
-
-		for x in data:			scoNote = (formatString %x)			spectrSco.append(scoNote)		return spectrSco
+		scoStatement 	= ''.join(['i1 0 ', str(self.dur)])
+		return scoStatement
 
 
 class BckgrndNote(BirthNote):
@@ -89,10 +54,14 @@ class BckgrndNote(BirthNote):
 		pan			---> note's over-all panning
 		dur			---> note's total duration
 		"""
-		BirthNote.__init__(self, fundFreq, numOfPartls, spectType, distor, pan,
-							dur)
-		self.instrNos	= instrNos
-		self.distor2	= distor2
+		self.instrNos		= instrNos
+		self.fundFreq		= fundFreq
+		self.numOfPartls	= numOfPartls
+		self.spectType		= spectType
+		self.distor			= distor
+		self.distor2		= distor2
+		self.pan			= pan
+		self.dur			= dur
 
 
 	def mkspectData(self):
@@ -125,5 +94,13 @@ class BckgrndNote(BirthNote):
 					 self.dSpect2, self.spectPan, self.maxAmpT)
 
 
-	mkScoStrings = BirthNote.mkScoStrings
+	def mkScoStrings(self):
+		""" Generates a set of Csound score statements (notes) that
+		comprehend a spectral note.
+		return	--> a list of strings, each of which is a note statement
+		"""
+		data			= self.mkspectData()
+		formatString 	= ''.join(['i%-8s ', '%-8s ' * (len(data[0]) -1)])		spectrSco		= []
+
+		for x in data:			scoNote = (formatString %x)			spectrSco.append(scoNote)		return spectrSco
 

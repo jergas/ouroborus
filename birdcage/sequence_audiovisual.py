@@ -46,6 +46,8 @@ def startExecutionNormal():
 	#curses.wrapper is the kosher way to fire up curses visual services; it
 	#guarantees that the terminal will not be left stranded in an ocean of
 	#insanity if the program terminates exceptionally
+	# start the sound server
+	sound.startSoundServer()
 	curses.wrapper(main)
 
 	return 1
@@ -53,9 +55,6 @@ def startExecutionNormal():
 def main(stdscr):
 
 	mary = GOD.Generator("kristos")
-
-	# start the sound server
-	sound.startSoundServer()
 
 	# setting the curses colour pairs
 	setCursesColors()
@@ -86,6 +85,7 @@ def main(stdscr):
 	magdalen = GOD.Organizer(terra, biblos)
 	magdalen.generator = mary
 	(magdalen.width, magdalen.height) = (width, height)
+	initialAgents = 0
 
 	# cycle through avatars to populate the automaton with some initial creatures"
 	while avatars:
@@ -93,6 +93,7 @@ def main(stdscr):
 		# it to the list biblos along with its name
 		mary.generateGenotypeNew(seedCode.split(" "), biblos)
 		avatars -= 1
+		initialAgents += 1
 
 	# magdalen reads the data in biblos and calls actual agent objects
 	# into being from the code in the modules compiled by mary
@@ -110,6 +111,9 @@ def main(stdscr):
 	# start the background sound and its control thread
 	sound.startBackground()
 	sound.startBackgroundControl()
+	# birth sound of the initial agents
+	for x in xrange(initialAgents):
+		sound.agentBirth()
 
 	# here cometh the main iteration cycle
 	while magdalen.annum < doomsday:
@@ -118,7 +122,12 @@ def main(stdscr):
 		populNorm = float(population) / operator.mul(width,height)
 		# GOD.Organizer parses the whole length of biblos
 		for entry in biblos:
+			birth = 0
+			if entry.fatum["prayer"] == "BeBirthed":
+				birth = 1
 			magdalen.readBookOfLifeNew(entry)
+			if birth == 1:
+				sound.agentBirth()
 		# The display and the sound control data are updated.
 		magdalen.refreshDisplay(display)
 		sndCtrlCells = [terra.get((22,18)), terra.get((40,18)),

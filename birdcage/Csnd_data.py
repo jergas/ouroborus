@@ -70,24 +70,71 @@ nchnls = 2	; # of channels
 		# Instrument 1: Stereo filtered pink noise with amplitude
 		#envelope.
 		instr1	= """
-	instr 1
-idur		= p3			; in seconds
-iamp		= p4			; 0-32767
-icntrfreq	= p5			; in hz
-ileft		= sqrt(p6)		; between 0-1, 1 is hard left
-iright		= sqrt(1-p6)
-iattkt		= p7			; in seconds
-idcyt		= p8
-imaxampdur	= idur - (iattkt + idcyt)
-; amplitude envelope
-kampenv	envlpx iamp, .0001, idur, 1, 2, 0.1, .001
-; enveloped pink noise
-apink	pinkish kampenv, 0
-; resonating filter
-ares	reson apink, icntrfreq, 20		
-; stereo output
-	outs ares * ileft, ares * iright
-	endin
+instr    1
+
+idur    = p3
+ilvl    = p4
+
+iptch1	= rnd(35)
+
+iptch2   = rnd(400)
+iptch2	= iptch2 + 40
+
+ilfo	= rnd(50)
+
+ifrq1Mod = rnd(500) - 250
+ifrq2Mod = rnd(500) - 250
+
+ifrq1a	= 1270 + ifrq1Mod
+ifrq2a	= 3140 + ifrq1Mod
+ifrq3a	= 3950 + ifrq1Mod
+ifrq1b	= 1800 + ifrq2Mod
+ifrq2b	= 2150 + ifrq2Mod
+ifrq3b	= 3900 + ifrq2Mod
+
+iamp1a	= ampdbfs(0)
+iamp2a	= ampdbfs(-6)
+iamp3a	= ampdbfs(-32)
+iamp1b	= ampdbfs(0)
+iamp2b	= ampdbfs(-12)
+iamp3b	= ampdbfs(-26)
+
+ibw1a	= 60
+ibw2a	= 90
+ibw3a	= 100
+ibw1b	= 80
+ibw2b	= 90
+ibw3b	= 120
+
+; fof1 envelopes
+kfrq1 linseg ifrq1a, idur * .6, ifrq1b, .01, ifrq1b
+kamp1 linseg iamp1a, idur * .6, iamp1b, .01, iamp1b
+kbw1 linseg ibw1a, idur * .6, ibw1b, .01, ibw1b
+
+; fof2 envelopes
+kfrq2 linseg ifrq2a, idur * .6, ifrq2b, .01, ifrq2b
+kamp2 linseg iamp2a, idur * .6, iamp2b, .01, iamp2b
+kbw2 linseg ibw2a, idur * .6, ibw2b, .01, ibw2b
+
+; fof3 envelopes
+kfrq3 linseg ifrq3a, idur * .6, ifrq3b, .01, ifrq3b
+kamp3 linseg iamp3a, idur * .6, iamp3b, .01, iamp3b
+kbw3 linseg ibw3a, idur * .6, ibw3b, .01, ibw3b
+
+; Overall level envelope
+klvlenv linseg  0, .01, 1, idur - .02, 1, .01, 0
+
+; Pitch envelope
+kptch	linseg iptch1, idur * .3, iptch1, idur * .1, iptch2, idur * .4, iptch2, idur * .2, iptch1
+
+klfo lfo 50, ilfo
+
+a1 fof  kamp1, kptch + klfo, kfrq1, 0, kbw1, .003, .02, .007, 1000, 1, 2, idur, rnd(1), 1
+a2 fof  kamp2, kptch + klfo, kfrq2, 0, kbw2, .003, .02, .007, 1000, 1, 2, idur, rnd(1), 1
+a3 fof  kamp3, kptch + klfo, kfrq3, 0, kbw3, .003, .02, .007, 1000, 1, 2, idur, rnd(1), 1
+ outs      (a1 + a2 + a3) * klvlenv * 0.3, (a1 + a2 + a3) * klvlenv * 0.05
+ 
+ endin
 		"""
 		# Instrument 2: Stereo sinusoidal oscilator with amplitude
 		#envelope, and glissando pitch.
@@ -144,10 +191,9 @@ asig		oscili kampenv * kgate, kfreqgliss, 1, i1
 <CsScore>
 ; a sine wave
 f1 0 4096 10 1
-f2 0 129 -7 0 128 1
+f2 0 1024 19 .5 .5 270 .5 ; Rising sigmoid
+f3 36000 129 -7 0 128 1
 
-; ten hours of silence:
-i1	0	36000	0	3000	0	0	0
 e ; end of the score
 </CsScore>
 </CsoundSynthesizer>"""
