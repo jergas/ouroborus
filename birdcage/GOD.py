@@ -234,7 +234,7 @@ class Organizer:
 		return -->> 1"""
 
 		# the Generator compiles the new module and writes it in the book
-		code = bookentry.fatum["code"].split(" ")
+		code = bookentry.fatum["code"]
 		self.generator.generateGenotypeNew(code, self.book)
 		# add some necessary data to the new entry
 		child = self.book[-1]
@@ -278,7 +278,7 @@ class Organizer:
 			return 1
 
 		elif self.book[index][4]["prayer"] == "GRANT_CHILD":
-			generator.generateGenotype(self.book[index][4]["code"].split(" "), self.book)
+			generator.generateGenotype(self.book[index][4]["code"], self.book)
 			self.book[index][4]["prayer"] = "LIVE"
 			del self.book[index][4]["code"]
 			

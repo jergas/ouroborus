@@ -22,7 +22,7 @@ cdef class Agent:
 
      cdef int pyx_isAlive(self)
      cdef int pyx_tellPrana(self)
-     cdef void pyx_gainPrana(self, int amount)
+     cdef int pyx_gainPrana(self, int amount)
      cdef void pyx_losePrana(self, int amount)
      cdef void pyx_zeroPrana(self)
      cdef void pyx_update(self)

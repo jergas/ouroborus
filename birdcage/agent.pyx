@@ -105,18 +105,20 @@ cdef class Agent:
           """Increase Agent's prana by a given amount)
 
           amount ---> the integer increase of prana
-          return -->> None"""
+          return -->> amount"""
 
           self.pyx_gainPrana(amount)
+          return amount
 
 
-     cdef void pyx_gainPrana(self, int amount):
+     cdef int pyx_gainPrana(self, int amount):
           """Increase Agent's prana by a given amount)
 
           amount ---> the integer increase of prana
-          return -->> None"""
+          return -->> amount"""
 
           self.prana = self.prana + amount
+          return amount
 
 
      def  losePrana(self, int amount):
