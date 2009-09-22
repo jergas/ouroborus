@@ -197,7 +197,7 @@ cdef class Agent_2D(Agent):
           (self.x1, self.x2) = (address[0], address[1])
           self.directions = self.sensoriality.neighbors + 1
           self.facing = 0
-          self.name = "Agent 2-D"
+          self.name = "2-D Agent"
 
 
      def  tellAddress(self):

@@ -42,7 +42,7 @@ cdef class Neighborhood_2D:
           self.name = "Abstract 2D neighborhood system"
 
           if not (self.topology.dimension == 2):
-               raise E.DimensionError(self.name, 2, self.topology.dimension)
+              raise E.DimensionError(self.name, 2, self.topology.dimension)
 
           for i from 0 <= i < capacity:
               self.neighbors_x1[i] = 0
@@ -92,7 +92,7 @@ cdef class Neighborhood_2D:
           cdef object coordinates
 
           if not (len(address) == 2):
-               raise E.InvalidAddressError(address, self.topology.name)
+              raise E.InvalidAddressError(address, self.topology.name)
 
           coordinates = []
 
@@ -128,7 +128,7 @@ cdef class Neighborhood_2D:
           cdef object states
 
           if not (len(address) == 2):
-               raise E.InvalidAddressError(address, self.topology.name)
+              raise E.InvalidAddressError(address, self.topology.name)
 
           states = []
 
@@ -164,7 +164,7 @@ cdef class Neighborhood_2D:
           return   -->> an integer value"""
 
           if not (len(address) == 2):
-               raise E.InvalidAddressError(address, self.topology.name)
+              raise E.InvalidAddressError(address, self.topology.name)
 
           return self.pyx_reduceStates(address[0], address[1], function, initialv)
 
