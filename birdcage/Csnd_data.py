@@ -132,7 +132,7 @@ klfo lfo 50, ilfo
 a1 fof  kamp1, kptch + klfo, kfrq1, 0, kbw1, .003, .02, .007, 1000, 1, 2, idur, rnd(1), 1
 a2 fof  kamp2, kptch + klfo, kfrq2, 0, kbw2, .003, .02, .007, 1000, 1, 2, idur, rnd(1), 1
 a3 fof  kamp3, kptch + klfo, kfrq3, 0, kbw3, .003, .02, .007, 1000, 1, 2, idur, rnd(1), 1
- outs      (a1 + a2 + a3) * klvlenv * 0.3, (a1 + a2 + a3) * klvlenv * 0.05
+ outs      (a1 + a2 + a3) * klvlenv * 0.3, (a1 + a2 + a3) * klvlenv * 0.001
  
  endin
 		"""

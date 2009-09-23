@@ -132,6 +132,7 @@ class ThreadedSequence(object):
 		self.magdalen = GOD.Organizer(self.terra, self.biblos)
 		self.magdalen.generator = mary
 		(self.magdalen.width, self.magdalen.height) = (width, height)
+		self.initialAgents = 0
 		# Cycle through avatars to populate the automaton with some initial
 		# creatures.
 		while avatars:
@@ -139,6 +140,7 @@ class ThreadedSequence(object):
 			# biblos along with its name.
 			mary.generateGenotypeNew(seedCode, self.biblos)
 			avatars -= 1
+			self.initialAgents += 1
 		# magdalen reads the data in biblos and calls actual agent objects.
 		for entry in self.biblos:
 			# set some initial parameters in each entry's fatum
@@ -165,8 +167,8 @@ class ThreadedSequence(object):
 	def simulationLoop(self):
 		"""The simulation's main iteration cycle happens here.
 		"""	
-		loopsPerVisual	= 2
-		counter			= 2
+		loopsPerVisual	= 1
+		counter			= 1
 
 		# Main iteration cycle
 		while self.magdalen.annum < self.doomsday:
@@ -180,6 +182,9 @@ class ThreadedSequence(object):
 			if loopsPerVisual == counter:
 				self.population = self.magdalen.iterateAutomaton()
 				for entry in self.biblos:
+					self.birth = 0
+					if entry.fatum["prayer"] == "BeBirthed":
+						self.birth += 1
 					self.magdalen.readBookOfLifeNew(entry)
 				# Notify the audiovisual loop, so it continues its course.
 				self.threadCondition.notify()
@@ -204,6 +209,9 @@ class ThreadedSequence(object):
 		""" The audiovisual loop happens here.
 		"""
 		(width, height)	= self.size
+		# birth sound of the initial agents
+		for x in xrange(self.initialAgents):
+			sound.agentBirth()
 		
 		while self.magdalen.annum < self.doomsday:
 			# Aquire a thread-synchronizing condition.
@@ -212,6 +220,8 @@ class ThreadedSequence(object):
 			populNorm = float(self.population) / operator.mul(width,height)
 			sndCtrlCells = [self.terra.get((22,18)), self.terra.get((40,18)),
 							self.terra.get((64,18))]
+			for x in xrange(self.birth):
+				sound.agentBirth()
 			# Update the display
 			self.magdalen.refreshDisplay(self.display)
 			# Update the audio
