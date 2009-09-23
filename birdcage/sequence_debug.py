@@ -44,10 +44,10 @@ def startExecutionNormal():
 	# the seedCode is the genetic code given to the initial creatures
 	# look at the module code for meaning of the genome; tamper with this
 	# at your own peril!
-	seedCode = "Y i Y c Y s C b C d C r T l T p T e T c T r T g T o R d R l"
+	seedCode = "Y i Y c Y s C b C d C r T l T p E m T c T r T g T o R d R l"
 
 	# avatars is the number of initial creatures, and doomsday the number of iterations	
-	(avatars, doomsday) = (1, 1000)
+	(avatars, doomsday) = (1, 20)
 	# biblos is a list which whill contain essential runtime information
 	biblos = []
 
@@ -74,6 +74,8 @@ def startExecutionNormal():
 	for entry in biblos: print entry
 	print "\n"
 
+	terra.set((40,9),1)
+
 	# magdalen reads the data in biblos and calls actual agent objects
 	# into being from the code in the modules compiled by mary
 	for entry in biblos:	
@@ -81,8 +83,8 @@ def startExecutionNormal():
 		entry.fatum["code"] = seedCode
 		entry.fatum["prana"] = 7
 		entry.fatum["mana"] = 1
-		(x, y) = (random.randint(0, width-1), random.randint(0, height-1))
-		entry.fatum["address"] = (x, y)
+		#(x, y) = (random.randint(0, width-1), random.randint(0, height-1))
+		entry.fatum["address"] = (40, 10)
 		magdalen.readBookOfLifeNew(entry)
 		print "magdalen read biblos and instantiated an agent from the genome"
 
@@ -95,11 +97,13 @@ def startExecutionNormal():
 	# here cometh the main iteration cycle
 	while magdalen.annum < doomsday:
 		print "the time now is \t", magdalen.annum
-		print "the book of life, biblos, reads:"
-		for entry in biblos: print entry
-		print "\n"
 		# GOD.Organizer iterates the c.a. and makes sure the world keeps revolving
-		magdalen.iterateAutomaton()
+		if magdalen.annum == 3:
+			magdalen.annum += 1
+			terra.set((40,10),1)
+			print "soil altered"
+		else:
+			magdalen.iterateAutomaton()
 		print "terra has been updated"
 		print "magdalen will now read the book of life"
 		# GOD.Organizer parses the whole length of biblos

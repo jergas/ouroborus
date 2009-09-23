@@ -229,9 +229,7 @@ cdef class SynchronousAutomaton_2D(Automaton_2D):
               for 0 <= x2 < self.topology.size[1]:
                   population = population + self.rule.pyx_applyToTarget(x1, x2, self.workgrid)
 
-          (self.topology, self.workgrid) = (self.workgrid, self.topology)
-          self.neighborhood.topology = self.topology
-          self.rule.neighborhood.topology = self.topology
+          self.workgrid.copy(self.topology)
 
           Automaton_2D.pyx_update(self)
 

@@ -329,6 +329,30 @@ cdef class GridTopology(Topology):
           self.cell[x1][x2] = state
 
 
+     def  copy(self, target):
+          """Copy the grid values onto a grid of the same size
+
+          target ---> another Topology with the same size as self
+          return -->> None"""
+
+          if self.size != target.size:
+              raise E.ConflictingTopologyError(self.name, target.name)
+          self.pyx_copy(target)
+
+
+     cdef void pyx_copy(self, GridTopology target):
+          """Copy the grid values onto a grid of the same size
+
+          target ---> another Topology with the same size as self
+          return -->> None"""
+
+          cdef int x, y
+
+          for 0 <= x < self.width:
+              for 0 <= y < self.height:
+                  target.pyx_set(x, y, self.pyx_get(x, y))
+
+
 #################################################################################
 
 cdef class ToroidTopology(GridTopology):

@@ -61,6 +61,9 @@ cdef class Agent:
           self.name = "Abstract Agent"
 
 
+     def  returnTopology(self):
+          return self.topology
+
      def  isAlive(self):
           """Return True if agent has positive prana, False otherwise
 
@@ -339,7 +342,7 @@ cdef class Agent_2D(Agent):
 
           return -->> 1 if successful, 0 otherwise"""
 
-          if self.topology.pyx_get(self.x1, self.x2) == self.mana:
+          if self.topology.pyx_get(self.x1, self.x2) == 1:
               self.pyx_gainPrana(1)
               self.topology.pyx_set(self.x1, self.x2, self.topology.background)
               return 1

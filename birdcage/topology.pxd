@@ -37,6 +37,7 @@ cdef class GridTopology(Topology):
      cdef int pyx_get_nosafe(self, int x1, int x2)
      cdef int pyx_set(self, int x1, int x2, int state)
      cdef void pyx_set_nosafe(self, int x1, int x2, int state)
+     cdef void pyx_copy(self, GridTopology target)
 
 
 #################################################################################

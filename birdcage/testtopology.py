@@ -273,6 +273,28 @@ class GridTopologyMethods(TopologyMethods):
             self.assertEqual(topology.get((size[0]-1,size[1]-1)),-7)
 
 
+    def testTopologyCopyFailsForInvalidGrid(self):
+        """The source and target of GridTopology.copy must have the same size"""
+        
+        for size, background in self.sampleValues:
+            topology = self.topology(size, background)
+            target = t.GridTopology((25,25), background)
+            self.assertRaises(E.ConflictingTopologyError, topology.copy, target)
+
+
+    def testTopologyCopyYieldsSameGridValues(self):
+        """GridTopology.copy pastes the grid values onto another grid"""
+            
+        for size, background in self.sampleValues:
+            topology = self.topology(size, background)
+            target = t.GridTopology(size, 11)
+            topology.set ((7,7),-2)
+            topology.copy(target)
+            for x in range(size[0]):
+                for y in range(size[1]):
+                    self.assertEqual(topology.get((x,y)), target.get((x,y)))
+
+
     def testTopologyCloneYieldsCopy(self):
         """GridTopology.clone yields an equivalent topology"""
 

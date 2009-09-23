@@ -1,6 +1,4 @@
 import GOD
-import curses
-import sound
 import random
 import sys
 
@@ -24,7 +22,7 @@ def main(stdscr):
 
 	# invoke God.Generator's automaton creation method with the data given above
 	# (avatars, doomsday)= sys.argv[-2:]
-	(avatars, doomsday)= (1, 1500)
+	(avatars, doomsday)= (1, 5)
 	# del sys.argv[-2:]
 	avatars = int(avatars)
 	doomsday = int(doomsday)
@@ -66,6 +64,7 @@ def main(stdscr):
 				biblos[0][3].gainPrana(5)
 		#magdalen.iterateAgents()
 		#magdalen.refreshDisplay(display)
+
 
 	#sound.stopSoundServer()
 	return biblos
