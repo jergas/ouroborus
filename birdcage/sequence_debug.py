@@ -44,7 +44,7 @@ def startExecutionNormal():
 	# the seedCode is the genetic code given to the initial creatures
 	# look at the module code for meaning of the genome; tamper with this
 	# at your own peril!
-	seedCode = "Y i Y c Y s C b C d C r T l T p E m T c T r T g T o R d R l"
+	seedCode = "Y i Y c Y s C b C d C r T l T p E m T c T r T g T x T y T o R d R l"
 
 	# avatars is the number of initial creatures, and doomsday the number of iterations	
 	(avatars, doomsday) = (1, 20)

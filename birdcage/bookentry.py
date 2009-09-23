@@ -71,6 +71,15 @@ class BookEntry:
 		self.fatum["address"] = self.agent.tellAddress()
 		return 1
 
+        def terminateAgent(self):
+                """Terminate the agent at its life's end
+                
+                return -->> 1"""
+                
+                del self.agent
+                del self.module
+                return 1
+
 
 # History
 #

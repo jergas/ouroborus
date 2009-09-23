@@ -11,6 +11,8 @@ tabula = {'Yi':'import topology; import neighborhood; import agent',
           'Tc':'  if creature.tellPrana() > 10:',
           'Tr':'      reproduce(creature)',
           'Tg':'      prayer = "GrantChild"',
+          'Tx':'  elif creature.tellPrana() <= 0:',
+          'Ty':'      prayer = "KillMe"',
           'To':'  return prayer',
           'Rd':'def reproduce(creature):',
           'Rl':'  creature.losePrana(103)',}

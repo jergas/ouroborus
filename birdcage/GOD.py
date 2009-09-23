@@ -248,6 +248,17 @@ class Organizer:
 		return 1
 
 
+	def grantPrayerKillMe(self, bookentry):
+		"""Delete an agent and strike its entry from the book
+
+		return -->> 1"""
+		
+		self.earth.removeAgent(bookentry.agent)
+		bookentry.terminateAgent()
+		self.book.remove(bookentry)
+		return 1
+
+
 	def readBookOfLife(self, index, code, prana, mana, address, generator):
 		"""Dynamically import the modules compiled by the Generator
 
@@ -269,7 +280,6 @@ class Organizer:
 			self.book[index][3] = agent
 			self.book[index][4]["prayer"] = "LIVE"
 		
-
 			return 1
 
 		elif self.book[index][4]["prayer"] == "LIVE":
@@ -309,5 +319,3 @@ class Organizer:
 		v.updateLoop(self.earth, display[0], display[1], display[2])
 		display[0].refresh()
 		
-		
-
