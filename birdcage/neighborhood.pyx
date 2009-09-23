@@ -141,7 +141,7 @@ cdef class Neighborhood_2D:
 
 
      cdef void pyx_calculateStates(self, int x1, int x2):
-          """Calculate the statess of a cell's neighbors and store
+          """Calculate the states of a cell's neighbors and store
           the information in the self.neighbors_st variables
 
           x1     ---> the first integer coordinate value

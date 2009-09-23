@@ -65,7 +65,7 @@ def main(stdscr):
 	# the seedCode is the genetic code given to the initial creatures
 	# look at the module code for meaning of the genome; tamper with this
 	# at your own peril!
-	seedCode = "Y i Y c Y s C b C d C r T l T p T e T c T r T g T o R d R l"
+	seedCode = "Yi Yc Ys Cb Cd Cr Tl Tp Em Tc Tr Tg Tx Ty To Rd Rl"
 
 	# avatars is the number of initial creatures, and doomsday the number of iterations	
 	(avatars, doomsday) = (1, 570)
@@ -84,7 +84,7 @@ def main(stdscr):
 	while avatars:
 		# GOD.Generator will compile a module for each creature, and append
 		# it to the list biblos along with its name
-		mary.generateGenotypeNew(seedCode.split(" "), biblos)
+		mary.generateGenotypeNew(seedCode, biblos)
 		avatars -= 1
 
 	# magdalen reads the data in biblos and calls actual agent objects

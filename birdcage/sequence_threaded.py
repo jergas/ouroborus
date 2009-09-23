@@ -22,7 +22,7 @@
 #		representation occur on different threads
 #	* All the AL functionality resides in the GOD module; look therein
 #		for pearls of wisdom
-#	* If your'e trying to understand how the code works, refere to
+#	* If your'e trying to understand how the code works, refer to
 #		sequence_new.py and sequence_auidovisual.py
 
 
@@ -110,7 +110,7 @@ class ThreadedSequence(object):
 		# The following lines contain all the data to build a complete
 		# cellular automaton.
 		self.size = (width, height) = (80, 20)
-		topologyData = ("GridTopology", 0)
+		topologyData = ("ToroidTopology", 0)
 		neighborData = ("VonNeumannNeighborhood", )
 		ruleData = ("ReductionRule", (operator.xor, 0))
 		automatonData = ("SynchronousAutomaton_2D", )

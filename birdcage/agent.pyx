@@ -343,7 +343,7 @@ cdef class Agent_2D(Agent):
           return -->> 1 if successful, 0 otherwise"""
 
           if self.topology.pyx_get(self.x1, self.x2) == 1:
-              self.pyx_gainPrana(1)
+              self.pyx_gainPrana(5)
               self.topology.pyx_set(self.x1, self.x2, self.topology.background)
               return 1
           else:
