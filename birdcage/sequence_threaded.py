@@ -117,7 +117,7 @@ class ThreadedSequence(object):
 		# The seedCode is the genetic code given to the initial creatures look
 		# at the module code for meaning of the genome. Tamper with this at your
 		# own peril!
-		seedCode = "Yi Yc Ys Cb Cd Cr Tl Tp Te Tc Tr Tg To Rd Rl"
+		seedCode = "Yi Yc Ys Cb Cd Cr Tl Tp Em Tc Tr Tg Tx Ty To Rd Rl"
 		# avatars is the number of initial creatures, and doomsday is the number
 		# of iterations.
 		(avatars, self.doomsday) = (1, 570)

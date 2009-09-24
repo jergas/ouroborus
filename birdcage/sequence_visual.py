@@ -56,7 +56,7 @@ def main(stdscr):
 	# size = (width, height) = (int(sys.argv[-4]),int(sys.argv[-3]))
 	size = (width, height) = (80,20)
 	# del sys.argv[-4:-2]
-	topologyData = ("GridTopology", 0)
+	topologyData = ("ToroidTopology", 0)
 	neighborData = ("VonNeumannNeighborhood", )
 	import operator
 	ruleData = ("ReductionRule", (operator.xor, 0))

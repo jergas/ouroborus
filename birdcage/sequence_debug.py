@@ -35,7 +35,7 @@ def startExecutionNormal():
 
 	# the following lines contain all the data to build a complete cellular automaton
 	size = (width, height) = (80,20)
-	topologyData = ("GridTopology", 0)
+	topologyData = ("ToroidTopology", 0)
 	neighborData = ("VonNeumannNeighborhood", )
 	import operator
 	ruleData = ("ReductionRule", (operator.xor, 0))
