@@ -12,8 +12,8 @@ def birthSound():
 	""" Generates the sound that represents the birth of a birdcage
 	agent.
 	""" 
-	noteDur			= random.randint(1, 2) * 0.1
-	BirthNote.dur	= noteDur
+	BirthNote.dur	= random.randint(1, 2) * 0.1
+	BirthNote.pan	= random.random()	
 	#Feed the note to Csound.
 	scoStatement = BirthNote.mkScoStrings()
 	csndInterface.perf.InputMessage(scoStatement)

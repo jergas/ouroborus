@@ -1,9 +1,9 @@
 ## Contains the classes that define Csound score events.
 
-#Import the note-method classes.
+# Import the note-method classes.
 import Note_methods as NM
 
-#Instantiate the note method classes
+# Instantiate the note method classes
 Spctrm	= NM.Spctrm()
 StrtTms	= NM.StrtTms()
 Durs	= NM.Durs()
@@ -22,6 +22,7 @@ class BirthNote(object):
 		"""
 		self.dur			= 0.5
 		self.instrNo		= 1
+		self.pan			= 0.5
 
 
 	def mkScoStrings(self):
@@ -29,8 +30,9 @@ class BirthNote(object):
 		comprehend a spectral note.
 		return	--> a list of strings, each of which is a note statement
 		"""
-		scoStatement 	= ''.join(['i1 0 ', str(self.dur)])
-		return scoStatement
+		scoStatement 	= ''.join(['i1 0 ', str(self.dur),' ', str(self.pan)])
+
+		return scoStatement
 
 
 class BckgrndNote(BirthNote):
@@ -84,7 +86,8 @@ class BckgrndNote(BirthNote):
 		if len(self.dSpect) < len(self.dSpect2):
 			xtra = self.dSpect2[-1]
 			self.dSpect.append(extra)
-		self.strts			= StrtTms.expoSpct(self.dSpect)
+
+		self.strts			= StrtTms.expoSpct(self.dSpect)
 		self.durs			= Durs.spectDurs(self.strts, self.dur)
 		self.amps			= Amps.spectUnifrmAmps(self.dSpect)
 		self.spectPan		= Pan.spctrlPans(self.pan, self.dSpect)
@@ -100,7 +103,11 @@ class BckgrndNote(BirthNote):
 		return	--> a list of strings, each of which is a note statement
 		"""
 		data			= self.mkspectData()
-		formatString 	= ''.join(['i%-8s ', '%-8s ' * (len(data[0]) -1)])		spectrSco		= []
+		formatString 	= ''.join(['i%-8s ', '%-8s ' * (len(data[0]) -1)])
+		spectrSco		= []
 
-		for x in data:			scoNote = (formatString %x)			spectrSco.append(scoNote)		return spectrSco
+		for x in data:
+			scoNote = (formatString %x)
+			spectrSco.append(scoNote)
+		return spectrSco
 
