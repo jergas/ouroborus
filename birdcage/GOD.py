@@ -6,7 +6,7 @@ import rule
 import agent as a
 import automaton
 import genome as g
-from code import tabula, tabula_antica
+from code import tabula, tabula_antica, seedCode, size, prana, mana
 # other ouroborus core modules
 from bookentry import BookEntry
 # these are the modules used for display
@@ -19,6 +19,10 @@ from distutils.extension import Extension
 from Pyrex.Distutils import build_ext
 # anything extra goes here
 import random
+
+
+#setup some configuration values imported from code
+(width, height) = size
 
 
 class Generator:
@@ -98,6 +102,7 @@ class Generator:
 
 		# finally, append the module's name to the list of names and return
 		ode.append(BookEntry(onoma)) 
+		ode[-1].fatum["prayer"] = "CreateMe"
 		self.obstetrics += 1 
 		return 1
 
@@ -201,6 +206,25 @@ class Organizer:
 		default = self.grantPrayerLive
 		# call the appropriate grantPrayer method by prayer type
 		return getattr(self, "grantPrayer"+prayer, default)(bookentry)
+		
+	
+	def grantPrayerCreateMe(self, bookentry):
+		"""Setup the fatum for a new BookEntry, for creature created by 
+		divine mandate.
+
+		bookentry ---> a BookEntry object
+		return    -->> 1"""
+		# set some initial parameters in the creature's fatum
+		bookentry.fatum["code"] = seedCode
+		bookentry.fatum["prana"] = prana
+		bookentry.fatum["mana"] = mana
+		(x, y) = (random.randint(0, width-1), random.randint(0, height-1))
+		bookentry.fatum["address"] = (x, y)
+		# Record the quality of sound of certain sound qualities for
+		# the creature being instantiated.
+		ADeviation = random.uniform(-250, 250)
+		IDeviation = random.uniform(-250, 250)
+		bookentry.fatum["voice"] = (ADeviation, IDeviation)
 
 
 	def grantPrayerBeBirthed(self, bookentry):
@@ -239,10 +263,15 @@ class Organizer:
 		# add some necessary data to the new entry
 		child = self.book[-1]
 		child.fatum["code"] = bookentry.fatum["code"]
-		child.fatum["prana"] = 7
-		child.fatum["mana"] = 1
+		child.fatum["prana"] = prana
+		child.fatum["mana"] = mana
 		(x, y) = (random.randint(0, self.width-1), random.randint(0, self.height-1))
 		child.fatum["address"] = (x, y)
+		# Record the quality of sound of certain sound qualities for
+		# each agent that is instantiated.
+		ADeviation = random.uniform(-250, 250)
+		IDeviation = random.uniform(-250, 250)
+		child.fatum["voice"] = (ADeviation, IDeviation)
 		# set the agent's prayer back to live
 		bookentry.fatum["prayer"] = "Live"
 		return 1

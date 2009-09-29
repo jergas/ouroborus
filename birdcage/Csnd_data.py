@@ -76,15 +76,15 @@ idur    = p3
 ileft	= sqrt(p4)	; between 0-1, 1 is hard left
 iright	= sqrt(1 - p4)
 
-iptch1	= rnd(35)
+iptch1	= 35
 
-iptch2   = rnd(400)
+iptch2   = 400
 iptch2	= iptch2 + 40
 
 ilfo	= rnd(50)
 
-ifrq1Mod = rnd(500) - 250
-ifrq2Mod = rnd(500) - 250
+ifrq1Mod = p5
+ifrq2Mod = p6
 
 ifrq1a	= 1270 + ifrq1Mod
 ifrq2a	= 3140 + ifrq1Mod

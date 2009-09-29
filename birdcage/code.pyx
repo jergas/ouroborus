@@ -1,24 +1,30 @@
+size = (80, 20)
+
+prana = 11
+
+mana = 1
+
+seedCode = "Yi Yc Ys Cb Cd Cr Ld Lp Ll Le Iy Ir Ix Ik Lr Rd Rl Rp Rr"
+
 tabula = {'Yi':'import topology; import neighborhood; import agent',
           'Yc':'corporality = neighborhood.VonNeumannNeighborhood',
           'Ys':'sensoriality = neighborhood.VonNeumannNeighborhood',
           'Cb':'def birth(earth, code, prana, mana, address):',
           'Cd':'  myself = agent.Agent_2D(code,corporality(earth.returnTopology()),sensoriality(earth.returnTopology()),prana,mana,address)',
           'Cr':'  return myself',
-          'Tl':'def live(creature):',
-          'Tp':'  prayer = "Live"',
-          'Te':'  creature.gainPrana(1)',
-          'Em':'  creature.eatMana()',
-          'Tc':'  if creature.tellPrana() > 10:',
-          'Tr':'      reproduce(creature)',
-          'Tg':'      prayer = "GrantChild"',
-          'Tx':'  elif creature.tellPrana() <= 0:',
-          'Ty':'      prayer = "KillMe"',
-          'To':'  return prayer',
+          'Ld':'def live(creature):',
+          'Lp':'  prayer = "Live"',
+          'Ll':'  creature.losePrana(1)',
+          'Le':'  creature.eatMana()',
+          'Iy':'  if creature.tellPrana() > 13:',
+          'Ir':'      prayer = reproduce(creature)',
+          'Ix':'  elif creature.tellPrana() <= 0:',
+          'Ik':'      prayer = "KillMe"',
+          'Lr':'  return prayer',
           'Rd':'def reproduce(creature):',
-          'Rl':'  creature.losePrana(103)',}
-
-
-
+          'Rl':'  creature.losePrana(10)',
+          'Rp':'  prayer = "GrantChild"',
+          'Rr':'  return prayer',}
   
 
 tabula_antica = {'Yi':'import topology; import neighborhood; import agent',

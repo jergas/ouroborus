@@ -23,6 +23,8 @@ class BirthNote(object):
 		self.dur			= 0.5
 		self.instrNo		= 1
 		self.pan			= 0.5
+		self.IDeviation		= -250
+		self.ADeviation		= 250
 
 
 	def mkScoStrings(self):
@@ -30,7 +32,9 @@ class BirthNote(object):
 		comprehend a spectral note.
 		return	--> a list of strings, each of which is a note statement
 		"""
-		scoStatement 	= ''.join(['i1 0 ', str(self.dur),' ', str(self.pan)])
+		scoStatement 	= ''.join(['i1 0 ', str(self.dur),' ', str(self.pan),
+									' ', str(self.IDeviation), ' ',
+									str(self.ADeviation)])
 
 		return scoStatement
 

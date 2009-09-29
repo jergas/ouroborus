@@ -23,7 +23,7 @@ def startSoundServer():
 	csndInterface.initCSnd()
 
 
-def agentBirth(agentXAxis):
+def agentBirth(agentXAxis, (ADeviation, IDeviation)):
 	"""Plays a single note when an agent is instantiated.
 	"""
 	panning = Scaling.valToRng(agentXAxis, 0, sGlobals.automatonWidth, 1, 0)
@@ -31,7 +31,7 @@ def agentBirth(agentXAxis):
 #		panning = 1
 #	else:
 #		panning = 0
-	agentsSound.birthSound(panning)
+	agentsSound.birthSound(panning, ADeviation, IDeviation)
 
 
 def startBackground():
