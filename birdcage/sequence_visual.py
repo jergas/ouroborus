@@ -65,10 +65,10 @@ def main(stdscr):
 	# the seedCode is the genetic code given to the initial creatures
 	# look at the module code for meaning of the genome; tamper with this
 	# at your own peril!
-	seedCode = "Yi Yc Ys Cb Cd Cr Tl Tp Em Tc Tr Tg Tx Ty To Rd Rl"
+	seedCode = "Y i Y c Y s C b C d C r T l T p E m T c T r T g T x T y T o R d R l"
 
 	# avatars is the number of initial creatures, and doomsday the number of iterations	
-	(avatars, doomsday) = (1, 570)
+	(avatars, doomsday) = (1, 5570)
 	# biblos is a list which whill contain essential runtime information
 	biblos = []
 
