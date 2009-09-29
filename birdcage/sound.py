@@ -4,10 +4,17 @@
 # sound threads, to feed them with data, and to stop sound altogether.
 
 # Sound-related submodules.
-import csnd_interface as csndInterface
-import background_sound as background
 import agents_sound as agentsSound
+import background_sound as background
+import csnd_interface as csndInterface
+import Numeric_utils as NumericUtils
 import sound_globals as sGlobals
+
+Scaling = NumericUtils.Scaling()
+
+
+def setInitialData(automatonWidth):
+	sGlobals.automatonWidth = automatonWidth
 
 
 def startSoundServer():
@@ -16,10 +23,15 @@ def startSoundServer():
 	csndInterface.initCSnd()
 
 
-def agentBirth():
+def agentBirth(agentXAxis):
 	"""Plays a single note when an agent is instantiated.
 	"""
-	agentsSound.birthSound()
+	panning = Scaling.valToRng(agentXAxis, 0, sGlobals.automatonWidth, 1, 0)
+#	if panning > .5:
+#		panning = 1
+#	else:
+#		panning = 0
+	agentsSound.birthSound(panning)
 
 
 def startBackground():

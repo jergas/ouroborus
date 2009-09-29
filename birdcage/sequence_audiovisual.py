@@ -17,11 +17,11 @@
 #
 # Read some history at EOF
 
-
-import GOD
-from bookentry import BookEntry
 import random
 import sys
+
+from bookentry import BookEntry
+import GOD
 
 
 def setCursesColors():
@@ -86,6 +86,7 @@ def main(stdscr):
 	magdalen.generator = mary
 	(magdalen.width, magdalen.height) = (width, height)
 	initialAgents = 0
+	initialAddresses = []
 
 	# cycle through avatars to populate the automaton with some initial creatures"
 	while avatars:
@@ -105,15 +106,17 @@ def main(stdscr):
 		(x, y) = (random.randint(0, width-1), random.randint(0, height-1))
 		entry.fatum["address"] = (x, y)
 		magdalen.readBookOfLifeNew(entry)
+		initialAddresses.append((x, y))
 	
 	display = mary.generateDisplay(terra, size, stdscr)
 
 	# start the background sound and its control thread
+	sound.setInitialData(magdalen.width)
 	sound.startBackground()
 	sound.startBackgroundControl()
 	# birth sound of the initial agents
-	for x in xrange(initialAgents):
-		sound.agentBirth()
+	for x in initialAddresses:
+		sound.agentBirth(x[0])
 
 	# here cometh the main iteration cycle
 	while magdalen.annum < doomsday:
@@ -123,11 +126,12 @@ def main(stdscr):
 		# GOD.Organizer parses the whole length of biblos
 		for entry in biblos:
 			birth = 0
+			agentAddress = entry.fatum["address"]
 			if entry.fatum["prayer"] == "BeBirthed":
 				birth = 1
 			magdalen.readBookOfLifeNew(entry)
 			if birth == 1:
-				sound.agentBirth()
+				sound.agentBirth(agentAddress[0])
 		# The display and the sound control data are updated.
 		magdalen.refreshDisplay(display)
 		sndCtrlCells = [terra.get((22,18)), terra.get((40,18)),

@@ -8,12 +8,12 @@ import Csnd_notes
 #Instantiate the agents' birth sound note class.
 BirthNote	= Csnd_notes.BirthNote()
 
-def birthSound():
+def birthSound(panning):
 	""" Generates the sound that represents the birth of a birdcage
 	agent.
 	""" 
 	BirthNote.dur	= random.randint(1, 2) * 0.1
-	BirthNote.pan	= random.random()	
+	BirthNote.pan	= panning
 	#Feed the note to Csound.
 	scoStatement = BirthNote.mkScoStrings()
 	csndInterface.perf.InputMessage(scoStatement)
