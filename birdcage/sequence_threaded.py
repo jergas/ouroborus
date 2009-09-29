@@ -133,6 +133,7 @@ class ThreadedSequence(object):
 		self.magdalen.generator = mary
 		(self.magdalen.width, self.magdalen.height) = (width, height)
 		self.initialAgents = 0
+		self.initialAddresses = []
 		# Cycle through avatars to populate the automaton with some initial
 		# creatures.
 		while avatars:
@@ -150,12 +151,14 @@ class ThreadedSequence(object):
 			(x, y) = (random.randint(0, width-1), random.randint(0, height-1))
 			entry.fatum["address"] = (x, y)
 			self.magdalen.readBookOfLifeNew(entry)
+			self.initialAddresses.append((x, y))
 		# Initialize an attribute to hold the automaton's population.
 		self.population = 0
 
 		# Generate a display, and start the sound threads.
 		setCursesColors()
 		self.display = mary.generateDisplay(self.terra, self.size, stdscr)
+		sound.setInitialData(self.magdalen.width)
 		sound.startBackground()
 		sound.startBackgroundControl()
 		# Create a thread-condition object to keep the simulation and
@@ -182,9 +185,10 @@ class ThreadedSequence(object):
 			if loopsPerVisual == counter:
 				self.population = self.magdalen.iterateAutomaton()
 				for entry in self.biblos:
-					self.birth = 0
+					self.births = []
+					agentAddress = entry.fatum["address"]
 					if entry.fatum["prayer"] == "BeBirthed":
-						self.birth += 1
+						self.births.append(agentAddress)
 					self.magdalen.readBookOfLifeNew(entry)
 				# Notify the audiovisual loop, so it continues its course.
 				self.threadCondition.notify()
@@ -210,8 +214,8 @@ class ThreadedSequence(object):
 		"""
 		(width, height)	= self.size
 		# birth sound of the initial agents
-		for x in xrange(self.initialAgents):
-			sound.agentBirth()
+		for x in self.initialAddresses:
+			sound.agentBirth(x[0])
 		
 		while self.magdalen.annum < self.doomsday:
 			# Aquire a thread-synchronizing condition.
@@ -220,8 +224,8 @@ class ThreadedSequence(object):
 			populNorm = float(self.population) / operator.mul(width,height)
 			sndCtrlCells = [self.terra.get((22,18)), self.terra.get((40,18)),
 							self.terra.get((64,18))]
-			for x in xrange(self.birth):
-				sound.agentBirth()
+			for x in self.births:
+				sound.agentBirth(x[0])
 			# Update the display
 			self.magdalen.refreshDisplay(self.display)
 			# Update the audio
