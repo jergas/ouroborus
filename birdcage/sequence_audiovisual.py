@@ -22,6 +22,7 @@ import sys
 
 from bookentry import BookEntry
 import GOD
+from code import seedCode, size
 
 
 def setCursesColors():
@@ -61,7 +62,7 @@ def main(stdscr):
 
 	# the following lines contain all the data to build a complete automaton
 	# size = (width, height) = (int(sys.argv[-4]),int(sys.argv[-3]))
-	size = (width, height) = (80,20)
+	(width, height) = size
 	# del sys.argv[-4:-2]
 	topologyData = ("ToroidTopology", 0)
 	neighborData = ("VonNeumannNeighborhood", )
@@ -69,13 +70,8 @@ def main(stdscr):
 	ruleData = ("ReductionRule", (operator.xor, 0))
 	automatonData = ("SynchronousAutomaton_2D", )
 
-	# the seedCode is the genetic code given to the initial creatures
-	# look at the module code for meaning of the genome; tamper with this
-	# at your own peril!
-	seedCode = "Yi Yc Ys Cb Cd Cr Tl Tp Em Tc Tr Tg Tx Ty To Rd Rl"
-
 	# avatars is the number of initial creatures, and doomsday the number of iterations
-	(avatars, doomsday) = (1, 570)
+	(avatars, doomsday) = (3, 570)
 	# biblos is a list which whill contain essential runtime information
 	biblos = []
 	# invoke GOD.Generator's automaton creation method with the data given above
@@ -86,12 +82,12 @@ def main(stdscr):
 	magdalen.generator = mary
 	(magdalen.width, magdalen.height) = (width, height)
 	initialAgents = 0
-	initialAddresses = []
 
 	# cycle through avatars to populate the automaton with some initial creatures"
 	while avatars:
 		# GOD.Generator will compile a module for each creature, and append
-		# it to the list biblos along with its name
+		# it to the list biblos along with its name; the seedCode is being 
+		# imported from the code module.
 		mary.generateGenotypeNew(seedCode, biblos)
 		avatars -= 1
 		initialAgents += 1
@@ -99,14 +95,7 @@ def main(stdscr):
 	# magdalen reads the data in biblos and calls actual agent objects
 	# into being from the code in the modules compiled by mary
 	for entry in biblos:	
-		# set some initial parameters in each entry's fatum
-		entry.fatum["code"] = seedCode
-		entry.fatum["prana"] = 7
-		entry.fatum["mana"] = 1
-		(x, y) = (random.randint(0, width-1), random.randint(0, height-1))
-		entry.fatum["address"] = (x, y)
 		magdalen.readBookOfLifeNew(entry)
-		initialAddresses.append((x, y))
 	
 	display = mary.generateDisplay(terra, size, stdscr)
 
@@ -115,8 +104,9 @@ def main(stdscr):
 	sound.startBackground()
 	sound.startBackgroundControl()
 	# birth sound of the initial agents
-	for x in initialAddresses:
-		sound.agentBirth(x[0])
+	for entry in biblos:
+		# Aural manifestation that corresponds to birth.
+		sound.agentBirth(entry.fatum["address"][0], entry.fatum["voice"])
 
 	# here cometh the main iteration cycle
 	while magdalen.annum < doomsday:
@@ -131,7 +121,7 @@ def main(stdscr):
 				birth = 1
 			magdalen.readBookOfLifeNew(entry)
 			if birth == 1:
-				sound.agentBirth(agentAddress[0])
+				sound.agentBirth(agentAddress[0], entry.fatum["voice"])
 		# The display and the sound control data are updated.
 		magdalen.refreshDisplay(display)
 		sndCtrlCells = [terra.get((22,18)), terra.get((40,18)),
