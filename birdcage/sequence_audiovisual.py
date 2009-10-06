@@ -103,10 +103,6 @@ def main(stdscr):
 	sound.setInitialData(magdalen.width)
 	sound.startBackground()
 	sound.startBackgroundControl()
-	# birth sound of the initial agents
-	for entry in biblos:
-		# Aural manifestation that corresponds to birth.
-		sound.agentBirth(entry.fatum["address"][0], entry.fatum["voice"])
 
 	# here cometh the main iteration cycle
 	while magdalen.annum < doomsday:
@@ -115,13 +111,10 @@ def main(stdscr):
 		populNorm = float(population) / operator.mul(width,height)
 		# GOD.Organizer parses the whole length of biblos
 		for entry in biblos:
-			birth = 0
-			agentAddress = entry.fatum["address"]
+			# Birth sound for new-born agents
 			if entry.fatum["prayer"] == "BeBirthed":
-				birth = 1
+				sound.agentBirth(entry.fatum["address"][0], entry.fatum["voice"])
 			magdalen.readBookOfLifeNew(entry)
-			if birth == 1:
-				sound.agentBirth(agentAddress[0], entry.fatum["voice"])
 		# The display and the sound control data are updated.
 		magdalen.refreshDisplay(display)
 		sndCtrlCells = [terra.get((22,18)), terra.get((40,18)),

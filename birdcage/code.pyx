@@ -1,6 +1,6 @@
 size = (80, 20)
 
-prana = 11
+prana = 25
 
 mana = 1
 

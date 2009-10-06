@@ -19,6 +19,8 @@
 
 import GOD
 from bookentry import BookEntry
+from code import *
+
 import random
 import sys
 import time
@@ -34,7 +36,7 @@ def startExecutionNormal():
 	print "Instatiated a Generator called mary"
 
 	# the following lines contain all the data to build a complete cellular automaton
-	size = (width, height) = (80,20)
+	(width, height) = size
 	topologyData = ("ToroidTopology", 0)
 	neighborData = ("VonNeumannNeighborhood", )
 	import operator
@@ -44,10 +46,10 @@ def startExecutionNormal():
 	# the seedCode is the genetic code given to the initial creatures
 	# look at the module code for meaning of the genome; tamper with this
 	# at your own peril!
-	seedCode = "Y i Y c Y s C b C d C r T l T p E m T c T r T g T x T y T o R d R l"
+	#seedCode = "Y i Y c Y s C b C d C r T l T p E m T c T r T g T x T y T o R d R l"
 
 	# avatars is the number of initial creatures, and doomsday the number of iterations	
-	(avatars, doomsday) = (1, 20)
+	(avatars, doomsday) = (2, 20)
 	# biblos is a list which whill contain essential runtime information
 	biblos = []
 
@@ -66,7 +68,7 @@ def startExecutionNormal():
 	while avatars:
 		# GOD.Generator will compile a module for each creature, and append
 		# it to the list biblos along with its name
-		mary.generateGenotypeNew(seedCode.split(" "), biblos)
+		mary.generateGenotypeNew(seedCode, biblos)
 		print "mary compiled a genome and wrote it in biblos"
 		avatars -= 1
 
@@ -81,8 +83,8 @@ def startExecutionNormal():
 	for entry in biblos:	
 		# set some initial parameters in each entry's fatum
 		entry.fatum["code"] = seedCode
-		entry.fatum["prana"] = 7
-		entry.fatum["mana"] = 1
+		entry.fatum["prana"] = prana
+		entry.fatum["mana"] = mana
 		#(x, y) = (random.randint(0, width-1), random.randint(0, height-1))
 		entry.fatum["address"] = (40, 10)
 		magdalen.readBookOfLifeNew(entry)

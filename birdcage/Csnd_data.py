@@ -83,15 +83,15 @@ iptch2	= iptch2 + 40
 
 ilfo	= rnd(50)
 
-ifrq1Mod = p5
-ifrq2Mod = p6
+iidev = p5
+iadev = p6
 
-ifrq1a	= 1270 + ifrq1Mod
-ifrq2a	= 3140 + ifrq1Mod
-ifrq3a	= 3950 + ifrq1Mod
-ifrq1b	= 1800 + ifrq2Mod
-ifrq2b	= 2150 + ifrq2Mod
-ifrq3b	= 3900 + ifrq2Mod
+ifrq1a	= 1270 + iidev
+ifrq2a	= 3140 + iidev
+ifrq3a	= 3950 + iidev
+ifrq1b	= 1800 + iadev
+ifrq2b	= 2150 + iadev
+ifrq3b	= 3900 + iadev
 
 iamp1a	= ampdbfs(0)
 iamp2a	= ampdbfs(-6)

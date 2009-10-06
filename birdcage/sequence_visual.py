@@ -18,9 +18,10 @@
 
 import GOD
 from bookentry import BookEntry
+from code import seedCode, size
 import random
 import sys
-import time
+
 
 def setCursesColors():
 	curses.init_pair(1, curses.COLOR_RED, curses.COLOR_BLACK)
@@ -54,7 +55,8 @@ def main(stdscr):
 
 	# the following lines contain all the data to build a complete automaton
 	# size = (width, height) = (int(sys.argv[-4]),int(sys.argv[-3]))
-	size = (width, height) = (80,20)
+	#size = (width, height) = (80,20)
+	(width, height) = size
 	# del sys.argv[-4:-2]
 	topologyData = ("ToroidTopology", 0)
 	neighborData = ("VonNeumannNeighborhood", )
@@ -65,10 +67,10 @@ def main(stdscr):
 	# the seedCode is the genetic code given to the initial creatures
 	# look at the module code for meaning of the genome; tamper with this
 	# at your own peril!
-	seedCode = "Y i Y c Y s C b C d C r T l T p E m T c T r T g T x T y T o R d R l"
+	#seedCode = "Y i Y c Y s C b C d C r T l T p E m T c T r T g T x T y T o R d R l"
 
 	# avatars is the number of initial creatures, and doomsday the number of iterations	
-	(avatars, doomsday) = (1, 5570)
+	(avatars, doomsday) = (3, 5570)
 	# biblos is a list which whill contain essential runtime information
 	biblos = []
 

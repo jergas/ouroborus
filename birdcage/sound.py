@@ -31,7 +31,7 @@ def agentBirth(agentXAxis, (ADeviation, IDeviation)):
 #		panning = 1
 #	else:
 #		panning = 0
-	agentsSound.birthSound(panning, ADeviation, IDeviation)
+	agentsSound.birthSound(panning, IDeviation, ADeviation)
 
 
 def startBackground():

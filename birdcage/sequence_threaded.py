@@ -36,6 +36,7 @@ import threading
 import GOD
 from bookentry import BookEntry
 import sound
+from code import *
 
 def setCursesColors():
 	curses.init_pair(1, curses.COLOR_RED, curses.COLOR_BLACK)
@@ -114,13 +115,9 @@ class ThreadedSequence(object):
 		neighborData = ("VonNeumannNeighborhood", )
 		ruleData = ("ReductionRule", (operator.xor, 0))
 		automatonData = ("SynchronousAutomaton_2D", )
-		# The seedCode is the genetic code given to the initial creatures look
-		# at the module code for meaning of the genome. Tamper with this at your
-		# own peril!
-		seedCode = "Yi Yc Ys Cb Cd Cr Tl Tp Em Tc Tr Tg Tx Ty To Rd Rl"
 		# avatars is the number of initial creatures, and doomsday is the number
 		# of iterations.
-		(avatars, self.doomsday) = (1, 570)
+		(avatars, self.doomsday) = (3, 570)
 		# biblos is a list which whill contain essential runtime information.
 		self.biblos = []
 		# Invoke GOD.Generator's automaton creation method with the data
@@ -133,7 +130,6 @@ class ThreadedSequence(object):
 		self.magdalen.generator = mary
 		(self.magdalen.width, self.magdalen.height) = (width, height)
 		self.initialAgents = 0
-		self.initialAddresses = []
 		# Cycle through avatars to populate the automaton with some initial
 		# creatures.
 		while avatars:
@@ -151,7 +147,6 @@ class ThreadedSequence(object):
 			(x, y) = (random.randint(0, width-1), random.randint(0, height-1))
 			entry.fatum["address"] = (x, y)
 			self.magdalen.readBookOfLifeNew(entry)
-			self.initialAddresses.append((x, y))
 		# Initialize an attribute to hold the automaton's population.
 		self.population = 0
 
@@ -186,9 +181,10 @@ class ThreadedSequence(object):
 				self.population = self.magdalen.iterateAutomaton()
 				for entry in self.biblos:
 					self.births = []
-					agentAddress = entry.fatum["address"]
+					# Birth sound for new-born agents
 					if entry.fatum["prayer"] == "BeBirthed":
-						self.births.append(agentAddress)
+						sound.agentBirth(entry.fatum["address"][0],
+											entry.fatum["voice"])
 					self.magdalen.readBookOfLifeNew(entry)
 				# Notify the audiovisual loop, so it continues its course.
 				self.threadCondition.notify()
@@ -213,10 +209,7 @@ class ThreadedSequence(object):
 		""" The audiovisual loop happens here.
 		"""
 		(width, height)	= self.size
-		# birth sound of the initial agents
-		for x in self.initialAddresses:
-			sound.agentBirth(x[0])
-		
+
 		while self.magdalen.annum < self.doomsday:
 			# Aquire a thread-synchronizing condition.
 			self.threadCondition.acquire()
@@ -224,8 +217,6 @@ class ThreadedSequence(object):
 			populNorm = float(self.population) / operator.mul(width,height)
 			sndCtrlCells = [self.terra.get((22,18)), self.terra.get((40,18)),
 							self.terra.get((64,18))]
-			for x in self.births:
-				sound.agentBirth(x[0])
 			# Update the display
 			self.magdalen.refreshDisplay(self.display)
 			# Update the audio

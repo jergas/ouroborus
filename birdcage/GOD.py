@@ -100,7 +100,8 @@ class Generator:
 		# bring the command line back to its original condition
 		del sys.argv[-2:]
 
-		# finally, append the module's name to the list of names and return
+		# finally, append the module's name to the list of names,
+		# set its prayer and return
 		ode.append(BookEntry(onoma)) 
 		ode[-1].fatum["prayer"] = "CreateMe"
 		self.obstetrics += 1 
@@ -214,6 +215,7 @@ class Organizer:
 
 		bookentry ---> a BookEntry object
 		return    -->> 1"""
+		
 		# set some initial parameters in the creature's fatum
 		bookentry.fatum["code"] = seedCode
 		bookentry.fatum["prana"] = prana
@@ -225,6 +227,9 @@ class Organizer:
 		ADeviation = random.uniform(-250, 250)
 		IDeviation = random.uniform(-250, 250)
 		bookentry.fatum["voice"] = (ADeviation, IDeviation)
+		bookentry.fatum["prayer"] = "BeBirthed"
+		return 1
+
 
 
 	def grantPrayerBeBirthed(self, bookentry):
