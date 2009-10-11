@@ -71,7 +71,7 @@ def main(stdscr):
 	automatonData = ("SynchronousAutomaton_2D", )
 
 	# avatars is the number of initial creatures, and doomsday the number of iterations
-	(avatars, doomsday) = (3, 570)
+	(avatars, doomsday) = (1, 570)
 	# biblos is a list which whill contain essential runtime information
 	biblos = []
 	# invoke GOD.Generator's automaton creation method with the data given above
@@ -113,7 +113,7 @@ def main(stdscr):
 		for entry in biblos:
 			# Birth sound for new-born agents
 			if entry.fatum["prayer"] == "BeBirthed":
-				sound.agentBirth(entry.fatum["address"][0], entry.fatum["voice"])
+				sound.agentBirth(entry.fatum["voice"])
 			magdalen.readBookOfLifeNew(entry)
 		# The display and the sound control data are updated.
 		magdalen.refreshDisplay(display)

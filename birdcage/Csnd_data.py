@@ -79,7 +79,6 @@ iright	= sqrt(1 - p4)
 iptch1	= 35
 
 iptch2   = 400
-iptch2	= iptch2 + 40
 
 ilfo	= rnd(50)
 

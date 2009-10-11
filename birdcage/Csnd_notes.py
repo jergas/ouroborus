@@ -39,7 +39,8 @@ class BirthNote(object):
 		return scoStatement
 
 
-class BckgrndNote(BirthNote):
+#class BckgrndNote(BirthNote):
+class BckgrndNote(object):
 	""" Note class for the sound played when an agent is instantiated,
 	at the beginning of the simulation. Such sound is destined to
 	deprecation, although the class is not.

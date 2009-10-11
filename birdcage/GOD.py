@@ -12,6 +12,8 @@ from bookentry import BookEntry
 # these are the modules used for display
 import visual as v
 import curses as c
+# these are the modules used for sound
+from agents_sound import VocalTract
 # these are the ingredients for the Pyrex compile spell
 import sys
 import distutils.core 
@@ -222,12 +224,10 @@ class Organizer:
 		bookentry.fatum["mana"] = mana
 		(x, y) = (random.randint(0, width-1), random.randint(0, height-1))
 		bookentry.fatum["address"] = (x, y)
-		# Record the quality of sound of certain sound qualities for
-		# the creature being instantiated.
-		ADeviation = random.uniform(-250, 250)
-		IDeviation = random.uniform(-250, 250)
-		bookentry.fatum["voice"] = (ADeviation, IDeviation)
 		bookentry.fatum["prayer"] = "BeBirthed"
+		# Instantiate the class that contains the agent's sound
+		# attributes and methods. 
+		bookentry.fatum["voice"] = VocalTract(x, width)
 		return 1
 
 
@@ -276,9 +276,10 @@ class Organizer:
 		# each agent that is instantiated.
 		ADeviation = random.uniform(-250, 250)
 		IDeviation = random.uniform(-250, 250)
-		child.fatum["voice"] = (ADeviation, IDeviation)
+		# Instantiate the class that contains the agent's sound
+		# attributes and methods. 
+		child.fatum["voice"] = VocalTract(x, width)
 		# set the agent's prayer back to live
-		bookentry.fatum["prayer"] = "Live"
 		return 1
 
 

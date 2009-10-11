@@ -7,10 +7,7 @@
 import agents_sound as agentsSound
 import background_sound as background
 import csnd_interface as csndInterface
-import Numeric_utils as NumericUtils
 import sound_globals as sGlobals
-
-Scaling = NumericUtils.Scaling()
 
 
 def setInitialData(automatonWidth):
@@ -23,15 +20,10 @@ def startSoundServer():
 	csndInterface.initCSnd()
 
 
-def agentBirth(agentXAxis, (ADeviation, IDeviation)):
+def agentBirth(VocalTract):
 	"""Plays a single note when an agent is instantiated.
 	"""
-	panning = Scaling.valToRng(agentXAxis, 0, sGlobals.automatonWidth, 1, 0)
-#	if panning > .5:
-#		panning = 1
-#	else:
-#		panning = 0
-	agentsSound.birthSound(panning, IDeviation, ADeviation)
+	VocalTract.birthSound()
 
 
 def startBackground():
