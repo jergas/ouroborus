@@ -1,59 +1,72 @@
-body 										{	
-												background-color: #F6E4DE;
-												color: #7070ff;
-												font-family: Gautang Lucida Arial sans-serif;
-												position: relative;
-												}
+body {	
+background-color: #F6E4DE;
+color: #7070ff;
+font-family: Gautang Lucida Arial sans-serif;
+position: relative;
+}
 				
-div.section							{
-												margin: 2em;
-												width: 60%;
-												}
+div.section {
+margin: 2em;
+width: 60%;
+}
 												
-h1											{
-												font-size: 32px;
-												font-weight: bold;
-												color: #ff7040;
-												}
+h1 {
+font-size: 32px;
+font-weight: bold;
+color: #ff7040;
+}
 												
-h2											{
-												font-size: 28px;
-												font-weight: bold;
-											  color: #ff7040;
-												}
+h2 {
+font-size: 28px;
+font-weight: bold;
+color: #ff7040;
+}
 
-h3											{
-												font-size: 22px;
-												font-weight: normal;
-												color: #ff7040;
-												}
+h3 {
+font-size: 22px;
+font-weight: normal;
+color: #ff7040;
+}
 
-p												{
-												font-size: 14px;
-												font-weight: normal;
-												}
-p:first-letter					{
-												font-weight: bold;
-												letter-spacing: 20px;
-												font-size: 20px;
-												color: #ff7040;
-												font-family: Monotype Corsiva;
-												}
-a:link									{
-												color: #ffbf00;
-												}
-a:visited								{
-												color: #cf40ff;
-												}
-span.bigword						{
-												font-size: 14px;
-												font-weight: bold;
-												color: #ff7040;
-												font-family: Monotype Corsiva;
-												}
-a.home									{
-												text-decoration:none;
-												}
+p {
+font-size: 14px;
+font-weight: normal;
+}
+
+p.arcane {
+margin-left: 40px;
+font-size: 14px;
+font-family: Georgia serif;
+font-style: italic;
+text-align: right;
+}
+
+p:first-letter {
+font-weight: bold;
+letter-spacing: 20px;
+font-size: 20px;
+color: #ff7040;
+font-family: Monotype Corsiva;
+}
+
+a:link {
+color: #ffbf00;
+}
+
+a:visited {
+color: #cf40ff;
+}
+
+span.bigword {
+font-size: 14px;
+font-weight: bold;
+color: #ff7040;
+font-family: Monotype Corsiva;
+}
+
+a.home {
+text-decoration:none;
+}
 													 
 															
 
