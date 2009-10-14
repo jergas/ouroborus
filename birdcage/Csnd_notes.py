@@ -15,35 +15,19 @@ Env		= NM.Env()
 class BirthNote(object):
 	""" Note class for the sound played when an agent is born.
 	"""
-	def __init__(self):
-		""" Atributes used to construct a csound score
-		statement.
-		dur	---> note's total duration
-		"""
-		self.dur			= 0.5
-		self.instrNo		= 1
-		self.pan			= 0.5
-		self.IDeviation		= -250
-		self.ADeviation		= 250
-
-
 	def mkScoStrings(self):
 		""" Generates a set of Csound score statements (notes) that
 		comprehend a spectral note.
 		return	--> a list of strings, each of which is a note statement
 		"""
-		scoStatement 	= ''.join(['i1 0 ', str(self.dur),' ', str(self.pan),
-									' ', str(self.IDeviation), ' ',
-									str(self.ADeviation)])
+		scoStatement 	= ''.join(['i1 0 ', str(self.dur), ' ', str(self.ptch1), ' ', str(self.ptch2), ' ', str(self.vibr), ' ', str(self.IDeviation), ' ', str(self.ADeviation), ' ', '0 ', str(self.pan)])
 
 		return scoStatement
 
 
 #class BckgrndNote(BirthNote):
 class BckgrndNote(object):
-	""" Note class for the sound played when an agent is instantiated,
-	at the beginning of the simulation. Such sound is destined to
-	deprecation, although the class is not.
+	""" Note class for the background sound.
 	"""
 	def __init__(self, instrNos, fundFreq, numOfPartls, spectType, distor,
 					distor2, pan, dur):

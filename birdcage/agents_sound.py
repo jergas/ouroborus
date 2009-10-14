@@ -23,8 +23,12 @@ class VocalTract(object):
 		IDeviation	---> a deviation constant of the "i" formants
 		panning		---> the agent's normalized x-axis position
 		"""
+		self.ptch1		= random.randint(5, 15)
+		self.ptch2 		= random.randint(30, 50)
+		self.vibr		= random.randint(1, 50)
 		self.ADeviation = random.uniform(-250, 250)
 		self.IDeviation = random.uniform(-250, 250)
+		self.ODeviation = random.uniform(-250, 250)
 		self.panning	= Scaling.valToRng(agentXAxis, 0, width, 1, 0)
 
 
@@ -33,9 +37,12 @@ class VocalTract(object):
 		agent.
 		""" 
 		BirthNote.dur			= random.uniform(.5, 2) * 0.1
-		BirthNote.pan			= self.panning
+		BirthNote.ptch1			= self.ptch1
+		BirthNote.ptch2 		= self.ptch2
+		BirthNote.vibr			= self.vibr
 		BirthNote.IDeviation	= self.IDeviation
 		BirthNote.ADeviation	= self.ADeviation	
+		BirthNote.pan			= self.panning
 		#Feed the note to Csound.
 		scoStatement = BirthNote.mkScoStrings()
 		csndInterface.perf.InputMessage(scoStatement)

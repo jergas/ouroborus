@@ -73,53 +73,65 @@ nchnls = 2	; # of channels
 instr    1
 
 idur    = p3
-ileft	= sqrt(p4)	; between 0-1, 1 is hard left
-iright	= sqrt(1 - p4)
 
-iptch1	= 35
+iptch1	= p4
+iptch2	= p5
 
-iptch2   = 400
+ivibr	= p6
 
-ilfo	= rnd(50)
+iidev = p7
+iadev = p8
+iodev = p9
 
-iidev = p5
-iadev = p6
+ileft	= sqrt(p10)	; between 0-1, 1 is hard left
+iright	= sqrt(1 - p10)
 
-ifrq1a	= 1270 + iidev
-ifrq2a	= 3140 + iidev
-ifrq3a	= 3950 + iidev
-ifrq1b	= 1800 + iadev
-ifrq2b	= 2150 + iadev
-ifrq3b	= 3900 + iadev
+ifrq1i	= 1270 + iidev
+ifrq2i	= 3140 + iidev
+ifrq3i	= 3950 + iidev
+ifrq1a	= 1800 + iadev
+ifrq2a	= 2150 + iadev
+ifrq3a	= 3900 + iadev
+ifrq1o	= 1450 + iodev
+ifrq2o	= 1800 + iodev
+ifrq3o	= 3830 + iodev
 
+iamp1i	= ampdbfs(0)
+iamp2i	= ampdbfs(-6)
+iamp3i	= ampdbfs(-32)
 iamp1a	= ampdbfs(0)
-iamp2a	= ampdbfs(-6)
-iamp3a	= ampdbfs(-32)
-iamp1b	= ampdbfs(0)
-iamp2b	= ampdbfs(-12)
-iamp3b	= ampdbfs(-26)
+iamp2a	= ampdbfs(-12)
+iamp3a	= ampdbfs(-26)
+iamp1o	= ampdbfs(0)
+iamp2o	= ampdbfs(-11)
+iamp3o	= ampdbfs(-22)
 
-ibw1a	= 60
+ibw1i	= 60
+ibw2i	= 90
+ibw3i	= 100
+ibw1a	= 80
 ibw2a	= 90
-ibw3a	= 100
-ibw1b	= 80
-ibw2b	= 90
-ibw3b	= 120
+ibw3a	= 120
+ibw1o	= 70
+ibw2o	= 80
+ibw3o	= 100
 
-; fof1 envelopes
-kfrq1 linseg ifrq1a, idur * .6, ifrq1b, .01, ifrq1b
-kamp1 linseg iamp1a, idur * .6, iamp1b, .01, iamp1b
-kbw1 linseg ibw1a, idur * .6, ibw1b, .01, ibw1b
 
-; fof2 envelopes
-kfrq2 linseg ifrq2a, idur * .6, ifrq2b, .01, ifrq2b
-kamp2 linseg iamp2a, idur * .6, iamp2b, .01, iamp2b
-kbw2 linseg ibw2a, idur * .6, ibw2b, .01, ibw2b
 
-; fof3 envelopes
-kfrq3 linseg ifrq3a, idur * .6, ifrq3b, .01, ifrq3b
-kamp3 linseg iamp3a, idur * .6, iamp3b, .01, iamp3b
-kbw3 linseg ibw3a, idur * .6, ibw3b, .01, ibw3b
+; fof1 i-a envelopes
+kfrq1 linseg ifrq1i, idur * .6, ifrq1a, .01, ifrq1a
+kamp1 linseg iamp1i, idur * .6, iamp1a, .01, iamp1a
+kbw1 linseg ibw1i, idur * .6, ibw1a, .01, ibw1a
+
+; fof2 i-a envelopes
+kfrq2 linseg ifrq2i, idur * .6, ifrq2a, .01, ifrq2a
+kamp2 linseg iamp2i, idur * .6, iamp2a, .01, iamp2a
+kbw2 linseg ibw2i, idur * .6, ibw2a, .01, ibw2a
+
+; fof3 i-a envelopes
+kfrq3 linseg ifrq3i, idur * .6, ifrq3a, .01, ifrq3a
+kamp3 linseg iamp3i, idur * .6, iamp3a, .01, iamp3a
+kbw3 linseg ibw3i, idur * .6, ibw3a, .01, ibw3a
 
 ; Overall level envelope
 klvlenv linseg  0, .01, 1, idur - .02, 1, .01, 0
@@ -127,7 +139,7 @@ klvlenv linseg  0, .01, 1, idur - .02, 1, .01, 0
 ; Pitch envelope
 kptch	linseg iptch1, idur * .3, iptch1, idur * .1, iptch2, idur * .4, iptch2, idur * .2, iptch1
 
-klfo lfo 50, ilfo
+klfo lfo 50, ivibr
 
 a1 fof  kamp1, kptch + klfo, kfrq1, 0, kbw1, .003, .02, .007, 1000, 1, 2, idur, rnd(1), 1
 a2 fof  kamp2, kptch + klfo, kfrq2, 0, kbw2, .003, .02, .007, 1000, 1, 2, idur, rnd(1), 1

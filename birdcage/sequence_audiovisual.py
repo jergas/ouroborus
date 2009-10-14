@@ -93,6 +93,7 @@ def main(stdscr):
 		mary.generateGenotypeNew(specific.seedCode, biblos)
 		avatars -= 1
 		initialAgents += 1
+	# prime the initial avatars for actual creation
 	for entry in biblos:
 		entry.fatum["prayer"] = "CreateMe"
 
