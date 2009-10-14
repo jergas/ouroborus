@@ -1,6 +1,6 @@
 body {	
 background-color: #F6E4DE;
-color: #7070ff;
+color: #0000ff;
 font-family: Gautang Lucida Arial sans-serif;
 position: relative;
 }
@@ -34,6 +34,7 @@ font-weight: normal;
 }
 
 p.arcane {
+color: #7070ff;
 margin-left: 40px;
 font-size: 14px;
 font-family: Georgia serif;
