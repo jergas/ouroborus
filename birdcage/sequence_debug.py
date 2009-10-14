@@ -19,7 +19,7 @@
 
 import GOD
 from bookentry import BookEntry
-from code import *
+
 
 import random
 import sys
@@ -41,17 +41,11 @@ def startExecutionNormal():
 	# the following lines contain all the data to build a complete cellular automaton
 	size = specific.size
 	(width, height) = size
-	topologyData = ("ToroidTopology", 0)
-	neighborData = ("VonNeumannNeighborhood", )
-	import operator
-	ruleData = ("ReductionRule", (operator.xor, 0))
-	automatonData = ("SynchronousAutomaton_2D", )
+	topologyData = specific.topology
+	neighborData = specific.neighborhood
+	ruleData = specific.rule
+	automatonData = specific.automaton
 	
-	# the seedCode is the genetic code given to the initial creatures
-	# look at the module code for meaning of the genome; tamper with this
-	# at your own peril!
-	#seedCode = "Y i Y c Y s C b C d C r T l T p E m T c T r T g T x T y T o R d R l"
-
 	# avatars is the number of initial creatures, and doomsday the number of iterations	
 	(avatars, doomsday) = (specific.avatars, specific.doomsday)
 	# biblos is a list which whill contain essential runtime information

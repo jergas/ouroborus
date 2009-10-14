@@ -18,9 +18,12 @@
 
 import GOD
 from bookentry import BookEntry
-from code import seedCode, size
 import random
 import sys
+
+specificity = "Alpha"
+specific = __import__("specific"+specificity)
+
 
 
 def setCursesColors():
@@ -54,23 +57,15 @@ def main(stdscr):
 	setCursesColors()
 
 	# the following lines contain all the data to build a complete automaton
-	# size = (width, height) = (int(sys.argv[-4]),int(sys.argv[-3]))
-	#size = (width, height) = (80,20)
+	size = specific.size
 	(width, height) = size
-	# del sys.argv[-4:-2]
-	topologyData = ("ToroidTopology", 0)
-	neighborData = ("VonNeumannNeighborhood", )
-	import operator
-	ruleData = ("ReductionRule", (operator.xor, 0))
-	automatonData = ("SynchronousAutomaton_2D", )
-
-	# the seedCode is the genetic code given to the initial creatures
-	# look at the module code for meaning of the genome; tamper with this
-	# at your own peril!
-	#seedCode = "Y i Y c Y s C b C d C r T l T p E m T c T r T g T x T y T o R d R l"
+	topologyData = specific.topology
+	neighborData = specific.neighborhood
+	ruleData = specific.rule
+	automatonData = specific.automaton
 
 	# avatars is the number of initial creatures, and doomsday the number of iterations	
-	(avatars, doomsday) = (3, 5570)
+	(avatars, doomsday) = (specific.avatars, specific.doomsday)
 	# biblos is a list which whill contain essential runtime information
 	biblos = []
 
@@ -78,7 +73,7 @@ def main(stdscr):
 	terra = mary.generateAutomaton(size, topologyData, neighborData, ruleData, automatonData)
 
 	# now call a GOD.Organizer to oversee this automaton
-	magdalen = GOD.Organizer(terra, biblos)
+	magdalen = GOD.Organizer(terra, biblos, specificity)
 	magdalen.generator = mary
 	(magdalen.width, magdalen.height) = (width, height)
 
@@ -86,18 +81,16 @@ def main(stdscr):
 	while avatars:
 		# GOD.Generator will compile a module for each creature, and append
 		# it to the list biblos along with its name
-		mary.generateGenotypeNew(seedCode, biblos)
+		(avatars, doomsday) = (specific.avatars, specific.doomsday)
 		avatars -= 1
+	# prime the initial avatars for actual creation
+	for entry in biblos:
+		entry.fatum["prayer"] = "CreateMe"
+
 
 	# magdalen reads the data in biblos and calls actual agent objects
 	# into being from the code in the modules compiled by mary
 	for entry in biblos:	
-		# set some initial parameters in each entry's fatum
-		entry.fatum["code"] = seedCode
-		entry.fatum["prana"] = 7
-		entry.fatum["mana"] = 1
-		(x, y) = (random.randint(0, width-1), random.randint(0, height-1))
-		entry.fatum["address"] = (x, y)
 		magdalen.readBookOfLifeNew(entry)
 
 	display = mary.generateDisplay(terra, size, stdscr)

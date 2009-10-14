@@ -5,7 +5,11 @@
 # The automaton:
 
 size = (80,20)
-
+topology = ("ToroidTopology", 0)
+neighborhood = ("VonNeumannNeighborhood", )
+import operator
+rule = ("ReductionRule", (operator.xor, 0))
+automaton = ("SynchronousAutomaton_2D", )
 
 ############
 
