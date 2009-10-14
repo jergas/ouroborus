@@ -17,12 +17,15 @@
 #
 # Read some history at EOF
 
+import operator
 import random
 import sys
 
 from bookentry import BookEntry
 import GOD
-from code import seedCode, size
+
+specificity = "Alpha"
+specific = __import__("specific"+specificity)
 
 
 def setCursesColors():
@@ -62,23 +65,22 @@ def main(stdscr):
 
 	# the following lines contain all the data to build a complete automaton
 	# size = (width, height) = (int(sys.argv[-4]),int(sys.argv[-3]))
+	size = specific.size
 	(width, height) = size
-	# del sys.argv[-4:-2]
-	topologyData = ("ToroidTopology", 0)
-	neighborData = ("VonNeumannNeighborhood", )
-	import operator
-	ruleData = ("ReductionRule", (operator.xor, 0))
-	automatonData = ("SynchronousAutomaton_2D", )
+	topologyData = specific.topology
+	neighborData = specific.neighborhood
+	ruleData = specific.rule
+	automatonData = specific.automaton
 
 	# avatars is the number of initial creatures, and doomsday the number of iterations
-	(avatars, doomsday) = (1, 570)
+	(avatars, doomsday) = (specific.avatars, specific.doomsday)
 	# biblos is a list which whill contain essential runtime information
 	biblos = []
 	# invoke GOD.Generator's automaton creation method with the data given above
 	terra = mary.generateAutomaton(size, topologyData, neighborData, ruleData, automatonData)
 
 	# now call a GOD.Organizer to oversee this automaton
-	magdalen = GOD.Organizer(terra, biblos)
+	magdalen = GOD.Organizer(terra, biblos, specificity)
 	magdalen.generator = mary
 	(magdalen.width, magdalen.height) = (width, height)
 	initialAgents = 0
@@ -88,9 +90,11 @@ def main(stdscr):
 		# GOD.Generator will compile a module for each creature, and append
 		# it to the list biblos along with its name; the seedCode is being 
 		# imported from the code module.
-		mary.generateGenotypeNew(seedCode, biblos)
+		mary.generateGenotypeNew(specific.seedCode, biblos)
 		avatars -= 1
 		initialAgents += 1
+	for entry in biblos:
+		entry.fatum["prayer"] = "CreateMe"
 
 	# magdalen reads the data in biblos and calls actual agent objects
 	# into being from the code in the modules compiled by mary
