@@ -25,6 +25,9 @@ import random
 import sys
 import time
 
+specificity = "Alpha"
+specific = __import__("specific"+specificity)
+
 def startExecutionNormal():
 	"""start verbose execution cycle with no visual display or sound
 
@@ -36,6 +39,7 @@ def startExecutionNormal():
 	print "Instatiated a Generator called mary"
 
 	# the following lines contain all the data to build a complete cellular automaton
+	size = specific.size
 	(width, height) = size
 	topologyData = ("ToroidTopology", 0)
 	neighborData = ("VonNeumannNeighborhood", )
@@ -49,7 +53,7 @@ def startExecutionNormal():
 	#seedCode = "Y i Y c Y s C b C d C r T l T p E m T c T r T g T x T y T o R d R l"
 
 	# avatars is the number of initial creatures, and doomsday the number of iterations	
-	(avatars, doomsday) = (2, 20)
+	(avatars, doomsday) = (specific.avatars, specific.doomsday)
 	# biblos is a list which whill contain essential runtime information
 	biblos = []
 
@@ -58,7 +62,7 @@ def startExecutionNormal():
 	print "mary has created terra"
 
 	# now call a GOD.Organizer to oversee this automaton
-	magdalen = GOD.Organizer(terra, biblos)
+	magdalen = GOD.Organizer(terra, biblos, specificity)
 	magdalen.generator = mary
 	(magdalen.width, magdalen.height) = (width, height)
 	print "an Organizer called magdalen has been assigned to oversee terra"
@@ -68,29 +72,25 @@ def startExecutionNormal():
 	while avatars:
 		# GOD.Generator will compile a module for each creature, and append
 		# it to the list biblos along with its name
-		mary.generateGenotypeNew(seedCode, biblos)
+		mary.generateGenotypeNew(specific.seedCode, biblos)
 		print "mary compiled a genome and wrote it in biblos"
 		avatars -= 1
+	# prime the initial avatars for actual creation
+	for entry in biblos:
+		entry.fatum["prayer"] = "CreateMe"
 
-	print "the book of life, biblos, reads:"
+	# first sanity check: view the avatars before they are created
+	print "the book of life's first page reads:"
 	for entry in biblos: print entry
 	print "\n"
-
-	terra.set((40,9),1)
 
 	# magdalen reads the data in biblos and calls actual agent objects
 	# into being from the code in the modules compiled by mary
 	for entry in biblos:	
-		# set some initial parameters in each entry's fatum
-		entry.fatum["code"] = seedCode
-		entry.fatum["prana"] = prana
-		entry.fatum["mana"] = mana
-		#(x, y) = (random.randint(0, width-1), random.randint(0, height-1))
-		entry.fatum["address"] = (40, 10)
 		magdalen.readBookOfLifeNew(entry)
 		print "magdalen read biblos and instantiated an agent from the genome"
 
-	print "the book of life, biblos, reads:"
+	print "the book of life's prologue reads:"
 	for entry in biblos: print entry
 	print "\n"
 

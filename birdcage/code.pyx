@@ -1,10 +1,9 @@
-size = (80, 20)
 
-prana = 25
 
-mana = 1
 
-seedCode = "Yi Yc Ys Cb Cd Cr Ld Lp Ll Le Iy Ir Ix Ik Lr Rd Rl Rp Rr"
+
+
+
 
 tabula = {'Yi':'import topology; import neighborhood; import agent',
           'Yc':'corporality = neighborhood.VonNeumannNeighborhood',
@@ -17,13 +16,14 @@ tabula = {'Yi':'import topology; import neighborhood; import agent',
           'Ll':'  creature.losePrana(1)',
           'Le':'  creature.eatMana()',
           'Iy':'  if creature.tellPrana() > 13:',
-          'Ir':'      prayer = reproduce(creature)',
+          'Ir':'      prayer = "GrantChild"',
+          'Ip':'      reproduce(creature)',
           'Ix':'  elif creature.tellPrana() <= 0:',
           'Ik':'      prayer = "KillMe"',
           'Lr':'  return prayer',
           'Rd':'def reproduce(creature):',
-          'Rl':'  creature.losePrana(10)',
-          'Rp':'  prayer = "GrantChild"',
+          'Rl':'  creature.losePrana(14)',
+          'Rp':'  prayer = "Live"',
           'Rr':'  return prayer',}
   
 

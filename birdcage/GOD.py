@@ -6,7 +6,7 @@ import rule
 import agent as a
 import automaton
 import genome as g
-from code import tabula, tabula_antica, seedCode, size, prana, mana
+from code import tabula, tabula_antica
 # other ouroborus core modules
 from bookentry import BookEntry
 # these are the modules used for display
@@ -22,9 +22,6 @@ from Pyrex.Distutils import build_ext
 # anything extra goes here
 import random
 
-
-#setup some configuration values imported from code
-(width, height) = size
 
 
 class Generator:
@@ -105,7 +102,7 @@ class Generator:
 		# finally, append the module's name to the list of names,
 		# set its prayer and return
 		ode.append(BookEntry(onoma)) 
-		ode[-1].fatum["prayer"] = "CreateMe"
+		#ode[-1].fatum["prayer"] = "CreateMe"
 		self.obstetrics += 1 
 		return 1
 
@@ -173,17 +170,21 @@ class Organizer:
 	necessary."""
 
 
-	def __init__(self, earth, book):
+	def __init__(self, earth, book, specificity):
 		"""Create an Organizer instance
 
-		earth ---> some complete birdcage Automaton instance
-		book  ---> a list of agent code objects (genotypes)"""
+		earth       ---> some complete birdcage Automaton instance
+		book        ---> a list of agent code objects (genotypes)
+		specificity ---> the suffix of a configuration module"""
 
+		self.specific = __import__("specific"+specificity)
 		self.earth = earth
 		self.generator = None
 		self.book = book
 		self.annum = 0
-		(self.width, self.height) = (0,0)
+		self.size = self.specific.size
+		(self.width, self.height) = self.size
+
 
 
 	def iterateAutomaton(self):
@@ -219,15 +220,15 @@ class Organizer:
 		return    -->> 1"""
 		
 		# set some initial parameters in the creature's fatum
-		bookentry.fatum["code"] = seedCode
-		bookentry.fatum["prana"] = prana
-		bookentry.fatum["mana"] = mana
-		(x, y) = (random.randint(0, width-1), random.randint(0, height-1))
+		bookentry.fatum["code"] = self.specific.seedCode
+		bookentry.fatum["prana"] = self.specific.prana
+		bookentry.fatum["mana"] = self.specific.mana
+		(x, y) = (random.randint(0, self.width-1), random.randint(0, self.height-1))
 		bookentry.fatum["address"] = (x, y)
 		bookentry.fatum["prayer"] = "BeBirthed"
 		# Instantiate the class that contains the agent's sound
 		# attributes and methods. 
-		bookentry.fatum["voice"] = VocalTract(x, width)
+		bookentry.fatum["voice"] = VocalTract(x, self.width)
 		return 1
 
 
@@ -268,14 +269,15 @@ class Organizer:
 		# add some necessary data to the new entry
 		child = self.book[-1]
 		child.fatum["code"] = bookentry.fatum["code"]
-		child.fatum["prana"] = prana
-		child.fatum["mana"] = mana
+		child.fatum["prana"] = self.specific.prana
+		child.fatum["mana"] = self.specific.mana
 		(x, y) = (random.randint(0, self.width-1), random.randint(0, self.height-1))
 		child.fatum["address"] = (x, y)
 		# Instantiate the class that contains the agent's sound
 		# attributes and methods. 
-		child.fatum["voice"] = VocalTract(x, width)
+		child.fatum["voice"] = VocalTract(x, self.width)
 		# set the agent's prayer back to live
+		bookentry.fatum["prayer"] = "Live"
 		return 1
 
 
