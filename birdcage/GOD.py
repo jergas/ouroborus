@@ -272,10 +272,6 @@ class Organizer:
 		child.fatum["mana"] = mana
 		(x, y) = (random.randint(0, self.width-1), random.randint(0, self.height-1))
 		child.fatum["address"] = (x, y)
-		# Record the quality of sound of certain sound qualities for
-		# each agent that is instantiated.
-		ADeviation = random.uniform(-250, 250)
-		IDeviation = random.uniform(-250, 250)
 		# Instantiate the class that contains the agent's sound
 		# attributes and methods. 
 		child.fatum["voice"] = VocalTract(x, width)
