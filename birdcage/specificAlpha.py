@@ -23,5 +23,5 @@ mana = 1
 
 # The iteration:
 
-avatars = 5
-doomsday = 100
+avatars = 2
+doomsday = 1000

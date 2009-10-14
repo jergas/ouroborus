@@ -81,7 +81,7 @@ def main(stdscr):
 	while avatars:
 		# GOD.Generator will compile a module for each creature, and append
 		# it to the list biblos along with its name
-		(avatars, doomsday) = (specific.avatars, specific.doomsday)
+		mary.generateGenotypeNew(specific.seedCode, biblos)
 		avatars -= 1
 	# prime the initial avatars for actual creation
 	for entry in biblos:
