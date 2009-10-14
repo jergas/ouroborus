@@ -36,7 +36,9 @@ import threading
 import GOD
 from bookentry import BookEntry
 import sound
-from code import *
+
+specificity = "Alpha"
+specific = __import__("specific"+specificity)
 
 def setCursesColors():
 	curses.init_pair(1, curses.COLOR_RED, curses.COLOR_BLACK)
@@ -110,14 +112,15 @@ class ThreadedSequence(object):
 		mary = GOD.Generator("kristos")
 		# The following lines contain all the data to build a complete
 		# cellular automaton.
-		self.size = (width, height) = (80, 20)
-		topologyData = ("ToroidTopology", 0)
-		neighborData = ("VonNeumannNeighborhood", )
-		ruleData = ("ReductionRule", (operator.xor, 0))
-		automatonData = ("SynchronousAutomaton_2D", )
+		self.size = specific.size
+		(width, height) = self.size
+		topologyData = specific.topology
+		neighborData = specific.neighborhood
+		ruleData = specific.rule
+		automatonData = specific.automaton
 		# avatars is the number of initial creatures, and doomsday is the number
 		# of iterations.
-		(avatars, self.doomsday) = (1, 570)
+		(avatars, self.doomsday) = (specific.avatars, specific.doomsday)
 		# biblos is a list which whill contain essential runtime information.
 		self.biblos = []
 		# Invoke GOD.Generator's automaton creation method with the data
@@ -126,7 +129,7 @@ class ThreadedSequence(object):
 											neighborData, ruleData, 
 											automatonData)
 		# Call a GOD.Organizer to oversee this automaton.
-		self.magdalen = GOD.Organizer(self.terra, self.biblos)
+		self.magdalen = GOD.Organizer(self.terra, self.biblos, specificity)
 		self.magdalen.generator = mary
 		(self.magdalen.width, self.magdalen.height) = (width, height)
 		self.initialAgents = 0
@@ -135,17 +138,14 @@ class ThreadedSequence(object):
 		while avatars:
 			# Compile a module for each creature, and append it to the list
 			# biblos along with its name.
-			mary.generateGenotypeNew(seedCode, self.biblos)
+			mary.generateGenotypeNew(specific.seedCode, self.biblos)
 			avatars -= 1
 			self.initialAgents += 1
-		# magdalen reads the data in biblos and calls actual agent objects.
+		# prime the initial avatars for actual creation
 		for entry in self.biblos:
-			# set some initial parameters in each entry's fatum
-			entry.fatum["code"] = seedCode
-			entry.fatum["prana"] = 7
-			entry.fatum["mana"] = 1
-			(x, y) = (random.randint(0, width-1), random.randint(0, height-1))
-			entry.fatum["address"] = (x, y)
+			entry.fatum["prayer"] = "CreateMe"
+		# magdalen reads the data in biblos and calls actual agent objects.
+		for entry in self.biblos:	
 			self.magdalen.readBookOfLifeNew(entry)
 		# Initialize an attribute to hold the automaton's population.
 		self.population = 0
