@@ -22,16 +22,16 @@ div#logo							 {
 <h1>Downloading the Package: Ouroborus!</h1>
 
 
-<p>You have chosen to partake of our journey and download Project Ouroborus. It
+<p class="arcane">You have chosen to partake of our journey and download Project Ouroborus. It
 is proper that a prayer be said at the commencement of a sojourn, and whether
 this be a fanciful stroll along the forest's edge or a lifetime voyage you now
 undertake, we pray that you may find in this material inspiration for your own 
 contemplation, and that thus inspired you may then give back to others that
 each may follow his or her path, and all together we may profit.</p>
 
-<p>Here we present our lapis philosophorum, that those with eyes may see it:</p>
+<p class="arcane">Here we present our lapis philosophorum, that those with eyes may see it:</p>
 
-<h2><a href="ouroborus.zip">Project Ouroborus - version 0.1.0</a> (.zip 82KB)</h2>
+<h2><a href="birdcage0.2.tgz">Project Ouroborus - version 0.2</a> (.tgz 131.1KB)</h2>
 
 <p>And some additional information:</p>
 
@@ -45,10 +45,20 @@ each may follow his or her path, and all together we may profit.</p>
 <div class="section" id="Installation">
 <h2><a name="Installation"></a>Installation Instructions</h2>
 
-<p><span class="bigword">Windows: </span>Ouroborus has been successfully
-installed and run on Windows XP. We do not have an installer wizard at this
-time (offers of help perfectly welcome...) but the procedure is pretty
-straightforward:</p>
+<p><span class="bigword">Linux: </span></p>Birdcage is currently being developed in Debian. The above tarball contains our latest developments. To get birdcage up and running, follow these instructions:</p>
+
+<ol>
+<li>Download the tarball and uncompress it.</li>
+<li>Install the necessary dependencies (scroll down or open the README.txt included in the tarball for more information)</li>
+<li>Open a terminal and, in the birdcage folder, run <code>./compile.sh</code> in order to compile the pyrex modules.</li>
+<li> To run the audiovisul simulation, simply type <code>python start.py</code> (the full audiovisual simulation). You are also welcome to try <code>python start.py debug normal</code> (a text render of the simulation), <code>python start.py threaded normal </code> (a multi-threade audiovisual version) and <code>python start.py visual normal (a visual-only rendering)</code></li></ol>
+
+<p><span class="bigword">Windows: </span>The development of birdcage started on
+Windows, so at some point it had been successfully installed, compiled and run
+on Windows XP. The 0.1.0 release zipball dates from those days, so you should
+have no problem installing it. You might even try to install and run our
+current code. If you succed you could become our glorious Windows porter.
+The procedure to install the zipball is pretty straightforward:</p>
 
 <ol>
 <li>Download the .zip file and unzip it.</li>
@@ -59,16 +69,32 @@ of <code>start_ouroborus.py</code> onto your desktop or other readily accessible
 location - just double click on it and pronto! Ouroborus is running...</li>
 </ol>
 
-<p><span class="bigword">UNIX: </span>All of our code is written in either Python or 
+<p><span class="bigword">Unix: </span>All of our code is written in either Python or 
 Pyrex, and should be platform-independent; however half-hearted attempts at
 running Ouroborus on OS-X failed...if you wish to have a go, please report
-your success (or lack thereof). As a guess, the <code>dos2unix</code> utiity 
-could be of help...is that what it's called? (blushing)</p>
+your success (or lack thereof).</p>
 <p><a href="#intro" class="home">TOP</a></p>
 <p><a href="index.html" class="home">HOME</a></p>
 </div>
 <div class="section" id="Dependencies">
-<h2><a name="Dependencies"></a>List of Dependencies</h2>
+<h2><a name="Dependencies"></a>List of Dependencies for the Current Version</h2>
+
+<p>If you download the stable versions of the following software from the Debian repositories, Birdcage should run perfectly fine. If you, for some reason, wish to install a version prior to 0.2, look at the <a href="#DependenciesOld">list of old dependencies.</a></p>
+
+<p><span class="bigword">Python: </span>This paragon of free languages is included with Debian distributions. An upgrade to the dev version might be necessary. Ouroborus would not be at all without Guido's precious gem. Read more about Python on its <a href="http://www.python.org">official website.<a><strong>version tested: 2.5.2-dev</strong></p>
+
+<p><span class="bigword">Pyrex: </span>An extension of Python which allows
+you to effortlessly optimise otherwise sluggish code. Look for it in its 
+<a href="http://www.cosc.canterbury.ac.nz/greg.ewing/python/Pyrex/">own website.</a> <strong>version tested: 0.9.8.5</strong></p>
+
+<p><span class="bigword">Csound: </span>A powerful and versatile sound synthesis software that can work either in real-time or as a compiler. Csound is a requisit to the sound-enabled versions of Birdcage. For more information on Csound visit its <a href="www.csounds.com/">website.</a> <strong>version tested: 5.08 (double samples)</strong></p>
+
+<p><span class="bigword">Python-Csound: </span>This is the Python binding for the Csound API. There is currently no information on the web about this package maintained by Felipe Sateler. <strong>version tested: 5.08</strong></p>
+<p><a href="#intro" class="home">TOP</a></p>
+<p><a href="index.html" class="home">HOME</a></p>
+</div>
+<div class="section" id="DependenciesOld">
+<h2><a name="DependenciesOLD"></a>List of Dependencies for versions prior to 0.2</h2>
 
 <p>Python prouds itself to be backwards-compatible, so if you download the
 newest versions of the following software Ouroborus should <em>in theory</em> 
