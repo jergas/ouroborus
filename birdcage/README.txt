@@ -16,12 +16,22 @@ Dependencies
 
 - Python 2.5.2 (included with current Debian distributions). For more information go to: http://www.python.org/
 
-- Pyrex 0.9.8.4. - Can be downloaded from: http://www.cosc.canterbury.ac.nz/~greg/python/Pyrex/
+- Pyrex 0.9.8.5 - Can be downloaded from: http://www.cosc.canterbury.ac.nz/~greg/python/Pyrex/
  Straight forward installation instructions can be found on the INSTALL.txt file included with the download.
 
-- Csound 5.08.2 - Can be downloaded from the Debian repositories, or from: http://csounds.com/downloads. It requires additional configuration. For instructions, scroll down to the section "Configuring Csound"
+- Csound 5.08.2 - Can be downloaded from the Debian repositories, or from: http://csounds.com/downloads. It may require additional configuration (except when downloaded from the repos). For instructions, scroll down to the section "Configuring Csound"
 
-- Python-Csound 5.08.2 - Can be downloaded from the Debian repositories or from: http://packages.debian.org/sid/python-csound
+- Python-Csound 5.08.2 - Can be downloaded from the Debian repositories or from: http://packages.debian.org/lenny/python-csound
+
+
+Installation
+------------
+
+- Install the necessary dependencies. Scroll down to see what these are.
+
+- Open a terminal and, in the birdcage folder, run 'compile.sh' (without quotations) in order to compile the Pyrex modules.
+
+- To run the audiovisual simulation, simply type 'python start.py' (the full audiovisual simulation). You are also welcome to try 'python start.py debug normal' (a text render of the simulation), 'python start.py threaded normal' (a multi-threaded audiovisual version) and 'python start.py visual normal' (a visual-only rendering).
 
 
 Configuring Csound
@@ -41,7 +51,7 @@ export OPCODEDIR64=/usr/lib/csound/plugins
 
 Note: Other optional Csound environment variables are available (not setting them will not affect Birdcage's functionality). For further information consult the Csound documentation.
 
-* Note that 32 y 64 bits referes to how Csound processes sound internally, and NOT to the architecture for which the software is compiled. Both versions (32 and 64 bits) can be obtained for i368 or adm64 architectures.
+* Note that 32 y 64 bits refers to how Csound processes sound internally, and NOT to the architecture for which the software is compiled. Both versions (32 and 64 bits) can be obtained for i368 or adm64 architectures.
 
 _____________________________________________________________________________________________________________
 
@@ -65,9 +75,19 @@ Dependencias
 - Pyrex 0.9.8.4. - Puede ser descargado de: http://www.cosc.canterbury.ac.nz/~greg/python/Pyrex/
  Se puede encontrar información sencilla de como instalar Pyrex en el archivo INSTALL.txt, incluido en su descarga.
 
-- Csound 5.08.2 - Puede descargarse de los repositorios de Debian, o de http://csounds.com/downloads. Csound requiere configuración adicional. Para mayor información vea la sección "Configuración de Csound" de este texto.
+- Csound 5.08.2 - Puede descargarse de los repositorios de Debian, o de http://csounds.com/downloads. Csound puede requerir configuración adicional (excepto cuando es descargada de lo repositorios). Para mayor información vea la sección "Configuración de Csound" de este texto.
 
-- Python-Csound 5.08.2 - Puede ser descargado de los repositorios de Debian, o de: http://packages.debian.org/sid/python-csound
+- Python-Csound 5.08.2 - Puede ser descargado de los repositorios de Debian, o de: http://packages.debian.org/lenny/python-csound.
+
+
+Intalación
+----------
+
+- Instalar las dependencias necesarias. Recorrer la pantalla para ver cuáles son éstas.
+
+- Abrir una terminal y, parado sobre la carpeta birdcage, correr 'compile.sh' (sin comillas) para compilar lo módulos de pyrex.
+
+- Para correr la simulación audiovisual, teclear 'python start.py'. también puede teclear 'python start.py debug normal' (sólo texto), 'python start.py threaded normal' (versión audiovisual multi-hilos) y 'python start.py visual normal' (gráficos sin sonido).
 
 
 Configuración de Csound
