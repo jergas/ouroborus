@@ -230,6 +230,7 @@ class Organizer:
 		# attributes and methods. 
 		bookentry.fatum["voice"] = VocalTract(x, self.width)
 		return 1
+		return getattr(self, "grantPrayerBeBirthed")(bookentry)
 
 
 
