@@ -4,16 +4,17 @@
 <head>
 <title>Project Ouroborus - Downloading the Package</title>
 <link href="style.css" type="text/css" rel="stylesheet" title="Standard"  />
-<style>
-div#logo							 {
-											 position: relative;
-											 left: 250px;
-											 top: 70px;
-											 margin-left: -200px;
-											 float: right;
-											 }
+style>
+	div#logo{
+		 position: relative;
+		 left: 250px;
+		 top: 70px;
+		 margin-left: -200px;
+		 float: right;
+		 }
 </style>
 </head>
+
 <body>
 
 
@@ -22,14 +23,15 @@ div#logo							 {
 <h1>Downloading the Package: Ouroborus!</h1>
 
 
-<p class="arcane">You have chosen to partake of our journey and download Project Ouroborus. It
-is proper that a prayer be said at the commencement of a sojourn, and whether
-this be a fanciful stroll along the forest's edge or a lifetime voyage you now
-undertake, we pray that you may find in this material inspiration for your own 
-contemplation, and that thus inspired you may then give back to others that
-each may follow his or her path, and all together we may profit.</p>
+<p class="arcane">You have chosen to partake of our journey and download Project 
+Ouroborus. It is proper that a prayer be said at the commencement of a sojourn, 
+and whether this be a fanciful stroll along the forest's edge or a lifetime 
+voyage you now undertake, we pray that you may find in this material inspiration 
+for your own contemplation, and that thus inspired you may then give back to 
+others that each may follow his or her path, and all together we may profit.</p>
 
-<p class="arcane">Here we present our lapis philosophorum, that those with eyes may see it:</p>
+<p class="arcane">Here we present our lapis philosophorum, that those with eyes 
+may see it:</p>
 
 <h2><a href="ouroborus0.2.tgz">Project Ouroborus - version 0.2</a> (.tgz 131.1KB)</h2>
 
@@ -45,13 +47,21 @@ each may follow his or her path, and all together we may profit.</p>
 <div class="section" id="Installation">
 <h2><a name="Installation"></a>Installation Instructions</h2>
 
-<p><span class="bigword">Linux: </span></p>Ouroborus is currently being developed in Debian. The above tarball contains our latest developments. To get Ouroborus up and running, follow these instructions:</p>
+<p><span class="bigword">Linux: </span>Birdcage is currently being developed 
+in Debian. The above tarball contains our latest developments. To get birdcage 
+up and running, follow these instructions:</p>
 
 <ol>
 <li>Download the tarball and uncompress it.</li>
-<li>Install the necessary dependencies. Scroll down to see what these are. Open the README.txt included in the tarball for more information.</li>
-<li>Open a terminal and, in the ouroborus0.2 folder, run <code>./compile.sh</code> in order to compile the Pyrex modules.</li>
-<li> To run the audiovisual simulation, simply type <code>python start.py</code> (the full audiovisual simulation). You are also welcome to try <code>python start.py debug normal</code> (a text render of the simulation), <code>python start.py threaded normal </code> (a multi-threaded audiovisual version) and <code>python start.py visual normal</code> (a visual-only rendering).</li></ol>
+<li>Install the necessary dependencies. Scroll down to see what these are. Open 
+the README.txt included in the tarball for more information.</li>
+<li>Open a terminal and, in the ouroborus0.2 folder, run <code>./compile.sh</code> 
+in order to compile the Pyrex modules.</li>
+<li> To run the audiovisual simulation, simply type <code>python start.py</code> 
+(the full audiovisual simulation). You are also welcome to try 
+<code>python start.py debug normal</code> (a text render of the simulation), 
+<code>python start.py threaded normal </code> (a multi-threaded audiovisual version) 
+and <code>python start.py visual normal</code> (a visual-only rendering).</li></ol>
 
 <p><span class="bigword">Windows: </span>The development of birdcage started on
 Windows, so at some point it had been successfully installed, compiled and run
@@ -69,79 +79,100 @@ of <code>start_ouroborus.py</code> onto your desktop or other readily accessible
 location - just double click on it and pronto! Ouroborus is running...</li>
 </ol>
 
-<p><span class="bigword">Unix: </span>All of our code is written in either Python or 
-Pyrex, and should be platform-independent; however half-hearted attempts at
-running Ouroborus on OS-X failed...if you wish to have a go, please report
-your success (or lack thereof).</p>
+<p><span class="bigword">Unix: </span>All of our code is written in either 
+Python or Pyrex, and should be platform-independent; however half-hearted 
+attempts at running Ouroborus on OS-X failed...if you wish to have a go, please 
+report your success (or lack thereof).</p>
 <p><a href="#intro" class="home">TOP</a></p>
 <p><a href="index.html" class="home">HOME</a></p>
 </div>
 <div class="section" id="Dependencies">
 <h2><a name="Dependencies"></a>List of Dependencies for the Current Version</h2>
 
-<p>If you download the stable versions of the following software from the Debian repositories, Birdcage should run perfectly fine. If you, for some reason, wish to install a version prior to 0.2, look at the <a href="#DependenciesOld">list of old dependencies.</a></p>
+<p>If you download the stable versions of the following software from the Debian 
+repositories, Birdcage should run perfectly fine. If you, for some reason, wish 
+to install a version prior to 0.2, look at the 
+<a href="#DependenciesOld">list of old dependencies.</a></p>
 
-<p><span class="bigword">Python: </span>This paragon of free languages is included with Debian distributions. An upgrade to the dev version might be necessary. Ouroborus would not be at all without Guido's precious gem. Read more about Python on its <a href="http://www.python.org">official website.<a><strong>version tested: 2.5.2-dev</strong></p>
+<p><span class="bigword">Python: </span>This paragon of free languages is 
+included with Debian distributions. An upgrade to the dev version might be 
+necessary. Ouroborus would not be at all without Guido's precious gem. Read more 
+about Python on its <a href="http://www.python.org">official website<a>.<br>
+<strong>version tested: 2.5.2-dev</strong></p>
 
 <p><span class="bigword">Pyrex: </span>An extension of Python which allows
 you to effortlessly optimize otherwise sluggish code. Look for it in its 
-<a href="http://www.cosc.canterbury.ac.nz/greg.ewing/python/Pyrex/">own website.</a> <strong>version tested: 0.9.8.5</strong></p>
+<a href="http://www.cosc.canterbury.ac.nz/greg.ewing/python/Pyrex/">own website</a>.<br>
+<strong>version tested: 0.9.8.5</strong></p>
 
-<p><span class="bigword">Csound: </span>A powerful and versatile sound synthesis software that can work either in real-time or as a compiler. Csound is a requisite to the sound-enabled versions of Birdcage. For more information on Csound visit its <a href="http://www.csounds.com/">website.</a> <strong>version tested: 5.08 (double samples)</strong></p>
+<p><span class="bigword">Csound: </span>A powerful and versatile sound synthesis 
+software that can work either in real-time or as a compiler. Csound is a 
+requisite to the sound-enabled versions of Birdcage. For more information on 
+Csound visit its <a href="http://www.csounds.com/">website</a>.<br>
+<strong>version tested: 5.08 (double samples)</strong></p>
 
-<p><span class="bigword">Python-Csound: </span>This is the Python binding for the Csound API. There is currently no information on the web about this package maintained by Felipe Sateler. <strong>version tested: 5.08</strong></p>
+<p><span class="bigword">Python-Csound: </span>This is the Python binding for 
+the Csound API. There is currently no information on the web about this package 
+maintained by Felipe Sateler.<br> 
+<strong>version tested: 5.08</strong></p>
+
 <p><a href="#intro" class="home">TOP</a></p>
 <p><a href="index.html" class="home">HOME</a></p>
 </div>
+
 <div class="section" id="DependenciesOld">
 <h2><a name="DependenciesOLD"></a>List of Dependencies for versions prior to 0.2</h2>
 
-<p>Python prouds itself to be backwards-compatible, so if you download the
-newest versions of the following software Ouroborus should <em>in theory</em> 
+<p>Python prides itself on being backwards-compatible, so if you download the
+newest versions of the following software, Ouroborus should, <em>in theory</em>, 
 run perfectly fine. Sadly, we have found this to be false. We are currently
-working in solving our dependency issues; however if you download and install
+working on solving our dependency issues; however, if you download and install
 the versions provided here (once again for Windows only, apologies to UNIX
 hackers), you should be able to get Ouroborus up and
 running.</p>
 
 <p><span class="bigword">Python: </span>Download an old version, 
 <a href="python-2.3.4.exe">2.3.4,</a> of this paragon of free languages.
-The newest build may
-be downloaded from the <a href="http://www.python.org">official website.</a>
-Ouroborus would not be at all without Guido's precious gem. <strong>version
-tested: 2.3.4</strong></p>
+The newest build may be downloaded from the 
+<a href="http://www.python.org">official website</a>.
+Ouroborus would not be at all without Guido's precious gem.<br> 
+<strong>version tested: 2.3.4</strong></p>
 
 <p><span class="bigword">wxPython: </span>This is a prerequisite for running
 Pygame. The version we use is 
 <a href="wxPython2.6-win32-unicode-2.6.1.0-py23.exe">2.6-Unicode.</a>
-You may of course check out wxPython's <a href="http://www.wxpython.org">own website.</a>
+You may of course check out wxPython's 
+<a href="http://www.wxpython.org">own website</a>.<br>
 <strong>version tested: 2.6-win32-unicode2.6.1.0-Python2.3</strong></p>
 
 <p><span class="bigword">Pygame: </span>A package designed primarily for
 video game display. Here we offer 
-<a href="pygame-1.6.win32-py2.3.exe">version 1.6</a> for
-guaranteed compatibility. 
-Download the latest version from its <a href="http://www.pygame.org">homepage.</a>
-This is used by the view modules. <strong>version tested: 1.6-win32-Python2.3</strong>
+<a href="pygame-1.6.win32-py2.3.exe">version 1.6</a> for guaranteed 
+compatibility. Download the latest version from its 
+<a href="http://www.pygame.org">homepage.</a> This is used by the view modules.<br> 
+<strong>version tested: 1.6-win32-Python2.3</strong>
 </p>
 
-<p><span class="bigword">Numeric: </span>A no-longer-maintained package also 
-known as <a href="http://numpy.scipy.org">numeric Python.</a> It is used by
-the view and mundem modules. The version needed by Ouroborus at present is
-<a href="Numeric-24.2.win32-py2.3.exe">Numeric 24.2.</a>
+<p><span class="bigword">Numeric: </span>An unmaintained package also known as 
+<a href="http://numpy.scipy.org">numeric Python.</a> It is used by the view and 
+mundem modules. The version needed by Ouroborus at present is
+<a href="Numeric-24.2.win32-py2.3.exe">Numeric 24.2</a>.<br>
 <strong> version tested: 24.2-win32-Python2.3</strong>
 </p>
 
 <p><span class="bigword">Pyrex: </span>An extension of Python which allows
 you to effortlessly optimise otherwise sluggish code. Look for it in its 
-<a href="http://www.cosc.canterbury.ac.nz/greg.ewing/python/Pyrex/">own website.</a> The birdcage cellular 
-automaton engine is written in this language. <strong>YOU DO NOT NEED TO INSTALL
-PYREX</strong> in order to run Ouroborus, but you do if you wish to tinker
-with the engine. Here is the
-<a href="Pyrex-0.9.3.tar.gz">version we used.</a> <strong>version tested: 0.9.3</strong></p>
+<a href="http://www.cosc.canterbury.ac.nz/greg.ewing/python/Pyrex/">own website</a>. 
+The birdcage cellular automaton engine is written in this language. <strong>YOU 
+DO NOT NEED TO INSTALL PYREX</strong> in order to run Ouroborus, but you do if 
+you wish to tinker with the engine. Here is the
+<a href="Pyrex-0.9.3.tar.gz">version we used</a>.<br> 
+<strong>version tested: 0.9.3</strong></p>
+
 <p><a href="#intro" class="home">TOP</a></p>
 <p><a href="index.html" class="home">HOME</a></p>
 </div>
+
 <div class="section" id="Releases">
 <h2><a name="Releases"></a>Earlier Releases</h2>
 
@@ -162,6 +193,3 @@ release ever!</li>
 </div>
 </body>
 </html>
-
-
-
