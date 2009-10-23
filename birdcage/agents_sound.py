@@ -9,7 +9,7 @@ import Csnd_notes
 import Numeric_utils as NumericUtils
 
 #Instantiate the agents' birth sound note class and a scaling class.
-BirthNote	= Csnd_notes.BirthNote()
+AgentNote	= Csnd_notes.AgentNote()
 Scaling = NumericUtils.Scaling()
 
 
@@ -23,8 +23,8 @@ class VocalTract(object):
 		IDeviation	---> a deviation constant of the "i" formants
 		panning		---> the agent's normalized x-axis position
 		"""
-		self.ptch1		= random.randint(5, 15)
-		self.ptch2 		= random.randint(30, 50)
+		self.ptch1		= random.randint(5, 35)
+		self.ptch2 		= random.randint(45, 400)
 		self.vibr		= random.randint(1, 50)
 		self.ADeviation = random.uniform(-250, 250)
 		self.IDeviation = random.uniform(-250, 250)
@@ -33,16 +33,27 @@ class VocalTract(object):
 
 
 	def birthSound(self):
-		""" Generates the sound that represents the birth of a birdcage
-		agent.
+		""" Generates the sound that an agent does at birth.
 		""" 
-		BirthNote.dur			= random.uniform(.5, 2) * 0.1
-		BirthNote.ptch1			= self.ptch1
-		BirthNote.ptch2 		= self.ptch2
-		BirthNote.vibr			= self.vibr
-		BirthNote.IDeviation	= self.IDeviation
-		BirthNote.ADeviation	= self.ADeviation	
-		BirthNote.pan			= self.panning
+		AgentNote.dur			= random.uniform(.5, 2) * 0.1
+		AgentNote.ptch1			= self.ptch1
+		AgentNote.ptch2 		= self.ptch2
+		AgentNote.vibr			= self.vibr
+		AgentNote.IDeviation	= self.IDeviation
+		AgentNote.ADeviation	= self.ADeviation	
+		AgentNote.pan			= self.panning
 		#Feed the note to Csound.
-		scoStatement = BirthNote.mkScoStrings()
+		scoStatement = AgentNote.mkBirthString()
+		csndInterface.perf.InputMessage(scoStatement)
+
+	def eatSound(self):
+		""" Generates the sound that an agent does while eating.
+		""" 
+		AgentNote.dur			= .1
+		AgentNote.ptch1			= self.ptch1
+		AgentNote.ptch2 		= self.ptch2
+		AgentNote.ODeviation	= self.ODeviation
+		AgentNote.pan			= self.panning
+		#Feed the note to Csound.
+		scoStatement = AgentNote.mkEatString()
 		csndInterface.perf.InputMessage(scoStatement)

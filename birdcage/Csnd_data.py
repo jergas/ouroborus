@@ -116,35 +116,75 @@ ibw1o	= 70
 ibw2o	= 80
 ibw3o	= 100
 
+; specific to birth sounds.
+if (iodev == 0) then
+	; fof1 i-a envelopes
+	kfrq1 linseg ifrq1i, idur * .6, ifrq1a, .01, ifrq1a
+	kamp1 linseg iamp1i, idur * .6, iamp1a, .01, iamp1a
+	kbw1 linseg ibw1i, idur * .6, ibw1a, .01, ibw1a
 
+	; fof2 i-a envelopes
+	kfrq2 linseg ifrq2i, idur * .6, ifrq2a, .01, ifrq2a
+	kamp2 linseg iamp2i, idur * .6, iamp2a, .01, iamp2a
+	kbw2 linseg ibw2i, idur * .6, ibw2a, .01, ibw2a
 
-; fof1 i-a envelopes
-kfrq1 linseg ifrq1i, idur * .6, ifrq1a, .01, ifrq1a
-kamp1 linseg iamp1i, idur * .6, iamp1a, .01, iamp1a
-kbw1 linseg ibw1i, idur * .6, ibw1a, .01, ibw1a
+	; fof3 i-a envelopes
+	kfrq3 linseg ifrq3i, idur * .6, ifrq3a, .01, ifrq3a
+	kamp3 linseg iamp3i, idur * .6, iamp3a, .01, iamp3a
+	kbw3 linseg ibw3i, idur * .6, ibw3a, .01, ibw3a
 
-; fof2 i-a envelopes
-kfrq2 linseg ifrq2i, idur * .6, ifrq2a, .01, ifrq2a
-kamp2 linseg iamp2i, idur * .6, iamp2a, .01, iamp2a
-kbw2 linseg ibw2i, idur * .6, ibw2a, .01, ibw2a
+	; Pitch envelope
+	kptch	linseg iptch1, idur * .3, iptch1, idur * .1, iptch2, idur * .4, iptch2, idur * .2, iptch1
 
-; fof3 i-a envelopes
-kfrq3 linseg ifrq3i, idur * .6, ifrq3a, .01, ifrq3a
-kamp3 linseg iamp3i, idur * .6, iamp3a, .01, iamp3a
-kbw3 linseg ibw3i, idur * .6, ibw3a, .01, ibw3a
+	; vibrato
+	klfo lfo 50, ivibr
 
-; Overall level envelope
-klvlenv linseg  0, .01, 1, idur - .02, 1, .01, 0
+	; Overall level envelope
+	klvlenv linseg  0, .01, 1, idur - .02, 1, .01, 0
 
-; Pitch envelope
-kptch	linseg iptch1, idur * .3, iptch1, idur * .1, iptch2, idur * .4, iptch2, idur * .2, iptch1
+	; signal generators
+	a1 fof  kamp1, kptch + klfo, kfrq1, 0, kbw1, .003, .02, .007, 1000, 1, 2, idur, rnd(1), 1
+	a2 fof  kamp2, kptch + klfo, kfrq2, 0, kbw2, .003, .02, .007, 1000, 1, 2, idur, rnd(1), 1
+	a3 fof  kamp3, kptch + klfo, kfrq3, 0, kbw3, .003, .02, .007, 1000, 1, 2, idur, rnd(1), 1
+	avoice = (a1 + a2 + a3) * klvlenv * .1
 
-klfo lfo 50, ivibr
+; specific to eating sounds.
+else
 
-a1 fof  kamp1, kptch + klfo, kfrq1, 0, kbw1, .003, .02, .007, 1000, 1, 2, idur, rnd(1), 1
-a2 fof  kamp2, kptch + klfo, kfrq2, 0, kbw2, .003, .02, .007, 1000, 1, 2, idur, rnd(1), 1
-a3 fof  kamp3, kptch + klfo, kfrq3, 0, kbw3, .003, .02, .007, 1000, 1, 2, idur, rnd(1), 1
-avoice = (a1 + a2 + a3) * klvlenv * .1
+	; fof1 i-a envelopes
+	kfrq1 = ifrq1o
+	kamp1 = iamp1o
+	kbw1 = ibw1o
+
+	; fof2 i-a envelopes
+	kfrq2 = ifrq2o
+	kamp2 = iamp2o
+	kbw2 = ibw2o
+
+	; fof3 i-a envelopes
+	kfrq3 = ifrq3o
+	kamp3 = iamp3o
+	kbw3 = ibw3o
+
+	koct linseg 0, idur, 2
+
+	; Overall level envelope
+	klvlenv linseg  0, .01, 1, idur - .02, 1, .01, 0
+
+	; noise envelope
+	ilen = idur * 0.5
+	knoise linseg 10, idur, 0
+
+	; signal generators
+	anoise	rand knoise
+	afilt	butterbp anoise, iptch2, 10
+	a1 fof  kamp1, iptch1, kfrq1, koct, kbw1, .003, .02, .007, 1000, 1, 2, idur, rnd(1), 1
+	a2 fof  kamp2, iptch1, kfrq2, koct, kbw2, .003, .02, .007, 1000, 1, 2, idur, rnd(1), 1
+	a3 fof  kamp3, iptch1, kfrq3, koct, kbw3, .003, .02, .007, 1000, 1, 2, idur, rnd(1), 1
+	avoice = (a1 + a2 + a3) * klvlenv * .5 * afilt
+
+endif
+
     outs avoice * ileft, avoice * iright
  
  endin
