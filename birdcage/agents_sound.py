@@ -21,7 +21,9 @@ class VocalTract(object):
 		"""
 		ADeviation	---> a deviation constant of the "a" formants
 		IDeviation	---> a deviation constant of the "i" formants
+		IDeviation	---> a deviation constant of the "o" formants
 		panning		---> the agent's normalized x-axis position
+		iAte		---> 1 if the agent just ate. else, 0
 		"""
 		self.ptch1		= random.randint(5, 35)
 		self.ptch2 		= random.randint(45, 400)
@@ -30,6 +32,7 @@ class VocalTract(object):
 		self.IDeviation = random.uniform(-250, 250)
 		self.ODeviation = random.uniform(-250, 250)
 		self.panning	= Scaling.valToRng(agentXAxis, 0, width, 1, 0)
+		self.iAte		= 0
 
 
 	def birthSound(self):

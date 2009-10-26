@@ -21,6 +21,8 @@
 # Read some history at EOF
 
 import string
+import sound
+
 
 class BookEntry:
 	"""An entry into the book of life, comprising of:
@@ -67,8 +69,15 @@ class BookEntry:
 		return -->> 1"""
 
 		self.fatum["prayer"] = self.module.live(self.agent) #this is deep magic!
+		# record data to decide whether to make eating sound or not
+		if self.fatum["prana"] < self.agent.tellPrana():
+			# Eating sound for fed agents
+			sound.eatSound(self.fatum["voice"])
+#		else:
+#			self.fatum["voice"].iAte = 0
+
 		self.fatum["prana"] = self.agent.tellPrana() # simply update some data now
-		self.fatum["address"] = self.agent.tellAddress()
+		self.fatum["address"] = self.agent.tellAddress() 
 		return 1
 
         def terminateAgent(self):

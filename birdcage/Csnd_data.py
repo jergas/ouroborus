@@ -181,7 +181,7 @@ else
 	a1 fof  kamp1, iptch1, kfrq1, koct, kbw1, .003, .02, .007, 1000, 1, 2, idur, rnd(1), 1
 	a2 fof  kamp2, iptch1, kfrq2, koct, kbw2, .003, .02, .007, 1000, 1, 2, idur, rnd(1), 1
 	a3 fof  kamp3, iptch1, kfrq3, koct, kbw3, .003, .02, .007, 1000, 1, 2, idur, rnd(1), 1
-	avoice = (a1 + a2 + a3) * klvlenv * .5 * afilt
+	avoice = (a1 + a2 + a3) * klvlenv * 0.9 * afilt
 
 endif
 

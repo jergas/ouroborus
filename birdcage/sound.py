@@ -24,6 +24,12 @@ def agentBirth(VocalTract):
 	"""Plays a single note when an agent is instantiated.
 	"""
 	VocalTract.birthSound()
+	
+	
+def eatSound(VocalTract):
+	"""Plays a single note when an agent is instantiated.
+	"""
+	VocalTract.eatSound()
 
 
 def startBackground():
