@@ -86,16 +86,18 @@ iodev = p9
 ileft	= sqrt(p10)	; between 0-1, 1 is hard left
 iright	= sqrt(1 - p10)
 
+; formants frequencies
 ifrq1i	= 1270 + iidev
-ifrq2i	= 3140 + iidev
+ifrq2i	= 2140 + iidev
 ifrq3i	= 3950 + iidev
 ifrq1a	= 1800 + iadev
 ifrq2a	= 2150 + iadev
 ifrq3a	= 3900 + iadev
 ifrq1o	= 1450 + iodev
-ifrq2o	= 1800 + iodev
+ifrq2o	= 2800 + iodev
 ifrq3o	= 3830 + iodev
 
+; formants amplitudes
 iamp1i	= ampdbfs(0)
 iamp2i	= ampdbfs(-6)
 iamp3i	= ampdbfs(-32)
@@ -106,6 +108,7 @@ iamp1o	= ampdbfs(0)
 iamp2o	= ampdbfs(-11)
 iamp3o	= ampdbfs(-22)
 
+; formants band-widths
 ibw1i	= 60
 ibw2i	= 90
 ibw3i	= 100
@@ -151,21 +154,22 @@ if (iodev == 0) then
 ; specific to eating sounds.
 else
 
-	; fof1 i-a envelopes
+	; fof1 o envelopes
 	kfrq1 = ifrq1o
 	kamp1 = iamp1o
 	kbw1 = ibw1o
 
-	; fof2 i-a envelopes
+	; fof2 o envelopes
 	kfrq2 = ifrq2o
 	kamp2 = iamp2o
 	kbw2 = ibw2o
 
-	; fof3 i-a envelopes
+	; fof3 o envelopes
 	kfrq3 = ifrq3o
 	kamp3 = iamp3o
 	kbw3 = ibw3o
 
+	; octavation factor
 	koct linseg 0, idur, 2
 
 	; Overall level envelope
@@ -173,7 +177,7 @@ else
 
 	; noise envelope
 	ilen = idur * 0.5
-	knoise linseg 10, idur, 0
+	knoise linseg 10, .05, 10, idur - .02, 0
 
 	; signal generators
 	anoise	rand knoise
@@ -204,28 +208,41 @@ idurtoenvmax		= p8 - .02
 idurback		= idur - idurtoenvmax - .02
 ileft			= sqrt(p7)					; between 0-1, 1 is hard left
 iright			= sqrt(1-p7)
-kgate			= kchan
+
+; prtamento for the channel input
+kgate	portk kchan, 1
+
 ; test if the note is tied
 ir		tival
 i1	= -1
-; if the note is tied, skip the oscili initialization and define an amp. envlp.
+
+; if the note is tied, skip the rand initialization and define an amp. envlp.
 	tigoto tied
-i1		= 0
+i1	= 0
+
 ; amplitude envelope
-kampenv		expseg 0.001, 1, iamp1, idurtoenvmax, iamp, idurback, iamp1, .5, 0.001
+kampenv		expseg 0.001, .02, iamp1, idurtoenvmax, iamp, idurback, iamp1, .5, 0.001
+
 tied:
 ; skip this section if the note is tied.
-if ir == 0 kgoto oscilator
+if ir == 0 kgoto signlgen
+
 ; amplitude envelope for tied notes.
 kampenvtied		expseg 0.001, .5, iamp1, idurtoenvmax, iamp, idurback, iamp1, .5, 0.001
-kampenv = kampenv + kampenvtied
-oscilator:
+kampenv = kampenvtied
+
+signlgen:
 ; frequency glissando.
 kfreqgliss	expseg ifreq1, idur * .1, ifreq1, idur * .8, ifreq2, idur *.1, ifreq2
-; oscilator with amplitude and frequency envelopes
-asig		oscili kampenv * kgate, kfreqgliss, 1, i1
+
+; filtered noise
+anoise	rand kampenv * 150
+afilt	butterbp anoise, kfreqgliss, 1, i1
+;;;; oscilator with amplitude and frequency envelopes
+;;;;asig		oscili kampenv, kfreqgliss, 1, i1
 ; stereo output
-    outs asig * ileft, asig * iright
+	afilt = afilt * kgate
+    outs afilt * ileft, afilt * iright
     endin
 		"""
 

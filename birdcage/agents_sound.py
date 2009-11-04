@@ -23,7 +23,6 @@ class VocalTract(object):
 		IDeviation	---> a deviation constant of the "i" formants
 		IDeviation	---> a deviation constant of the "o" formants
 		panning		---> the agent's normalized x-axis position
-		iAte		---> 1 if the agent just ate. else, 0
 		"""
 		self.ptch1		= random.randint(5, 35)
 		self.ptch2 		= random.randint(45, 400)
@@ -32,12 +31,12 @@ class VocalTract(object):
 		self.IDeviation = random.uniform(-250, 250)
 		self.ODeviation = random.uniform(-250, 250)
 		self.panning	= Scaling.valToRng(agentXAxis, 0, width, 1, 0)
-		self.iAte		= 0
 
 
 	def birthSound(self):
 		""" Generates the sound that an agent does at birth.
-		""" 
+		"""
+		# Set the relevant parameters in the AgentNote class.
 		AgentNote.dur			= random.uniform(.5, 2) * 0.1
 		AgentNote.ptch1			= self.ptch1
 		AgentNote.ptch2 		= self.ptch2
@@ -45,18 +44,19 @@ class VocalTract(object):
 		AgentNote.IDeviation	= self.IDeviation
 		AgentNote.ADeviation	= self.ADeviation	
 		AgentNote.pan			= self.panning
-		#Feed the note to Csound.
+		# Make a score-statement string and feed it to Csound.
 		scoStatement = AgentNote.mkBirthString()
 		csndInterface.perf.InputMessage(scoStatement)
 
 	def eatSound(self):
 		""" Generates the sound that an agent does while eating.
-		""" 
+		"""
+        # Set the relevant parameters in the AgentNote class.
 		AgentNote.dur			= .1
 		AgentNote.ptch1			= self.ptch1
 		AgentNote.ptch2 		= self.ptch2
 		AgentNote.ODeviation	= self.ODeviation
 		AgentNote.pan			= self.panning
-		#Feed the note to Csound.
+		# Make a score-statement string and feed it to Csound.
 		scoStatement = AgentNote.mkEatString()
 		csndInterface.perf.InputMessage(scoStatement)

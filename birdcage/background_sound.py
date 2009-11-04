@@ -45,7 +45,7 @@ def oneBckgrndVox(frstInstr, dur, ptch, strtDistr, specType, distrBias, pan):
 		for x in spectrum:
 			perf.InputMessage(x)
 		# Change the parameters for the next note.
-		fundFreq = centsToFreq(ptch + randint(-50, 50))
+		fundFreq = centsToFreq(ptch + randint(-500, 500))
 		bckgrndNote.fundFreq = fundFreq
 		strtDistr = endDistrFact
 		bckgrndNote.distor = strtDistr

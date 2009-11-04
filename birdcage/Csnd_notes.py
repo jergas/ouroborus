@@ -16,9 +16,9 @@ class AgentNote(object):
 	""" Note class for the sound played when an agent is born.
 	"""
 	def mkBirthString(self):
-		""" Generates a set of Csound score statements (notes) that
-		comprehend a spectral note.
-		return	--> a list of strings, each of which is a note statement
+		""" Generates a string suitible to be fed to Csound as
+		a score statement. The resulting sound is a birth sound.
+		return	--> a note-statement string.
 		"""
 		scoStatement 	= ''.join(['i1 0 ', str(self.dur), ' ', str(self.ptch1),
 									' ', str(self.ptch2), ' ', str(self.vibr),
@@ -27,10 +27,11 @@ class AgentNote(object):
 									str(self.pan)])
 		return scoStatement
 
+
 	def mkEatString(self):
-		""" Generates a set of Csound score statements (notes) that
-		comprehend a spectral note.
-		return	--> a list of strings, each of which is a note statement
+		""" Generates a string suitible to be fed to Csound as
+		a score statement. The resulting sound is an eating sound.
+		return	--> a note-statement string.
 		"""
 		scoStatement 	= ''.join(['i1 0 ', str(self.dur), ' ', str(self.ptch1),
 									' ', str(self.ptch2), ' ', '0 ', '0 ', '0 ',

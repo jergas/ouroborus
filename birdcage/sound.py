@@ -21,13 +21,13 @@ def startSoundServer():
 
 
 def agentBirth(VocalTract):
-	"""Plays a single note when an agent is instantiated.
+	"""Plays the birth sound.
 	"""
 	VocalTract.birthSound()
 	
 	
 def eatSound(VocalTract):
-	"""Plays a single note when an agent is instantiated.
+	"""Plays the eating sound.
 	"""
 	VocalTract.eatSound()
 
