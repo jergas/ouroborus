@@ -210,7 +210,7 @@ ileft			= sqrt(p7)					; between 0-1, 1 is hard left
 iright			= sqrt(1-p7)
 
 ; prtamento for the channel input
-kgate	portk kchan, 1
+kgate	portk kchan, .1
 
 ; test if the note is tied
 ir		tival
@@ -221,22 +221,22 @@ i1	= -1
 i1	= 0
 
 ; amplitude envelope
-kampenv		expseg 0.001, .02, iamp1, idurtoenvmax, iamp, idurback, iamp1, .5, 0.001
+kampenv		linseg 0, .02, iamp1, idurtoenvmax, iamp;, idurback, iamp1, .5, 0
 
 tied:
 ; skip this section if the note is tied.
 if ir == 0 kgoto signlgen
 
 ; amplitude envelope for tied notes.
-kampenvtied		expseg 0.001, .5, iamp1, idurtoenvmax, iamp, idurback, iamp1, .5, 0.001
-kampenv = kampenvtied
+;kampenvtied		linseg 0, .5, iamp1, idurtoenvmax, iamp, idurback, iamp1, .5, 0
+kampenv = k(iamp) + kampenv
 
 signlgen:
 ; frequency glissando.
 kfreqgliss	expseg ifreq1, idur * .1, ifreq1, idur * .8, ifreq2, idur *.1, ifreq2
 
 ; filtered noise
-anoise	rand kampenv * 150
+anoise	rand kampenv * 50, i1
 afilt	butterbp anoise, kfreqgliss, 1, i1
 ;;;; oscilator with amplitude and frequency envelopes
 ;;;;asig		oscili kampenv, kfreqgliss, 1, i1

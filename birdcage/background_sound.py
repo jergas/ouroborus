@@ -45,7 +45,7 @@ def oneBckgrndVox(frstInstr, dur, ptch, strtDistr, specType, distrBias, pan):
 		for x in spectrum:
 			perf.InputMessage(x)
 		# Change the parameters for the next note.
-		fundFreq = centsToFreq(ptch + randint(-500, 500))
+		fundFreq = centsToFreq(ptch + randint(-50, 50))
 		bckgrndNote.fundFreq = fundFreq
 		strtDistr = endDistrFact
 		bckgrndNote.distor = strtDistr
@@ -74,7 +74,7 @@ def oneBckgrndVox(frstInstr, dur, ptch, strtDistr, specType, distrBias, pan):
 		if endDistrFact < 0:
 			endDistrFact = 0.0001
 			bckgrndNote.distor2 = endDistrFact
-		time.sleep(abs(dur) - 1)	
+		time.sleep(abs(dur) - 2)	
 
 
 def ctrlBckgrndSnd():
@@ -179,9 +179,9 @@ def ctrlBckgrndSnd():
 def playback():
 	""" Creates three threads, each running a background voice thread.
 	"""
-	argsList	= [(2, -24, 3400, 0.005, 0, 1, 0.25),
-					(15, -20, 3400, 0.003, 3, 0, 0.5),
-					(27, -30, 3400, 0.007, 1, 2, 0.75)]
+	argsList	= [(2, -18, 3400, 0.005, 0, 1, 0.25),
+					(15, -14, 3400, 0.003, 3, 0, 0.5),
+					(27, -20, 3400, 0.007, 1, 2, 0.75)]
 	voiceNo		= 1
 
 	for x in argsList:
