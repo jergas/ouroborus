@@ -73,7 +73,9 @@ class BookEntry:
 		if self.fatum["prana"] < self.agent.tellPrana():
 			sound.eatSound(self.fatum["voice"])
 		self.fatum["prana"] = self.agent.tellPrana() # simply update some data now
-		self.fatum["address"] = self.agent.tellAddress() 
+		self.fatum["address"] = self.agent.tellAddress()
+		if self.agent.hasEaten():
+			sound.eatSound(self.fatum["voice"])
 		return 1
 
         def terminateAgent(self):

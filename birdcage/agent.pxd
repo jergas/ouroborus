@@ -30,10 +30,10 @@ cdef class Agent:
 
 #################################################################################
 
-cdef class Agent_2D(Agent):  
+cdef class Agent_2D(Agent):
      """Base class for all agents based on a two-dimensional automaton."""
 
-     cdef int directions, facing, x1, x2
+     cdef int directions, facing, x1, x2, iHaveEaten
 
      cdef int pyx_isAlive(self)
      cdef int pyx_tellPrana(self)

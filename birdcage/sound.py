@@ -62,5 +62,6 @@ def stopSoundServer():
 	background_sound.py. The latter causes the iteration of the
 	background sound loops (and thus its threads) to end.
 	"""
+	background.joinThreads()
 	csndInterface.endCsnd()
 	sGlobals.mainIterCycle = 0

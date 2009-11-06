@@ -96,16 +96,16 @@ def ctrlBckgrndSnd():
 	counter			= 1.0
 	oldPartialsOn	=	0
 
-	while sGlobals.mainIterCycle == 1:
+	while sGlobals and sGlobals.mainIterCycle:
 		allpartlsOn			= []
 		onChans				= []
 		offChans			= []
 		updatepartls 		= 0
 		possiblePartlsOn	= round(Scaling.valToRng(sGlobals.populNorm[0],
-												.001875, .31375, 1, 39))
-		# Wait until number of the automaton's live cells has varied.
-		# (needed when running the threaded version of the threaded
-		# execution).
+											.001875, .31375, 1, 39))
+	# Wait until number of the automaton's live cells has varied.
+	# (needed when running the threaded version of the threaded
+	# execution).
 		while oldPartialsOn == possiblePartlsOn:
 			time.sleep(.01)
 			break
@@ -176,6 +176,8 @@ def ctrlBckgrndSnd():
 		time.sleep(.01)
 
 
+voiceList	= []
+
 def playback():
 	""" Creates three threads, each running a background voice thread.
 	"""
@@ -183,12 +185,16 @@ def playback():
 					(15, -14, 3400, 0.003, 3, 0, 0.5),
 					(27, -20, 3400, 0.007, 1, 2, 0.75)]
 	voiceNo		= 1
+#	voiceList	= []
 
 	for x in argsList:
 		threadName = 'BackgroundVoice' + str(voiceNo)
 		voice = threading.Thread(name=threadName, target=oneBckgrndVox, args=x)
 		voice.start()
+		voiceList.append(voice)
 		voiceNo = voiceNo + 1
+#	for x in voiceList:
+#		x.join()
 
 
 def control():
@@ -198,6 +204,12 @@ def control():
 	controlThread = threading.Thread(name='backgroundVoicesControl',
 									target=ctrlBckgrndSnd)
 	controlThread.start()
+	voiceList.append(controlThread)
+#	controlThread.join()
+
+def joinThreads():
+	for x in voiceList:
+		x.join()
 
 # This was used for debugging, and may become handy again.
 if __name__ == "__main__":

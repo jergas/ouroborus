@@ -201,6 +201,7 @@ cdef class Agent_2D(Agent):
           self.directions = self.sensoriality.neighbors + 1
           self.facing = 0
           self.name = "2-D Agent"
+          self.iHaveEaten = 0
 
 
      def  tellAddress(self):
@@ -326,14 +327,25 @@ cdef class Agent_2D(Agent):
               return 1
 
 
+     def  hasEaten(self):
+          """Report if the agent has eaten"""
+          if self.iHaveEaten:
+               self.iHaveEaten = 0
+               return 1
+          else:
+               return 0
+
+
      def  eatMana(self):
           """Eat prana from the underlying cell
 
           return -->> True if successful, False otherwise"""
 
           if self.pyx_eatMana() == 0:
+              self.iHaveEaten = 0
               return False
           else:
+              self.iHaveEaten = 1
               return True
 
 
