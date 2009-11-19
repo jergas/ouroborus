@@ -325,3 +325,74 @@ cdef class VonNeumannNeighborhood(Neighborhood_2D):
           self.neighbors_x2[3] = x2
 
 
+####################################################################
+
+cdef class DiegoNeighborhood(Neighborhood_2D):
+     """A punctured 2-D neighborhood which includes cells within a
+     radius of 2 in the taxicab metric"""
+
+     def  __init__(self, T.GridTopology topology):
+          """A punctured two-dimensional neighborhood of radius 2 in
+         the taxicab metric.
+
+          topology ---> a birdcage GridTopology object"""
+
+
+          Neighborhood_2D.__init__(self, topology)
+          self.neighbors = 12
+          self.name = "Diego neighborhood system"
+
+
+     cdef Neighborhood_2D pyx_clone(self):
+          """Make a morphologically identical copy of the grid.
+
+          return -->> a birdcage DiegoNeighborhood object"""
+
+          cdef T.Topology topology_copy
+          topology_copy = self.topology.clone()
+          return DiegoNeighborhood(topology_copy)
+
+
+     cdef void pyx_calculateNeighbors(self, int x1, int x2):
+          """Calculate the coordinates of a cell's neighbors
+          and store the information in the self.neighbors variables
+        
+          x1     ---> the first integer coordinate value
+          x2     ---> the second integer coordinate value
+          return -->> Null"""
+
+          self.neighbors_x1[0] = x1
+          self.neighbors_x2[0] = x2-2
+
+          self.neighbors_x1[1] = x1
+          self.neighbors_x2[1] = x2-1
+
+          self.neighbors_x1[2] = x1+1
+          self.neighbors_x2[2] = x2-1
+
+          self.neighbors_x1[3] = x1+2
+          self.neighbors_x2[3] = x2
+
+          self.neighbors_x1[4] = x1+1
+          self.neighbors_x2[4] = x2
+
+          self.neighbors_x1[5] = x1+1
+          self.neighbors_x2[5] = x2+1
+
+          self.neighbors_x1[6] = x1
+          self.neighbors_x2[6] = x2+2
+
+          self.neighbors_x1[7] = x1
+          self.neighbors_x2[7] = x2+1
+
+          self.neighbors_x1[8] = x1-1
+          self.neighbors_x2[8] = x2+1
+
+          self.neighbors_x1[9] = x1-2
+          self.neighbors_x2[9] = x2
+
+          self.neighbors_x1[10] = x1-1
+          self.neighbors_x2[10] = x2
+
+          self.neighbors_x1[11] = x1-1
+          self.neighbors_x2[11] = x2-1

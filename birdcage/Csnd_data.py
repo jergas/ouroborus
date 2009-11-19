@@ -3,6 +3,9 @@
 #types, and Csound command-line options, look at The Cannonical Csound
 #Reference Manual.
 
+specificity = "Alpha"
+specific = __import__("specific"+specificity)
+
 class CsdStrings(object):
 	""" Contains the strings needed to construct a .csd file.
 	while the class contains methods, these are only ment to set the
@@ -36,11 +39,7 @@ class CsdStrings(object):
 		temp.orc temp.sco	---> name of the temporary output files
 		return 				--> the csOtions string
 		"""
-		csOptions	= """
-<CsoundSynthesizer>
-<CsOptions>
-csound -odac -+rtaudio=alsa -b8192 -B8192 -d -m0 temp.orc temp.sco
-</CsOptions>"""
+		csOptions	= specific.csOptions
 		return csOptions
 
 	def dfltOrchHead(self):
@@ -51,8 +50,8 @@ csound -odac -+rtaudio=alsa -b8192 -B8192 -d -m0 temp.orc temp.sco
 		"""
 		orchestraHeader	= """
 <CsInstruments>
-sr = 22050	; sample rate
-kr = 2205	; control rate
+sr = 44100	; sample rate
+kr = 4410	; control rate
 ksmps = 10	; sr/kr
 nchnls = 2	; # of channels
 
