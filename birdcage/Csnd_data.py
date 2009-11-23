@@ -209,7 +209,7 @@ ileft			= sqrt(p7)					; between 0-1, 1 is hard left
 iright			= sqrt(1-p7)
 
 ; prtamento for the channel input
-kgate	portk kchan, .1
+kgate	port kchan, .1
 
 ; test if the note is tied
 ir		tival
@@ -232,7 +232,7 @@ kampenv = k(iamp) + kampenv
 
 signlgen:
 ; frequency glissando.
-kfreqgliss	expseg ifreq1, idur * .1, ifreq1, idur * .8, ifreq2, idur *.1, ifreq2
+kfreqgliss	expseg ifreq1, idur, ifreq2; * .1, ifreq1, idur * .8, ifreq2, idur *.1, ifreq2
 
 ; filtered noise
 anoise	rand kampenv * 50, i1

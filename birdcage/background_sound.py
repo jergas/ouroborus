@@ -33,7 +33,7 @@ def oneBckgrndVox(frstInstr, dur, ptch, strtDistr, specType, distrBias, pan):
 	endDistrFact	= strtDistr + Scaling.valToRng(sGlobals.populNorm[0],
 													sGlobals.populMin[0],
 													sGlobals.populMax[0],
-													0, 0.2)
+													-0.1, 0.1)
 	instrNos 		= range(frstInstr, (frstInstr + numOfPartls))
 	# Instantiate the background sound note class.
 	bckgrndNote = BckgrndNote(instrNos, fundFreq, numOfPartls, specType,
@@ -53,27 +53,24 @@ def oneBckgrndVox(frstInstr, dur, ptch, strtDistr, specType, distrBias, pan):
 			endDistrFact = strtDistr + Scaling.valToRng(sGlobals.populNorm[0],
 														sGlobals.populMin[0],
 														sGlobals.populMax[0],
-														-0.04, 0.004)
+														-0.1, 0.1)
 			bckgrndNote.distor2 = endDistrFact
 		elif distrBias is 1:
 			endDistrFact = strtDistr + Scaling.valToRng(sGlobals.populNorm[0],
 														sGlobals.populMin[0],
 														sGlobals.populMax[0],
-														0, 0.08)
+														0, 0.2)
 			bckgrndNote.distor2 = endDistrFact
 		elif distrBias is 2:
 			endDistrFact = strtDistr + Scaling.valToRng(sGlobals.populNorm[0],
 														sGlobals.populMin[0],
 														sGlobals.populMax[0],
-														-.08, 0)
+														-.2, 0)
 			bckgrndNote.distor2 = endDistrFact
-		if endDistrFact > .15:
+		if endDistrFact > .75:
 			distrBias = 2
-		if endDistrFact < .0001:
+		if endDistrFact < .25:
 			distrBias = 1
-		if endDistrFact < 0:
-			endDistrFact = 0.0001
-			bckgrndNote.distor2 = endDistrFact
 		time.sleep(abs(dur) - 2)	
 
 
@@ -181,9 +178,9 @@ voiceList	= []
 def playback():
 	""" Creates three threads, each running a background voice thread.
 	"""
-	argsList	= [(2, -18, 3400, 0.005, 0, 1, 0.25),
-					(15, -14, 3400, 0.003, 3, 0, 0.5),
-					(27, -20, 3400, 0.007, 1, 2, 0.75)]
+	argsList	= [(2, -12, 3400, 0.8, 0, 1, 0.25),
+					(15, -8, 3400, 0.5, 3, 0, 0.5),
+					(27, -14, 3400, 0.2, 1, 2, 0.75)]
 	voiceNo		= 1
 #	voiceList	= []
 

@@ -73,8 +73,8 @@ class Amps:
 		""" The totAgntAmp initialization parameter is the total to
 		which the partials parameters add up to.
 		"""
-		self.trgtAgntAmps		= 17000.0
-		self.trgtBckgrndAmps	= 15000.0
+		self.trgtAgntAmps		= 10000.0
+		self.trgtBckgrndAmps	= 7500.0
 
 
 	def spectEqlAmpsPnk(self, dSpect):
@@ -99,9 +99,10 @@ class Amps:
 		return	--> a list of amplitude values
 		"""
 		spectAmps	= []
+		oneAmp = 1
 
 		for x in xrange(len(dSpect)):        
-			oneAmp = random.uniform(.001, 1)			spectAmps.append(oneAmp)		spectAmps.sort()		spectAmps.reverse()		scaledSpectAmps = Scaling.lstToTotl(spectAmps, self.trgtBckgrndAmps)		return scaledSpectAmps
+			oneAmp = oneAmp * 2			spectAmps.append(oneAmp)		spectAmps.sort()		spectAmps.reverse()		scaledSpectAmps = Scaling.lstToTotl(spectAmps, self.trgtBckgrndAmps)		return scaledSpectAmps
 
 
 class Pan:

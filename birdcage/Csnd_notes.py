@@ -77,7 +77,8 @@ class BckgrndNote(object):
 		self.partls			= Spctrm.mkPartls(self.spectType, self.numOfPartls)
 		self.dSpect			= Spctrm.dSpect(self.fundFreq, self.partls,
 												self.distor)
-		self.dSpect2			= Spctrm.dSpect(self.fundFreq, self.partls,
+		self.partls			= Spctrm.mkPartls(self.spectType, self.numOfPartls)
+		self.dSpect2		= Spctrm.dSpect(self.fundFreq, self.partls,
 												self.distor2)
 		# Ensure that both spectra will have the same number of
 		# partials, since the spectrum construction method
@@ -87,7 +88,7 @@ class BckgrndNote(object):
 			self.dSpect2.append(xtra)
 		if len(self.dSpect) < len(self.dSpect2):
 			xtra = self.dSpect2[-1]
-			self.dSpect.append(extra)
+			self.dSpect.append(xtra)
 
 		self.strts			= StrtTms.expoSpct(self.dSpect)
 		self.durs			= Durs.spectDurs(self.strts, self.dur)
