@@ -36,7 +36,7 @@ doomsday = 1000
 csOptions	= """
 <CsoundSynthesizer>
 <CsOptions>
-csound -odac -+rtaudio=alsa -b8192 -B8192 -d -m0 temp.orc temp.sco
+csound -odac -+rtaudio=alsa -b1024 -B2048 -d -m0 temp.orc temp.sco
 </CsOptions>"""
 
 #csOptions	= """
