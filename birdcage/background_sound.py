@@ -133,16 +133,18 @@ def ctrlBckgrndSnd():
 				if w > len(x):
 					updatepartls = w - len(x)
 					for z in range(0, int(updatepartls)):
-						newOn = y.pop(0)
-						cSnd.SetChannel("chan%s" %(newOn), 1)
-						x.append(newOn)
+						if len(y):
+							newOn = y.pop(0)
+							cSnd.SetChannel("chan%s" %(newOn), 1)
+							x.append(newOn)
 				if w < len(x):
 					updatepartls = len(x) - w
 					for z in range(0, int(updatepartls)):
-						newOff = x.pop(randint(0, len(x)-1))
-						cSnd.SetChannel("chan%s" %(newOff),
-										choice(wheightedGates))
-						y.append(newOff)
+						if len(x):
+							newOff = x.pop(randint(0, len(x)-1))
+							cSnd.SetChannel("chan%s" %(newOff),
+											choice(wheightedGates))
+							y.append(newOff)
 		# Introduces (slight) discontinuity to the update of partial's
 		# intencity.		
 #		if sGlobals.sndCtrlCells == [1, 1, 1]:

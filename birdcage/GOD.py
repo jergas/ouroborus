@@ -13,6 +13,7 @@ from bookentry import BookEntry
 import visual as v
 import curses as c
 # these are the modules used for sound
+import sound
 import agents_sound as agentsSound
 # these are the ingredients for the Pyrex compile spell
 import sys
@@ -255,7 +256,12 @@ class Organizer:
 
 		return -->> 1"""
 
-		return bookentry.agentLive()
+		bookentry.agentLive()
+		# if the agent ate, make the appropriate sound
+		if bookentry.fatum["voice"].ate == 1:
+			sound.eatSound(bookentry.fatum["voice"])
+			bookentry.fatum["voice"].ate == 0
+		return 1
 
 
 	def grantPrayerGrantChild(self, bookentry):

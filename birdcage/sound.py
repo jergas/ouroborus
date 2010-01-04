@@ -1,7 +1,8 @@
 ## This modules is the interface between birdcage and its aural
-# component. It has the methods to  initialize csound, play agent
-# sounds (at present in early development), to start the background
-# sound threads, to feed them with data, and to stop sound altogether.
+# component. It has wrappers to the methods to  initialize csound,
+# play agent sounds (at present in early development), to start the
+# background sound threads, to feed them with data, and to stop
+# sound altogether.
 
 # Sound-related submodules.
 import agents_sound as agentsSound

@@ -47,6 +47,17 @@ def setCursesColors():
 	curses.init_pair(4, curses.COLOR_BLUE, curses.COLOR_BLACK)
 
 
+def startExecutionBeta():
+    """changes specificity to Beta and then calls the Normal submode
+
+    return -->>1"""
+    global specific
+    specificity = "Beta"
+    specific = __import__("specific"+specificity)
+    
+    startExecutionNormal()
+
+
 def startExecutionNormal():
 	"""Start normal execution cycle with sound and visual display
 

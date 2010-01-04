@@ -31,6 +31,7 @@ class VocalTract(object):
 		self.IDeviation = random.uniform(-250, 250)
 		self.ODeviation = random.uniform(-250, 250)
 		self.panning	= Scaling.valToRng(agentXAxis, 0, width, 1, 0)
+		self.ate		= 0
 
 
 	def birthSound(self):

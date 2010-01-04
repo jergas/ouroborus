@@ -91,7 +91,7 @@ Contenido
 
 1.- Dependencias
 
-2.- Intalación
+2.- Instalación
 
 3.- Configuración de Csound
 
@@ -112,7 +112,7 @@ Contenido
 - Python-Csound 5.08.2 - Puede ser descargado de los repositorios de Debian, o de: http://packages.debian.org/lenny/python-csound.
 
 
-2.- Intalación
+2.- Instalación
 --------------
 
 - Instalar las dependencias necesarias. Recorrer la pantalla para ver cuáles son éstas.

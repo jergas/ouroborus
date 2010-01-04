@@ -46,7 +46,6 @@ def startExecutionBeta():
     startExecutionNormal()
 
 
-
 def startExecutionNormal():
 	"""start normal execution cycle with sound and visual display
 
@@ -67,6 +66,7 @@ def startExecutionNormal():
 	curses.wrapper(main)
 
 	return 1
+
 
 def main(stdscr):
 

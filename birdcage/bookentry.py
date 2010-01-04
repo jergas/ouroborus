@@ -21,7 +21,6 @@
 # Read some history at EOF
 
 import string
-import sound
 
 
 class BookEntry:
@@ -69,13 +68,11 @@ class BookEntry:
 		return -->> 1"""
 
 		self.fatum["prayer"] = self.module.live(self.agent) #this is deep magic!
-		# if an agent just ate, make the appropriate sound
-		if self.fatum["prana"] < self.agent.tellPrana():
-			sound.eatSound(self.fatum["voice"])
 		self.fatum["prana"] = self.agent.tellPrana() # simply update some data now
 		self.fatum["address"] = self.agent.tellAddress()
+		# if an agent just ate, record it in VocalTract
 		if self.agent.hasEaten():
-			sound.eatSound(self.fatum["voice"])
+			self.fatum["voice"].ate = 1
 		return 1
 
         def terminateAgent(self):
