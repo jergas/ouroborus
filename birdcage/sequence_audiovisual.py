@@ -21,13 +21,16 @@ import operator
 import random
 import sys
 
+# These lines need to be imported before GOD and bookentry!!!
+import sound_globals as soundGlobals
+soundGlobals.simWSound = 1
+
 from bookentry import BookEntry
 import GOD
-import sound_globals as soundGlobals
+
 
 specificity = "Alpha"
 specific = __import__("specific"+specificity)
-soundGlobals.simWSound = 1
 
 
 def setCursesColors():
@@ -64,8 +67,7 @@ def startExecutionNormal():
 	#guarantees that the terminal will not be left stranded in an ocean of
 	#insanity if the program terminates exceptionally
 	# start the sound server
-	if soundGlobals.simWSound == 1:
-		sound.startSoundServer()
+	sound.startSoundServer()
 	curses.wrapper(main)
 
 	return 1
@@ -120,10 +122,9 @@ def main(stdscr):
 	display = mary.generateDisplay(terra, size, stdscr)
 
 	# start the background sound and its control thread
-	if soundGlobals.simWSound == 1:
-		sound.setInitialData(magdalen.width)
-		sound.startBackground()
-		sound.startBackgroundControl()
+	sound.setInitialData(magdalen.width)
+	sound.startBackground()
+	sound.startBackgroundControl()
 
 	# here cometh the main iteration cycle
 	while magdalen.annum < doomsday:
@@ -132,22 +133,15 @@ def main(stdscr):
 		populNorm = float(population) / operator.mul(width,height)
 		# GOD.Organizer parses the whole length of biblos
 		for entry in biblos:
-			# Birth sound for new-born agents
-			try:
-				if soundGlobals.simWSound == 1:
-					if entry.fatum["prayer"] == "BeBirthed":
-						sound.agentBirth(entry.fatum["voice"])
-			except:
-				pass
+			if entry.fatum["prayer"] == "BeBirthed":
+				sound.agentBirth(entry.fatum["voice"])
 			magdalen.readBookOfLifeNew(entry)
 		# The display and the sound control data are updated.
 		magdalen.refreshDisplay(display)
 		sndCtrlCells = [terra.get((22,18)), terra.get((40,18)),
 						terra.get((64,18))]
-		if soundGlobals.simWSound == 1:
-			sound.inputDataControl(sndCtrlCells, populNorm)
-	if soundGlobals.simWSound == 1:
-		sound.stopSoundServer()
+		sound.inputDataControl(sndCtrlCells, populNorm)
+	sound.stopSoundServer()
 	del sys.argv[1:]
 	print "Done"
 	return 1

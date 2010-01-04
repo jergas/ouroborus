@@ -71,7 +71,8 @@ class BookEntry:
 		self.fatum["prayer"] = self.module.live(self.agent) #this is deep magic!
 		self.fatum["prana"] = self.agent.tellPrana() # simply update some data now
 		self.fatum["address"] = self.agent.tellAddress()
-		# if an agent just ate, record it in VocalTract
+		# if an agent just ate, record it in VocalTract (when running
+		# simulations with sound)
 		try:
 			if soundGlobals.simWSound == 1:
 				if self.agent.hasEaten():
