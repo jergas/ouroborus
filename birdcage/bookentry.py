@@ -21,6 +21,7 @@
 # Read some history at EOF
 
 import string
+import sound_globals as soundGlobals
 
 
 class BookEntry:
@@ -71,8 +72,12 @@ class BookEntry:
 		self.fatum["prana"] = self.agent.tellPrana() # simply update some data now
 		self.fatum["address"] = self.agent.tellAddress()
 		# if an agent just ate, record it in VocalTract
-		if self.agent.hasEaten():
-			self.fatum["voice"].ate = 1
+		try:
+			if soundGlobals.simWSound == 1:
+				if self.agent.hasEaten():
+					self.fatum["voice"].ate = 1
+		except:
+			pass
 		return 1
 
         def terminateAgent(self):

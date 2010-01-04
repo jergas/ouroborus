@@ -23,9 +23,11 @@ import sys
 
 from bookentry import BookEntry
 import GOD
+import sound_globals as soundGlobals
 
 specificity = "Alpha"
 specific = __import__("specific"+specificity)
+soundGlobals.simWSound = 1
 
 
 def setCursesColors():
@@ -62,7 +64,8 @@ def startExecutionNormal():
 	#guarantees that the terminal will not be left stranded in an ocean of
 	#insanity if the program terminates exceptionally
 	# start the sound server
-	sound.startSoundServer()
+	if soundGlobals.simWSound == 1:
+		sound.startSoundServer()
 	curses.wrapper(main)
 
 	return 1
@@ -117,9 +120,10 @@ def main(stdscr):
 	display = mary.generateDisplay(terra, size, stdscr)
 
 	# start the background sound and its control thread
-	sound.setInitialData(magdalen.width)
-	sound.startBackground()
-	sound.startBackgroundControl()
+	if soundGlobals.simWSound == 1:
+		sound.setInitialData(magdalen.width)
+		sound.startBackground()
+		sound.startBackgroundControl()
 
 	# here cometh the main iteration cycle
 	while magdalen.annum < doomsday:
@@ -129,16 +133,21 @@ def main(stdscr):
 		# GOD.Organizer parses the whole length of biblos
 		for entry in biblos:
 			# Birth sound for new-born agents
-			if entry.fatum["prayer"] == "BeBirthed":
-				sound.agentBirth(entry.fatum["voice"])
+			try:
+				if soundGlobals.simWSound == 1:
+					if entry.fatum["prayer"] == "BeBirthed":
+						sound.agentBirth(entry.fatum["voice"])
+			except:
+				pass
 			magdalen.readBookOfLifeNew(entry)
 		# The display and the sound control data are updated.
 		magdalen.refreshDisplay(display)
 		sndCtrlCells = [terra.get((22,18)), terra.get((40,18)),
 						terra.get((64,18))]
-		sound.inputDataControl(sndCtrlCells, populNorm)
-
-	sound.stopSoundServer()
+		if soundGlobals.simWSound == 1:
+			sound.inputDataControl(sndCtrlCells, populNorm)
+	if soundGlobals.simWSound == 1:
+		sound.stopSoundServer()
 	del sys.argv[1:]
 	print "Done"
 	return 1

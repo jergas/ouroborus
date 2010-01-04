@@ -13,8 +13,11 @@ from bookentry import BookEntry
 import visual as v
 import curses as c
 # these are the modules used for sound
-import sound
-import agents_sound as agentsSound
+import sound_globals as soundGlobals
+# only load modules if running sound enabled simulations
+if soundGlobals.simWSound == 1:
+	import sound
+	import agents_sound as agentsSound
 # these are the ingredients for the Pyrex compile spell
 import sys
 import distutils.core 
@@ -228,8 +231,12 @@ class Organizer:
 		bookentry.fatum["address"] = (x, y)
 		bookentry.fatum["prayer"] = "BeBirthed"
 		# Instantiate the class that contains the agent's sound
-		# attributes and methods. 
-		bookentry.fatum["voice"] = agentsSound.VocalTract(x, self.width)
+		# attributes and methods (in case of sound-enabled simulation).
+		try:
+			if soundGlobals.simWSound == 1: 
+				bookentry.fatum["voice"] = agentsSound.VocalTract(x, self.width)
+		except:
+			pass
 		return 1
 
 
@@ -257,10 +264,15 @@ class Organizer:
 		return -->> 1"""
 
 		bookentry.agentLive()
-		# if the agent ate, make the appropriate sound
-		if bookentry.fatum["voice"].ate == 1:
-			sound.eatSound(bookentry.fatum["voice"])
-			bookentry.fatum["voice"].ate == 0
+		# if the agent ate, make the appropriate sound if running
+		# sound enabled simulations
+		try:
+			if soundGlobals.simWSound == 1:
+				if bookentry.fatum["voice"].ate == 1:
+					sound.eatSound(bookentry.fatum["voice"])
+					bookentry.fatum["voice"].ate == 0
+		except:
+			pass
 		return 1
 
 
@@ -280,8 +292,12 @@ class Organizer:
 		(x, y) = (random.randint(0, self.width-1), random.randint(0, self.height-1))
 		child.fatum["address"] = (x, y)
 		# Instantiate the class that contains the agent's sound
-		# attributes and methods. 
-		child.fatum["voice"] = agentsSound.VocalTract(x, self.width)
+		# attributes and methods (if sound is enabled).
+		try:
+			if soundGlobals.simWSound == 1:
+				child.fatum["voice"] = agentsSound.VocalTract(x, self.width)
+		except:
+			pass
 		# set the agent's prayer back to live
 		bookentry.fatum["prayer"] = "Live"
 		return 1
