@@ -1,7 +1,7 @@
 Para la versión en español, recorra la pantalla hacia abajo.
 
 Welcome to Birdcage!
-======= == ========
+===================
 
 
 ATTENTION: This file is a work in progress.
@@ -11,8 +11,21 @@ This file contains important information regarding Birdcage. You can find inform
 
 
 
-Dependencies
-------------
+Contents
+--------
+
+1.- Dependencies
+
+2.- Installation
+
+3.- Configuring Csound
+
+4.- Issues and workarounds
+
+
+
+1.- Dependencies
+----------------
 
 - Python 2.5.2 (included with current Debian distributions). For more information go to: http://www.python.org/
 
@@ -24,8 +37,8 @@ Dependencies
 - Python-Csound 5.08.2 - Can be downloaded from the Debian repositories or from: http://packages.debian.org/lenny/python-csound
 
 
-Installation
-------------
+2.- Installation
+----------------
 
 - Install the necessary dependencies. Scroll down to see what these are.
 
@@ -34,8 +47,8 @@ Installation
 - To run the audiovisual simulation, simply type 'python start.py' (the full audiovisual simulation). You are also welcome to try 'python start.py debug normal' (a text render of the simulation), 'python start.py threaded normal' (a multi-threaded audiovisual version) and 'python start.py visual normal' (a visual-only rendering).
 
 
-Configuring Csound
------------ ------
+3.- Configuring Csound
+--------------- ------
 
 In order for Csound to work properly, an environment variable must be set. To do so, edit the file /etc/profile (to configure the environment variable for all users), or home/.bashrc -or it's equivalent (to configure the variable only for the current user). At the end of either of these files, add the compulsory environment variable:
 
@@ -53,11 +66,18 @@ Note: Other optional Csound environment variables are available (not setting the
 
 * Note that 32 y 64 bits refers to how Csound processes sound internally, and NOT to the architecture for which the software is compiled. Both versions (32 and 64 bits) can be obtained for i368 or adm64 architectures.
 
+
+4.- Issues and workarounds
+---------- --- -----------
+
+- The terminal is not always restored when interrupting the application via "ctrl^c". In case the terminal becomes corrupted, type "reset" and hit enter to recover your terminal.
+
+
 _____________________________________________________________________________________________________________
 
 
 Bienvenido a Birdcage!
-========== = ========
+=====================
 
 
 ATENCIÓN: Esta es una versión inconclusa.
@@ -66,9 +86,21 @@ ATENCIÓN: Esta es una versión inconclusa.
 Este archivo contiene información importante relativa a Birdcage. En él puede encontrar información importante sobre el proyecto, sus dependencias y como instalarlas.
 
 
+Contenido
+---------
 
-Dependencias
-------------
+1.- Dependencias
+
+2.- Instalación
+
+3.- Configuración de Csound
+
+4.- Problemas y soluciones
+
+
+
+1.- Dependencias
+----------------
 
 - Python 2.5.2 (incluido con las distribuciones actuales de Debian). Para mayor información, consulte: http://www.python.org/
 
@@ -80,8 +112,8 @@ Dependencias
 - Python-Csound 5.08.2 - Puede ser descargado de los repositorios de Debian, o de: http://packages.debian.org/lenny/python-csound.
 
 
-Intalación
-----------
+2.- Instalación
+--------------
 
 - Instalar las dependencias necesarias. Recorrer la pantalla para ver cuáles son éstas.
 
@@ -90,8 +122,8 @@ Intalación
 - Para correr la simulación audiovisual, teclear 'python start.py'. también puede teclear 'python start.py debug normal' (sólo texto), 'python start.py threaded normal' (versión audiovisual multi-hilos) y 'python start.py visual normal' (gráficos sin sonido).
 
 
-Configuración de Csound
-------------- -- ------
+3.- Configuración de Csound
+----------------- -- ------
 
 Para que Csound funcione adecuadamente, una variable de ambiente debe ser configurada. Para hacer esto, edite el archivo /etc/profile (para configurar la variable para todos los usuarios), o home/.bashrc -o su equivalente (para configurar la variable sólo para el usuario actual). Al final de cualquiera de estos dos archivos, agregue la variable de ambiente obligatoria:
 
@@ -108,3 +140,9 @@ export OPCODEDIR64=/usr/lib/csound/plugins
 Aclaración: Es posible configurar otras variables de ambiente para Csound (que no son necesarias para que Birdcage funcione correctamente). Para mayor información, consulte la documentación de Csound.
 
 * Nótese que 32 y 64 bits se refieren al procesamiento interno de audio de Csound, y NO a la arquitectura para la cual está compilado el programa. Ambas versiones (32 y 64 bits) pueden conseguirse para arquitecturas i368 o adm64.
+
+
+4.- Problemas y soluciones
+------------- - ----------
+
+- La terminal no siempre se restablece al interrumpir la aplicación vía "ctrl^c". En caso de que la terminal se corrompa, puede ser recuperada tecleando "reset" y pulsando "enter".
