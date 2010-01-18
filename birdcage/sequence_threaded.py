@@ -32,6 +32,11 @@ import operator
 import random
 import sys
 import threading
+
+# These lines need to be imported before GOD and bookentry!!!
+import sound_globals as soundGlobals
+soundGlobals.simWSound = 1
+
 # Ouroborus libraries
 import GOD
 from bookentry import BookEntry

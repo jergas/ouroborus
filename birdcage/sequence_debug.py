@@ -28,6 +28,18 @@ import time
 specificity = "Alpha"
 specific = __import__("specific"+specificity)
 
+
+def startExecutionBeta():
+    """changes specificity to Beta and then calls the Normal submode
+
+    return -->>1"""
+    global specific
+    specificity = "Beta"
+    specific = __import__("specific"+specificity)
+    
+    startExecutionNormal()
+
+
 def startExecutionNormal():
 	"""start verbose execution cycle with no visual display or sound
 
