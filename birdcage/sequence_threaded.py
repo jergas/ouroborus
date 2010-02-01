@@ -32,6 +32,7 @@ import operator
 import random
 import sys
 import threading
+import time
 
 # These lines need to be imported before GOD and bookentry!!!
 import sound_globals as soundGlobals
@@ -196,11 +197,19 @@ class ThreadedSequence(object):
 			if loopsPerVisual == counter:
 				self.population = self.magdalen.iterateAutomaton()
 				for entry in self.biblos:
-					self.births = []
+					self.birth = 0
 					# Birth sound for new-born agents
 					if entry.fatum["prayer"] == "BeBirthed":
+						self.birth = 1
 						sound.agentBirth(entry.fatum["voice"])
 					self.magdalen.readBookOfLifeNew(entry)
+					try:
+						self.magdalen.refreshAgent(entry.agent, self.display)
+						if self.birth == 1:
+							sound.agentBirth(entry.fatum["voice"])
+						time.sleep(random.gauss(0.1, 0.005))
+					except AttributeError:
+						pass
 				# Notify the audiovisual loop, so it continues its course.
 				self.threadCondition.notify()
 				# Wait for a notification from the audiovisual loop.

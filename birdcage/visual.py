@@ -70,6 +70,33 @@ def updateLoop(automaton, stdscr, displaywidth, displayheight):
         printAgent(stdscr, agent, displaywidth, displayheight)
 
 
+def updateBackground(automaton, stdscr, displaywidth, displayheight):
+    """this function is similar to updateLoop(), but only
+	updates the background. The method is only
+	used in the threaded version of the simulation
+
+    automaton     ---> a birdcage automaton instance
+    stdscr        ---> a curses stdscr object
+    displaywidth  ---> an integer
+    displayheight ---> an integer"""
+
+    for x in range(displaywidth):
+        for y in range(displayheight):
+            printIcon(automaton, stdscr, (x,y))
+
+
+def updateAgent(agent, stdscr, displaywidth, displayheight):
+    """Update the visualization of a single agent. This method is only
+	used in the threaded version of the simulation
+
+    agent			---> a birdcage Agent_2D instance
+    stdscr      	---> a curses stdscr object
+    displaywidth	---> an integer
+    displayheight	---> an integer"""
+
+    printAgent(stdscr, agent, displaywidth, displayheight)
+
+
 def updateLoopTranslucent(automaton, stdscr, displaywidth, displayheight):
     """update the curses display
 

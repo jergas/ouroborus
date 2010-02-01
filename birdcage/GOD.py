@@ -373,4 +373,32 @@ class Organizer:
 
 		v.updateLoop(self.earth, display[0], display[1], display[2])
 		display[0].refresh()
-		
+
+
+	def refreshBackground(self, display):
+		"""Refresh the background of a display on a curses terminal
+
+		display       ---> a 3-tuple as follows:
+						(stdscr, displaywidth, displayheight)
+		stdscr        ---> a curses standard screen object
+		displaywidth  ---> the integer width of the curses terminal
+		displayheight ---> the integer height of the curses terminal
+		return        -->> 1"""
+
+		v.updateBackground(self.earth, display[0], display[1], display[2])
+		display[0].refresh()
+
+####################################
+	def refreshAgent(self, agent, display):
+		"""Refresh the background of a display on a curses terminal
+
+		display       ---> a 3-tuple as follows:
+						(stdscr, displaywidth, displayheight)
+		stdscr        ---> a curses standard screen object
+		displaywidth  ---> the integer width of the curses terminal
+		displayheight ---> the integer height of the curses terminal
+		return        -->> 1"""
+
+		v.updateAgent(agent, display[0], display[1], display[2])
+		display[0].refresh()
+#################################
