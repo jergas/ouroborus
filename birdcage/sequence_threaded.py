@@ -34,7 +34,7 @@ import sys
 import threading
 import time
 
-# These lines need to be imported before GOD and bookentry!!!
+# These lines need to be read before GOD and bookentry!!!
 import sound_globals as soundGlobals
 soundGlobals.simWSound = 1
 
@@ -207,7 +207,7 @@ class ThreadedSequence(object):
 						self.magdalen.refreshAgent(entry.agent, self.display)
 						if self.birth == 1:
 							sound.agentBirth(entry.fatum["voice"])
-						time.sleep(random.gauss(0.1, 0.005))
+						time.sleep(random.uniform(0.1, 0.01))
 					except AttributeError:
 						pass
 				# Notify the audiovisual loop, so it continues its course.

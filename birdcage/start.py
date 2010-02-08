@@ -12,7 +12,7 @@
 #
 # Read some history at EOF
 
-import sys, string
+import sys
 
 def main(mode = "Audiovisual", submode = "Normal"):
 	"""Main executable program. Sort between the variants of the execution sequence.
@@ -39,6 +39,8 @@ if __name__ == "__main__":
 	(mode, submode) = ("Audiovisual", "Normal")
 	if len(sys.argv) == 3:
 		submode = sys.argv.pop()
+		mode = sys.argv.pop()
+	elif len(sys.argv) == 2:
 		mode = sys.argv.pop()
 	while len(sys.argv) > 1:
 		del sys.argv[-1]
