@@ -66,60 +66,62 @@ def visuals(input_list,side,environment,generation):
    
 
 def rules(input_list,side,environment):
-    ONneighbours = 0
-    espacio2 ={}
-    state = 0
-    
-    for i in range(0,side):
-        for j in range(0,side):
-            if environment-5 <= input_list[(side*i)+j] <= environment+5:
-                state = 1
-                ONneighbours = -1
-            else:
-                state = 0
-                ONneighbours = 0
-                         
-            if (side-1)>i>0 and (side-1)>j>0:
-                for k in range(-1,2):
-                    for l in range(-1,2):
-                        if environment-5<= input_list[(side*(i+k))+(j+l)] <=environment+5:
-                                ONneighbours = ONneighbours+1
-                
-                if state==1:
-                    if ONneighbours<2 or ONneighbours >=4:
-                        if (input_list[(side*i)+j]-environment) > 1:
-                            espacio2[i,j] = environment-10
-                        elif (input_list[(side*i)+j]-environment) < 1:
-                            espacio2[i,j] = environment+10
-                        else:
-                            if input_list[(side*i)+j]<500:
-                                espacio2[i,j]= environment+10
-                            if input_list[(side*i)+j]>500:
-                                espacio2[i,j]= environment-10
-                    
+	ONneighbours = 0
+	espacio2 ={}
+	state = 0
 
-                    elif 1< ONneighbours <4:
-                        espacio2[i,j] = environment
-                      
+	for i in range(0,side):
+		for j in range(0,side):
+			if environment-5 <= input_list[(side*i)+j] <= environment+5:
+				state = 1
+				ONneighbours = -1
+			else:
+				state = 0
+				ONneighbours = 0
+
+			if (side-1)>i>0 and (side-1)>j>0:
+				for k in range(-1,2):
+					for l in range(-1,2):
+						if environment-5<= input_list[(side*(i+k))+(j+l)] <=environment+5:
+							ONneighbours = ONneighbours+1
+
+				if state==1:
+					if ONneighbours<2 or ONneighbours >=4:
+						if (input_list[(side*i)+j]-environment) > 1:
+							espacio2[i,j] = environment-10
+						elif (input_list[(side*i)+j]-environment) < 1:
+							espacio2[i,j] = environment+10
+						else:
+							if input_list[(side*i)+j]<500:
+								espacio2[i,j]= environment+10
+							if input_list[(side*i)+j]>500:
+								espacio2[i,j]= environment-10
+
+
+					elif 1< ONneighbours <4:
+						espacio2[i,j] = environment
+
                         
-                elif state == 0:
-                    if ONneighbours == 3:
-                        espacio2[i,j]= environment
-                    else:
-                        espacio2[i,j]=input_list[(side*i)+j]
+				elif state == 0:
+					if ONneighbours == 3:
+						espacio2[i,j]= environment
+					else:
+						espacio2[i,j]=input_list[(side*i)+j]
 
-    for i in range(1,side-1):
-        for j in range(1,side-1):
-            input_list[(side*i)+j] = espacio2[i,j]
-    
-    return input_list 
-    
+	for i in range(1,side-1):
+		for j in range(1,side-1):
+			input_list[(side*i)+j] = espacio2[i,j]
+
+	return input_list 
+
+
+
 sideL = 100
 ## The try except clause is used in order to be able to run the code
 # without an arduino interface.
 try:
 	environment = getEnvironment('/dev/ttyUSB0')
-except:
+except UnboundLocalError:
 	environment=random.randint(0,1000)
 cells = initials(0.15,sideL,environment)
 for t in range(0,300):
@@ -127,6 +129,6 @@ for t in range(0,300):
 	cells = rules(cells,sideL,environment)
 	try:
 		environment = getEnvironment('/dev/ttyUSB0')
-	except:
+	except UnboundLocalError:
 		environment=random.randint(0,1000)
 	print t,environment
