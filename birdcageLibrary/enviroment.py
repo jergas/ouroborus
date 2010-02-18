@@ -17,15 +17,36 @@ def getEnvironment(port):
 	"""
 	try:
 		sensor =  serial.Serial(str(port), 9600)
-	except:
+		environment = []
+		# loop until a reading is received.
+		while len(environment) < 1:
+			environment = sensor.readline()
+			environment = environment.split()
+		try:
+			environment = int(environment[0])
+		except ValueError:
+			getEnvironment(port)
+	except serial.serialutil.SerialException:
 		print 'No serial reading!!! using random environment.'
-	environment = []
-	# loop until a reading is recieved.
-	while len(environment) < 1:
-		environment = sensor.readline()
-		environment = environment.split()
-	environment = int(environment[0])
+		environment=random.randint(0,1000)
 	return environment
+
+
+def initials(fractON,side,environment):
+	'''Generates the initial condition of the automaton, it requires a 
+	proportion of initially living individuals, the length of the sides of the
+	automaton and a serial port to read the sensors'''
+	espacio = [0]*(side**2)
+	onindivs = (side**2)*fractON    
+	'''Set up living and dead'''
+	for i in range(0,int(onindivs)):
+		espacio[random.randint(0,len(espacio)-1)] = environment
+	for i in range(0,side):
+		for j in range(0,side):
+			if espacio[(side*i)+j] == 0:
+				espacio[(side*i)+j] = random.randint(1,1000)
+	print "percentage living = %d, #of cells = %d,#of living %d" %(fractON*100,len(espacio),len(espacio)*fractON)
+	return espacio
 
 
 def initials(fractON, side, environment):
@@ -44,7 +65,21 @@ def initials(fractON, side, environment):
 				espacio[(side*i)+j] = random.randint(1,1000)
 	print "percentage living = %d, #of cells = %d,#of living %d" %(fractON*100,len(espacio),len(espacio)*fractON)
 	return espacio
+
     
+
+def visuals(input_list,side,environment,generation):
+    '''This module generates all the visual data of the automaton as still images, this module is under development and will hopefully be substituted by abirdcage visuals  module to allow realtime playback of the automaton. It requires a list of states for each pixel, the dimensions of the sides (currently it only draws squares) an environmental condition and a generation number'''
+    im = Image.new("RGB",(side,side))
+    draw = ImageDraw.Draw(im)
+    for i in range(0,side):
+        for j in range(0,side):
+            if input_list[(side*i)+j]-5<= environment <= input_list[(side*i)+j]+5:
+                draw.point((i,j),(255,255,0))
+            else:
+                draw.point((i,j),(0,0,255))
+    im.save("generacion"+str(generation)+".tiff")
+
 
 def visuals(input_list,side,environment,generation):
 	'''This module generates all the visual data of the automaton as still
@@ -63,72 +98,66 @@ def visuals(input_list,side,environment,generation):
 			else:
 				draw.point((i,j),(0,0,255))
 	im.save("generacion"+str(generation)+".tiff")
-   
+           
+def rules(input_list,side,enviro):
+    ONneighbours = 0
+    espacio2 ={}
+    state = 0
+    
+    for i in range(0,side):
+        for j in range(0,side):
+            if enviro-5 <= input_list[(side*i)+j] <= enviro+5:
+                state = 1
+                ONneighbours = -1
+            else:
+                state = 0
+                ONneighbours = 0
+                         
+            if (side-1)>i>0 and (side-1)>j>0:
+                for k in range(-1,2):
+                    for l in range(-1,2):
+                        if enviro-5<= input_list[(side*(i+k))+(j+l)] <=enviro+5:
+                                ONneighbours = ONneighbours+1
+                
+                if state==1:
+                    if ONneighbours<2 or ONneighbours >=4:
+                        if (input_list[(side*i)+j]-enviro) > 1:
+                            espacio2[i,j] = enviro-10
+                        elif (input_list[(side*i)+j]-enviro) < 1:
+                            espacio2[i,j] = enviro+10
+                        else:
+                            if input_list[(side*i)+j]<500:
+                                espacio2[i,j]= enviro+10
+                            if input_list[(side*i)+j]>500:
+                                espacio2[i,j]= enviro-10
+                    
 
-def rules(input_list,side,environment):
-	ONneighbours = 0
-	espacio2 ={}
-	state = 0
-
-	for i in range(0,side):
-		for j in range(0,side):
-			if environment-5 <= input_list[(side*i)+j] <= environment+5:
-				state = 1
-				ONneighbours = -1
-			else:
-				state = 0
-				ONneighbours = 0
-
-			if (side-1)>i>0 and (side-1)>j>0:
-				for k in range(-1,2):
-					for l in range(-1,2):
-						if environment-5<= input_list[(side*(i+k))+(j+l)] <=environment+5:
-							ONneighbours = ONneighbours+1
-
-				if state==1:
-					if ONneighbours<2 or ONneighbours >=4:
-						if (input_list[(side*i)+j]-environment) > 1:
-							espacio2[i,j] = environment-10
-						elif (input_list[(side*i)+j]-environment) < 1:
-							espacio2[i,j] = environment+10
-						else:
-							if input_list[(side*i)+j]<500:
-								espacio2[i,j]= environment+10
-							if input_list[(side*i)+j]>500:
-								espacio2[i,j]= environment-10
-
-
-					elif 1< ONneighbours <4:
-						espacio2[i,j] = environment
-
+                    elif 1< ONneighbours <4:
+                        espacio2[i,j] = enviro
+                      
                         
-				elif state == 0:
-					if ONneighbours == 3:
-						espacio2[i,j]= environment
-					else:
-						espacio2[i,j]=input_list[(side*i)+j]
+                elif state == 0:
+                    if ONneighbours == 3:
+                        espacio2[i,j]= enviro
+                    else:
+                        espacio2[i,j]=input_list[(side*i)+j]
 
-	for i in range(1,side-1):
-		for j in range(1,side-1):
-			input_list[(side*i)+j] = espacio2[i,j]
-
-	return input_list 
-
+    for i in range(1,side-1):
+        for j in range(1,side-1):
+            input_list[(side*i)+j] = espacio2[i,j]
+    
+    return input_list 
 
 
 sideL = 100
 ## The try except clause is used in order to be able to run the code
 # without an arduino interface.
-try:
-	environment = getEnvironment('/dev/ttyUSB0')
-except UnboundLocalError:
-	environment=random.randint(0,1000)
+environment = getEnvironment('/dev/ttyUSB0')
 cells = initials(0.15,sideL,environment)
-for t in range(0,300):
-	visuals(cells,sideL,environment,t)
+
+for time in range(0,300):
+	visuals(cells,sideL,environment,time)
 	cells = rules(cells,sideL,environment)
-	try:
-		environment = getEnvironment('/dev/ttyUSB0')
-	except UnboundLocalError:
-		environment=random.randint(0,1000)
-	print t,environment
+	environment = getEnvironment('/dev/ttyUSB0')
+	print time,environment
+
