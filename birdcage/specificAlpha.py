@@ -1,4 +1,5 @@
-### These are some specific parameters for running ouroborus"""
+"""These are some specific parameters for running ouroborus.
+Alpha is the default specificity."""
 
 ############
 
@@ -24,7 +25,14 @@ mana = 1
 # The iteration:
 
 avatars = 2
-doomsday = 1000
+doomsday = 30
+
+############
+
+# Other options:
+
+logging = True
+logFile = "log.txt"
 
 ############
 

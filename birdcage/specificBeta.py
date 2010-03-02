@@ -1,4 +1,5 @@
-### These are some specific parameters for running ouroborus"""
+"""These are some specific parameters for running ouroborus.
+Specificity Beta is meant to provide appropriate defaults for Diego's Demo."""
 
 ############
 
@@ -6,7 +7,7 @@
 
 size = (80,20)
 topology = ("ToroidTopology", 0)
-neighborhood = ("DiegoNeighborhood", )
+neighborhood = ("MooreNeighborhood", )
 import operator
 rule = ("ReductionRule", (operator.xor, 0))
 automaton = ("SynchronousAutomaton_2D", )

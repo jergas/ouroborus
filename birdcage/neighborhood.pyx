@@ -327,6 +327,65 @@ cdef class VonNeumannNeighborhood(Neighborhood_2D):
 
 ####################################################################
 
+cdef class MooreNeighborhood(Neighborhood_2D):
+     """A 2-D punctured neighborhood which includes
+     the sourrounding 8 cells (N,NE,E,SE,S,SW,W,NW)."""
+
+     def  __init__(self, T.GridTopology topology):
+          """A 2-D punctured neighborhood which includes
+          the sourrounding 8 cells (N,NE,E,SE,S,SW,W,NW).
+
+          topology ---> a birdcage GridTopology object"""
+
+          Neighborhood_2D.__init__(self, topology)
+          self.neighbors = 8
+          self.name = "Moore neighborhood system"
+          
+     cdef Neighborhood_2D pyx_clone(self):
+          """Make a morphologically identical copy of the grid.
+
+          return -->> a birdcage MooreNeighborhood object"""
+
+          cdef T.Topology topology_copy
+          topology_copy = self.topology.clone()
+          return MooreNeighborhood(topology_copy)
+
+
+     cdef void pyx_calculateNeighbors(self, int x1, int x2):
+          """Calculate the coordinates of a cell's neighbors
+          and store the information in the self.neighbors variables
+        
+          x1     ---> the first integer coordinate value
+          x2     ---> the second integer coordinate value
+          return -->> Null"""
+
+          self.neighbors_x1[0] = x1-1
+          self.neighbors_x2[0] = x2-1
+
+          self.neighbors_x1[1] = x1
+          self.neighbors_x2[1] = x2-1
+
+          self.neighbors_x1[2] = x1+1
+          self.neighbors_x2[2] = x2-1
+              
+          self.neighbors_x1[3] = x1+1
+          self.neighbors_x2[3] = x2
+
+          self.neighbors_x1[4] = x1+1
+          self.neighbors_x2[4] = x2+1
+
+          self.neighbors_x1[5] = x1
+          self.neighbors_x2[5] = x2+1
+
+          self.neighbors_x1[6] = x1-1
+          self.neighbors_x2[6] = x2+1
+              
+          self.neighbors_x1[7] = x1-1
+          self.neighbors_x2[7] = x2
+
+
+####################################################################
+
 cdef class DiegoNeighborhood(Neighborhood_2D):
      """A punctured 2-D neighborhood which includes cells within a
      radius of 2 in the taxicab metric"""
