@@ -73,12 +73,9 @@ class BookEntry:
 		self.fatum["address"] = self.agent.tellAddress()
 		# if an agent just ate, record it in VocalTract (when running
 		# simulations with sound)
-		try:
-			if soundGlobals.simWSound == 1:
-				if self.agent.hasEaten():
-					self.fatum["voice"].ate = 1
-		except:
-			pass
+		if soundGlobals.simWSound == 1:
+			if self.agent.hasEaten():
+				self.fatum["voice"].ate = 1
 		return 1
 
         def terminateAgent(self):

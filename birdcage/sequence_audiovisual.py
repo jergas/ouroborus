@@ -136,6 +136,10 @@ def main(stdscr):
 			if entry.fatum["prayer"] == "BeBirthed":
 				sound.agentBirth(entry.fatum["voice"])
 			magdalen.readBookOfLifeNew(entry)
+			if entry.fatum["voice"].ate == 1:
+				sound.eatSound(entry.fatum["voice"])
+				entry.fatum["voice"].ate == 0
+
 		# The display and the sound control data are updated.
 		magdalen.refreshDisplay(display)
 		sndCtrlCells = [terra.get((22,18)), terra.get((40,18)),

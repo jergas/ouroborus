@@ -38,7 +38,7 @@ class VocalTract(object):
 		""" Generates the sound that an agent does at birth.
 		"""
 		# Set the relevant parameters in the AgentNote class.
-		AgentNote.dur			= random.uniform(.5, 2) * 0.1
+		AgentNote.dur			= random.uniform(.05, .2)
 		AgentNote.ptch1			= self.ptch1
 		AgentNote.ptch2 		= self.ptch2
 		AgentNote.vibr			= self.vibr

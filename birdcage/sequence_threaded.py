@@ -260,9 +260,12 @@ class ThreadedSequence(object):
 				self.magdalen.refreshAgent(self.currentEntry.agent, self.display)
 				if self.birth == 1:
 					sound.agentBirth(self.currentEntry.fatum["voice"])
-					time.sleep(random.uniform(.2, 0.1))
+					time.sleep(random.uniform(.2, 0.4))
+				if self.currentEntry.fatum["voice"].ate == 1:
+					sound.eatSound(self.currentEntry.fatum["voice"])
+					self.currentEntry.fatum["voice"].ate == 0
+					time.sleep(random.uniform(0.1, 0.2))
 			except AttributeError:
 				pass
 			self.agentThreadCondition.wait()
 			self.agentThreadCondition.release()
-			time.sleep(random.uniform(0.1, 0.01))
