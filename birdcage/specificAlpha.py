@@ -25,13 +25,13 @@ mana = 1
 # The iteration:
 
 avatars = 2
-doomsday = 30
+doomsday = 100
 
 ############
 
 # Other options:
 
-logging = True
+logging = False
 logFile = "log.txt"
 
 ############
