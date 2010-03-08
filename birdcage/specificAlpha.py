@@ -25,7 +25,7 @@ mana = 1
 # The iteration:
 
 avatars = 2
-doomsday = 100
+doomsday = 85
 
 ############
 

@@ -2,15 +2,13 @@
 
 # Greetings! This script orchestrates execution for an ouroborus
 # artificial life environment.
-# The module is based in sequence_auidovisual.py, and sequence_new.py,
-# with the novelty that it implements threads
+# The module is based on sequence_audiovisual.py, and sequence_new.py,
+# with the novelty that it implements threads.
 #
 # Coded by Sat Tara Singh, Jergas Apwith and Ernesto Illescas
 #
 # This module is a work in progress. Things still lacking are:
-#
-#	* A sweet spot between the simulation's speed and the audiovisual's
-#		lack of it has yet to be found
+
 #	* The terminal window is not re-established if the application is
 #		terminated via ctrl^c
 #	* Background sound algorithms must be updated to accomodate the
@@ -22,7 +20,7 @@
 #		representation occur on different threads
 #	* All the AL functionality resides in the GOD module; look therein
 #		for pearls of wisdom
-#	* If your'e trying to understand how the code works, refer to
+#	* If you're trying to understand how the code works, refer to
 #		sequence_new.py and sequence_auidovisual.py
 
 
@@ -45,6 +43,8 @@ import sound
 
 specificity = "Alpha"
 specific = __import__("specific"+specificity)
+if specific.logging:
+	pass
 
 def setCursesColors():
 	curses.init_pair(1, curses.COLOR_RED, curses.COLOR_BLACK)
@@ -95,16 +95,20 @@ def main(stdscr):
 	Sequence = ThreadedSequence(stdscr)
 	# Instantiate two threads with target methods simulationLoop() and
 	#audiovisualLoop().
-	simulation = threading.Thread(name='Simulation',
+	simulation	= threading.Thread(name='Simulation',
 									target=Sequence.simulationLoop)
-	audiovisual = threading.Thread(name='Audiovisual',
-									target=Sequence.audioVisualLoop)
+	background	= threading.Thread(name='Background',
+									target=Sequence.backgroundLoop)
+	agents		= threading.Thread(name='Agents',
+									target=Sequence.agentsLoop)
 	# Start the thread instances, and then wait until they've finished,
 	# so they don't interfere with curses' clean-up.
 	simulation.start()
-	audiovisual.start()
+	background.start()
+	agents.start()
 	simulation.join()
-	audiovisual.join()
+	background.join()
+	agents.join()
 
 	del sys.argv[1:]
 	print "Done"
@@ -122,7 +126,7 @@ class ThreadedSequence(object):
 		"""Instantiates GOD's automaton-generator and automaton-
 		organizer classes. Populates the automaton with some
 		initial creatures (broken). Generates a display, and
-		starts sound.
+		starts Csound.
 		stdscr	---> a curses standard screen object
 		"""
 		# Instantiate a generator.
@@ -166,7 +170,7 @@ class ThreadedSequence(object):
 			self.magdalen.readBookOfLifeNew(entry)
 		# Initialize an attribute to hold the automaton's population.
 		self.population = 0
-
+		self.currentEntry = None
 		# Generate a display, and start the sound threads.
 		setCursesColors()
 		self.display = mary.generateDisplay(self.terra, self.size, stdscr)
@@ -175,68 +179,55 @@ class ThreadedSequence(object):
 		sound.startBackgroundControl()
 		# Create a thread-condition object to keep the simulation and
 		# audiovisual threads synchronized.
-		self.lock				= threading.Lock()
-		self.threadCondition	= threading.Condition(self.lock)
+		self.bckgrndThreadCondition	= threading.Condition()
+		self.agentThreadCondition	= threading.Condition()
 
 
 	def simulationLoop(self):
 		"""The simulation's main iteration cycle happens here.
 		"""	
-		loopsPerVisual	= 1
-		counter			= 1
-
 		# Main iteration cycle
 		while self.magdalen.annum < self.doomsday:
-			# Aquire a thread-synchronizing condition.
-			self.threadCondition.acquire()
+			# Aquire the thread-synchronizing condition.
+			self.bckgrndThreadCondition.acquire()
 			# Iterate the c.a., while updating the population attribute. Parse
 			# the whole length of biblos.
-			# If loopsPerVisual loops of the simulation have transcurred,
-			# notify the audiovisual thread, so that it loops once. Otherwise,
-			# only iterate the simulation.		
-			if loopsPerVisual == counter:
-				self.population = self.magdalen.iterateAutomaton()
-				for entry in self.biblos:
-					self.birth = 0
-					# Birth sound for new-born agents
-					if entry.fatum["prayer"] == "BeBirthed":
-						self.birth = 1
-						sound.agentBirth(entry.fatum["voice"])
-					self.magdalen.readBookOfLifeNew(entry)
-					try:
-						self.magdalen.refreshAgent(entry.agent, self.display)
-						if self.birth == 1:
-							sound.agentBirth(entry.fatum["voice"])
-						time.sleep(random.uniform(0.1, 0.01))
-					except AttributeError:
-						pass
-				# Notify the audiovisual loop, so it continues its course.
-				self.threadCondition.notify()
-				# Wait for a notification from the audiovisual loop.
-				self.threadCondition.wait()
-				counter = 1
-			else:
-				self.population = self.magdalen.iterateAutomaton()
-				for entry in self.biblos:
-					self.magdalen.readBookOfLifeNew(entry)
-				counter += 1
+			self.population = self.magdalen.iterateAutomaton()
+			# Notify the audiovisual loop, so it continues its course.
+			self.bckgrndThreadCondition.notify()
+			for entry in self.biblos:
+				self.agentThreadCondition.acquire()
+				# Birth sound for new-born agents
+				self.birth = 0
+				self.currentEntry = entry
+				if entry.fatum["prayer"] == "BeBirthed":
+					self.birth = 1
+				self.magdalen.readBookOfLifeNew(entry)
+#				try:
+				self.agentThreadCondition.notify()
+				self.agentThreadCondition.wait()
+#				except AttributeError:
+#					pass
+				self.agentThreadCondition.release()
+			# Wait for a notification from the audiovisual loop.
+			self.bckgrndThreadCondition.wait()
 			# Release the thread-synchronizing condition.
-			self.threadCondition.release()
+			self.bckgrndThreadCondition.release()
 		# This last part makes sure that, if this thread finishes before
 		# the audiovisual one, the latter does not remain locked.
-		self.threadCondition.acquire()
-		self.threadCondition.notify()
-		self.threadCondition.release()	
+		self.bckgrndThreadCondition.acquire()
+		self.bckgrndThreadCondition.notify()
+		self.bckgrndThreadCondition.release()
 
-
-	def audioVisualLoop(self):
-		""" The audiovisual loop happens here.
+	def backgroundLoop(self):
+		""" Refreshing of the curses background happens here
+		(the agents are also re-drawn so that they don't disappear).
 		"""
 		(width, height)	= self.size
 
 		while self.magdalen.annum < self.doomsday:
 			# Aquire a thread-synchronizing condition.
-			self.threadCondition.acquire()
+			self.bckgrndThreadCondition.acquire()
 			# Update the data needed by the background sound engine.
 			populNorm = float(self.population) / operator.mul(width,height)
 			sndCtrlCells = [self.terra.get((22,18)), self.terra.get((40,18)),
@@ -246,14 +237,32 @@ class ThreadedSequence(object):
 			# Update the audio
 			sound.inputDataControl(sndCtrlCells, populNorm)
 			# Notify the simulation loop, so it continues its course.
-			self.threadCondition.notify()
+			self.bckgrndThreadCondition.notify()
 			# Wait for a notification from the simulation loop.
-			self.threadCondition.wait()
+			self.bckgrndThreadCondition.wait()
 			# Release the thread-synchronizing condition.
-			self.threadCondition.release()
+			self.bckgrndThreadCondition.release()
 		# This last part makes sure that, if this thread finishes before
 		# the simulation one, the latter does not remain locked.
-		self.threadCondition.acquire()
-		self.threadCondition.notify()
-		self.threadCondition.release()	
+		self.bckgrndThreadCondition.acquire()
+		self.bckgrndThreadCondition.notify()
+		self.bckgrndThreadCondition.release()	
 		sound.stopSoundServer()
+
+
+	def agentsLoop(self):
+		""" Deals with drawing of agents and with their sound.
+		"""
+		while self.magdalen.annum < self.doomsday:
+			self.agentThreadCondition.acquire()
+			self.agentThreadCondition.notify()
+			try:
+				self.magdalen.refreshAgent(self.currentEntry.agent, self.display)
+				if self.birth == 1:
+					sound.agentBirth(self.currentEntry.fatum["voice"])
+					time.sleep(random.uniform(.2, 0.1))
+			except AttributeError:
+				pass
+			self.agentThreadCondition.wait()
+			self.agentThreadCondition.release()
+			time.sleep(random.uniform(0.1, 0.01))
