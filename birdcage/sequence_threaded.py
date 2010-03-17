@@ -80,7 +80,12 @@ def startExecutionNormal():
 	# curses.wrapper is the kosher way to fire up curses visual services; it
 	#guarantees that the terminal will not be left stranded in an ocean of
 	#insanity if the program terminates exceptionally.
+	logging = open('logging.txt', 'w')
+	global logging
+	logging.write('you have reached line 84!\n')
+#	logging.close()
 	curses.wrapper(main)
+#	sound.stopSoundServer()
 	return 1
 
 
@@ -101,14 +106,23 @@ def main(stdscr):
 									target=Sequence.backgroundLoop)
 	agents		= threading.Thread(name='Agents',
 									target=Sequence.agentsLoop)
+	# Create the background-sound threads.
+	voices = sound.backgroundVoices()
+	voicesControl = sound.backgroundControl()
 	# Start the thread instances, and then wait until they've finished,
 	# so they don't interfere with curses' clean-up.
+	for x in voices:
+		x.start()
+	voicesControl.start()
 	simulation.start()
 	background.start()
 	agents.start()
-	simulation.join()
-	background.join()
-	agents.join()
+#	voicesControl.join()
+	sound.stopSoundServer()
+	logging.write('you have reached line 122!\n')
+#	simulation.join()
+#	background.join()
+#	agents.join()
 
 	del sys.argv[1:]
 	print "Done"
@@ -175,12 +189,13 @@ class ThreadedSequence(object):
 		setCursesColors()
 		self.display = mary.generateDisplay(self.terra, self.size, stdscr)
 		sound.setInitialData(self.magdalen.width)
-		sound.startBackground()
-		sound.startBackgroundControl()
+#		sound.startBackground()
+#		sound.startBackgroundControl()
 		# Create a thread-condition object to keep the simulation and
 		# audiovisual threads synchronized.
 		self.bckgrndThreadCondition	= threading.Condition()
 		self.agentThreadCondition	= threading.Condition()
+		logging.write('you have reached line 198!\n')
 
 
 	def simulationLoop(self):
@@ -213,6 +228,8 @@ class ThreadedSequence(object):
 			self.bckgrndThreadCondition.wait()
 			# Release the thread-synchronizing condition.
 			self.bckgrndThreadCondition.release()
+			logging.write('you have reached line 231!\n')
+#		sound.stopSoundServer()
 		# This last part makes sure that, if this thread finishes before
 		# the audiovisual one, the latter does not remain locked.
 		self.bckgrndThreadCondition.acquire()
@@ -242,12 +259,13 @@ class ThreadedSequence(object):
 			self.bckgrndThreadCondition.wait()
 			# Release the thread-synchronizing condition.
 			self.bckgrndThreadCondition.release()
+			logging.write('you have reached line 262!\n')
 		# This last part makes sure that, if this thread finishes before
 		# the simulation one, the latter does not remain locked.
 		self.bckgrndThreadCondition.acquire()
 		self.bckgrndThreadCondition.notify()
 		self.bckgrndThreadCondition.release()	
-		sound.stopSoundServer()
+#		sound.stopSoundServer()
 
 
 	def agentsLoop(self):
@@ -263,9 +281,10 @@ class ThreadedSequence(object):
 					time.sleep(random.uniform(.2, 0.4))
 				if self.currentEntry.fatum["voice"].ate == 1:
 					sound.eatSound(self.currentEntry.fatum["voice"])
-					self.currentEntry.fatum["voice"].ate == 0
+					self.currentEntry.fatum["voice"].ate = 0
 					time.sleep(random.uniform(0.1, 0.2))
 			except AttributeError:
 				pass
 			self.agentThreadCondition.wait()
 			self.agentThreadCondition.release()
+		logging.write('you have reached line 290!\n')

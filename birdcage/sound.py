@@ -4,6 +4,9 @@
 # background sound threads, to feed them with data, and to stop
 # sound altogether.
 
+#Python's native libraries.
+import threading
+
 # Sound-related submodules.
 import agents_sound as agentsSound
 import background_sound as background
@@ -33,16 +36,34 @@ def eatSound(VocalTract):
 	VocalTract.eatSound()
 
 
-def startBackground():
-	"""Starts the background-sound threads.
+def backgroundVoices():
+	""" Creates three threads, each running a background voice thread.
 	"""
-	background.playback()
+	argsList	= [(2, -12, 3400, 0.8, 0, 1, 0.25),
+					(15, -8, 3400, 0.5, 3, 0, 0.5),
+					(27, -14, 3400, 0.2, 1, 2, 0.75)]
+	voiceNo		= 1
+	voiceList	= []
+
+	for x in argsList:
+		threadName = 'BackgroundVoice' + str(voiceNo)
+		voice = threading.Thread(name=threadName,
+									target=background.oneBckgrndVox, args=x)
+#		voice.start()
+		voiceList.append(voice)
+		voiceNo = voiceNo + 1
+	return voiceList
 
 
-def startBackgroundControl():
-	"""Starts the background-sound control thread.
+def backgroundControl():
+	"""Starts the background sound control thread, which modifies the
+	the background sound voices.
 	"""
-	background.control()
+	controlThread = threading.Thread(name='backgroundVoicesControl',
+									target=background.ctrlBckgrndSnd)
+#	controlThread.start()
+#	voiceList.append(controlThread)
+	return controlThread
 
 
 def inputDataControl(sndCtrlCells, populNorm):
@@ -63,6 +84,9 @@ def stopSoundServer():
 	background_sound.py. The latter causes the iteration of the
 	background sound loops (and thus its threads) to end.
 	"""
+#	logging = open('logging.txt', 'w')
+#	logging.write('you have reached here!')
+#	logging.close()
 	background.joinThreads()
 	csndInterface.endCsnd()
 	sGlobals.mainIterCycle = 0

@@ -13,6 +13,7 @@
 # Read some history at EOF
 
 import sys
+import os
 
 def main(mode = "Audiovisual", submode = "Normal"):
 	"""Main executable program. Sort between the variants of the execution sequence.
@@ -45,6 +46,7 @@ if __name__ == "__main__":
 	while len(sys.argv) > 1:
 		del sys.argv[-1]
 	main(mode, submode)
+	os.system("rm kristos*")
 
 
 # History

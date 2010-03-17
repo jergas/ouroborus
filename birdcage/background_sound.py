@@ -206,9 +206,9 @@ def control():
 	voiceList.append(controlThread)
 #	controlThread.join()
 
-def joinThreads():
-	for x in voiceList:
-		x.join()
+#def joinThreads():
+#	for x in voiceList:
+#		x.join()
 
 # This was used for debugging, and may become handy again.
 if __name__ == "__main__":

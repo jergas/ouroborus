@@ -138,7 +138,7 @@ def main(stdscr):
 			magdalen.readBookOfLifeNew(entry)
 			if entry.fatum["voice"].ate == 1:
 				sound.eatSound(entry.fatum["voice"])
-				entry.fatum["voice"].ate == 0
+				entry.fatum["voice"].ate = 0
 
 		# The display and the sound control data are updated.
 		magdalen.refreshDisplay(display)
