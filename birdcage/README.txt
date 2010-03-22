@@ -173,4 +173,4 @@ Aclaración: Es posible configurar otras variables de ambiente para Csound (que 
 
 "El tamaño de periodo y de buffer [correctos] varía bastante entra máquinas distintas. Tamaños de buffer menores darán como resultado una menor latencia, pero pueden resultar en interrupciones en el audio o clicks. Las opciones de línea de comando de Csound que controlan el periodo y el tamaño de buffer son -b y -B, respectivamente. El tamaño de buffer depende del hardware, y puede ser necesario experimentar con su valor para encontrar el balance óptimo entre una baja latencia y salida de audio ininterrumpida. Los valores dados a -b y -B deben ser potencias de dos, y el valor de -B debe ser cuando menos una potencia de dos mayor que el valor de -b."
 
-Recomendamos empezar a experimentar con tamaños de periodo y de buffer de -b256 and -B512, e incrementarlos cuanto sea necesario (recordar que los valores deben ser potencias de dos, y que -B debe ser mayor a -b).
+Recomendamos empezar a experimentar con tamaños de periodo y de buffer de -b256 and -B512, e incrementarlos cuanto sea necesario (recuerde que los valores deben ser potencias de dos, y que -B debe ser mayor a -b).
