@@ -20,7 +20,7 @@ Contents
 
 3.- Configuring Csound
 
-4.- Issues and workarounds
+4.- Known issues and workarounds
 
 
 
@@ -70,7 +70,21 @@ Note: Other optional Csound environment variables are available (not setting the
 4.- Issues and workarounds
 ---------- --- -----------
 
+- To interrupt the simulation, hit ctrl^c twice (instead of once).
+
 - The terminal is not always restored when interrupting the application via "ctrl^c". In case the terminal becomes corrupted, type "reset" and hit enter to recover your terminal.
+
+- A Csound error -which shows a huge number of samples out of range- may occur if the simulation is started while another application is making use of sound resources. If this is the case, stop the other application, wait a few seconds, and try running the simulation again.
+
+- The above mentioned error can also happen if the Csound period and buffer sizes are not set correctly. Since proper setup can vary from architecture to architecture, you may need to set them up manually. This is done in the specificAlpha.py and/or specificBeta.py modules. There you will find a line that reads:
+
+	csound -odac -+rtaudio=alsa -b1024 -B2048 -d -m0 temp.orc temp.sco
+
+the "-b1024 -B2048" portion are the period and buffer sizes. With respect to setting up period and buffer sizes, the Csound Manual reads:
+
+"Period and buffer sizes will vary greatly from one machine to another. 	Lower buffer sizes will result in lower latency, but might cause breakups or clicks in the audio. The Csound flags which control period and buffer sizes are -b and -B, respectively. Buffer size is hardware dependant, and some experimentation may be necessary to find the optimal balance between low latency performance and uninterrupted audio output. The values given to -b and -B should be powers of two, and the value of -B  should be at least one power of two higher than that of -b."
+
+We would advise you to start your experimentation with period and buffer sizes of -b256 and -B512, and to increase them as needed (remember that the values should be powers of 2, and that -B should be greater that -b).
 
 
 _____________________________________________________________________________________________________________
@@ -142,7 +156,21 @@ Aclaración: Es posible configurar otras variables de ambiente para Csound (que 
 * Nótese que 32 y 64 bits se refieren al procesamiento interno de audio de Csound, y NO a la arquitectura para la cual está compilado el programa. Ambas versiones (32 y 64 bits) pueden conseguirse para arquitecturas i368 o adm64.
 
 
-4.- Problemas y soluciones
+4.- Problemas conocidos y soluciones
 ------------- - ----------
 
+- Para interrumpir la simulación se necesita pulsar "ctrl^c" dos veces (en lugar de una).
+
 - La terminal no siempre se restablece al interrumpir la aplicación vía "ctrl^c". En caso de que la terminal se corrompa, puede ser recuperada tecleando "reset" y pulsando "enter".
+
+- Un error de Csound -que arroja un numero enorme de "samples out of range"- ocurrirá si se inicia la simulación mientras otra aplicación está ocupando recursos sonoros. Si éste es el caso, detenga la otra aplicación, espere unos segundos, y trate de correr la aplicación nuevamente.
+
+- El error antes mencionado también puede ocurrir si el tamaño de periodo o de buffer no están propiamente configurados. Dado que una configuración correcta puede variar entre arquitecturas, puede ser necesario configurarlos manualmente. Esto debe hacerse en los módulos specificAlpha.py y/o specificBeta.py. En estos módulos hay que editar la siguiente línea:
+
+	csound -odac -+rtaudio=alsa -b1024 -B2048 -d -m0 temp.orc temp.sco
+
+"-b1024 -B2048" son los tamaños de periodo y de buffer, respectivamente. en cuanto a ajustar estos valores el Manual de Csound dice (la traducción es nuestra):
+
+"El tamaño de periodo y de buffer [correctos] varía bastante entra máquinas distintas. Tamaños de buffer menores darán como resultado una menor latencia, pero pueden resultar en interrupciones en el audio o clicks. Las opciones de línea de comando de Csound que controlan el periodo y el tamaño de buffer son -b y -B, respectivamente. El tamaño de buffer depende del hardware, y puede ser necesario experimentar con su valor para encontrar el balance óptimo entre una baja latencia y salida de audio ininterrumpida. Los valores dados a -b y -B deben ser potencias de dos, y el valor de -B debe ser cuando menos una potencia de dos mayor que el valor de -b."
+
+Recomendamos empezar a experimentar con tamaños de periodo y de buffer de -b256 and -B512, e incrementarlos cuanto sea necesario (recordar que los valores deben ser potencias de dos, y que -B debe ser mayor a -b).
