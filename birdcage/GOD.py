@@ -67,7 +67,7 @@ class Generator:
 		return automatonInstance
 
 
-	def generateGenotypeNew(self, poeio, ode):
+	def generateGenotype(self, poeio, ode):
 		"""Write and compile a file from a genome
 
 		poeio  ---> a list of characters
@@ -110,8 +110,11 @@ class Generator:
 		return 1
 
 
+	def generateGenotypeNew(self, poeio, ode):
+		self.generateGenotype(poeio, ode)
 
-	def generateGenotype(self, poeio, ode):
+
+	def generateGenotypeOld(self, poeio, ode):
 		"""Write and compile a file from a genome
 
 		poeio  ---> a list of characters
@@ -199,7 +202,7 @@ class Organizer:
 		return self.earth.update()
 
 
-	def readBookOfLifeNew(self, bookentry):
+	def readBookOfLife(self, bookentry):
 		"""New and more pythonic version of this core function
 
 		bookentry ---> a BookEntry object
@@ -213,7 +216,10 @@ class Organizer:
 		default = self.grantPrayerLive
 		# call the appropriate grantPrayer method by prayer type
 		return getattr(self, "grantPrayer"+prayer, default)(bookentry)
-		
+
+
+	def readBookOfLifeNew(self, bookentry):
+		self.readBookOfLife(bookentry)
 	
 	def grantPrayerCreateMe(self, bookentry):
 		"""Setup the fatum for a new BookEntry, for creature created by 
@@ -298,7 +304,7 @@ class Organizer:
 		return 1
 
 
-	def readBookOfLife(self, index, code, prana, mana, address, generator):
+	def readBookOfLifeOld(self, index, code, prana, mana, address, generator):
 		"""Dynamically import the modules compiled by the Generator
 
 		This will also cause actual agent instances to be created

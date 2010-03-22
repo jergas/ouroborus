@@ -1,11 +1,11 @@
 """These are some specific parameters for running ouroborus.
-Alpha is the default specificity."""
+Delta was meant for debugging"""
 
 ############
 
 # The automaton:
 
-size = (80,20)
+size = (40,20)
 topology = ("ToroidTopology", 0)
 neighborhood = ("VonNeumannNeighborhood", )
 import operator
@@ -24,8 +24,8 @@ mana = 1
 
 # The iteration:
 
-avatars = 2
-doomsday = 100
+avatars = 3
+doomsday = 40
 
 ############
 
