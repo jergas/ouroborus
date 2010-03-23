@@ -17,7 +17,7 @@ def getEnvironment(port):
 	device, prints a notification of such a lack and generates a random environmental value.
 	'''
 	## The try except clause is used in order to be able to run the code
-     # without an arduino interface.
+        # without an arduino interface.
 	try:
 		sensor =  serial.Serial(str(port), 9600)
 		environment = []
@@ -25,10 +25,13 @@ def getEnvironment(port):
 		while len(environment) < 1:
 			environment = sensor.readline()
 			environment = environment.split()
+                #" The try exept clause makes sure that only the integer part of the reading (i.e. not the '\n')
+		#is asigned to environment
 		try:
 			environment = int(environment[0])
-		except ValueError:
+		except TypeError:
 			getEnvironment(port)
+			environment = int(environment[0])
 	except serial.serialutil.SerialException:
 		print 'No serial reading!!! using random environment.'
 		environment=random.randint(0,1000)
