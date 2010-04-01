@@ -25,7 +25,7 @@ def getEnvironment(port):
 		while len(environment) < 1:
 			environment = sensor.readline()
 			environment = environment.split()
-                #" The try exept clause makes sure that only the integer part of the reading (i.e. not the '\n')
+                # The try exept clause makes sure that only the integer part of the reading (i.e. not the '\n')
 		#is asigned to environment
 		try:
 			environment = int(environment[0])
@@ -75,9 +75,9 @@ def visuals(input_list,side,environment,generation):
 
 #-#-#-#-#-#-#-#-#-# Run the program #-#-#-#-#-#-#-#-#-#
            
-sideL = 100#Define the automaton's dimensions
-environment = getEnvironment('/dev/ttyUSB0')#Initialize environment
-cells = initials(0.15,sideL,environment)#Initialize the automaton (create generation 0)
+sideL = 100                                  #Define the automaton's dimensions
+environment = getEnvironment('/dev/ttyUSB0') #Initialize environment
+cells = initials(0.15,sideL,environment)     #Initialize the automaton (create generation 0)
 
 for time in range(0,300):
 	visuals(cells,sideL,environment,time)
