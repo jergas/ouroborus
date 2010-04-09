@@ -4,8 +4,7 @@ game of life but they have been adapted to interact with the response value of
 each cell."""
 
 import exceptions_birdcage as E
-from neighborhood import *
-from rule         import *
+
 
 def updateRule(input_list,side,environment):
      
@@ -53,23 +52,22 @@ def updateRule(input_list,side,environment):
      return input_list 
      
 #################################################################################
-     
-class EnvironmentRule(Rule_2D):
+cdef EnvironmentRule(Rule_2D):
      """Rule set for an environmentally responsive automaton. This rules are based on Conway's game of life.
      If the sum of a dead cell's neighbors is 3, the cell becomes alive.  If the sum of a live cell's neighbors
      is 2 or 3, the cell remains alive.  Otherwise, it dies."""
 
-     def  __init__(self, neighborhood, param=None):
+     def  __init__(self, N.Neighborhood_2D neighborhood, param=None):
           """Override Rule_2D.__init__
         
           neighborhood ---> a birdcage Neighborhood_2d object complete
                             with a two-dimensional topology
           param        ---> None or nothing useful"""
 
-          Rule_2D.__init__(self, neighborhood, param)
+          R.Rule_2D.__init__(self, neighborhood, param)
           self.name = "Environment Rule"
 
-     def apply(self, object address):
+     def apply(self, address):
      
           state = 0
           sumstates = self.neighborhood.countAlive(adress)
@@ -82,11 +80,10 @@ class EnvironmentRule(Rule_2D):
                     state = environment - 15
                elif (cell - environment) < 0:
                     state = environment + 15
-               else:
-                    if cell < 500:
+               elif cell < 500:
                     state = environment+15
-                    else:
-                         state = environment-15
+               else:
+                    state = environment-15
      
           elif binarise(cell) == 0:     # If cell is dead
                if sumstates == 3:
@@ -106,6 +103,7 @@ class EnvironmentRule(Rule_2D):
           cell = neighborhood.topology.get(adress)
      
           if binarise(cell) == 1:  # If cell is alive
+
                if 2 <= sumstates <= 3:
                     state = environment
                elif (cell - environment) > 0:
@@ -114,7 +112,7 @@ class EnvironmentRule(Rule_2D):
                     state = environment + 15
                else:
                     if cell < 500:
-                    state = environment+15
+                         state = environment+15
                     else:
                          state = environment-15
      
