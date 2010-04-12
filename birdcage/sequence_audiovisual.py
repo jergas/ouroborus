@@ -121,10 +121,14 @@ def main(stdscr):
 	
 	display = mary.generateDisplay(terra, size, stdscr)
 
-	# start the background sound and its control thread
+	# Instantiate the background-sound related threads.
 	sound.setInitialData(magdalen.width)
-	sound.startBackground()
-	sound.startBackgroundControl()
+	backgroundVoices = sound.backgroundVoices()
+	backgroundControl = sound.backgroundControl()
+	# Start the background-sound related threads
+	for x in backgroundVoices:
+		x.start()
+	backgroundControl.start()
 
 	# here cometh the main iteration cycle
 	while magdalen.annum < doomsday:

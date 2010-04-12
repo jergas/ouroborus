@@ -28,6 +28,7 @@ def initCSnd():
 	cSnd.exportForPerformance()
 	cSnd.compile()
 	perf.Play()
+	return perf
 
 def endCsnd():
 	""" Stops playback (Stop()). Releases any resources associated with

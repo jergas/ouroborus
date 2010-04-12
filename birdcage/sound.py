@@ -40,18 +40,16 @@ def backgroundVoices():
 	""" Creates three threads, each running a background voice thread.
 	"""
 	argsList	= [(2, -12, 3400, 0.8, 0, 1, 0.25),
-					(15, -8, 3400, 0.5, 3, 0, 0.5),
-					(27, -14, 3400, 0.2, 1, 2, 0.75)]
-	voiceNo		= 1
+			   (15, -8, 3400, 0.5, 3, 0, 0.5),
+			   (27, -14, 3400, 0.2, 1, 2, 0.75)]
 	voiceList	= []
 
-	for x in argsList:
-		threadName = 'BackgroundVoice' + str(voiceNo)
+	for index, item in enumerate(argsList):
+		threadName = 'BackgroundVoice' + str(index)
 		voice = threading.Thread(name=threadName,
-									target=background.oneBckgrndVox, args=x)
+									target=background.oneBckgrndVox, args=item)
 #		voice.start()
 		voiceList.append(voice)
-		voiceNo = voiceNo + 1
 	return voiceList
 
 
@@ -87,6 +85,6 @@ def stopSoundServer():
 #	logging = open('logging.txt', 'w')
 #	logging.write('you have reached here!')
 #	logging.close()
-	background.joinThreads()
+#	background.joinThreads()
 	csndInterface.endCsnd()
 	sGlobals.mainIterCycle = 0
