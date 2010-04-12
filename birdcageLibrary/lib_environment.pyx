@@ -3,9 +3,35 @@ neighbors and their response value. The neighbor rules are the same as Conways
 game of life but they have been adapted to interact with the response value of
 each cell."""
 
+import serial
+
 import exceptions_birdcage as E
 
-
+def getEnvironment(port):
+     ''' Gets a reading from the environment sensor. In case there is no such
+     device, prints a notification of such a lack and generates a random environmental value.
+     '''
+     ## The try except clause is used in order to be able to run the code
+     # without an arduino interface.
+     try:
+          sensor =  serial.Serial(str(port), 9600)
+          environment = []
+          # loop until a reading is received.
+          while len(environment) < 1:
+               environment = sensor.readline()
+               environment = environment.split()
+          # The try exept clause makes sure that only the integer part of the reading (i.e. not the '\n')
+          #is asigned to environment
+          try:
+               environment = int(environment[0])
+          except TypeError:
+               getEnvironment(port)
+               environment = int(environment[0])
+     except serial.serialutil.SerialException:
+          print 'No serial reading!!! using random environment.'
+          environment=random.randint(0,1000)
+     return environment
+	
 def updateRule(input_list,side,environment):
      
      espacio2 = {}  #A dictionary in which the updated state of each cell is stored
@@ -52,7 +78,7 @@ def updateRule(input_list,side,environment):
      return input_list 
      
 #################################################################################
-cdef EnvironmentRule(Rule_2D):
+cdef class EnvironmentRule(Rule_2D):
      """Rule set for an environmentally responsive automaton. This rules are based on Conway's game of life.
      If the sum of a dead cell's neighbors is 3, the cell becomes alive.  If the sum of a live cell's neighbors
      is 2 or 3, the cell remains alive.  Otherwise, it dies."""
@@ -125,7 +151,7 @@ cdef EnvironmentRule(Rule_2D):
           target.set(adress, state)
 
 
-class MooreNeighborhood(MooreNeighborhood):
+cdef class MooreNeighborhoodPlus(MooreNeighborhood):
      """The MooreNeighborhood class from neighborhood.pyx with one extra method for 
      counting living neighbors based on reduceStates"""
           
