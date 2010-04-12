@@ -1,0 +1,222 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+<title>Project Ouroborus - Introduction</title>
+<link href="style.css" type="text/css" rel="stylesheet" title="Standard"  />
+<style>
+	div#logo
+		{
+		position: relative;
+		left: 250px;
+		top: 70px;
+		margin-left: -200px;
+		float: right;
+		}
+</style>
+</head>
+<body>
+
+
+<div class="section" id="intro">
+
+<h1>Welcome, O weary traveller, to the home of Project Ouroborus!</h1>
+<div id="logo"><img src="logo.gif"  alt="[project's logo]" width="300" 
+height="371"/></div>
+
+<p>This is the homepage of our budding artificial life (AL) project. You can find anything Ourborus-related here, from architecture to zip files, including history, some theory, downloads, how to contact the developers and so on.</p>
+
+<p>For the sake of readability, this whole website is being restructured. The witty rants done in archaic style and full of obscure alchemical references which originally comprised ALL of the documentation are still there, but italicized and indented so you can skip them entirely if you're not interested in this kind of nonsense.</p>
+
+<p class="arcane">Whether it was blind fate that bore you in her arms to this secluded confine 
+of the Web, or the thirst for knowledge that drove your resolute pursuit, rest 
+assured that you may now take your much-needed rest, and perhaps tarry among 
+some searching souls who took upon them the daring quest of following the path 
+of wisdom.</p>
+
+<p class="arcane">And for what its worth may be, we now share with you the brilliant pearl 
+which we did find as we did exert ourselves on the path: <em>that wisdom is 
+not a thing which you obtain, but a work that you undertake, that it may grow 
+and you may share.</em></p>
+
+<p class="arcane">Now choose you must; either to follow one of the links below to more 
+information pertaining to our project, or else to bear with me still awhile 
+as I tell you more about us and our history.</p>
+
+<ul>
+<li><a href="downloads.html">Downloads</a></li>
+<li><a href="documentation.html">Documentation</a></li>
+<li><a href="http://sourceforge.net/projects/ouroborus/develop">SVN</a> (redirects to our Sourceforge develop page)</li>
+<li><a href="http://alife.org/">Artificial Life</a> (external link)</li>
+<li><a href="biblio.html">Links and Resources</a></li>
+<li>Whence our oh-so-neat name and logo? <a href="./">(Alchemists' Lounge)</a> (under construction)</li>
+<li><a href="mailto:spacemonkey@entropia.com.mx">Contact</a> (under construction - but you can send e-mail!)</li>
+</ul>
+
+<p>And in this same page:</p>
+
+<ul>
+<li><a href="#Overview">Overview and History</a></li>
+<li><a href="#Lines">Lines of Development</a></li>
+<li><a href="#Developers">Project Developers</a></li>
+</ul>
+
+</div>
+<div class="section" id="overview">
+<h2><a name="Overview"></a>Overview and History of Project Ouroborus</h2>
+
+<p><span class="bigword">Project Ouroborus </span>started life early in the 21st century under the name of 
+Mundito. It was harboured, as it still is, by a Mexican public college: UPN. 
+Its original concept was to develop a general artificial life application 
+suitable for running across an extended network of computers. The details are 
+as follows:</p>
+
+<p>The foundation of the system is a cellular automaton grid. You can learn 
+more about cellular automata in the <a href="./">Resources</a> area, but in very 
+gross terms, 
+you can think of this grid as a chessboard where each square changes its state 
+depending on the state of its neighbours. Now, there are a lot of variables to 
+take into account here, including the size and shape of the neighbourhoods, and 
+the general form and dimensionality of the chessboard. Then, we also have the 
+automaton iteration rule, in other words the exact way in which each state 
+transition is calculated, in terms of a square's neighbours. We would like our 
+application to be as general as possible, in the sense that it should allow 
+the greatest diversity of choice in all these variables. This chessboard 
+constitutes the background, or 'terrain', on which life will manifest.</p>
+
+<p>Then, on top of this foundation, we have independent agents, that is 
+virtual entities or 'creatures' which are able to move on the chessboard, and 
+are capable of interacting with their environment, which includes not only 
+the 'terrain', but other 'creatures' as well.</p> 
+
+<p>From its conception, it was observed that the project lent itself well to 
+object-oriented programming, and <span class="bigword">Python </span>was picked initially as our language 
+of choice for implementation, due to its open-source, high-level nature.</p>
+
+<p><span class="bigword">cage, </span>a library written in Python by Erik Max Francis, was found to provide 
+much of the functionality required by our conceptual needs, and so it was 
+adopted as our cellular automata engine. You may find out more about cage in 
+the <a href="./">Resources</a> area.</p>
+
+<p>When thought was eventually given to the matter of implementation, it was 
+decided that the project would follow a mix of two patterns, already used in 
+gaming applications. One of them is the View-Model-Controller pattern which 
+splits the whole system into three interdependant components. These components 
+would communicate following another pattern: the Event-Listener pattern. Once 
+again, you may read more about these patterns at our <a href="">Resources</a>
+ area.</p>
+
+<p>The Model had been accounted for, thanks to the cage engine. We decided to 
+tackle the View using a widely used Python library, specially popular among 
+game developers: <span class="bigword">Pygame. </span>As for the Controller, we sought to follow the 
+revered tradition of XML, and hence chose the <span class="bigword">CAML </span>dialect, intended 
+precisely for communicating cellular automata data. There is more about CAML
+in our <a href="./">Resources</a> area.</p>
+
+<p>We had gathered together all these remarkable components and it only 
+remained to put them all together and somehow make them work.</p>
+
+<p>This did not proceed smoothly.</p>
+
+<p>So, after a series of mishaps, twists of fate and unexpected nuances which 
+it is pointless to delve into, we reached the present state of evolution of 
+Ouroborus. The project has now expanded into a loosely knit structure which 
+covers several lines of development, as follows:</p>
+</div>
+<div class="section" id="lines">
+
+<h2><a name="Lines"></a>Lines of Development</h2>
+
+<h3>Open Lines of Development</h3>
+<ol>
+<li><a href="ouroborus_download.html">Ouroborus</a> Proper. This line follows the original concept as described 
+above. A release is expected shortly. For more information, click <a href="./">here.</a> (under 
+construction)</li>
+
+<li><a href="./">Biology Education.</a> A practical application of Ouroborus as a
+tool for teaching biology to secondary school human young. See the associated HTML
+<a href="lagartijas.html">worksheet</a> (in Spanish). More to come soon!</li>
+
+<li><a href="http://ouroborus.svn.sourceforge.net/viewvc/ouroborus/birdcage/">
+Birdcage.</a> This is a reimplementation of the cellular automata engine 
+<a href="http://www.alcyone.com/software/cage/">cage</a> in the Python extension
+language Pyrex. (To learn more about Pyrex visit our <a href="./">Resources</a> 
+area). This optimisation of our engine currently ran approximately 100 times 
+faster than the original version in Python when the first optimisation was 
+completed. It has probably become slower since then as new features and 
+abstraction layers have been added. Look for the latest release in our 
+<a href="downloads.html">Downloads</a> section. Birdcage is currently a part of 
+the Ouroborus Proper line of development, however it is a standalone project in 
+its own right. Some documents, straight from the developers keyboard, can be 
+found <a href="http://www.spacemonkey.info/">here.</a></li>
+
+<li><a href="http://ouroborus.cvs.sourceforge.net/viewvc/ouroborus/PyCAML/">CAML
+Parser.</a>. The idea behind this line of development was to hand over control 
+of the model to the XML parser, as well as to facilitate the creation and 
+exchange of full models, or at least CA backgrounds. It could have eventually 
+superseded birdcage as the cellular automata engine for the overall project.
+The release of the CAML Parser was indefinitely postponed when David left the 
+project. As we further refine Birdcage, it seems more and more unlikely. Still, 
+if a strong XML coder wanted to take it on, it could still make sense as a data 
+exchange format, or even as an automated Birdcage model code generator. 
+The <a href="http://caml.sourceforge.net/">original CAML project</a> is clearly 
+<a href="http://sourceforge.net/projects/caml/">abandoned</a> as well.</li>
+
+<li><a href="http://ouroborus.svn.sourceforge.net/viewvc/ouroborus/ouroborus-cpp/cage_cpp/">
+Cage Cpp.</a> Vian has created a Cage-like library in C++ in an effort to 
+further optimise our model. He is  currently porting the newest version of this 
+library to Linux.</li>
+</ol>
+<h3>Closed Lines of Development</h3>
+<ol>
+<li><a href="./">Yogiserver</a>. An XML-RPC server written in Python, providing a library of 
+functions for storing strings on line. It may be used as a repository of
+randomly chasing sutras or whatever. This is basically a toy which came into
+being with no particular purpose, and is currently unrelated to the greater
+scheme of things. Sill, for those interested, click <a href="./">here.</a> 
+(under construction)</li>
+<li><a href="./">Yogiclient.</a> A python client for Yogiserver. Clients in other languages
+are more than welcome. Click <a href="./">here.</a> (under construction)</li>
+</ol>
+</div>
+<div class="section" id="developers">
+
+<h2><a name="Developers"></a>Members of Project Ouroborus</h2>
+
+<p>The developers currently working in one or more of the lines of development 
+are currently four, as four are the elements which together combine to produce 
+all things under the Sun and Moon, as explained by the philosophers of 
+yore:</p>
+
+<ul>
+<li><a href="./">Edgar J Becerra III</a> stands at the origin or Axis Mundi of our microcosm. 
+He represents the element of Fire, and as such fuels the motion of the other 
+bodies which gravitate around him. He is the originator and leader of the 
+project. His occasional bursts of inspiration give thrust to the entire 
+effort of development.</li>
+
+<li><a href="./">Vian P Gomez</a> is the water of our system. His relentless and passionate 
+tides of coding have eroded down obstacles which once loomed unsurmountable. 
+He is currently out on a whim leading the cage-in-C++ line of development.</li>
+
+<li><a href="./">Ernesto Illescas-Pel&aacute;ez</a> seems to represent aether. 
+While his workings are mysterious and detached from the rest of the team, 
+his presence is constant and immutable. He works designing and coding 
+the sound of the project and, more recently, a multi-threaded version of 
+the python simulation.</li>
+
+<li><a href="./">David Suarez</a> was the stubborn and gritty earth giving 
+sustenance to Ouroborus. He remained firmly attached to reality while the 
+others soared into the realm of fantastic improbability, and for all 
+his suffering, his efforts jumpstarted the material output of the project. 
+He was last engaged with the CAML Parser line of development.</li>
+
+<li><a href="mailto:smonkey@entropia.com.mx">Sat Tara S Khalsa</a> is the 
+stand-in for the element of air and provides comic 
+relief for the troupe. He works on the birdcage line of development, and is 
+responsible for maintaining this documentation, to the considerable annoyance 
+of his comrades-in-arms.</li>
+</ul>
+</div>
+</body>
+</html>
