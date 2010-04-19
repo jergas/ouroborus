@@ -35,8 +35,8 @@ specific = __import__("specific"+specificity)
 # This refers to a configuration file which stores information such as automaton size, seed 
 # genome, number of iterations, etc. feel free to write your own
 
-def startExecutionBeta():
-    """changes specificity to Beta and then calls the Normal submode
+def startExecutionBeta():# I wonder what this is for
+    """changes specificity to Beta and then calls the Normal submode. 
 
     return -->>1"""
     global specific
@@ -77,6 +77,12 @@ def startExecutionNormal():
 	# invoke GOD.Generator's automaton creation method with the data given above
 	terra = mary.generateAutomaton(size, topologyData, neighborData, ruleData, automatonData)
 	print "mary has created terra"
+	# i'm trying to systematise ca initialisation here, this code is temporary
+	# and should be in GOD instead
+	assert specific.seed[1] == "random"
+	for i in range(specific.seed[0]):
+		terra.set(terra.returnTopology().random(),1)
+	print "seeds have been planted in terra"
 
 	# now call a GOD.Organizer to oversee this automaton
 	magdalen = GOD.Organizer(terra, biblos, specificity)
@@ -126,12 +132,7 @@ def startExecutionNormal():
 	while magdalen.annum < doomsday:
 		print "the time now is \t", magdalen.annum
 		# GOD.Organizer iterates the c.a. and makes sure the world keeps revolving
-		if magdalen.annum == 3:
-			magdalen.annum += 1
-			terra.set((40,10),1)
-			print "soil altered"
-		else:
-			magdalen.iterateAutomaton()
+		magdalen.iterateAutomaton()
 		print "terra has been updated"
 		
 		print "magdalen will now read the book of life"
