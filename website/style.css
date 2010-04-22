@@ -1,6 +1,6 @@
 body {	
-background-color: #F6E4DE;
-color: #0000ff;
+background-color: #203476;
+color: #9ec1d1;
 font-family: Gautang Lucida Arial sans-serif;
 position: relative;
 }
@@ -9,23 +9,31 @@ div.section {
 margin: 2em;
 width: 60%;
 }
+
+div#logo {
+position: relative;
+left: 250px;
+top: 70px;
+margin-left: -200px;
+float: right;
+}
 												
 h1 {
 font-size: 32px;
 font-weight: bold;
-color: #ff7040;
+color: #eda64d;
 }
 												
 h2 {
 font-size: 28px;
 font-weight: bold;
-color: #ff7040;
+color: #eda64d;
 }
 
 h3 {
 font-size: 22px;
 font-weight: normal;
-color: #ff7040;
+color: #eda64d;
 }
 
 p {
@@ -34,7 +42,7 @@ font-weight: normal;
 }
 
 p.arcane {
-color: #7070ff;
+color: #9ec1d1;
 margin-left: 40px;
 font-size: 14px;
 font-family: Georgia serif;
@@ -44,18 +52,31 @@ text-align: right;
 
 p:first-letter {
 font-weight: bold;
-letter-spacing: 20px;
-font-size: 20px;
-color: #ff7040;
+letter-spacing: 3px;
+font-size: 18px;
+color: #9ec1d1;
 font-family: Monotype Corsiva;
 }
 
+a:hover.menu {
+background-color: #4c414c;
+}
+
+ol {
+margin: 2em;
+padding: 0px;
+}
+
+li {
+padding: 3px;
+}
+
 a:link {
-color: #ffbf00;
+color: #33ffff;
 }
 
 a:visited {
-color: #cf40ff;
+color: #ff00ff;
 }
 
 span.bigword {
@@ -68,7 +89,3 @@ font-family: Monotype Corsiva;
 a.home {
 text-decoration:none;
 }
-													 
-															
-
- 
