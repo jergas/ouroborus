@@ -4,34 +4,10 @@ game of life but they have been adapted to interact with the response value of
 each cell."""
 
 import serial
-
+import random
 import exceptions_birdcage as E
 
-def getEnvironment(port):
-     ''' Gets a reading from the environment sensor. In case there is no such
-     device, prints a notification of such a lack and generates a random environmental value.
-     '''
-     ## The try except clause is used in order to be able to run the code
-     # without an arduino interface.
-     try:
-          sensor =  serial.Serial(str(port), 9600)
-          environment = []
-          # loop until a reading is received.
-          while len(environment) < 1:
-               environment = sensor.readline()
-               environment = environment.split()
-          # The try exept clause makes sure that only the integer part of the reading (i.e. not the '\n')
-          #is asigned to environment
-          try:
-               environment = int(environment[0])
-          except TypeError:
-               getEnvironment(port)
-               environment = int(environment[0])
-     except serial.serialutil.SerialException:
-          print 'No serial reading!!! using random environment.'
-          environment=random.randint(0,1000)
-     return environment
-	
+
 def updateRule(input_list,side,environment):
      
      espacio2 = {}  #A dictionary in which the updated state of each cell is stored
@@ -171,3 +147,29 @@ def addBinarised(int a, int b):
      """Takes too integer inputs and adds them after binarising them."""
      
      return binarise(a) + binarise(b)
+
+def getEnvironment(port):
+     ''' Gets a reading from the environment sensor. In case there is no such
+     device, prints a notification of such a lack and generates a random environmental value.
+     '''
+     ## The try except clause is used in order to be able to run the code
+     # without an arduino interface.
+     try:
+          sensor =  serial.Serial(str(port), 9600)
+          environment = []
+          # loop until a reading is received.
+          while len(environment) < 1:
+               environment = sensor.readline()
+               environment = environment.split()
+          # The try exept clause makes sure that only the integer part of the reading (i.e. not the '\n')
+          #is asigned to environment
+          try:
+               environment = int(environment[0])
+          except TypeError:
+               getEnvironment(port)
+               environment = int(environment[0])
+     except serial.serialutil.SerialException:
+          print 'No serial reading!!! using random environment.'
+          environment=random.randint(400,600)
+     return environment
+	

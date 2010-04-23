@@ -6,6 +6,7 @@ each cell."""
 import exceptions_birdcage as E
 from neighborhood import *
 from rule         import *
+import random
 
 def updateRule(input_list,side,environment):
      
