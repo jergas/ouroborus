@@ -18,10 +18,10 @@ def setInitialData(automatonWidth):
 	sGlobals.automatonWidth = automatonWidth
 
 
-def startSoundServer():
+def startSoundServer(specificity):
 	"""Starts the sound server.
 	"""
-	csndInterface.initCSnd()
+	csndInterface.initCSnd(specificity)
 
 
 def agentBirth(VocalTract):

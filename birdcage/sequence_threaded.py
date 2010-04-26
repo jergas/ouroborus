@@ -80,7 +80,7 @@ def startExecutionNormal():
 	# Start-up Csound (should be done here so Csound's start-up and
 	#compilation messages are kept away from the simulation by
 	#curses.wrapper().
-	sound.startSoundServer()
+	sound.startSoundServer(specificity)
 	# curses.wrapper is the kosher way to fire up curses visual services; it
 	#guarantees that the terminal will not be left stranded in an ocean of
 	#insanity if the program terminates exceptionally.
@@ -130,7 +130,7 @@ def main(stdscr):
 		sound.stopSoundServer()
 #	background.join()
 #	agents.join()
-	logging.write('you have reached line 125!\n')
+		logging.write('you have reached line 125!\n')
 	# Stop the sound server.
 	sound.stopSoundServer()
 
@@ -213,6 +213,7 @@ class ThreadedSequence(object):
 	def simulationLoop(self):
 		"""The simulation's main iteration cycle happens here.
 		"""	
+#		sound.startSoundServer(specificity)
 		# Main iteration cycle
 		while self.magdalen.annum < self.doomsday and not self.interrupt:
 			# Aquire the thread-synchronizing condition.

@@ -67,7 +67,7 @@ def startExecutionNormal():
 	#guarantees that the terminal will not be left stranded in an ocean of
 	#insanity if the program terminates exceptionally
 	# start the sound server
-	sound.startSoundServer()
+	sound.startSoundServer(specificity)
 	curses.wrapper(main)
 
 	return 1

@@ -3,8 +3,8 @@
 #types, and Csound command-line options, look at The Cannonical Csound
 #Reference Manual.
 
-specificity = "Alpha"
-specific = __import__("specific"+specificity)
+#specificity = "Alpha"
+#specific = __import__("specific"+specificity)
 
 class CsdStrings(object):
 	""" Contains the strings needed to construct a .csd file.
@@ -12,11 +12,12 @@ class CsdStrings(object):
 	class's attributes, while keeping an ordered way to comment on each
 	attribute (the methods).
 	"""
-	def __init__(self):
+	def __init__(self, specificity):
 		""" Runs the methods in the class in order to set the classe's
 		attributes. For information on the attributes, read its method
 		doc-string.
 		"""
+		self.specific = __import__("specific"+specificity)
 		self.opts		= self.dfltOpts()
 		self.orchHead	= self.dfltOrchHead()
 		self.instrs		= self.dfltInstrs()
@@ -39,7 +40,7 @@ class CsdStrings(object):
 		temp.orc temp.sco	---> name of the temporary output files
 		return 				--> the csOtions string
 		"""
-		csOptions	= specific.csOptions
+		csOptions	= self.specific.csOptions
 		return csOptions
 
 	def dfltOrchHead(self):
@@ -272,11 +273,11 @@ e ; end of the score
 class CsdGenerator(object):
 	"""
 	"""
-	def __init__(self, instr2clones):
+	def __init__(self, instr2clones, specificity):
 		"""
 		"""
 		# Inputed and externally generated attributes.
-		self.CsdStrings		= CsdStrings()
+		self.CsdStrings		= CsdStrings(specificity)
 		self.opts			= self.CsdStrings.opts
 		self.orchHead		= self.CsdStrings.orchHead
 		self.instrs			= self.CsdStrings.instrs
