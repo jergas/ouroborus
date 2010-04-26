@@ -22,7 +22,6 @@ soundGlobals.simWSound = 1
 
 # Ouroborus libraries
 import GOD
-from bookentry import BookEntry
 import sound
 
 ## Debug temporary lines:
@@ -64,7 +63,7 @@ def startExecutionNormal():
 	# Start-up Csound (should be done here so Csound's start-up and
 	#compilation messages are kept away from the simulation by
 	#curses.wrapper().
-	sound.startSoundServer()
+	sound.startSoundServer(specificity)
 	# curses.wrapper is the kosher way to fire up curses visual services; it
 	#guarantees that the terminal will not be left stranded in an ocean of
 	#insanity if the program terminates exceptionally.
@@ -88,23 +87,31 @@ def main(stdscr):
 									target=Sequence.simulationLoop)
 	background	= threading.Thread(name='Background',
 									target=Sequence.backgroundLoop)
-	
 	# Create the background-sound threads.
 	voices = sound.backgroundVoices()
 	voicesControl = sound.backgroundControl()
-	# Start the thread instances, and then wait until they've finished,
-	# so they don't interfere with curses' clean-up.
+	# Make all non-simulation threads daemonic, so that they won't
+	#prevent the simulation from exciting. Also start them.
 	for x in voices:
+		x.setDaemon(True)
 		x.start()
+	voicesControl.setDaemon(True)
+	background.setDaemon(True)
 	voicesControl.start()
 	simulation.start()
 	background.start()
-#	voicesControl.join()
-	sound.stopSoundServer()
-	logging.write('you have reached line 122!\n')
-#	simulation.join()
+	logging.write('you have reached line 121!\n')
+	# Wait until the simulation thread has finished.
+	try:
+		simulation.join()
+	except KeyboardInterrupt:
+		Sequence.interrupt = True
+		sound.stopSoundServer()
 #	background.join()
 #	agents.join()
+		logging.write('you have reached line 125!\n')
+	# Stop the sound server.
+	sound.stopSoundServer()
 
 	del sys.argv[1:]
 	print "Done"
@@ -135,8 +142,11 @@ class ThreadedSequence(object):
 		neighborData = specific.neighborhood
 		ruleData = specific.rule
 		automatonData = specific.automaton
+		# Doomsday is the number of iterations.
+		self.doomsday = specific.doomsday
 		# biblos is a list which whill contain essential runtime information.
-		self.biblos = []
+		self.biblos = [] # this list is not used in this sequence,
+						 # but is required by the syntax of GOD.Organizer()
 		# Invoke GOD.Generator's automaton creation method with the data
 		# given above.
 		self.terra = mary.generateAutomaton(self.size, topologyData,
@@ -146,9 +156,6 @@ class ThreadedSequence(object):
 		self.magdalen = GOD.Organizer(self.terra, self.biblos, specificity)
 		self.magdalen.generator = mary
 		(self.magdalen.width, self.magdalen.height) = (width, height)
-          # Initialize an attribute to hold the automaton's population.
-		self.population = 0
-		self.currentEntry = None
 		# Generate a display, and start the sound threads.
 		setCursesColors()
 		self.display = mary.generateDisplay(self.terra, self.size, stdscr)
@@ -158,14 +165,17 @@ class ThreadedSequence(object):
 		# Create a thread-condition object to keep the simulation and
 		# audiovisual threads synchronized.
 		self.bckgrndThreadCondition	= threading.Condition()
-		logging.write('you have reached line 198!\n')
+		self.simulationOn	= True
+		self.interrupt		= False
+#		logging.write('you have reached line 199!\n')
 
 
 	def simulationLoop(self):
 		"""The simulation's main iteration cycle happens here.
 		"""	
+#		sound.startSoundServer(specificity)
 		# Main iteration cycle
-		while self.magdalen.annum < self.doomsday:
+		while self.magdalen.annum < self.doomsday and not self.interrupt:
 			# Aquire the thread-synchronizing condition.
 			self.bckgrndThreadCondition.acquire()
 			# Iterate the c.a., while updating the population attribute. Parse
@@ -177,20 +187,19 @@ class ThreadedSequence(object):
 			self.bckgrndThreadCondition.wait()
 			# Release the thread-synchronizing condition.
 			self.bckgrndThreadCondition.release()
-			logging.write('you have reached line 231!\n')
-#		sound.stopSoundServer()
-		# This last part makes sure that, if this thread finishes before
-		# the audiovisual one, the latter does not remain locked.
-		self.bckgrndThreadCondition.acquire()
-		self.bckgrndThreadCondition.notify()
-		self.bckgrndThreadCondition.release()
+#			logging.write('\nyou have reached line 234!')
+			logging.write('\nannum is ' + str(self.magdalen.annum))
+		logging.write('\nyou have reached line 237!')
+		self.simulationOn = False
+		sound.stopSoundServer()
 
 	def backgroundLoop(self):
-		""" Refreshing of the curses background happens here.
+		""" Refreshing of the curses background happens here
+		(the agents are also re-drawn so that they don't disappear).
 		"""
 		(width, height)	= self.size
 
-		while self.magdalen.annum < self.doomsday:
+		while self.simulationOn and not self.interrupt:
 			# Aquire a thread-synchronizing condition.
 			self.bckgrndThreadCondition.acquire()
 			# Update the data needed by the background sound engine.
@@ -207,11 +216,5 @@ class ThreadedSequence(object):
 			self.bckgrndThreadCondition.wait()
 			# Release the thread-synchronizing condition.
 			self.bckgrndThreadCondition.release()
-			logging.write('you have reached line 262!\n')
-		# This last part makes sure that, if this thread finishes before
-		# the simulation one, the latter does not remain locked.
-		self.bckgrndThreadCondition.acquire()
-		self.bckgrndThreadCondition.notify()
-		self.bckgrndThreadCondition.release()	
-#		sound.stopSoundServer()
+		logging.write('you have reached line 264!\n')
 

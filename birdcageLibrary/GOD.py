@@ -8,15 +8,12 @@ import automaton
 import genome as g
 from code import tabula, tabula_antica
 # other ouroborus core modules
-from bookentry import BookEntry
+
 # these are the modules used for display
 import visual as v
 import curses as c
 # these are the modules used for sound
 import sound_globals as soundGlobals
-# only load modules if running sound enabled simulations
-if soundGlobals.simWSound == 1:
-	import agents_sound as agentsSound
 # these are the ingredients for the Pyrex compile spell
 import sys
 import distutils.core 
