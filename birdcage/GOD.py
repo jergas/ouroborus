@@ -67,26 +67,6 @@ class Generator:
 		return automatonInstance
 
 
-	def initialiseAutomaton(self, seed):
-		"""Initialise cellular automaton from data in specs file
-		
-		seed    ---> a tuple
-		return  -->> 1"""
-		
-		getattr(self, "seedAutomaton"+seed[0])(seed)
-		return 1
-
-
-	def seedAutomatonVoid(self, seed):
-		"""Does nothing, just testing
-		
-		seed   ---> a tuple
-		return ---> 1"""
-		
-		print "nothing much happening here"
-		return 1
-
-
 	def generateGenotype(self, poeio, ode):
 		"""Write and compile a file from a genome
 
@@ -211,6 +191,36 @@ class Organizer:
 		self.size = self.specific.size
 		(self.width, self.height) = self.size
 
+
+	def initialiseAutomaton(self, seed):
+		"""Initialise cellular automaton from data in specs file
+		
+		seed   ---> a tuple
+		return -->> 1"""
+		
+		getattr(self, "seedAutomaton"+seed[0])(seed)
+		return 1
+		
+
+	def seedAutomatonVoid(self, seed):
+		"""Does nothing, just testing
+		
+		seed   ---> a tuple
+		return ---> 1"""
+		
+		print "nothing much happening here"
+		return 1
+
+
+	def seedAutomatonRandom(self, seed):
+		"""Randomly set some points to one in the c.a.
+		
+		seed   ---> a tuple
+		return -->> 1"""
+		
+		for i in range(seed[1]):
+			self.earth.set(self.earth.returnTopology().random(),1)
+		return 1
 
 
 	def iterateAutomaton(self):

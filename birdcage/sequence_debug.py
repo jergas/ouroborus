@@ -77,19 +77,16 @@ def startExecutionNormal():
 	# invoke GOD.Generator's automaton creation method with the data given above
 	terra = mary.generateAutomaton(size, topologyData, neighborData, ruleData, automatonData)
 	print "mary has created terra"
-	# i'm trying to systematise ca initialisation here, this code is temporary
-	# and should be in GOD instead
-	mary.initialiseAutomaton(specific.seed)
-	#assert specific.seed[1] == "random"
-	#for i in range(specific.seed[0]):
-	#	terra.set(terra.returnTopology().random(),1)
-	#print "seeds have been planted in terra"
 
 	# now call a GOD.Organizer to oversee this automaton
 	magdalen = GOD.Organizer(terra, biblos, specificity)
 	magdalen.generator = mary
 	(magdalen.width, magdalen.height) = (width, height)
 	print "an Organizer called magdalen has been assigned to oversee terra"
+
+	print "magdalen will now plant some seeds in terra"
+	magdalen.initialiseAutomaton(specific.seed)
+	print "seeds have been planted in terra"
 
 	# populate the automaton with some initial creatures
 	print "ready to populate terra"
