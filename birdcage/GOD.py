@@ -208,7 +208,7 @@ class Organizer:
 		seed   ---> a tuple
 		return ---> 1"""
 		
-		print "nothing much happening here"
+		print "The automaton's cells have all been initialised to the background's value"
 		return 1
 
 
