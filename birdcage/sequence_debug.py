@@ -53,9 +53,9 @@ def startExecutionNormal():
 
 	print "Ready for execution. Warning: DEBUG MODE! no sound or visual effects"
 
-	mary = GOD.Generator("kristos")
-	print "Instatiated a Generator called mary."
-	print "If all goes well she will bear the child Kristos"
+	aset = GOD.Generator("khonsu")
+	print "Instatiated a Generator called aset."
+	print "If all goes well she will bear the child khonsu"
 
 	# the following lines read (from the config file) all the data needed to build 
 	# a complete cellular automaton
@@ -69,36 +69,36 @@ def startExecutionNormal():
 	# avatars is the number of initial creatures, and doomsday the number of iterations	
 	(avatars, doomsday) = (specific.avatars, specific.doomsday)
 	
-	# biblos is a list which whill contain runtime information essential for the agents
+	# taw is a list which whill contain runtime information essential for the agents
 	# in the form of BookEntries
-	biblos = []
+	taw = []
 	print "A blank book of life exists"
 
 	# invoke GOD.Generator's automaton creation method with the data given above
-	terra = mary.generateAutomaton(size, topologyData, neighborData, ruleData, automatonData)
-	print "mary has created terra"
+	kemet = aset.generateAutomaton(size, topologyData, neighborData, ruleData, automatonData)
+	print " aset has created terra"
 
 	# now call a GOD.Organizer to oversee this automaton
-	magdalen = GOD.Organizer(terra, biblos, specificity)
-	magdalen.generator = mary
-	(magdalen.width, magdalen.height) = (width, height)
-	print "an Organizer called magdalen has been assigned to oversee terra"
+	bast = GOD.Organizer(kemet, taw, specificity)
+	bast.generator = aset
+	(bast.width, bast.height) = (width, height)
+	print "an Organizer called  has been assigned to oversee kemet"
 
-	print "magdalen will now plant some seeds in terra"
-	magdalen.initialiseAutomaton(specific.seed)
-	print "seeds have been planted in terra"
+	print "bast will now plant some seeds in kemet"
+	bast.initialiseAutomaton(specific.seed)
+	print "seeds have been planted in kemet"
 
 	# populate the automaton with some initial creatures
-	print "ready to populate terra"
+	print "ready to populate kemet"
 	while avatars:
 		# GOD.Generator will write and compile a module for each creature, create
 		# a BookEntry to contain it and append it to the list biblos
-		mary.generateGenotype(specific.seedCode, biblos)
-		print "mary compiled a genome and wrote it in biblos"
+		aset.generateGenotype(specific.seedCode, taw)
+		print "aset compiled a genome and wrote it in taw"
 		avatars -= 1
 
 	# prime the initial avatars for actual creation
-	for entry in biblos:
+	for entry in taw:
 		entry.fatum["prayer"] = "CreateMe"
 		# each BookEntry has a dictionary (called its fatum, for in a way it holds 
 		# the creature's fate). The key "prayer" is linked to strings which 
@@ -110,38 +110,38 @@ def startExecutionNormal():
 
 	# first sanity check: view the avatars' BookEntries before they are created
 	print "the book of life's first page reads:"
-	for entry in biblos: print entry
+	for entry in taw: print entry
 	print "\n"
 
-	# magdalen reads the BookEntries in biblos and calls actual agent objects
-	# into being from the code in the modules which were compiled by mary
-	for entry in biblos:	
-		magdalen.readBookOfLife(entry)
-		print "magdalen read biblos and instantiated an agent from the genome"
+	# bast reads the BookEntries in taw and calls actual agent objects
+	# into being from the code in the modules which were compiled by aset
+	for entry in taw:	
+		bast.readBookOfLife(entry)
+		print "bast read taw and instantiated an agent from the genome"
 
 	# second sanity check: view the initial BookEntries following initialization
 	print "the book of life's prologue reads:"
-	for entry in biblos: print entry
+	for entry in taw: print entry
 	print "\n"
 
 	print "the initial population phase has finished\n"
 	
 	# here cometh the main iteration cycle
-	while magdalen.annum < doomsday:
-		print "the time now is \t", magdalen.annum
+	while bast.annum < doomsday:
+		print "the time now is \t", bast.annum
 		# GOD.Organizer iterates the c.a. and makes sure the world keeps revolving
-		magdalen.iterateAutomaton()
-		print "terra has been updated"
+		bast.iterateAutomaton()
+		print "kemet has been updated"
 		
-		print "magdalen will now read the book of life"
-		# GOD.Organizer parses the whole length of biblos
-		for entry in biblos:
-			magdalen.readBookOfLife(entry)
+		print "bast will now read the book of life"
+		# GOD.Organizer parses the whole length of taw
+		for entry in taw:
+			bast.readBookOfLife(entry)
 		print "the book has been read"
 		
 		# now display the BookEntries as they currently stand
-		print "the book of life, biblos, reads:"
-		for entry in biblos: print entry
+		print "the book of life, taw, reads:"
+		for entry in taw: print entry
 		print "\n"
 
 	del sys.argv[1:]

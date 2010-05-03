@@ -46,7 +46,7 @@ if __name__ == "__main__":
 	while len(sys.argv) > 1:
 		del sys.argv[-1]
 	main(mode, submode)
-	os.system("rm kristos*")
+	os.system("rm khonsu*")
 
 
 # History
