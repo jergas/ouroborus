@@ -67,6 +67,26 @@ class Generator:
 		return automatonInstance
 
 
+	def initialiseAutomaton(self, seed):
+		"""Initialise cellular automaton from data in specs file
+		
+		seed    ---> a tuple
+		return  -->> 1"""
+		
+		getattr(self, "seedAutomaton"+seed[0])(seed)
+		return 1
+
+
+	def seedAutomatonVoid(self, seed):
+		"""Does nothing, just testing
+		
+		seed   ---> a tuple
+		return ---> 1"""
+		
+		print "nothing much happening here"
+		return 1
+
+
 	def generateGenotype(self, poeio, ode):
 		"""Write and compile a file from a genome
 

@@ -25,8 +25,8 @@ mana = 1
 # The iteration:
 
 avatars = 3
-doomsday = 40
-seed = (1,"random")
+doomsday = 5
+seed = ("Void",)
 
 ############
 

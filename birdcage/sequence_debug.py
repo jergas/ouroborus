@@ -79,10 +79,11 @@ def startExecutionNormal():
 	print "mary has created terra"
 	# i'm trying to systematise ca initialisation here, this code is temporary
 	# and should be in GOD instead
-	assert specific.seed[1] == "random"
-	for i in range(specific.seed[0]):
-		terra.set(terra.returnTopology().random(),1)
-	print "seeds have been planted in terra"
+	mary.initialiseAutomaton(specific.seed)
+	#assert specific.seed[1] == "random"
+	#for i in range(specific.seed[0]):
+	#	terra.set(terra.returnTopology().random(),1)
+	#print "seeds have been planted in terra"
 
 	# now call a GOD.Organizer to oversee this automaton
 	magdalen = GOD.Organizer(terra, biblos, specificity)
