@@ -10,8 +10,8 @@ import Image
 import ImageDraw
 import random
 import serial
-from lib_circadian import updateRule
-from lib_circadian import getEnvironment
+from lib_environment import updateRule
+from lib_environment import getEnvironment
 
 def initials(fractON, side, environment):
 	'''Generates the initial condition of the automaton, it requires a 
