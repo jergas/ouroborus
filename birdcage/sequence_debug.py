@@ -53,9 +53,9 @@ def startExecutionNormal():
 
 	print "Ready for execution. Warning: DEBUG MODE! no sound or visual effects"
 
-	aset = GOD.Generator("khonsu")
+	aset = GOD.Generator("heru")
 	print "Instatiated a Generator called aset."
-	print "If all goes well she will bear the child khonsu"
+	print "If all goes well she will bear the child heru"
 
 	# the following lines read (from the config file) all the data needed to build 
 	# a complete cellular automaton
