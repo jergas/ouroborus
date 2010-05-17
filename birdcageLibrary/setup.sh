@@ -15,4 +15,5 @@ cp ../birdcage/Numeric_utils.py .
 cp ../birdcage/equal_temper.py .
 cp ../birdcage/Csnd_notes.py .
 cp ../birdcage/Note_methods.py .
-python setup_lib_environment.py build_ext --inplace
+
+python2.5 setup_lib_environment.py build_ext --inplace

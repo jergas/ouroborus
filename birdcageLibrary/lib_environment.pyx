@@ -1,7 +1,7 @@
-"""This module contains the rules for updating the automaton based on each cell's
-neighbors and their response value. The neighbor rules are the same as Conways
-game of life but they have been adapted to interact with the response value of
-each cell."""
+# This module contains the rules for updating the automaton based on each cell's
+# neighbors and their response value. The neighbor rules are the same as Conways
+# game of life but they have been adapted to interact with the response value of
+# each cell.
 
 import serial
 import random
