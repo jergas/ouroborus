@@ -42,6 +42,10 @@ class PyGVisual():
           self.image = pygame.image.load(inputImage).convert()
           self.screen.blit(self.image,(0,0))
           pygame.display.flip()
+
+     def viewClose(self):
+          for event in pygame.event.get():
+               if event.type == pygame.QUIT: sys.exit()
 		
 
      
