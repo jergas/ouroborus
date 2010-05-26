@@ -15,9 +15,12 @@ class PyGVisual():
      '''This class holds the methods in charge of rendering cellular automata on a pyGame window'''
      def __init__(self, width=800, height=800):
           pygame.init()
-          self.screen = pygame.display.set_mode((width,height))
+          self.width = width
+          self.height = height
+          self.screen = pygame.display.set_mode((self.width,self.height))
           pygame.display.set_caption("Circadian Viewer")
           self.image = pygame.image.load("buffer.tiff").convert()
+          self.fullscreen = False
           
           
      def generate(self, automaton, environment, side=100, output='buffer.tiff'):
@@ -44,10 +47,22 @@ class PyGVisual():
           pygame.display.flip()
 
      def viewClose(self):
+          '''Closes the pygame window when the close button is pressed. It also enables and disables fullscreen when F-key is pressed'''
+          #Chek if close button is pressed and close the program
           for event in pygame.event.get():
                if event.type == pygame.QUIT: sys.exit()
-		
 
+               #Check if fullscreen is enabled/disabled and enable/disable if F is pressed
+               if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_f:
+                         if not self.fullscreen:
+                              self.screen = pygame.display.set_mode((self.width,self.height), pygame.FULLSCREEN)
+                              self.fullscreen = True
+                              pygame.mouse.set_visible(0)
+                         else:
+                              self.screen = pygame.display.set_mode((self.width,self.height))
+                              self.fullscreen = False
+                              pygame.mouse.set_visible(1)
      
 
 
