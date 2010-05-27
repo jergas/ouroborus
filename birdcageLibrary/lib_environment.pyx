@@ -148,7 +148,7 @@ def addBinarised(int a, int b):
      
      return binarise(a) + binarise(b)
 
-def getEnvironment(port):
+def getEnvironment(port='/dev/ttyUSB0'):
      ''' Gets a reading from the environment sensor. In case there is no such
      device, prints a notification of such a lack and generates a random environmental value.
      '''
