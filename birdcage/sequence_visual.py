@@ -1,32 +1,45 @@
 #!/usr/bin/python
 
-# Greetings! This script orchestrates execution for an ouroborus artificial life environment.
-# It includes a visual display but no sound.
+# Greetings! This script orchestrates execution for an ouroborus
+# artificial life environment. It includes visual display.
 #
 # Coded by Sat Tara Singh, Jergas Apwith and Ernesto Illescas
 #
-# As of today --- 10th March 2009 --- it includes the following features:
+# As of today --- 10th March 2009 --- it includes the following
+# features:
 #
-#	* all the AL functionality resides in the GOD module; look therein for pearls of wisdom
-#	* the visual display runs on the curses library, called from GOD through a module
-#	called, simply enough, visual
-#	* the logic of the script differs a lot from the latest AL development, present in
-#	sequence_debug...this in not really a feature, it's a warning!
+#	* all the AL functionality resides in the GOD module; look therein
+#	  for pearls of wisdom
+#	* the visual display runs on the curses library, called from GOD
+#	  through a module called, simply enough, visual
 #
 # Read some history at EOF
 
 
-import GOD
-from bookentry import BookEntry
+
+import curses
+import operator
 import random
 import sys
 
+# These lines need to be imported before GOD and bookentry!!! They stop
+# these modules from realizing any sound processing-related activities.
+import sound_globals as soundGlobals
+soundGlobals.simWSound = 0
+
+from bookentry import BookEntry
+import GOD
+
+# This refers to a configuration file which stores information such as
+# automaton size, seed genome, number of iterations, etc. Feel free to
+# write your own.
 specificity = "Alpha"
 specific = __import__("specific"+specificity)
 
 
-
 def setCursesColors():
+	""" Set the curses colours.
+	"""
 	curses.init_pair(1, curses.COLOR_RED, curses.COLOR_BLACK)
 	curses.init_pair(2, curses.COLOR_GREEN, curses.COLOR_BLACK)
 	curses.init_pair(3, curses.COLOR_YELLOW, curses.COLOR_BLACK)
@@ -34,9 +47,10 @@ def setCursesColors():
 
 
 def startExecutionBeta():
-    """changes specificity to Beta and then calls the Normal submode
+    """ Changes specificity to Beta and then calls the Normal submode.
 
-    return -->>1"""
+    return	-->> 1
+	"""
     global specific
     specificity = "Beta"
     specific = __import__("specific"+specificity)
@@ -44,97 +58,123 @@ def startExecutionBeta():
     startExecutionNormal()
 
 
+def startExecutionDelta():
+    """ Changes specificity to Delta and then calls the Normal submode.
+
+    return	-->> 1
+	"""
+    global specific
+    specificity = "Delta"
+    specific = __import__("specific"+specificity)
+    
+    startExecutionNormal()
+
+
 def startExecutionNormal():
-	"""start normal execution cycle with visual display (no sound)
+	""" Start normal execution cycle with visual display only.
 
-	return -->> 1
-
-	Visual display through curses terminal control module"""
-
-	print "Ready for visual execution only...commence primary ignition!"
-	import curses
-	global curses
-	#curses.wrapper is the kosher way to fire up curses visual services; it
-	#guarantees that the terminal will not be left stranded in an ocean of
-	#insanity if the program terminates exceptionally
+	return	-->> 1
+	"""
+	# curses.wrapper is the kosher way to fire up curses visual
+	# services; it guarantees that the terminal will not be left
+	# stranded in an ocean of insanity if the program terminates
+	# exceptionally.
 	curses.wrapper(main)
+
 	return 1
 
 
 def main(stdscr):
+	""" Start execution cycle with visual display only.
 
-	mary = GOD.Generator("kristos")
-
-	# setting the curses colour pairs
-	setCursesColors()
-
-	# the following lines contain all the data to build a complete automaton
+	stdscr	--->> a standard curses display
+	return	-->> 1
+	"""
+	# Instatiate a Generator called aset.
+	aset = GOD.Generator("heru")
+	# The following lines read (from the config file) all the data
+	#needed to build. a complete cellular automaton
 	size = specific.size
 	(width, height) = size
 	topologyData = specific.topology
 	neighborData = specific.neighborhood
 	ruleData = specific.rule
 	automatonData = specific.automaton
-
-	# avatars is the number of initial creatures, and doomsday the number of iterations	
+	# avatars is the number of initial creatures, and doomsday the
+	# number of iterations.	
 	(avatars, doomsday) = (specific.avatars, specific.doomsday)
-	# biblos is a list which whill contain essential runtime information
-	biblos = []
+	# taw is a list which whill contain runtime information essential
+	# for the agents in the form of BookEntries.
+	taw = []
 
-	# invoke GOD.Generator's automaton creation method with the data given above
-	terra = mary.generateAutomaton(size, topologyData, neighborData, ruleData, automatonData)
+	# Invoke GOD.Generator's automaton creation method with the data
+	# given above.
+	kemet = aset.generateAutomaton(size, topologyData, neighborData, ruleData,
+									automatonData)
+	# Now call a GOD.Organizer to oversee this automaton.
+	bast = GOD.Organizer(kemet, taw, specificity)
+	bast.generator = aset
+	(bast.width, bast.height) = (width, height)
 
-	# now call a GOD.Organizer to oversee this automaton
-	magdalen = GOD.Organizer(terra, biblos, specificity)
-	magdalen.generator = mary
-	(magdalen.width, magdalen.height) = (width, height)
-
-	# cycle through avatars to populate the automaton with some initial creatures"
+	# The bast organizer will now plant some seeds in kemet.
+	bast.initialiseAutomaton(specific.seed)
+	# Populate the automaton with some initial creatures.
 	while avatars:
-		# GOD.Generator will compile a module for each creature, and append
-		# it to the list biblos along with its name
-		mary.generateGenotypeNew(specific.seedCode, biblos)
+		# GOD.Generator will write and compile a module for each
+		# creature, create a BookEntry to contain it and append it to
+		# the list biblos
+		aset.generateGenotype(specific.seedCode, taw)
 		avatars -= 1
-	# prime the initial avatars for actual creation
-	for entry in biblos:
+
+	# Prime the initial avatars for actual creation.
+	for entry in taw:
 		entry.fatum["prayer"] = "CreateMe"
+		# Each BookEntry has a dictionary called its fatum. The key
+		# "prayer" is linked to strings which GOD.Organizer will
+		# interpret (via Python introspection) to act in various ways on
+		# the BookEntry and its attributes (i.e. the creature). The
+		# value "CreateMe" identifies the BookEntry as a candidate for
+		# initalization, meaning creating an agent object and placing it
+		# on the cellular automaton grid.
 
+	# bast reads the BookEntries in taw and calls actual agent objects
+	# into being from the code in the modules which were compiled by
+	# aset.
+	for entry in taw:	
+		bast.readBookOfLife(entry)
 
-	# magdalen reads the data in biblos and calls actual agent objects
-	# into being from the code in the modules compiled by mary
-	for entry in biblos:	
-		magdalen.readBookOfLifeNew(entry)
+	# Set the curses colour pairs.
+	setCursesColors()
+	# Generate a curses display.
+	display = aset.generateDisplay(kemet, size, stdscr)
 
-	display = mary.generateDisplay(terra, size, stdscr)
+	# Main iteration cycle.
+	while bast.annum < doomsday:
+		# GOD.Organizer iterates the c.a.
+		bast.iterateAutomaton()
 
-	# here cometh the main iteration cycle
-	while magdalen.annum < doomsday:
-		# GOD.Organizer iterates the c.a. and makes sure the world keeps revolving
-		magdalen.iterateAutomaton()
-		# GOD.Organizer parses the whole length of biblos
-		for entry in biblos:
-			magdalen.readBookOfLifeNew(entry)
+		# GOD.Organizer parses the whole length of taw
+		for entry in taw:
+			# Read the fatum of the current agent.
+			bast.readBookOfLife(entry)
 
-		magdalen.refreshDisplay(display)
-
+		# The display is updated.
+		bast.refreshDisplay(display)
+	# Do some cleanup and return.
 
 	del sys.argv[1:]
-	print "Done"
+	print "Done."
 	return 1
+
 
 
 # History
 #
-# When the pieces of Sati's body fell to the earth after she was dismembered by Vishnu's
-# battle disc, the 51 Shaktipiths came into being. Where her brow point landed hoary 
-# Tarapith was raised. Kalighat, of unparalleled renown, marks the site where her little
-# toe touched ground. Most revered Kamakhya crowns the spot where her very sex hit land.
-# By contrast, Kankalitala, where Sati's waist fell, is a very simple little shrine where 
-# families sit on the Goddess' porch without making much fuss. Similarly this script
-# came into being in 9th March 2009 as a humble halfway-point between the intrincacies
-# of the thread-enabled audiovisual sequence and the elegantly streamlined debug
-# sequence. 
-
-
-
+# Rabindranath Tagore is the local deity at Bolpur district in Bengal. His University
+# of Shantiniketan looks very much like an Aldous Huxley utopia and everyone in the
+# town is extremely polite, very sensitive and slightly deranged. I believe it's 
+# something in the water. It was at this place, on 9th March 2009, that I finally 
+# decided to turn the audiovisual execution orchestration into its own module, so
+# that good old Ernesto could play around with it to his heart's desire without
+# affecting the global structure of the Great Work itself.
 

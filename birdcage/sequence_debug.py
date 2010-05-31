@@ -16,6 +16,11 @@
 #
 # Read some history at EOF
 
+# These lines need to be imported before GOD and bookentry!!! They stop
+# these modules from realizing any sound processing-related activities.
+import sound_globals as soundGlobals
+soundGlobals.simWSound = 0
+
 
 import GOD
 from bookentry import BookEntry
