@@ -24,8 +24,9 @@ mana = 1
 
 # The iteration:
 
-avatars = 2
+avatars = 3
 doomsday = 100
+seed = ("Random",1)
 
 ############
 

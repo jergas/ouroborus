@@ -28,12 +28,16 @@ soundGlobals.simWSound = 1
 from bookentry import BookEntry
 import GOD
 
-
+# This refers to a configuration file which stores information such as
+# automaton size, seed genome, number of iterations, etc. Feel free to
+# write your own.
 specificity = "Alpha"
 specific = __import__("specific"+specificity)
 
 
 def setCursesColors():
+	""" Set the curses colours.
+	"""
 	curses.init_pair(1, curses.COLOR_RED, curses.COLOR_BLACK)
 	curses.init_pair(2, curses.COLOR_GREEN, curses.COLOR_BLACK)
 	curses.init_pair(3, curses.COLOR_YELLOW, curses.COLOR_BLACK)
@@ -51,8 +55,19 @@ def startExecutionBeta():
     startExecutionNormal()
 
 
+def startExecutionDelta():
+    """changes specificity to Beta and then calls the Normal submode
+
+    return -->>1"""
+    global specific
+    specificity = "Delta"
+    specific = __import__("specific"+specificity)
+    
+    startExecutionNormal()
+
+
 def startExecutionNormal():
-	"""start normal execution cycle with sound and visual display
+	"""Start normal execution cycle with sound and visual display
 
 	return -->> 1
 
@@ -74,84 +89,104 @@ def startExecutionNormal():
 
 
 def main(stdscr):
+	""" Start execution cycle with visual display and sound
 
-	mary = GOD.Generator("kristos")
-
-	# setting the curses colour pairs
-	setCursesColors()
-
-	# the following lines contain all the data to build a complete automaton
-	# size = (width, height) = (int(sys.argv[-4]),int(sys.argv[-3]))
+	return -->> 1
+	"""
+	# Instatiate a Generator called aset.
+	aset = GOD.Generator("heru")
+	# The following lines read (from the config file) all the data
+	#needed to build. a complete cellular automaton
 	size = specific.size
 	(width, height) = size
 	topologyData = specific.topology
 	neighborData = specific.neighborhood
 	ruleData = specific.rule
 	automatonData = specific.automaton
-
-	# avatars is the number of initial creatures, and doomsday the number of iterations
+	# avatars is the number of initial creatures, and doomsday the
+	# number of iterations.	
 	(avatars, doomsday) = (specific.avatars, specific.doomsday)
-	# biblos is a list which whill contain essential runtime information
-	biblos = []
-	# invoke GOD.Generator's automaton creation method with the data given above
-	terra = mary.generateAutomaton(size, topologyData, neighborData, ruleData, automatonData)
+	# taw is a list which whill contain runtime information essential
+	# for the agents in the form of BookEntries.
+	taw = []
 
-	# now call a GOD.Organizer to oversee this automaton
-	magdalen = GOD.Organizer(terra, biblos, specificity)
-	magdalen.generator = mary
-	(magdalen.width, magdalen.height) = (width, height)
-	initialAgents = 0
+	# Invoke GOD.Generator's automaton creation method with the data
+	# given above.
+	kemet = aset.generateAutomaton(size, topologyData, neighborData, ruleData,
+									automatonData)
+	# Now call a GOD.Organizer to oversee this automaton.
+	bast = GOD.Organizer(kemet, taw, specificity)
+	bast.generator = aset
+	(bast.width, bast.height) = (width, height)
 
-	# cycle through avatars to populate the automaton with some initial creatures"
+	# The bast organizer will now plant some seeds in kemet.
+	bast.initialiseAutomaton(specific.seed)
+	# Populate the automaton with some initial creatures.
 	while avatars:
-		# GOD.Generator will compile a module for each creature, and append
-		# it to the list biblos along with its name; the seedCode is being 
-		# imported from the code module.
-		mary.generateGenotypeNew(specific.seedCode, biblos)
+		# GOD.Generator will write and compile a module for each
+		# creature, create a BookEntry to contain it and append it to
+		# the list biblos
+		aset.generateGenotype(specific.seedCode, taw)
 		avatars -= 1
-		initialAgents += 1
-	# prime the initial avatars for actual creation
-	for entry in biblos:
-		entry.fatum["prayer"] = "CreateMe"
 
-	# magdalen reads the data in biblos and calls actual agent objects
-	# into being from the code in the modules compiled by mary
-	for entry in biblos:	
-		magdalen.readBookOfLifeNew(entry)
-	
-	display = mary.generateDisplay(terra, size, stdscr)
+	# Prime the initial avatars for actual creation.
+	for entry in taw:
+		entry.fatum["prayer"] = "CreateMe"
+		# Each BookEntry has a dictionary called its fatum. The key
+		# "prayer" is linked to strings which GOD.Organizer will
+		# interpret (via Python introspection) to act in various ways on
+		# the BookEntry and its attributes (i.e. the creature). The
+		# value "CreateMe" identifies the BookEntry as a candidate for
+		# initalization, meaning creating an agent object and placing it
+		# on the cellular automaton grid.
+
+	# bast reads the BookEntries in taw and calls actual agent objects
+	# into being from the code in the modules which were compiled by
+	# aset.
+	for entry in taw:	
+		bast.readBookOfLife(entry)
+
+	# Set the curses colour pairs.
+	setCursesColors()
+	# Generate a curses display.
+	display = aset.generateDisplay(kemet, size, stdscr)
 
 	# Instantiate the background-sound related threads.
-	sound.setInitialData(magdalen.width)
+	sound.setInitialData(bast.width)
 	backgroundVoices = sound.backgroundVoices()
 	backgroundControl = sound.backgroundControl()
-	# Start the background-sound related threads
+	# Start the background-sound related threads.
 	for x in backgroundVoices:
 		x.start()
 	backgroundControl.start()
 
-	# here cometh the main iteration cycle
-	while magdalen.annum < doomsday:
-		# GOD.Organizer iterates the c.a. and makes sure the world keeps revolving. Also, populationNorm is calculated in order to determine (sound) spectral density.
-		population = magdalen.iterateAutomaton()
+	# Main iteration cycle.
+	while bast.annum < doomsday:
+		# GOD.Organizer iterates the c.a.
+		population = bast.iterateAutomaton()
 		populNorm = float(population) / operator.mul(width,height)
-		# GOD.Organizer parses the whole length of biblos
-		for entry in biblos:
+		# GOD.Organizer parses the whole length of taw
+		for entry in taw:
+			# If the agent is about to be created, then make a birth
+			# sound
 			if entry.fatum["prayer"] == "BeBirthed":
 				sound.agentBirth(entry.fatum["voice"])
-			magdalen.readBookOfLifeNew(entry)
+			# Read the fatum of the current agent.
+			bast.readBookOfLife(entry)
+			# If the creature ate, make the appropriate sound.
 			if entry.fatum["voice"].ate == 1:
 				sound.eatSound(entry.fatum["voice"])
 				entry.fatum["voice"].ate = 0
 
 		# The display and the sound control data are updated.
-		magdalen.refreshDisplay(display)
-		sndCtrlCells = [terra.get((22,18)), terra.get((40,18)),
-						terra.get((64,18))]
+		bast.refreshDisplay(display)
+		sndCtrlCells = [kemet.get((22,18)), kemet.get((40,18)),
+						kemet.get((64,18))]
 		sound.inputDataControl(sndCtrlCells, populNorm)
+	# Do some cleanup and return.
 	sound.stopSoundServer()
 	del sys.argv[1:]
-	print "Done"
+	print "Done."
 	return 1
 
 

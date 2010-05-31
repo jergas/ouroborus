@@ -26,6 +26,7 @@ mana = 1
 
 avatars = 2
 doomsday = 100
+seed = ("Random",1)
 
 ############
 
