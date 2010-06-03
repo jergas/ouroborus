@@ -34,7 +34,7 @@ def initials(fractON, side, environment):
            
 sideL = 100                                  #Define the automaton's dimensions
 environment = getEnvironment('/dev/ttyUSB0') #Initialize environment
-cells = initials(0.15,sideL,environment)     #Initialize the automaton (create generation 0)
+cells = initials(0.25,sideL,environment)     #Initialize the automaton (create generation 0)
 
 viewer = pyGameVisual.PyGVisual()
 
