@@ -187,6 +187,37 @@ class Organizer:
 
 
 
+	def initialiseAutomaton(self, seed):
+		"""Initialise cellular automaton from data in specs file
+		
+		seed   ---> a tuple
+		return -->> 1"""
+		
+		getattr(self, "seedAutomaton"+seed[0])(seed)
+		return 1
+		
+
+	def seedAutomatonVoid(self, seed):
+		"""Does nothing, just testing
+		
+		seed   ---> a tuple
+		return ---> 1"""
+		
+		print "The automaton's cells have all been initialised to the background's value"
+		return 1
+
+
+	def seedAutomatonRandom(self, seed):
+		"""Randomly set some points to one in the c.a.
+		
+		seed   ---> a tuple
+		return -->> 1"""
+		
+		for i in range(seed[1]):
+			self.earth.set(self.earth.returnTopology().random(),1)
+		return 1
+
+
 	def iterateAutomaton(self):
 		"""Iterate the birdcage automaton associated to the Organizer
 
