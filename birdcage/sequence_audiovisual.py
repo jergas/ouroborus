@@ -1,32 +1,40 @@
 #!/usr/bin/python
 
-# Greetings! This script orchestrates execution for an ouroborus artificial life environment.
-# It includes both a visual display and dynamic sound effects
+# Greetings! This script orchestrates execution for an ouroborus
+# artificial life environment. It includes both a visual display and
+# dynamic sound effects.
 #
 # Coded by Sat Tara Singh, Jergas Apwith and Ernesto Illescas
 #
-# As of today --- 10th March 2009 --- it includes the following features:
+# As of today --- 10th March 2009 --- it includes the following
+# features:
 #
-#	* all the AL functionality resides in the GOD module; look therein for pearls of wisdom
-#	* the visual display runs on the curses library, called from GOD through a module
-#	called, simply enough, visual
-#	* there's lots of fancy stuff done with sound - this is called directly from this
-#	module, using all the csound enchantments elsewhere in the package.
-#	* the logic of the script differs a lot from the latest AL development, present in
-#	sequence_debug...this in not really a feature, it's a warning!
+#	* all the AL functionality resides in the GOD module; look therein
+#	  for pearls of wisdom
+#	* the visual display runs on the curses library, called from GOD
+#	  through a module called, simply enough, visual
+#	* there's lots of fancy stuff done with sound - this is called
+#	  directly from this module, using all the csound enchantments
+#	  elsewhere in the package.
 #
 # Read some history at EOF
 
+
+# Python native libraries
+import curses
 import operator
 import random
 import sys
 
-# These lines need to be imported before GOD and bookentry!!!
+# Ouroborus libraries
+# These lines need to be imported before GOD and bookentry!!! They allow
+# these modules to do sound processing-related activities.
 import sound_globals as soundGlobals
 soundGlobals.simWSound = 1
 
 from bookentry import BookEntry
 import GOD
+import sound
 
 # This refers to a configuration file which stores information such as
 # automaton size, seed genome, number of iterations, etc. Feel free to
@@ -45,9 +53,10 @@ def setCursesColors():
 
 
 def startExecutionBeta():
-    """changes specificity to Beta and then calls the Normal submode
+    """ Changes specificity to Beta and then calls the Normal submode.
 
-    return -->>1"""
+    return	-->> 1
+	"""
     global specific
     specificity = "Beta"
     specific = __import__("specific"+specificity)
@@ -56,9 +65,10 @@ def startExecutionBeta():
 
 
 def startExecutionDelta():
-    """changes specificity to Beta and then calls the Normal submode
+    """ Changes specificity to Delta and then calls the Normal submode.
 
-    return -->>1"""
+    return	-->> 1
+	"""
     global specific
     specificity = "Delta"
     specific = __import__("specific"+specificity)
@@ -67,22 +77,16 @@ def startExecutionDelta():
 
 
 def startExecutionNormal():
-	"""Start normal execution cycle with sound and visual display
+	""" Start normal execution cycle with sound and visual display.
 
-	return -->> 1
-
-	Visual display through curses terminal control module
-	Sound effectus through csound courtesy of Ernesto Illescas"""
-
-	print "Ready for full audiovisual execution...commence primary ignition!"
-
-	import curses, sound
-	global curses, sound
-	#curses.wrapper is the kosher way to fire up curses visual services; it
-	#guarantees that the terminal will not be left stranded in an ocean of
-	#insanity if the program terminates exceptionally
-	# start the sound server
+	return	-->> 1
+	"""
+	# Start the sound server.
 	sound.startSoundServer(specificity)
+	# curses.wrapper is the kosher way to fire up curses visual
+	# services; it guarantees that the terminal will not be left
+	# stranded in an ocean of insanity if the program terminates
+	# exceptionally.
 	curses.wrapper(main)
 
 	return 1
@@ -91,7 +95,8 @@ def startExecutionNormal():
 def main(stdscr):
 	""" Start execution cycle with visual display and sound
 
-	return -->> 1
+	stdscr	--->> a standard curses display
+	return	-->> 1
 	"""
 	# Instatiate a Generator called aset.
 	aset = GOD.Generator("heru")
