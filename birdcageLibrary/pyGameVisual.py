@@ -25,7 +25,7 @@ class PyGVisual():
      def generate(self, automaton, environment, side=100, output='buffer.tiff'):
           '''This function generates a buffer image that will be the main visual feature of the viewer
           it requires an automaton coded as a list, an environment value and an image size (default is 100).'''
-         
+          
           self.picture = Image.new("RGB", (side,side))
           self.draw = ImageDraw.Draw(self.picture)
                     
@@ -39,11 +39,14 @@ class PyGVisual():
           self.picture = self.picture.resize((8*self.picture.size[0],8*self.picture.size[1]), Image.NEAREST)
           self.picture.save(output)
           
+          
      def update(self,inputImage='buffer.tiff'):
           '''This function is required in order to update the screen'''
-          self.image = pygame.image.load(inputImage).convert()
+          self.file = open(inputImage, "rb")
+          self.image = pygame.image.load(self.file).convert()
           self.screen.blit(self.image,(0,0))
           pygame.display.flip()
+          self.file.close()
 
      def viewClose(self):
           '''Closes the pygame window when the close button is pressed. It also enables and disables fullscreen when F-key is pressed'''
