@@ -16,6 +16,7 @@ automaton = ("SynchronousAutomaton_2D", )
 
 # The agents:
 
+name = "heru"
 seedCode = "Yi Yc Ys Cb Cd Cr Ld Lp Le Iy Ir Ip Ix Ik Lr Rd Rl"
 prana = 7
 mana = 1
@@ -25,7 +26,7 @@ mana = 1
 # The iteration:
 
 avatars = 3
-doomsday = 50
+doomsday = 13
 seed = ("Random",1)
 
 ############

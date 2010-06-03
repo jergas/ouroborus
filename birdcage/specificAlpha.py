@@ -16,6 +16,7 @@ automaton = ("SynchronousAutomaton_2D", )
 
 # The agents:
 
+name = "kristos"
 seedCode = "Yi Yc Ys Cb Cd Cr Ld Lp Le Iy Ir Ip Ix Ik Lr Rd Rl"
 prana = 7
 mana = 1

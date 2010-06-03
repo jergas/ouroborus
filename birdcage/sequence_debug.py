@@ -1,26 +1,24 @@
 #!/usr/bin/python
 
-# Greetings! This script orchestrates execution for an ouroborus artificial life environment.
-# It includes no visual display or sound, but lots of witty comments instead.
-#
-# Coded by Sat Tara Singh, Jergas Apwith and Ernesto Illescas
-#
-# As of today --- 21st March 2010 --- it includes the following features:
-#
-#	* all the AL functionality resides in the GOD module; look therein for pearls of wisdom
-#	* the sequence's output to terminal is a play-by-play commentary of GOD's actions
-#	regarding the agents populating the underlying CA
-#	* there's lots of inline remarks in the code itself. They could be useful if you're
-#	trying to understand how the code works
-#	* the "Old" methods of GOD have now been deprecated, for lack of Pythonic flavour
-#
-# Read some history at EOF
+""" Greetings! This script orchestrates execution for an ouroborus artificial life environment. It includes no visual display or sound, but lots of witty comments instead.
+
+Coded by Sat Tara Singh, Jergas Apwith and Ernesto Illescas
+
+As of today --- 21st March 2010 --- it includes the following features:
+
+	* all the AL functionality resides in the GOD module; look therein for pearls of wisdom
+	* the sequence's output to terminal is a play-by-play commentary of GOD's actions
+	regarding the agents populating the underlying CA
+	* there's lots of inline remarks in the code itself. They could be useful if you're
+	trying to understand how the code works
+	* the "Old" methods of GOD have now been deprecated, for lack of Pythonic flavour
+
+Read some history at EOF"""
 
 # These lines need to be imported before GOD and bookentry!!! They stop
 # these modules from realizing any sound processing-related activities.
 import sound_globals as soundGlobals
 soundGlobals.simWSound = 0
-
 
 import GOD
 from bookentry import BookEntry
@@ -30,7 +28,6 @@ from bookentry import BookEntry
 # which control execution flow by acting on the BookEntries as well as the underlying automaton
 # and the various user interfaces (visualization and sound, if enabled).
 
-
 import random
 import sys
 import time
@@ -39,6 +36,7 @@ specificity = "Delta"
 specific = __import__("specific"+specificity)
 # This refers to a configuration file which stores information such as automaton size, seed 
 # genome, number of iterations, etc. feel free to write your own
+
 
 def startExecutionBeta():# I wonder what this is for
     """changes specificity to Beta and then calls the Normal submode. 
@@ -58,9 +56,9 @@ def startExecutionNormal():
 
 	print "Ready for execution. Warning: DEBUG MODE! no sound or visual effects"
 
-	aset = GOD.Generator("heru")
+	aset = GOD.Generator(specific.name)
 	print "Instatiated a Generator called aset."
-	print "If all goes well she will bear the child heru"
+	print "If all goes well she will bear the child " + specific.name
 
 	# the following lines read (from the config file) all the data needed to build 
 	# a complete cellular automaton
@@ -177,5 +175,3 @@ def startExecutionNormal():
 # scripts. I continued working in sequence_debug and its evil twin sequence_new, streamlining
 # the relationship between agents and their GOD and introducing BookEntry instances in the 
 # book of life.
-#
-

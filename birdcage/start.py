@@ -25,6 +25,7 @@ def main(mode = "Audiovisual", submode = "Normal"):
 	invoke it from the command line by casting >>python start.py Foo Bar """
 
 	def chooseExecutionMode():
+		global module
 		try:
 			module = __import__("sequence_"+mode.lower())
 		except ImportError:
@@ -46,7 +47,7 @@ if __name__ == "__main__":
 	while len(sys.argv) > 1:
 		del sys.argv[-1]
 	main(mode, submode)
-	os.system("rm khonsu*")
+	os.system("rm " + module.specific.name + "*")
 
 
 # History

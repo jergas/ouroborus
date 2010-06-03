@@ -154,7 +154,7 @@ class ThreadedSequence(object):
 		stdscr	---> a curses standard screen object
 		"""
 		# Instantiate a generator.
-		mary = GOD.Generator("kristos")
+		mary = GOD.Generator(specific.name)
 		# The following lines contain all the data to build a complete
 		# cellular automaton.
 		self.size = specific.size
