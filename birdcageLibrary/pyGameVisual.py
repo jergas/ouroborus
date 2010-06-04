@@ -13,7 +13,7 @@ import ImageDraw
 
 class PyGVisual():
      '''This class holds the methods in charge of rendering cellular automata on a pyGame window'''
-     
+        
      def __init__(self, width=800, height=800):
           '''Initiate the pyGame display. This sets the window size and the caption at the top of the display.'''
           pygame.init()
@@ -22,14 +22,13 @@ class PyGVisual():
           self.screen = pygame.display.set_mode((self.width,self.height))
           pygame.display.set_caption("Circadian Viewer")
           self.fullscreen = False
-          
-          
+                    
      def generate(self, automaton, environment, side=100, output='buffer.tiff'):
           '''This function generates a buffer image that will be the main visual feature of the viewer
           it requires an automaton coded as a list, an environment value and an image size (default is 100).'''
           self.picture = Image.new("RGB", (side,side))
           self.draw = ImageDraw.Draw(self.picture)
-                    
+                
           for i in range(0,side):
                for j in range(0,side):
                     if automaton[(side*i)+j]-5<= environment <= automaton[(side*i)+j]+5:
@@ -39,8 +38,7 @@ class PyGVisual():
 				     
           self.picture = self.picture.resize((8*self.picture.size[0],8*self.picture.size[1]), Image.NEAREST)
           self.picture.save(output)
-          del self.picture
-          
+           
      def update(self,inputImage='buffer.tiff'):
           '''This function is required in order to update the screen'''
           self.file = open(inputImage, "rb")

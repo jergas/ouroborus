@@ -161,6 +161,7 @@ def getEnvironment(port='/dev/ttyUSB0'):
           while len(environment) < 1:
                environment = sensor.readline()
                environment = environment.split()
+          sensor.close()
           # The try exept clause makes sure that only the integer part of the reading (i.e. not the '\n')
           #is asigned to environment
           try:
