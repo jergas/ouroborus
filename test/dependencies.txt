@@ -1,7 +1,0 @@
-List of dependencies:
-
-libcoin60-dev
-libsoqt4-dev
-libsimage-dev
-boost-build
-libboost1.42-all-dev
