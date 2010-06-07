@@ -110,45 +110,6 @@ class Generator:
 		return 1
 
 
-	def generateGenotypeNew(self, poeio, ode):
-		self.generateGenotype(poeio, ode)
-
-
-	def generateGenotypeOld(self, poeio, ode):
-		"""Write and compile a file from a genome
-
-		poeio  ---> a list of characters
-		ode    ---> a list of names
-		return -->> 1"""
-
-		self.obstetrics += 1 #old
-		# samskara is a genome binding poeio to tabula
-		samskara = g.Genome(poeio, tabula_antica, 2)
-		# create a name for the module object
-		onoma = self.obstetrix+str(self.obstetrics)
-		# corpus is the relative filepath where the compiled genome will be saved
-		corpus = 'creatures/'+onoma+'.pyx'
-		# this incantation actually writes the .pyx file with the translated poeio code
-		samskara.incorporate(corpus)
-
-		# now we invoke the pyrex compiler to create the module
-		# this is a hack to do away with the command line arguments Pyrex expects
-		commandLineArgs = ['build_ext', '--inplace']
-		sys.argv.extend(commandLineArgs)
-		# and the actual call to the compiler using the Pyrex build_ext command
-		distutils.core.setup(
-			name = onoma,
-			ext_modules = [Extension(onoma,[corpus])],
-			cmdclass = {'build_ext':build_ext}
-			) 
-		# bring the command line back to its original condition
-		del sys.argv[-2:]
-
-		# finally, append the module's name to the list of names and return
-		ode.append([self.obstetrics, onoma, None, None, {"prayer":"BE_BIRTHED"}]) #old
-		return 1
-
-
 	def generateDisplay(self, earth, size, stdscr):
 		"""Initialise a curses display for the automaton and its agents
 		earth  ---> a birdcage automaton
@@ -248,9 +209,6 @@ class Organizer:
 		return getattr(self, "grantPrayer"+prayer, default)(bookentry)
 
 
-	def readBookOfLifeNew(self, bookentry):
-		self.readBookOfLife(bookentry)
-	
 	def grantPrayerCreateMe(self, bookentry):
 		"""Setup the fatum for a new BookEntry, for creature created by 
 		divine mandate.
