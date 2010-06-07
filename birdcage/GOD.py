@@ -7,21 +7,30 @@ import agent as a
 import automaton
 import genome as g
 from code import tabula, tabula_antica
-# other ouroborus core modules
-from bookentry import BookEntry
-# these are the modules used for display
-import visual as v
-import curses as c
-# these are the modules used for sound
-import sound_globals as soundGlobals
-# only load modules if running sound enabled simulations
-if soundGlobals.simWSound == 1:
-	import agents_sound as agentsSound
-# these are the ingredients for the Pyrex compile spell
-import sys
-import distutils.core 
-from distutils.extension import Extension
-from Pyrex.Distutils import build_ext
+
+try:
+	# other ouroborus core modules
+	from bookentry import BookEntry
+	# these are the modules used for display
+	import visual as v
+	import curses as c
+	# these are the modules used for sound
+	import sound_globals as soundGlobals
+	# only load modules if running sound enabled simulations
+	if soundGlobals.simWSound == 1:
+		import agents_sound as agentsSound
+except ImportError:
+	print "WARNING: agent management, display or sound may not function correctly"
+
+try:
+	# these are the ingredients for the Pyrex compile spell
+	import sys
+	import distutils.core 
+	from distutils.extension import Extension
+	from Pyrex.Distutils import build_ext
+except ImportError:
+	print "WARNING: genome compilation disabled"
+
 # anything extra goes here
 import random
 
@@ -264,7 +273,7 @@ class Organizer:
 
 		# the Generator compiles the new module and writes it in the book
 		code = bookentry.fatum["code"]
-		self.generator.generateGenotypeNew(code, self.book)
+		self.generator.generateGenotype(code, self.book)
 		# add some necessary data to the new entry
 		child = self.book[-1]
 		child.fatum["code"] = bookentry.fatum["code"]
