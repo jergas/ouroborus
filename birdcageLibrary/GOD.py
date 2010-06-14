@@ -30,11 +30,12 @@ class Generator:
 	such as generating a fully-functioning cellular automaton"""
 
 
-	def __init__(self, obstetrix):
+	def __init__(self, obstetrix, specificity):
 		"""Create a Generator instance
 
 		obstetrix ---> a string to head all generated filenames"""
 		
+		self.specific = __import__("specific"+specificity)
 		self.obstetrics = 0
 		self.obstetrix = obstetrix
 
@@ -152,16 +153,22 @@ class Generator:
 
 		# a little workaround to make curses work for any terminal size
 		(width, height) = size
-		(winheight,winwidth) = stdscr.getmaxyx()
-		displaywidth = (winwidth < width) and winwidth-1 or width
-		displayheight = (winheight < height) and winheight-1 or height
+		if self.specific.displayType == 'curses':
+			(winheight,winwidth) = stdscr.getmaxyx()
+			displaywidth = (winwidth < width) and winwidth-1 or width
+			displayheight = (winheight < height) and winheight-1 or height
 		# run the visual display refresh cycle as initialisation
 		seed = earth.returnTopology().random()
 		earth.set(seed,1)
-		v.updateLoop(earth, stdscr, displaywidth, displayheight)
-		stdscr.refresh()
-		# return a 3-tuple useful for further display
-		return (stdscr, displaywidth, displayheight)
+
+		if self.specific.displayType == 'curses':
+			v.updateLoop(earth, stdscr, displaywidth, displayheight)
+			stdscr.refresh()
+			# return a 3-tuple useful for further display
+			return (stdscr, displaywidth, displayheight)
+		elif self.specific.displayType == 'pygame':
+			screen = v.pygGenerateDisplay(size, "birdcage reloaded")
+			v.pygUpdateBackground(earth, 1, size)
 
 
 class Organizer:
@@ -382,9 +389,11 @@ class Organizer:
 		displaywidth  ---> the integer width of the curses terminal
 		displayheight ---> the integer height of the curses terminal
 		return        -->> 1"""
-
-		v.updateLoop(self.earth, display[0], display[1], display[2])
-		display[0].refresh()
+		if self.specific.displayType == 'curses':
+			v.updateLoop(self.earth, display[0], display[1], display[2])
+			display[0].refresh()
+		elif self.specific.displayType == 'pygame':
+			v.pygUpdateBackground(self.earth, 1, self.size)
 
 
 	def refreshBackground(self, display):
@@ -400,17 +409,13 @@ class Organizer:
 		v.updateBackground(self.earth, display[0], display[1], display[2])
 		display[0].refresh()
 
-####################################
-	def refreshAgent(self, agent, display):
-		"""Refresh the background of a display on a curses terminal
 
-		display       ---> a 3-tuple as follows:
-						(stdscr, displaywidth, displayheight)
-		stdscr        ---> a curses standard screen object
-		displaywidth  ---> the integer width of the curses terminal
-		displayheight ---> the integer height of the curses terminal
-		return        -->> 1"""
+	def refreshAgent(self, agent, display):
+		"""Refresh the display of a single agent.
+
+		display		---> a 3-tuple as follows:
+		agent		---> a birdcage agent instance
+		return		-->> 1"""
 
 		v.updateAgent(agent, display[0], display[1], display[2])
 		display[0].refresh()
-#################################

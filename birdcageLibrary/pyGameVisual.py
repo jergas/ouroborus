@@ -40,7 +40,7 @@ class PyGVisual():
           self.picture.save(output)
            
      def update(self,inputImage='buffer.tiff'):
-          '''This function is required in order to update the screen'''
+          '''This function is required in order to update the screen. At the end of the function all files are closed'''
           self.file = open(inputImage, "rb")
           self.image = pygame.image.load(self.file).convert()
           self.screen.blit(self.image,(0,0))

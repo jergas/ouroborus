@@ -64,7 +64,10 @@ def startExecutionNormal():
 	# services; it guarantees that the terminal will not be left
 	# stranded in an ocean of insanity if the program terminates
 	# exceptionally.
-	curses.wrapper(main)
+	if specific.displayType == 'pygame':
+		main(None)
+	elif specific.displayType == 'curses':
+		curses.wrapper(main)
 	return 1
 
 
@@ -127,7 +130,7 @@ class ThreadedSequence(object):
 		stdscr	---> a curses standard screen object
 		"""
 		# Instantiate a generator.
-		aset = GOD.Generator(specific.name)
+		aset = GOD.Generator(specific.name, specificity)
 		# The following lines contain all the data to build a complete
 		# cellular automaton.
 		self.size = specific.size
@@ -155,10 +158,13 @@ class ThreadedSequence(object):
 		# The bast organizer will now plant some seeds in kemet.
 		self.bast.initialiseAutomaton(specific.seed)
 		
-		# Set the curses colour pairs.
-		setCursesColors()
-		# Generate a curses display.
-		self.display = aset.generateDisplay(self.kemet, self.size, stdscr)
+		# Set the curses colour pairs if curses is being used.
+		if stdscr:
+			setCursesColors()
+			# Generate a curses display.
+			self.display = aset.generateDisplay(self.kemet, self.size, stdscr)
+		else:
+			self.display = aset.generateDisplay(self.kemet, self.size, None)
 		# Set some initial data for sound control.
 		sound.setInitialData(self.bast.width)
 
@@ -167,6 +173,7 @@ class ThreadedSequence(object):
 		self.bckgrndThreadCondition	= threading.Condition()
 		self.simulationOn	= True
 		self.interrupt		= False
+
 
 	def simulationLoop(self):
 		"""The simulation's main iteration cycle happens here.
@@ -194,7 +201,10 @@ class ThreadedSequence(object):
 			sndCtrlCells = [self.kemet.get((22,18)), self.kemet.get((40,18)),
 							self.kemet.get((64,18))]
 			# Update the display
-			self.bast.refreshDisplay(self.display)
+			if specific.displayType == 'pygame':
+				self.bast.refreshDisplay(self.display)
+			elif specific.displayType == 'curses':
+				self.bast.refreshDisplay(self.display)
 			# Update the audio
 			sound.inputDataControl(sndCtrlCells, populNorm)
 			self.bckgrndThreadCondition.notify()

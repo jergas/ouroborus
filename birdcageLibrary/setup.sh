@@ -2,7 +2,7 @@ pushd ../birdcage/
 ./compile.sh
 popd
 cp ../birdcage/*.so .
-rm kristos*
+rm heru*
 cp ../birdcage/neighborhood.pxd .
 cp ../birdcage/topology.pxd .
 cp ../birdcage/rule.pxd .
