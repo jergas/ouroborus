@@ -46,6 +46,10 @@ import sound
 specificity = "Alpha"
 specific = __import__("specific"+specificity)
 
+# If logging is enabled, then open a log file.
+if specific.logging:
+	logging = open(specific.logFile, 'w')
+
 
 def setCursesColors():
 	""" Set the curses colours.
@@ -92,6 +96,7 @@ def startExecutionNormal():
 	# stranded in an ocean of insanity if the program terminates
 	# exceptionally.
 	curses.wrapper(main)
+	return 1
 
 
 def main(stdscr):
@@ -126,6 +131,7 @@ def main(stdscr):
 	voicesControl.setDaemon(True)
 	background.setDaemon(True)
 	agents.setDaemon(True)
+	#simulation.setDaemon(True)
 	voicesControl.start()
 	simulation.start()
 	background.start()
@@ -219,7 +225,7 @@ class ThreadedSequence(object):
 		setCursesColors()
 		# Generate a curses display.
 		self.display = aset.generateDisplay(self.kemet, self.size, stdscr)
-		# Set some initial data for sound control
+		# Set some initial data for sound control.
 		sound.setInitialData(self.bast.width)
 
 		# Initialize variables for inter-thread communication.
@@ -232,6 +238,7 @@ class ThreadedSequence(object):
 		self.agentThreadCondition	= threading.Condition()
 		self.simulationOn	= True
 		self.interrupt		= False
+
 
 	def simulationLoop(self):
 		"""The simulation's main iteration cycle happens here.
@@ -249,9 +256,9 @@ class ThreadedSequence(object):
 				self.currentEntry = entry
 				# If the agent is about to be born, record it.
 				try:
-					if entry.fatum["prayer"] == "BeBirthed":
+					if self.currentEntry.fatum["prayer"] == "BeBirthed":
 						self.birth = 1
-					self.bast.readBookOfLifeNew(entry)
+					self.bast.readBookOfLife(entry)
 					self.agentThreadCondition.notify()
 					self.agentThreadCondition.wait()
 				except AttributeError:
