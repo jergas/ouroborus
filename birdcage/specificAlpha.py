@@ -16,10 +16,10 @@ automaton = ("SynchronousAutomaton_2D", )
 
 # The agents:
 
-name = "kristos"
-seedCode = "Yi Yc Ys Cb Cd Cr Ld Lp Le Iy Ir Ip Ix Ik Lr Rd Rl"
-prana = 7
-mana = 1
+name 		= "heru"
+seedCode	= "Yi Yc Ys Cb Cd Cr Ld Lp Le Iy Ir Ip Ix Ik Lr Rd Rl"
+prana		= 7
+mana		= 1
 
 ############
 
@@ -28,6 +28,12 @@ mana = 1
 avatars = 3
 doomsday = 70
 seed = ("Random",1)
+
+############
+
+# Display type ('curses' or 'pygame')
+
+displayType = 'curses'
 
 ############
 

@@ -33,7 +33,7 @@ def printAgent(stdscr, agent, displaywidth, displayheight):
 	""" Display a hash on the screen for every agent
 
 	stdscr    ---> a curses stdscr object
-	address   ---> a birdcage Agent_2D instance
+	agent   ---> a birdcage Agent_2D instance
 	displaywidth  ---> an integer
 	displayheight ---> an integer
 	"""
@@ -48,7 +48,7 @@ def printTranslucentAgent(stdscr, agent, displaywidth, displayheight, automaton)
 	""" Display a hash on the screen for every agent
 
 	stdscr    ---> a curses stdscr object
-	address   ---> a birdcage Agent_2D instance
+	agent   ---> a birdcage Agent_2D instance
 	displaywidth  ---> an integer
 	displayheight ---> an integer
     """
@@ -137,7 +137,7 @@ def pygGenerateDisplay(size, caption, zoom=12):
 	pygame.display.set_caption(caption)
 	fullscreen = False
 	
-def pygUpdateBackground(automaton, criterion, size, zoom=12, output='buffer.tiff'):
+def pygUpdateBackground(automaton, criterion, size,zoom=12,output='buffer.tiff'):
 	"""This function generates a buffer image that will be the main
 	visual feature of the viewer it requires a birdcage automaton,
 	an environment value and an image size-> A tuple in the format
@@ -154,12 +154,13 @@ def pygUpdateBackground(automaton, criterion, size, zoom=12, output='buffer.tiff
 				draw.point((x,y),(0,255,0))
 			else:
 				draw.point((x,y),(0,0,0))
-	# Zoom the image and save it
+	
+	#Zooms in and saves the image	
 	picture = picture.resize((zoom*picture.size[0],
 								zoom*picture.size[1]),Image.NEAREST)
 	picture.save(output)
 	
-	#Update the display usinge the updated 
+	#Update the display using the updated 
 	ufile = open(output, "rb")
 	image = pygame.image.load(ufile).convert()
 	screen.blit(image,(0,0))
@@ -171,9 +172,38 @@ def pygUpdateBackground(automaton, criterion, size, zoom=12, output='buffer.tiff
 	image = None
 	del image
 	
+def pygDrawAgent(agent,agentImg='agent.png',output= 'buffer.tiff',zoom =12):
+	"""This function places the agents on the buffer image. It requieres the
+	corporality (position) of an agent, an agent image file (3x3px) and an
+	output image to draw the agent on"""
 	
+	picture = Image.open(output)
+	agentImg = Image.open(agentImg)
+	address = agent.tellAddress()
+	picture.paste(agentImg,(address[0]+1,address[1]+1))
+	picture.save(output)
+
+	#Zooms in and saves the image	
+	picture = picture.resize((zoom*picture.size[0],
+								zoom*picture.size[1]),Image.NEAREST)
+	picture.save(output)
+	
+	#Update the display using the updated 
+	ufile = open(output, "rb")
+	image = pygame.image.load(ufile).convert()
+	screen.blit(image,(0,0))
+	pygame.display.flip()
+	
+	#Force close open files
+	ufile.close()
+	del ufile      
+	image = None
+	del image
+
+
+
 def pygViewClose(self):
 	'''Closes the pygame window when the close button is pressed. It also enables and disables fullscreen when F-key is pressed'''
-	#Chek if close button is pressed and close the program
+	#Check if close button is pressed and close the program
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT: sys.exit()

@@ -56,7 +56,7 @@ def startExecutionNormal():
 
 	print "Ready for execution. Warning: DEBUG MODE! no sound or visual effects"
 
-	aset = GOD.Generator(specific.name)
+	aset = GOD.Generator(specific.name, specificity)
 	print "Instatiated a Generator called aset."
 	print "If all goes well she will bear the child " + specific.name
 

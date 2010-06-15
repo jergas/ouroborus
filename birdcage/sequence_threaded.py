@@ -95,7 +95,10 @@ def startExecutionNormal():
 	# services; it guarantees that the terminal will not be left
 	# stranded in an ocean of insanity if the program terminates
 	# exceptionally.
-	curses.wrapper(main)
+	if specific.displayType == 'pygame':
+		main(None)
+	elif specific.displayType == 'curses':
+		curses.wrapper(main)
 	return 1
 
 
@@ -131,7 +134,6 @@ def main(stdscr):
 	voicesControl.setDaemon(True)
 	background.setDaemon(True)
 	agents.setDaemon(True)
-	#simulation.setDaemon(True)
 	voicesControl.start()
 	simulation.start()
 	background.start()
@@ -166,7 +168,7 @@ class ThreadedSequence(object):
 		stdscr	---> a curses standard screen object
 		"""
 		# Instantiate a generator.
-		aset = GOD.Generator(specific.name)
+		aset = GOD.Generator(specific.name, specificity)
 		# The following lines contain all the data to build a complete
 		# cellular automaton.
 		self.size = specific.size
@@ -221,10 +223,13 @@ class ThreadedSequence(object):
 		for entry in self.taw:	
 			self.bast.readBookOfLife(entry)
 
-		# Set the curses colour pairs.
-		setCursesColors()
-		# Generate a curses display.
-		self.display = aset.generateDisplay(self.kemet, self.size, stdscr)
+		# Set the curses colour pairs if curses is being used.
+		if stdscr:
+			setCursesColors()
+			# Generate a curses display.
+			self.display = aset.generateDisplay(self.kemet, self.size, stdscr)
+		else:
+			self.display = aset.generateDisplay(self.kemet, self.size, None)
 		# Set some initial data for sound control.
 		sound.setInitialData(self.bast.width)
 

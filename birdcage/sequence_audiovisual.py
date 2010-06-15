@@ -19,7 +19,6 @@
 #
 # Read some history at EOF
 
-
 # Python native libraries
 import curses
 import operator
@@ -99,7 +98,7 @@ def main(stdscr):
 	return	-->> 1
 	"""
 	# Instatiate a Generator called aset.
-	aset = GOD.Generator("heru")
+	aset = GOD.Generator(specific.name, specificity)
 	# The following lines read (from the config file) all the data
 	#needed to build. a complete cellular automaton
 	size = specific.size
@@ -158,8 +157,9 @@ def main(stdscr):
 
 	# Instantiate the background-sound related threads.
 	sound.setInitialData(bast.width)
-	backgroundVoices = sound.backgroundVoices()
-	backgroundControl = sound.backgroundControl()
+	backgroundVoices	= sound.backgroundVoices()
+	backgroundControl	= sound.backgroundControl()
+	bckgrndCtrlCells	= []
 	# Start the background-sound related threads.
 	for x in backgroundVoices:
 		x.start()
@@ -188,6 +188,7 @@ def main(stdscr):
 		sndCtrlCells = [kemet.get((22,18)), kemet.get((40,18)),
 						kemet.get((64,18))]
 		sound.inputDataControl(sndCtrlCells, populNorm)
+
 	# Do some cleanup and return.
 	sound.stopSoundServer()
 	del sys.argv[1:]

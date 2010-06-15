@@ -184,16 +184,14 @@ def playback():
 					(15, -8, 3400, 0.5, 3, 0, 0.5),
 					(27, -14, 3400, 0.2, 1, 2, 0.75)]
 	voiceNo		= 1
-#	voiceList	= []
 
 	for x in argsList:
 		threadName = 'BackgroundVoice' + str(voiceNo)
 		voice = threading.Thread(name=threadName, target=oneBckgrndVox, args=x)
+		voice.setDaemon(True)
 		voice.start()
 		voiceList.append(voice)
 		voiceNo = voiceNo + 1
-#	for x in voiceList:
-#		x.join()
 
 
 def control():
@@ -202,13 +200,10 @@ def control():
 	"""
 	controlThread = threading.Thread(name='backgroundVoicesControl',
 									target=ctrlBckgrndSnd)
+	controlThread.setDaemon(True)
 	controlThread.start()
 	voiceList.append(controlThread)
-#	controlThread.join()
 
-#def joinThreads():
-#	for x in voiceList:
-#		x.join()
 
 # This was used for debugging, and may become handy again.
 if __name__ == "__main__":
