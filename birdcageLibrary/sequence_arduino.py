@@ -30,6 +30,11 @@ import sound
 specificity = "Environment"
 specific = __import__("specific"+specificity)
 
+# If logging is enabled, then open a log file.
+if specific.logging:
+	logging = open(specific.logFile, 'w')
+
+
 def setCursesColors():
 	""" Set the curses colours.
 	"""
@@ -201,10 +206,7 @@ class ThreadedSequence(object):
 			sndCtrlCells = [self.kemet.get((22,18)), self.kemet.get((40,18)),
 							self.kemet.get((64,18))]
 			# Update the display
-			if specific.displayType == 'pygame':
-				self.bast.refreshDisplay(self.display)
-			elif specific.displayType == 'curses':
-				self.bast.refreshDisplay(self.display)
+			self.bast.refreshBackground(self.display)
 			# Update the audio
 			sound.inputDataControl(sndCtrlCells, populNorm)
 			self.bckgrndThreadCondition.notify()

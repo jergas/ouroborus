@@ -170,7 +170,6 @@ class Generator:
 			screen = v.pygGenerateDisplay(size, "birdcage reloaded")
 			v.pygUpdateBackground(earth, 1, size)
 
-
 class Organizer:
 	"""This object coordinates the iteration-per-iteration functioning of the
 	automata and its agents. It calls on the Organizer and Destroyer when
@@ -393,7 +392,7 @@ class Organizer:
 			v.updateLoop(self.earth, display[0], display[1], display[2])
 			display[0].refresh()
 		elif self.specific.displayType == 'pygame':
-			v.pygUpdateBackground(self.earth, 1, self.size)
+			v.pygUpdateLoop(self.earth, 1, self.size)
 
 
 	def refreshBackground(self, display):
@@ -406,8 +405,11 @@ class Organizer:
 		displayheight ---> the integer height of the curses terminal
 		return        -->> 1"""
 
-		v.updateBackground(self.earth, display[0], display[1], display[2])
-		display[0].refresh()
+		if self.specific.displayType == 'curses':
+			v.updateBackground(self.earth, display[0], display[1], display[2])
+			display[0].refresh()
+		elif self.specific.displayType == 'pygame':
+			v.pygUpdateBackground(self.earth, 1, self.size)
 
 
 	def refreshAgent(self, agent, display):
