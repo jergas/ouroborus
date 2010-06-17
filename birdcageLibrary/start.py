@@ -1,19 +1,52 @@
 #!/usr/bin/python
-#
-# This baby is the start button for the whole ouroborus microworld
-#
-# Coded by Sat Tara Singh Khalsa and Jergas Apwith 
-#
-# In its present form --- 9th March 2009 --- it carries the following features
-#
-# 	* take various command-line options to define execution mode
-#	* invoke the corresponding function from the corresponding module
-#	* you may of course hack your own tailor-made execution mode
-#
-# Read some history at EOF
+
+"""This baby is the start button for the whole ouroborus microworld
+
+Coded by Sat Tara Singh Khalsa and Jergas Apwith 
+
+In its present form --- 9th March 2009 --- it carries the following features
+
+ 	* take various command-line options to define execution mode
+	* invoke the corresponding function from the corresponding module
+	* you may of course hack your own tailor-made execution mode
+
+Read some history at EOF"""
 
 import sys
 import os
+from getopt import *
+
+# The following two constants define the options and longoptions available.
+# They must be hardcoded somewhere, as the config scripts will be loaded
+# according to the options used. However, the options must be processed
+# after the config is loaded, so that its values may be modified accordingly.
+
+options		= ""
+longOptions	= ["specificity="]
+
+# Now the options are parsed:
+
+optionList, arguments = gnu_getopt(sys.argv[1:], options, longOptions)
+sys.argv = [sys.argv[0]] + arguments
+
+# Now the optionList will be parsed. 
+# For now we are only looking for the specificity so a placeholder for the variable must exist.
+
+specificity = "Environment"
+
+for option in optionList:
+	if option[0] == "--specificity": specificity = option[1].capitalize()
+	else: specificity = "Alpha"
+
+# NOTE that all other options are being ignored.
+
+try:
+	specific = __import__("specific" + specificity)
+except (ImportError, NameError, TypeError):
+	specific = __import__("specificAlpha")
+
+# Now the specificity has been loaded.
+
 
 def main(mode = "Audiovisual", submode = "Normal"):
 	"""Main executable program. Sort between the variants of the execution sequence.
@@ -25,28 +58,46 @@ def main(mode = "Audiovisual", submode = "Normal"):
 	invoke it from the command line by casting >>python start.py Foo Bar """
 
 	def chooseExecutionMode():
+		global module
 		try:
 			module = __import__("sequence_"+mode.lower())
 		except ImportError:
-			module = __import__("sequence_arduino")
+			notify()
+			module = __import__("sequence_debug")
+			notify()
 		function = getattr(module, "startExecution"+submode.capitalize(), module.startExecutionNormal)
 		return function
+		
+		def notify():
+			print "ImportError:"
 
 	chooseExecutionMode()()
 	return 1
 
-
-if __name__ == "__main__":
-	(mode, submode) = ("Audiovisual", "Normal")
+def setMode():
+	global specific
+	submode = "Noramal"
+	mode = "Audiovisual"
 	if len(sys.argv) == 3:
 		submode = sys.argv.pop()
 		mode = sys.argv.pop()
 	elif len(sys.argv) == 2:
 		mode = sys.argv.pop()
+	elif len(sys.argv) == 1:
+		try:
+			submode = specific.submode
+			mode = specific.mode
+		except AttributeError:
+			submode = "Normal"
+			mode = "Audiovisual"
 	while len(sys.argv) > 1:
 		del sys.argv[-1]
+	return (mode, submode)
+
+if __name__ == "__main__":
+	(mode, submode) = setMode()
 	main(mode, submode)
-	os.system("rm khonsu*")
+	os.system("rm " + module.specific.name + "*")
 
 
 # History
@@ -66,4 +117,3 @@ if __name__ == "__main__":
 # into separate modules. I did this while sitting backwards on a train from the
 # best and most decadent city in the world, which is Calcutta, towards Shantiniketan
 # where Rabindranath Tagore put his ideal university.
-

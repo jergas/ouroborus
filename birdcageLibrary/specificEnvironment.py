@@ -17,7 +17,7 @@ automaton = ("SynchronousAutomaton_2D", )
 # The starter:
 
 mode = "arduino"
-submode = None
+submode = "Normal"
 
 ############
 
