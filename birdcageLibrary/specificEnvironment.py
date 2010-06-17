@@ -14,6 +14,13 @@ automaton = ("SynchronousAutomaton_2D", )
 
 ############
 
+# The starter:
+
+mode = "arduino"
+submode = None
+
+############
+
 # The agents:
 
 name 	= "heru"
@@ -26,7 +33,7 @@ mana		= 1
 # The iteration:
 
 avatars = 0
-doomsday = 100
+doomsday = 200
 seed = ("Random",1)
 
 ############

@@ -1,0 +1,261 @@
+reportar a Gobby bug (comportamiento no intuitivo) del boton de ok en el dialogo de preferencias
+
+diego@k1ll3r48b17:~/ouroborus/birdcage$ python2.5 start.py debug
+Traceback (most recent call last):
+  File "start.py", line 96, in <module>
+    (mode, submode) = setMode()
+  File "start.py", line 93, in setMode
+    return (mode, submode)
+UnboundLocalError: local variable 'submode' referenced before assignment
+
+edgar@aura:~/ouroborus/birdcage$ ./start.py debug > error.txt
+[] ['debug']
+
+edgar@aura:~/ouroborus/birdcage$ ./start.py
+[] []
+
+edgar@aura:~/ouroborus/birdcage$ ./start.py
+Traceback (most recent call last):
+  File "./start.py", line 41, in <module>
+    specific = __import__("specific"+specificity)
+NameError: name 'specificity' is not defined
+edgar@aura:~/ouroborus/birdcage$ 
+
+edgar@aura:~/ouroborus/birdcage$ ./start.py
+  File "./start.py", line 44
+    except ImportError, NameError, TypeError:
+                                 ^
+SyntaxError: invalid syntax
+edgar@aura:~/ouroborus/birdcage$
+
+edgar@aura:~/ouroborus/birdcageLibrary$ ./start.py arduino
+WARNING: agent management, display or sound may not function            correctly
+BEGAN CppSound::compile()...
+BEGAN CppSound::compile(9, 0x82893c8)...
+PortMIDI real time MIDI plugin for Csound
+PortAudio real-time audio module for Csound
+virtual_keyboard real time MIDI plugin for Csound
+0dBFS level = 32768.0
+Csound version 5.08 (double samples) Nov  9 2008
+libsndfile-1.0.17
+orchname:  temp.orc
+scorename: temp.sco
+rtaudio: ALSA module enabled
+rtmidi: PortMIDI module enabled
+orch compiler:
+2079 lines read
+        instr   1
+        instr   2
+        instr   3
+        instr   4
+        instr   5
+        instr   6
+        instr   7
+        instr   8
+        instr   9
+        instr   10
+        instr   11
+        instr   12
+        instr   13
+        instr   14
+        instr   15
+        instr   16
+        instr   17
+        instr   18
+        instr   19
+        instr   20
+        instr   21
+        instr   22
+        instr   23
+        instr   24
+        instr   25
+        instr   26
+        instr   27
+        instr   28
+        instr   29
+        instr   30
+        instr   31
+        instr   32
+        instr   33
+        instr   34
+        instr   35
+        instr   36
+        instr   37
+        instr   38
+        instr   39
+        instr   40
+sorting score ...
+        ... done
+Csound version 5.08 (double samples) Nov  9 2008
+displays suppressed
+0dBFS level = 32768.0
+orch now loaded
+audio buffered in 1024 sample-frame blocks
+ *** Cannot open device 'plughw' for audio output: Device or resource busy
+Failed to initialise real time audio output
+ENDED CppSound::compile.
+ENDED CppSound::compile.
+Csound tidy up: Segmentation fault
+inactive allocs returned to freespace
+end of score.              overall amps:461486428887841899299248037385378154196494199811126698683304977436484749228800670443914353534189750442203110063420075949637574355177523054913163685126759330594162981492348231638232479954283536161962908818485846314160689535276641709995994535215629455430402334840323814283293939990528.0461486428887841899299248037385378154196494199811126698683304977436484749228800670443914353534189750442203110063420075949637574355177523054913163685126759330594162981492348231638232479954283536161962908818485846314160689535276641709995994535215629455430402334840323814283293939990528.0
+           overall samples out of range:     2195     2209
+1 errors in performance
+
+
+edgar@aura:~/ouroborus/birdcage$ less error.txt
+"error.txt" may be a binary file.  See it anyway?
+edgar@aura:~/ouroborus/birdcage$ ./start.py > error.txt
+BEGAN CppSound::compile()...
+BEGAN CppSound::compile(9, 0x826ea90)...
+PortMIDI real time MIDI plugin for Csound
+PortAudio real-time audio module for Csound
+virtual_keyboard real time MIDI plugin for Csound
+0dBFS level = 32768.0
+Csound version 5.08 (double samples) Nov  9 2008
+libsndfile-1.0.17
+orchname:  temp.orc
+scorename: temp.sco
+rtaudio: ALSA module enabled
+rtmidi: PortMIDI module enabled
+orch compiler:
+2079 lines read
+        instr   1
+        instr   2
+        instr   3
+        instr   4
+        instr   5
+        instr   6
+        instr   7
+        instr   8
+        instr   9
+        instr   10
+        instr   11
+        instr   12
+        instr   13
+        instr   14
+        instr   15
+        instr   16
+        instr   17
+        instr   18
+        instr   19
+        instr   20
+        instr   21
+        instr   22
+        instr   23
+        instr   24
+        instr   25
+        instr   26
+        instr   27
+        instr   28
+        instr   29
+        instr   30
+        instr   31
+        instr   32
+        instr   33
+        instr   34
+        instr   35
+        instr   36
+        instr   37
+        instr   38
+        instr   39
+        instr   40
+sorting score ...
+        ... done
+Csound version 5.08 (double samples) Nov  9 2008
+displays suppressed
+0dBFS level = 32768.0
+orch now loaded
+audio buffered in 1024 sample-frame blocks
+writing 4096-byte blks of shorts to dac
+SECTION 1:
+ENDED CppSound::compile.
+ENDED CppSound::compile.
+Csound tidy up: Interrupt
+                         error: command 'gcc' terminated by signal 2
+Early return from csoundPerformKsmps().
+inactive allocs returned to freespace
+end of score.              overall amps:  13640.8  10923.5
+           overall samples out of range:        0        0
+0 errors in performance
+785 4096-byte soundblks of shorts written to dac
+Unhandled exception in thread started by
+Error in sys.excepthook:
+
+Original exception was:
+edgar@aura:~/ouroborus/birdcage$
+
+
+edgar@aura:~/ouroborus/birdcage$ ./start.py
+BEGAN CppSound::compile()...
+BEGAN CppSound::compile(9, 0x826ea90)...
+PortMIDI real time MIDI plugin for Csound
+PortAudio real-time audio module for Csound
+virtual_keyboard real time MIDI plugin for Csound
+0dBFS level = 32768.0
+Csound version 5.08 (double samples) Nov  9 2008
+libsndfile-1.0.17
+orchname:  temp.orc
+scorename: temp.sco
+rtaudio: ALSA module enabled
+rtmidi: PortMIDI module enabled
+orch compiler:
+2079 lines read
+        instr   1
+        instr   2
+        instr   3
+        instr   4
+        instr   5
+        instr   6
+        instr   7
+        instr   8
+        instr   9
+        instr   10
+        instr   11
+        instr   12
+        instr   13
+        instr   14
+        instr   15
+        instr   16
+        instr   17
+        instr   18
+        instr   19
+        instr   20
+        instr   21
+        instr   22
+        instr   23
+        instr   24
+        instr   25
+        instr   26
+        instr   27
+        instr   28
+        instr   29
+        instr   30
+        instr   31
+        instr   32
+        instr   33
+        instr   34
+        instr   35
+        instr   36
+        instr   37
+        instr   38
+        instr   39
+        instr   40
+sorting score ...
+        ... done
+Csound version 5.08 (double samples) Nov  9 2008
+displays suppressed
+0dBFS level = 32768.0
+orch now loaded
+audio buffered in 1024 sample-frame blocks
+writing 4096-byte blks of shorts to dac
+SECTION 1:
+ENDED CppSound::compile.
+ENDED CppSound::compile.
+error: command 'gcc' terminated by signal 2
+inactive allocs returned to freespace
+end of score.              overall amps:  14199.7  14334.9
+           overall samples out of range:        0        0
+0 errors in performance
+814 4096-byte soundblks of shorts written to dac
+Csound tidy up: Segmentation fault
+edgar@aura:~/ouroborus/birdcage$
