@@ -51,15 +51,6 @@ if specific.logging:
 	logging = open(specific.logFile, 'w')
 
 
-def setCursesColors():
-	""" Set the curses colours.
-	"""
-	curses.init_pair(1, curses.COLOR_RED, curses.COLOR_BLACK)
-	curses.init_pair(2, curses.COLOR_GREEN, curses.COLOR_BLACK)
-	curses.init_pair(3, curses.COLOR_YELLOW, curses.COLOR_BLACK)
-	curses.init_pair(4, curses.COLOR_BLUE, curses.COLOR_BLACK)
-
-
 def startExecutionBeta():
     """ Changes specificity to Beta and then calls the Normal submode.
 
@@ -94,7 +85,7 @@ def startExecutionNormal():
 	# curses.wrapper is the kosher way to fire up curses visual
 	# services; it guarantees that the terminal will not be left
 	# stranded in an ocean of insanity if the program terminates
-	# exceptionally.
+	# exceptionally. If Pygame is used a new display window is opened.
 	if specific.displayType == 'pygame':
 		main(None)
 	elif specific.displayType == 'curses':
@@ -223,13 +214,13 @@ class ThreadedSequence(object):
 		for entry in self.taw:	
 			self.bast.readBookOfLife(entry)
 
-		# Set the curses colour pairs if curses is being used.
+		# Decide whether to use a Curses or Pygame display
 		if stdscr:
-			setCursesColors()
 			# Generate a curses display.
 			self.display = aset.generateDisplay(self.kemet, self.size, stdscr)
 		else:
 			self.display = aset.generateDisplay(self.kemet, self.size, None)
+
 		# Set some initial data for sound control.
 		sound.setInitialData(self.bast.width)
 

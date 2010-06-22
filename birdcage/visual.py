@@ -1,10 +1,19 @@
-import curses as c
+import curses
 import pygame
 from pygame.locals import *
 import Image
 import ImageDraw
 import sys
-import time as t
+
+
+def setCursesColors(mana, agents, background):
+	""" Set the curses colours.
+	"""
+	curses.init_pair(1, curses.COLOR_RED, curses.COLOR_BLACK)
+	curses.init_pair(2, getattr(curses, agents), getattr(curses, background))
+	curses.init_pair(3, getattr(curses, mana), getattr(curses, background))
+	curses.init_pair(4, curses.COLOR_BLUE, curses.COLOR_BLACK)
+
 
 
 def icon(i):
@@ -26,7 +35,7 @@ def printIcon(automaton, stdscr, address):
 	address   ---> a 2-tuple, a cell in the c.a. grid
 	"""
 	(x,y) = address
-	stdscr.addch(y, x, icon(automaton.get(address)), c.color_pair(3))
+	stdscr.addch(y, x, icon(automaton.get(address)), curses.color_pair(3))
 
 
 def printAgent(stdscr, agent, displaywidth, displayheight):
@@ -41,7 +50,7 @@ def printAgent(stdscr, agent, displaywidth, displayheight):
 	for address in corporality:
 		(x,y) = address
 		if 0 <= x and x <= displaywidth and 0 <= y and y <= displayheight:
-			stdscr.addch(y, x, ord("#"), c.color_pair(2))
+			stdscr.addch(y, x, ord("#"), curses.color_pair(2))
 	
 	
 def printTranslucentAgent(stdscr, agent, displaywidth, displayheight, automaton):
@@ -51,14 +60,14 @@ def printTranslucentAgent(stdscr, agent, displaywidth, displayheight, automaton)
 	agent   ---> a birdcage Agent_2D instance
 	displaywidth  ---> an integer
 	displayheight ---> an integer
-    """
+	"""
 	corporality = agent.tellCorporality()
 	for address in corporality:
 		(x,y) = address
 		if x < displaywidth and y < displayheight:
 			(automaton.get((x,y)) and [stdscr.addch(y, x, ord("@"),
-		     c.color_pair(2))] or [stdscr.addch(y, x, ord("#"),
-		     c.color_pair(2))])[0]
+		     curses.color_pair(2))] or [stdscr.addch(y, x, ord("#"),
+		     curses.color_pair(2))])[0]
 
 
 def updateLoop(automaton, stdscr, displaywidth, displayheight):
@@ -67,8 +76,8 @@ def updateLoop(automaton, stdscr, displaywidth, displayheight):
 	automaton     ---> a birdcage automaton instance
 	stdscr        ---> a curses stdscr object
 	displaywidth  ---> an integer
-	displayheight ---> an integer"""
-
+	displayheight ---> an integer
+	"""
 	for x in range(displaywidth):
 		for y in range(displayheight):
 			printIcon(automaton, stdscr, (x,y))
@@ -86,8 +95,8 @@ def updateBackground(automaton, stdscr, displaywidth, displayheight):
 	automaton     ---> a birdcage automaton instance
 	stdscr        ---> a curses stdscr object
 	displaywidth  ---> an integer
-	displayheight ---> an integer"""
-
+	displayheight ---> an integer
+	"""
 	for x in range(displaywidth):
 		for y in range(displayheight):
 			printIcon(automaton, stdscr, (x,y))
@@ -99,7 +108,8 @@ def updateAgent(agent, stdscr, displaywidth, displayheight):
 	agent			---> a birdcage Agent_2D instance
 	stdscr      	---> a curses stdscr object
 	displaywidth	---> an integer
-	displayheight	---> an integer"""
+	displayheight	---> an integer
+	"""
 
 	printAgent(stdscr, agent, displaywidth, displayheight)
 
@@ -129,7 +139,6 @@ def pygGenerateDisplay(size, caption, zoom=12):
 	the size in pixels as a tuple (width,height) and a caption in string
 	format (i.e. "Title") to be displayed
 	as the window title.
-	
 	"""
 	pygame.init()
 	screen = pygame.display.set_mode((zoom*size[0],zoom*size[1]))
@@ -171,12 +180,13 @@ def pygUpdateBackground(automaton, criterion, size,zoom=12,output='buffer.tiff')
 	del ufile      
 	image = None
 	del image
+
 	
 def pygDrawAgent(agent,agentImg='agent.png',output= 'buffer.tiff',zoom =12):
 	"""This function places the agents on the buffer image. It requieres the
 	corporality (position) of an agent, an agent image file (3x3px) and an
-	output image to draw the agent on"""
-	
+	output image to draw the agent on.
+	"""
 	picture = Image.open(output)
 	agentImg = Image.open(agentImg)
 	address = agent.tellAddress()
@@ -199,7 +209,6 @@ def pygDrawAgent(agent,agentImg='agent.png',output= 'buffer.tiff',zoom =12):
 	del ufile      
 	image = None
 	del image
-
 
 
 def pygViewClose(self):

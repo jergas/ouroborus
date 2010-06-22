@@ -12,6 +12,7 @@ import operator
 rule = ("ReductionRule", (operator.xor, 0))
 automaton = ("SynchronousAutomaton_2D", )
 
+
 ############
 
 # The agents:
@@ -21,6 +22,7 @@ seedCode	= "Yi Yc Ys Cb Cd Cr Ld Lp Le Iy Ir Ip Ix Ik Lr Rd Rl"
 prana		= 7
 mana		= 1
 
+
 ############
 
 # The iteration:
@@ -29,11 +31,19 @@ avatars = 2
 doomsday = 70
 seed = ("Random",1)
 
+
 ############
 
 # Display type ('curses' or 'pygame')
 
 displayType = 'curses'
+
+# The Curses colours
+
+backgroundColour = "COLOR_BLACK"
+manaColour = "COLOR_YELLOW"
+agentsColour = "COLOR_GREEN"
+
 
 ############
 
@@ -41,7 +51,6 @@ displayType = 'curses'
 
 logging = False
 logFile = "log.txt"
-
 
 
 ############

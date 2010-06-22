@@ -6,19 +6,32 @@ import rule
 import agent as a
 import automaton
 import genome as g
-from code import tabula, tabula_antica
-# other ouroborus core modules
-
-# these are the modules used for display
 import visual as v
-import curses as c
-# these are the modules used for sound
-import sound_globals as soundGlobals
-# these are the ingredients for the Pyrex compile spell
-import sys
-import distutils.core 
-from distutils.extension import Extension
-from Pyrex.Distutils import build_ext
+from code import tabula, tabula_antica
+
+try:
+	# other ouroborus core modules
+	from bookentry import BookEntry
+	# these are the modules used for display
+	import visual as v
+	import curses as c
+	# these are the modules used for sound
+	import sound_globals as soundGlobals
+	# only load modules if running sound enabled simulations
+	if soundGlobals.simWSound == 1:
+		import agents_sound as agentsSound
+except ImportError:
+	print "WARNING: agent management, display or sound may not function 		correctly"
+
+try:
+	# these are the ingredients for the Pyrex compile spell
+	import sys
+	import distutils.core 
+	from distutils.extension import Extension
+	from Pyrex.Distutils import build_ext
+except ImportError:
+	print "WARNING: genome compilation disabled"
+
 # anything extra goes here
 import random
 
@@ -65,7 +78,7 @@ class Generator:
 		return automatonInstance
 
 
-	def generateGenotypeNew(self, poeio, ode):
+	def generateGenotype(self, poeio, ode):
 		"""Write and compile a file from a genome
 
 		poeio  ---> a list of characters
@@ -105,42 +118,6 @@ class Generator:
 		ode.append(BookEntry(onoma)) 
 		#ode[-1].fatum["prayer"] = "CreateMe"
 		self.obstetrics += 1 
-		return 1
-
-
-
-	def generateGenotype(self, poeio, ode):
-		"""Write and compile a file from a genome
-
-		poeio  ---> a list of characters
-		ode    ---> a list of names
-		return -->> 1"""
-
-		self.obstetrics += 1 #old
-		# samskara is a genome binding poeio to tabula
-		samskara = g.Genome(poeio, tabula_antica, 2)
-		# create a name for the module object
-		onoma = self.obstetrix+str(self.obstetrics)
-		# corpus is the relative filepath where the compiled genome will be saved
-		corpus = 'creatures/'+onoma+'.pyx'
-		# this incantation actually writes the .pyx file with the translated poeio code
-		samskara.incorporate(corpus)
-
-		# now we invoke the pyrex compiler to create the module
-		# this is a hack to do away with the command line arguments Pyrex expects
-		commandLineArgs = ['build_ext', '--inplace']
-		sys.argv.extend(commandLineArgs)
-		# and the actual call to the compiler using the Pyrex build_ext command
-		distutils.core.setup(
-			name = onoma,
-			ext_modules = [Extension(onoma,[corpus])],
-			cmdclass = {'build_ext':build_ext}
-			) 
-		# bring the command line back to its original condition
-		del sys.argv[-2:]
-
-		# finally, append the module's name to the list of names and return
-		ode.append([self.obstetrics, onoma, None, None, {"prayer":"BE_BIRTHED"}]) #old
 		return 1
 
 
@@ -192,7 +169,6 @@ class Organizer:
 		(self.width, self.height) = self.size
 
 
-
 	def initialiseAutomaton(self, seed):
 		"""Initialise cellular automaton from data in specs file
 		
@@ -233,7 +209,7 @@ class Organizer:
 		return self.earth.update()
 
 
-	def readBookOfLifeNew(self, bookentry):
+	def readBookOfLife(self, bookentry):
 		"""New and more pythonic version of this core function
 
 		bookentry ---> a BookEntry object
@@ -247,8 +223,8 @@ class Organizer:
 		default = self.grantPrayerLive
 		# call the appropriate grantPrayer method by prayer type
 		return getattr(self, "grantPrayer"+prayer, default)(bookentry)
-		
-	
+
+
 	def grantPrayerCreateMe(self, bookentry):
 		"""Setup the fatum for a new BookEntry, for creature created by 
 		divine mandate.
@@ -304,7 +280,7 @@ class Organizer:
 
 		# the Generator compiles the new module and writes it in the book
 		code = bookentry.fatum["code"]
-		self.generator.generateGenotypeNew(code, self.book)
+		self.generator.generateGenotype(code, self.book)
 		# add some necessary data to the new entry
 		child = self.book[-1]
 		child.fatum["code"] = bookentry.fatum["code"]
@@ -332,7 +308,7 @@ class Organizer:
 		return 1
 
 
-	def readBookOfLife(self, index, code, prana, mana, address, generator):
+	def readBookOfLifeOld(self, index, code, prana, mana, address, generator):
 		"""Dynamically import the modules compiled by the Generator
 
 		This will also cause actual agent instances to be created

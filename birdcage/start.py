@@ -76,7 +76,7 @@ def main(mode = "Audiovisual", submode = "Normal"):
 
 def setMode():
 	global specific
-	submode = "Noramal"
+	submode = "Normal"
 	mode = "Audiovisual"
 	if len(sys.argv) == 3:
 		submode = sys.argv.pop()

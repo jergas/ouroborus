@@ -259,3 +259,329 @@ end of score.              overall amps:  14199.7  14334.9
 814 4096-byte soundblks of shorts written to dac
 Csound tidy up: Segmentation fault
 edgar@aura:~/ouroborus/birdcage$
+
+
+edgar@aura:~/ouroborus/test$ qmake
+edgar@aura:~/ouroborus/test$ make
+g++ -c -pipe -O2 -D_REENTRANT -Wall -W -DSOQT_DLL -DCOIN_DLL -DSIMAGE_DLL -DHAVE_INT8_T -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SHARED -I/usr/share/qt4/mkspecs/linux-g++ -I. -I/usr/include/qt4/QtCore -I/usr/include/qt4/QtCore -I/usr/include/qt4/QtGui -I/usr/include/qt4/QtGui -I/usr/include/qt4 -I/usr/include/qt4/QtGui -I. -I. -o celula.o celula.cpp
+celula.cpp: In copy constructor 'celula::celula(const celula&)':
+celula.cpp:26: warning: base class 'class SoSeparator' should be explicitly initialized in the copy constructor
+g++ -c -pipe -O2 -D_REENTRANT -Wall -W -DSOQT_DLL -DCOIN_DLL -DSIMAGE_DLL -DHAVE_INT8_T -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SHARED -I/usr/share/qt4/mkspecs/linux-g++ -I. -I/usr/include/qt4/QtCore -I/usr/include/qt4/QtCore -I/usr/include/qt4/QtGui -I/usr/include/qt4/QtGui -I/usr/include/qt4 -I/usr/include/qt4/QtGui -I. -I. -o view2.o view2.cpp
+In file included from view2.cpp:1:
+view2.h:68:1: warning: multi-line comment
+view2.h:121:1: warning: multi-line comment
+In file included from view2.h:7,
+                 from view2.cpp:1:
+valores.h: In function 'void init()':
+valores.h:38: warning: unused variable 'timer'
+valores.h:39: warning: unused variable 'naa'
+In file included from view2.cpp:1:
+view2.h: At global scope:
+view2.h:89: warning: unused parameter 'classPtr'
+view2.h: In function 'void made_selection(void*, SoPath*)':
+view2.h:98: warning: unused variable 'cel'
+view2.h:99: warning: unused variable 'flag'
+view2.h: At global scope:
+view2.h:95: warning: unused parameter 'userdata'
+view2.h:102: warning: unused parameter 'userdata'
+view2.h:102: warning: unused parameter 'path'
+valores.h:20: warning: 'statesMatrixnt1' defined but not used
+valores.h:22: warning: 'dimSizes2D' defined but not used
+valores.h:26: warning: 'stop' defined but not used
+valores.h:27: warning: 'clean' defined but not used
+valores.h:28: warning: 'set' defined but not used
+valores.h:29: warning: 'salir' defined but not used
+valores.h:31: warning: 'iteracion' defined but not used
+valores.h:68: warning: 'void calculaCantidades()' defined but not used
+view2.h:59: warning: 'banderita' defined but not used
+view2.h:62: warning: 'banderaSeleccionado' defined but not used
+view2.h:71: warning: 'void play()' defined but not used
+view2.h:75: warning: 'void detente()' defined but not used
+view2.h:78: warning: 'void limpia()' defined but not used
+view2.h:83: warning: 'void llena()' defined but not used
+view2.h:89: warning: 'void myFunc(void*, SoSensor*)' defined but not used
+g++ -c -pipe -O2 -D_REENTRANT -Wall -W -DSOQT_DLL -DCOIN_DLL -DSIMAGE_DLL -DHAVE_INT8_T -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SHARED -I/usr/share/qt4/mkspecs/linux-g++ -I. -I/usr/include/qt4/QtCore -I/usr/include/qt4/QtCore -I/usr/include/qt4/QtGui -I/usr/include/qt4/QtGui -I/usr/include/qt4 -I/usr/include/qt4/QtGui -I. -I. -o CorreTodo.o CorreTodo.cpp
+In file included from CorreTodo.h:5,
+                 from CorreTodo.cpp:1:
+view2.h:68:1: warning: multi-line comment
+view2.h:121:1: warning: multi-line comment
+In file included from view2.h:7,
+                 from CorreTodo.h:5,
+                 from CorreTodo.cpp:1:
+valores.h: In function 'void init()':
+valores.h:38: warning: unused variable 'timer'
+valores.h:39: warning: unused variable 'naa'
+In file included from CorreTodo.h:5,
+                 from CorreTodo.cpp:1:
+view2.h: At global scope:
+view2.h:89: warning: unused parameter 'classPtr'
+view2.h: In function 'void made_selection(void*, SoPath*)':
+view2.h:98: warning: unused variable 'cel'
+view2.h:99: warning: unused variable 'flag'
+view2.h: At global scope:
+view2.h:95: warning: unused parameter 'userdata'
+view2.h:102: warning: unused parameter 'userdata'
+view2.h:102: warning: unused parameter 'path'
+CorreTodo.cpp:9: warning: unused parameter 'argc'
+CorreTodo.cpp:9: warning: unused parameter 'argv'
+valores.h:20: warning: 'statesMatrixnt1' defined but not used
+valores.h:22: warning: 'dimSizes2D' defined but not used
+valores.h:26: warning: 'stop' defined but not used
+valores.h:27: warning: 'clean' defined but not used
+valores.h:28: warning: 'set' defined but not used
+valores.h:29: warning: 'salir' defined but not used
+valores.h:31: warning: 'iteracion' defined but not used
+valores.h:68: warning: 'void calculaCantidades()' defined but not used
+view2.h:59: warning: 'banderita' defined but not used
+view2.h:62: warning: 'banderaSeleccionado' defined but not used
+view2.h:71: warning: 'void play()' defined but not used
+view2.h:75: warning: 'void detente()' defined but not used
+view2.h:78: warning: 'void limpia()' defined but not used
+view2.h:83: warning: 'void llena()' defined but not used
+view2.h:89: warning: 'void myFunc(void*, SoSensor*)' defined but not used
+view2.h:95: warning: 'void made_selection(void*, SoPath*)' defined but not used
+view2.h:102: warning: 'void made_deselection(void*, SoPath*)' defined but not used
+/usr/bin/moc-qt4 -DSOQT_DLL -DCOIN_DLL -DSIMAGE_DLL -DHAVE_INT8_T -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SHARED -I/usr/share/qt4/mkspecs/linux-g++ -I. -I/usr/include/qt4/QtCore -I/usr/include/qt4/QtCore -I/usr/include/qt4/QtGui -I/usr/include/qt4/QtGui -I/usr/include/qt4 -I/usr/include/qt4/QtGui -I. -I. view2.h -o moc_view2.cpp
+g++ -c -pipe -O2 -D_REENTRANT -Wall -W -DSOQT_DLL -DCOIN_DLL -DSIMAGE_DLL -DHAVE_INT8_T -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SHARED -I/usr/share/qt4/mkspecs/linux-g++ -I. -I/usr/include/qt4/QtCore -I/usr/include/qt4/QtCore -I/usr/include/qt4/QtGui -I/usr/include/qt4/QtGui -I/usr/include/qt4 -I/usr/include/qt4/QtGui -I. -I. -o moc_view2.o moc_view2.cpp
+In file included from moc_view2.cpp:10:
+view2.h:68:1: warning: multi-line comment
+view2.h:121:1: warning: multi-line comment
+In file included from view2.h:7,
+                 from moc_view2.cpp:10:
+valores.h: In function 'void init()':
+valores.h:38: warning: unused variable 'timer'
+valores.h:39: warning: unused variable 'naa'
+In file included from moc_view2.cpp:10:
+view2.h: At global scope:
+view2.h:89: warning: unused parameter 'classPtr'
+view2.h: In function 'void made_selection(void*, SoPath*)':
+view2.h:98: warning: unused variable 'cel'
+view2.h:99: warning: unused variable 'flag'
+view2.h: At global scope:
+view2.h:95: warning: unused parameter 'userdata'
+view2.h:102: warning: unused parameter 'userdata'
+view2.h:102: warning: unused parameter 'path'
+valores.h:20: warning: 'statesMatrixnt1' defined but not used
+valores.h:22: warning: 'dimSizes2D' defined but not used
+valores.h:26: warning: 'stop' defined but not used
+valores.h:27: warning: 'clean' defined but not used
+valores.h:28: warning: 'set' defined but not used
+valores.h:29: warning: 'salir' defined but not used
+valores.h:31: warning: 'iteracion' defined but not used
+valores.h:68: warning: 'void calculaCantidades()' defined but not used
+view2.h:59: warning: 'banderita' defined but not used
+view2.h:62: warning: 'banderaSeleccionado' defined but not used
+view2.h:71: warning: 'void play()' defined but not used
+view2.h:75: warning: 'void detente()' defined but not used
+view2.h:78: warning: 'void limpia()' defined but not used
+view2.h:83: warning: 'void llena()' defined but not used
+view2.h:89: warning: 'void myFunc(void*, SoSensor*)' defined but not used
+view2.h:95: warning: 'void made_selection(void*, SoPath*)' defined but not used
+view2.h:102: warning: 'void made_deselection(void*, SoPath*)' defined but not used
+g++  -o blablabla celula.o view2.o CorreTodo.o moc_view2.o    -L/usr/lib /usr/lib/libboost_thread.so -lSoQt4 -lQtOpenGL -lQt3Support -lXmu -lXi -lCoin -lGL -lXext -lSM -lICE -lX11 -ldl -lsimage -lQtGui -lQtCore -lpthread
+edgar@aura:~/ouroborus/test$
+
+edgar@aura:~/ouroborus/test$ ./blablabla
+empezamos main
+despues de limpia todo
+despues de init
+despues de SOQT::init
+antes de la creacion del thread
+thread creaddo
+constructor de view
+antes de crear la view interna del papa
+QPixmap: It is not safe to use pixmaps outside the GUI thread
+QPixmap: It is not safe to use pixmaps outside the GUI thread
+QPixmap: It is not safe to use pixmaps outside the GUI thread
+QObject::startTimer: QTimer can only be used with threads started with QThread
+QObject::startTimer: QTimer can only be used with threads started with QThread
+QObject::startTimer: QTimer can only be used with threads started with QThread
+QObject::startTimer: QTimer can only be used with threads started with QThread
+QObject::startTimer: QTimer can only be used with threads started with QThread
+despues de crear la view interna del papa
+en createRoot
+init() de valores.h
+despues de carga imagenes()
+en celula initClass()
+despues de celula::initClass()
+xmax = 25 ymax=25
+fin de createRoot
+definimos la scenegraph
+pacheco coin terminado el constructor
+creada new view
+QPixmap: It is not safe to use pixmaps outside the GUI thread
+despues de main show
+despues del conect de quit
+despues del mainloop
+despues de la creacion del tread y fin de main
+edgar@aura:~/ouroborus/test$
+
+~/ouroborus/test$ qmake
+~/ouroborus/test$ make
+g++ -c -pipe -O2 -D_REENTRANT -Wall -W -DSOQT_DLL -DCOIN_DLL -DSIMAGE_DLL -DHAVE_INT8_T -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SHARED -I/usr/share/qt4/mkspecs/linux-g++ -I. -I/usr/include/qt4/QtCore -I/usr/include/qt4/QtGui -I/usr/include/qt4 -I/usr/include/qt4/QtGui -I. -o celula.o celula.cpp
+celula.cpp: In copy constructor ‘celula::celula(const celula&)’:
+celula.cpp:26: warning: base class ‘class SoSeparator’ should be explicitly initialized in the copy constructor
+g++ -c -pipe -O2 -D_REENTRANT -Wall -W -DSOQT_DLL -DCOIN_DLL -DSIMAGE_DLL -DHAVE_INT8_T -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SHARED -I/usr/share/qt4/mkspecs/linux-g++ -I. -I/usr/include/qt4/QtCore -I/usr/include/qt4/QtGui -I/usr/include/qt4 -I/usr/include/qt4/QtGui -I. -o view2.o view2.cpp
+In file included from view2.cpp:1:
+view2.h:68:1: warning: multi-line comment
+view2.h:121:1: warning: multi-line comment
+In file included from view2.h:7,
+                 from view2.cpp:1:
+valores.h: In function ‘void init()’:
+valores.h:38: warning: unused variable ‘timer’
+valores.h:39: warning: unused variable ‘naa’
+In file included from view2.cpp:1:
+view2.h: At global scope:
+view2.h:89: warning: unused parameter ‘classPtr’
+view2.h: In function ‘void made_selection(void*, SoPath*)’:
+view2.h:98: warning: unused variable ‘cel’
+view2.h:99: warning: unused variable ‘flag’
+view2.h: At global scope:
+view2.h:95: warning: unused parameter ‘userdata’
+view2.h:102: warning: unused parameter ‘userdata’
+view2.h:102: warning: unused parameter ‘path’
+valores.h:20: warning: ‘statesMatrixnt1’ defined but not used
+valores.h:22: warning: ‘dimSizes2D’ defined but not used
+valores.h:26: warning: ‘stop’ defined but not used
+valores.h:27: warning: ‘clean’ defined but not used
+valores.h:28: warning: ‘set’ defined but not used
+valores.h:29: warning: ‘salir’ defined but not used
+valores.h:31: warning: ‘iteracion’ defined but not used
+valores.h:68: warning: ‘void calculaCantidades()’ defined but not used
+view2.h:59: warning: ‘banderita’ defined but not used
+view2.h:62: warning: ‘banderaSeleccionado’ defined but not used
+view2.h:71: warning: ‘void play()’ defined but not used
+view2.h:75: warning: ‘void detente()’ defined but not used
+view2.h:78: warning: ‘void limpia()’ defined but not used
+view2.h:83: warning: ‘void llena()’ defined but not used
+view2.h:89: warning: ‘void myFunc(void*, SoSensor*)’ defined but not used
+g++ -c -pipe -O2 -D_REENTRANT -Wall -W -DSOQT_DLL -DCOIN_DLL -DSIMAGE_DLL -DHAVE_INT8_T -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SHARED -I/usr/share/qt4/mkspecs/linux-g++ -I. -I/usr/include/qt4/QtCore -I/usr/include/qt4/QtGui -I/usr/include/qt4 -I/usr/include/qt4/QtGui -I. -o CorreTodo.o CorreTodo.cpp
+In file included from CorreTodo.h:5,
+                 from CorreTodo.cpp:1:
+view2.h:68:1: warning: multi-line comment
+view2.h:121:1: warning: multi-line comment
+In file included from view2.h:7,
+                 from CorreTodo.h:5,
+                 from CorreTodo.cpp:1:
+valores.h: In function ‘void init()’:
+valores.h:38: warning: unused variable ‘timer’
+valores.h:39: warning: unused variable ‘naa’
+In file included from CorreTodo.h:5,
+                 from CorreTodo.cpp:1:
+view2.h: At global scope:
+view2.h:89: warning: unused parameter ‘classPtr’
+view2.h: In function ‘void made_selection(void*, SoPath*)’:
+view2.h:98: warning: unused variable ‘cel’
+view2.h:99: warning: unused variable ‘flag’
+view2.h: At global scope:
+view2.h:95: warning: unused parameter ‘userdata’
+view2.h:102: warning: unused parameter ‘userdata’
+view2.h:102: warning: unused parameter ‘path’
+CorreTodo.cpp:9: warning: unused parameter ‘argc’
+CorreTodo.cpp:9: warning: unused parameter ‘argv’
+valores.h:20: warning: ‘statesMatrixnt1’ defined but not used
+valores.h:22: warning: ‘dimSizes2D’ defined but not used
+valores.h:26: warning: ‘stop’ defined but not used
+valores.h:27: warning: ‘clean’ defined but not used
+valores.h:28: warning: ‘set’ defined but not used
+valores.h:29: warning: ‘salir’ defined but not used
+valores.h:31: warning: ‘iteracion’ defined but not used
+valores.h:68: warning: ‘void calculaCantidades()’ defined but not used
+view2.h:59: warning: ‘banderita’ defined but not used
+view2.h:62: warning: ‘banderaSeleccionado’ defined but not used
+view2.h:71: warning: ‘void play()’ defined but not used
+view2.h:75: warning: ‘void detente()’ defined but not used
+view2.h:78: warning: ‘void limpia()’ defined but not used
+view2.h:83: warning: ‘void llena()’ defined but not used
+view2.h:89: warning: ‘void myFunc(void*, SoSensor*)’ defined but not used
+view2.h:95: warning: ‘void made_selection(void*, SoPath*)’ defined but not used
+view2.h:102: warning: ‘void made_deselection(void*, SoPath*)’ defined but not used
+/usr/bin/moc-qt4 -DSOQT_DLL -DCOIN_DLL -DSIMAGE_DLL -DHAVE_INT8_T -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SHARED -I/usr/share/qt4/mkspecs/linux-g++ -I. -I/usr/include/qt4/QtCore -I/usr/include/qt4/QtGui -I/usr/include/qt4 -I/usr/include/qt4/QtGui -I. view2.h -o moc_view2.cpp
+g++ -c -pipe -O2 -D_REENTRANT -Wall -W -DSOQT_DLL -DCOIN_DLL -DSIMAGE_DLL -DHAVE_INT8_T -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SHARED -I/usr/share/qt4/mkspecs/linux-g++ -I. -I/usr/include/qt4/QtCore -I/usr/include/qt4/QtGui -I/usr/include/qt4 -I/usr/include/qt4/QtGui -I. -o moc_view2.o moc_view2.cpp
+In file included from moc_view2.cpp:10:
+view2.h:68:1: warning: multi-line comment
+view2.h:121:1: warning: multi-line comment
+In file included from view2.h:7,
+                 from moc_view2.cpp:10:
+valores.h: In function ‘void init()’:
+valores.h:38: warning: unused variable ‘timer’
+valores.h:39: warning: unused variable ‘naa’
+In file included from moc_view2.cpp:10:
+view2.h: At global scope:
+view2.h:89: warning: unused parameter ‘classPtr’
+view2.h: In function ‘void made_selection(void*, SoPath*)’:
+view2.h:98: warning: unused variable ‘cel’
+view2.h:99: warning: unused variable ‘flag’
+view2.h: At global scope:
+view2.h:95: warning: unused parameter ‘userdata’
+view2.h:102: warning: unused parameter ‘userdata’
+view2.h:102: warning: unused parameter ‘path’
+valores.h:20: warning: ‘statesMatrixnt1’ defined but not used
+valores.h:22: warning: ‘dimSizes2D’ defined but not used
+valores.h:26: warning: ‘stop’ defined but not used
+valores.h:27: warning: ‘clean’ defined but not used
+valores.h:28: warning: ‘set’ defined but not used
+valores.h:29: warning: ‘salir’ defined but not used
+valores.h:31: warning: ‘iteracion’ defined but not used
+valores.h:68: warning: ‘void calculaCantidades()’ defined but not used
+view2.h:59: warning: ‘banderita’ defined but not used
+view2.h:62: warning: ‘banderaSeleccionado’ defined but not used
+view2.h:71: warning: ‘void play()’ defined but not used
+view2.h:75: warning: ‘void detente()’ defined but not used
+view2.h:78: warning: ‘void limpia()’ defined but not used
+view2.h:83: warning: ‘void llena()’ defined but not used
+view2.h:89: warning: ‘void myFunc(void*, SoSensor*)’ defined but not used
+view2.h:95: warning: ‘void made_selection(void*, SoPath*)’ defined but not used
+view2.h:102: warning: ‘void made_deselection(void*, SoPath*)’ defined but not used
+g++ -Wl,-O1 -o blablabla celula.o view2.o CorreTodo.o moc_view2.o    -L/usr/lib /usr/lib/libboost_thread.so -lSoQt4 -lQtOpenGL -lQt3Support -lXmu -lXi -lCoin -lGL -lXext -lSM -lICE -lX11 -ldl -lsimage -lQtGui -lQtCore -lpthread
+
+:~/ouroborus/test$ ./blablabla
+empezamos main
+despues de limpia todo
+despues de init
+despues de SOQT::init
+antes de la creacion del thread
+thread creaddo
+constructor de view
+antes de crear la view interna del papa 
+QPixmap: It is not safe to use pixmaps outside the GUI thread
+QPixmap: It is not safe to use pixmaps outside the GUI thread
+QPixmap: It is not safe to use pixmaps outside the GUI thread
+despues de crear la view interna del papa 
+en createRoot
+init() de valores.h
+despues de carga imagenes()
+en celula initClass()
+despues de celula::initClass()
+xmax = 25 ymax=25
+fin de createRoot
+definimos la scenegraph
+pacheco coin terminado el constructor
+creada new view
+QPixmap: It is not safe to use pixmaps outside the GUI thread
+despues de main show
+despues del conect de quit
+Segmentation fault
+
+Traceback (most recent call last):
+  File "start.py", line 99, in <module>
+    main(mode, submode)
+  File "start.py", line 74, in main
+    chooseExecutionMode()()
+  File "/home/ernesto/Documents/Ouroborus/ouroborus/birdcageLibrary/sequence_arduino.py", line 75, in startExecutionNormal
+    curses.wrapper(main)
+  File "/usr/lib/python2.5/curses/wrapper.py", line 44, in wrapper
+    return func(stdscr, *args, **kwds)
+  File "/home/ernesto/Documents/Ouroborus/ouroborus/birdcageLibrary/sequence_arduino.py", line 88, in main
+    Sequence = ThreadedSequence(stdscr)
+  File "/home/ernesto/Documents/Ouroborus/ouroborus/birdcageLibrary/sequence_arduino.py", line 157, in __init__
+    automatonData)
+  File "/home/ernesto/Documents/Ouroborus/ouroborus/birdcageLibrary/GOD.py", line 75, in generateAutomaton
+    neighborhoodClass = getattr(neighborhood, ndata[0])
+AttributeError: 'module' object has no attribute 'MooreNeighborhoodPlus'
+inactive allocs returned to freespace
+end of score.		   overall amps:      0.0      0.0
+	   overall samples out of range:        0        0
+0 errors in performance
+Error writing data to audio output device
+Csound tidy up: Segmentation fault

@@ -5,12 +5,13 @@ Alpha is the default specificity."""
 
 # The automaton:
 
-size = (80,20)
+size = (70,35)
 topology = ("ToroidTopology", 0)
 neighborhood = ("MooreNeighborhoodPlus", )
 import operator
 rule = ("ReductionRule", (operator.xor, 0))
 automaton = ("SynchronousAutomaton_2D", )
+
 
 ############
 
@@ -18,6 +19,7 @@ automaton = ("SynchronousAutomaton_2D", )
 
 mode = "arduino"
 submode = "Normal"
+
 
 ############
 
@@ -28,6 +30,7 @@ seedCode	= "Yi Yc Ys Cb Cd Cr Ld Lp Le Iy Ir Ip Ix Ik Lr Rd Rl"
 prana	= 7
 mana		= 1
 
+
 ############
 
 # The iteration:
@@ -36,11 +39,20 @@ avatars = 0
 doomsday = 200
 seed = ("Random",1)
 
+
 ############
 
-# Display type ('curses' or 'pygame')
+# The display:
 
+# Display type ('curses' or 'pygame')
 displayType = 'pygame'
+
+# The Curses colours
+
+backgroundColour = "COLOR_BLACK"
+manaColour = "COLOR_YELLOW"
+agentsColour = "COLOR_GREEN"
+
 
 ############
 
