@@ -28,7 +28,7 @@ mana		= 1
 # The iteration:
 
 avatars = 2
-doomsday = 70
+doomsday = 39
 seed = ("Random",1)
 
 
@@ -40,9 +40,9 @@ displayType = 'curses'
 
 # The Curses colours
 
-backgroundColour = "COLOR_BLACK"
-manaColour = "COLOR_YELLOW"
-agentsColour = "COLOR_GREEN"
+backgroundColour = "COLOR_WHITE"
+manaColour = "COLOR_GREEN"
+agentsColour = "COLOR_RED"
 
 
 ############

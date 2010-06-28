@@ -16,7 +16,6 @@
 # Read some history at EOF
 
 
-
 import curses
 import operator
 import random
@@ -33,32 +32,8 @@ import GOD
 # This refers to a configuration file which stores information such as
 # automaton size, seed genome, number of iterations, etc. Feel free to
 # write your own.
-specificity = "Alpha"
+specificity = sys.modules["__main__"].specificity
 specific = __import__("specific"+specificity)
-
-
-def startExecutionBeta():
-    """ Changes specificity to Beta and then calls the Normal submode.
-
-    return	-->> 1
-	"""
-    global specific
-    specificity = "Beta"
-    specific = __import__("specific"+specificity)
-    
-    startExecutionNormal()
-
-
-def startExecutionDelta():
-    """ Changes specificity to Delta and then calls the Normal submode.
-
-    return	-->> 1
-	"""
-    global specific
-    specificity = "Delta"
-    specific = __import__("specific"+specificity)
-    
-    startExecutionNormal()
 
 
 def startExecutionNormal():
@@ -84,6 +59,7 @@ def main(stdscr):
 	stdscr	--->> a standard curses display
 	return	-->> 1
 	"""
+
 	# Instatiate a Generator called aset.
 	aset = GOD.Generator(specific.name, specificity)
 	# The following lines read (from the config file) all the data

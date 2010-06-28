@@ -38,32 +38,8 @@ import sound
 # This refers to a configuration file which stores information such as
 # automaton size, seed genome, number of iterations, etc. Feel free to
 # write your own.
-specificity = "Alpha"
+specificity = sys.modules["__main__"].specificity
 specific = __import__("specific"+specificity)
-
-
-def startExecutionBeta():
-    """ Changes specificity to Beta and then calls the Normal submode.
-
-    return	-->> 1
-	"""
-    global specific
-    specificity = "Beta"
-    specific = __import__("specific"+specificity)
-    
-    startExecutionNormal()
-
-
-def startExecutionDelta():
-    """ Changes specificity to Delta and then calls the Normal submode.
-
-    return	-->> 1
-	"""
-    global specific
-    specificity = "Delta"
-    specific = __import__("specific"+specificity)
-    
-    startExecutionNormal()
 
 
 def startExecutionNormal():
@@ -152,7 +128,7 @@ def main(stdscr):
 		display = aset.generateDisplay(kemet, size, None)
 
 	# Instantiate the background-sound related threads.
-	sound.setInitialData(bast.width)
+	sound.setInitialData(size)
 	backgroundVoices	= sound.backgroundVoices()
 	backgroundControl	= sound.backgroundControl()
 	bckgrndCtrlCells	= []
@@ -181,9 +157,9 @@ def main(stdscr):
 
 		# The display and the sound control data are updated.
 		bast.refreshDisplay(display)
-		sndCtrlCells = [kemet.get((22,18)), kemet.get((40,18)),
-						kemet.get((64,18))]
-		sound.inputDataControl(sndCtrlCells, populNorm)
+#		sndCtrlCells = [kemet.get((22,18)), kemet.get((40,18)),
+#						kemet.get((64,18))]
+		sound.inputDataControl(kemet, populNorm)
 
 	# Do some cleanup and return.
 	sound.stopSoundServer()

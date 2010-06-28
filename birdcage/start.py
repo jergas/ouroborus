@@ -64,15 +64,14 @@ def main(mode = "Audiovisual", submode = "Normal"):
 		except ImportError:
 			notify()
 			module = __import__("sequence_debug")
-			notify()
 		function = getattr(module, "startExecution"+submode.capitalize(), module.startExecutionNormal)
 		return function
 		
-		def notify():
-			print "ImportError:"
-
 	chooseExecutionMode()()
 	return 1
+
+def notify():
+	print "ImportError:"
 
 def setMode():
 	global specific

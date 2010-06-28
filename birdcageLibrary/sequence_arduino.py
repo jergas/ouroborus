@@ -35,19 +35,6 @@ if specific.logging:
 	logging = open(specific.logFile, 'w')
 
 
-# A specificBeta.py file must be written if this function is to be used.
-def startExecutionBeta():
-    """Changes specificity to Beta and then calls the Normal submode
-	
-    return -->>1
-    """
-    global specific
-    specificity = "Beta"
-    specific = __import__("specific"+specificity)
-    
-    startExecutionNormal()
-
-
 def startExecutionNormal():
 	""" Start normal execution cycle with sound and visual display.
 

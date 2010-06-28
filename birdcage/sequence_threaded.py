@@ -43,36 +43,12 @@ import sound
 # This refers to a configuration file which stores information such as
 # automaton self.size, seed genome, number of iterations, etc. Feel free to
 # write your own.
-specificity = "Alpha"
+specificity = sys.modules["__main__"].specificity
 specific = __import__("specific"+specificity)
 
 # If logging is enabled, then open a log file.
 if specific.logging:
 	logging = open(specific.logFile, 'w')
-
-
-def startExecutionBeta():
-    """ Changes specificity to Beta and then calls the Normal submode.
-
-    return	-->> 1
-	"""
-    global specific
-    specificity = "Beta"
-    specific = __import__("specific"+specificity)
-    
-    startExecutionNormal()
-
-
-def startExecutionDelta():
-    """ Changes specificity to Delta and then calls the Normal submode.
-
-    return	-->> 1
-	"""
-    global specific
-    specificity = "Delta"
-    specific = __import__("specific"+specificity)
-    
-    startExecutionNormal()
 
 
 def startExecutionNormal():
