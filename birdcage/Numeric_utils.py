@@ -1,5 +1,6 @@
 ## Contains classes that collect numeric utilities.
-from math import sqrt
+
+from math import sqrt
 
 class Series(object):
 	""" Contains methods to generate the following numeric series: even,
@@ -20,37 +21,88 @@ class Series(object):
 		else:
 			print 'Initialization parameter must be 0 or 1'
 
-	def even(self, noOfElmnts):		""" Constructs an even-number series of noOfElements.
+
+	def even(self, noOfElmnts):
+		""" Constructs an even-number series of noOfElements.
 		noOfElements	---> the desired elements in the series
-		"""		evenLst    = []
+		"""
+		evenLst    = []
 		even        = 2
 		# If series is intended for a harmonic series, limit the series
 		# so that its last harmonic is below 1/2 of the sample rate
 		# (assuming a fundamental of 20hz and a distortion facotr of 1).
-		if self.harmonic == 1 and noOfElmnts > 250:			noOfElmnts = 250
+		if self.harmonic == 1 and noOfElmnts > 250:
+			noOfElmnts = 250
 
-		for x in xrange(noOfElmnts):			evenLst.append(even)			even = even + 2		return evenLst	def odd(self, noOfElmnts):		""" Constructs an odd-number series of noOfElements.
+		for x in xrange(noOfElmnts):
+			evenLst.append(even)
+			even = even + 2
+		return evenLst
+
+
+	def odd(self, noOfElmnts):
+		""" Constructs an odd-number series of noOfElements.
 		noOfElements	---> the desired elements in the series
-		"""		oddLst    = []		odd         = 1		counter     = 0
+		"""
+		oddLst    = []
+		odd         = 1
+		counter     = 0
 		# If series is intended for a harmonic series, limit the series
 		# so that its last harmonic is below 1/2 of the sample rate
 		# (assuming a fundamental of 20hz and a distortion facotr of 1).
-		if self.harmonic == 1 and noOfElmnts > 250:			noOfElmnts = 250				for x in xrange(noOfElmnts):			oddLst.append(odd)			odd = odd+2		return oddLst
-	def fibo(self, noOfElmnts):		""" Constructs a fibonacci-number series of noOfElements.
-		noOfElements	---> the desired elements in the series		"""		fiboLst    = []		a           = 0		b           = 1
+		if self.harmonic == 1 and noOfElmnts > 250:
+			noOfElmnts = 250
+		
+		for x in xrange(noOfElmnts):
+			oddLst.append(odd)
+			odd = odd+2
+		return oddLst
+
+	def fibo(self, noOfElmnts):
+		""" Constructs a fibonacci-number series of noOfElements.
+		noOfElements	---> the desired elements in the series
+		"""
+		fiboLst    = []
+		a           = 0
+		b           = 1
 		# If series is intended for a harmonic series, limit the series
 		# so that its last harmonic is below 1/2 of the sample rate
 		# (assuming a fundamental of 20hz and a distortion facotr of 1).
-		if noOfElmnts > 12:			noOfElmnts = 12
+		if noOfElmnts > 12:
+			noOfElmnts = 12
 		if self.harmonic == 1:
-			a = 1				for x in xrange(noOfElmnts):			fiboLst.append(b)			a, b = b, a+b		return fiboLst	def prime(self, noOfElmnts):
+			a = 1
+		
+		for x in xrange(noOfElmnts):
+			fiboLst.append(b)
+			a, b = b, a+b
+		return fiboLst
+
+
+	def prime(self, noOfElmnts):
 		""" Constructs a prime-number series of noOfElements.
 		noOfElements	---> the desired elements in the series
-		"""		primeLst    = []		candidate   = 2		counter     = 0
+		"""
+		primeLst    = []
+		candidate   = 2
+		counter     = 0
 		# If series is intended for a harmonic series, limit the series
 		# so that its last harmonic is below 1/2 of the sample rate
 		# (assuming a fundamental of 20hz and a distortion facotr of 1).
-		if self.harmonic == 1 and noOfElmnts > 95:			noOfElmnts = 95		while counter < noOfElmnts:			maxTest = int(sqrt(candidate)) + 1			for x in range(2, maxTest):				if candidate % x == 0:					candidate += 1					break			else:				primeLst.append(candidate)				candidate += 1				counter += 1		return primeLst
+		if self.harmonic == 1 and noOfElmnts > 95:
+			noOfElmnts = 95
+
+		while counter < noOfElmnts:
+			maxTest = int(sqrt(candidate)) + 1
+			for x in range(2, maxTest):
+				if candidate % x == 0:
+					candidate += 1
+					break
+			else:
+				primeLst.append(candidate)
+				candidate += 1
+				counter += 1
+		return primeLst
 
 
 class Scaling(object):
@@ -64,7 +116,7 @@ class Scaling(object):
 		"""
 		oldTotl	= 0.0
 		newLst		= []
-
+		
 		for x in aList:
 			oldTotl = oldTotl + x
 		scaleFactor = newTotl / oldTotl
@@ -74,11 +126,17 @@ class Scaling(object):
 		return newLst
 
 
-	def valToRng(self, val, oldMin, oldMax, newMin, newMax):		"""Scales a value within a range to it's equivalent in a new range.
+	def valToRng(self, val, oldMin, oldMax, newMin, newMax):
+		"""Scales a value within a range to it's equivalent in a new range.
 		val		---> the value to be scaled.
 		oldMin	---> the minimum of the old range
 		oldMax	---> the maximum of the old range
 		newMin	---> the minimum of the new range
 		newMax	---> the maximum of the new range
 		return 	--> a scaled value
-		"""		oldRng = (oldMax*1.0) - oldMin		newRng = newMax - newMin		ratio = newRng/oldRng		scaledVal	= ((val - oldMin) * ratio + newMin)		return scaledVal
+		"""
+		oldRng = (oldMax*1.0) - oldMin
+		newRng = newMax - newMin
+		ratio = newRng/oldRng
+		scaledVal	= ((val - oldMin) * ratio + newMin)
+		return scaledVal

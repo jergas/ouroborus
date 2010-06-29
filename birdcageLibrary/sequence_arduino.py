@@ -27,7 +27,7 @@ import sound
 # This refers to a configuration file which stores information such as
 # automaton self.size, number of iterations, etc. Feel free to write
 # your own.
-specificity = "Environment"
+specificity = sys.modules["__main__"].specificity
 specific = __import__("specific"+specificity)
 
 # If logging is enabled, then open a log file.
@@ -148,7 +148,7 @@ class ThreadedSequence(object):
 			self.display = aset.generateDisplay(self.kemet, self.size, None)
 			
 		# Set some initial data for sound control.
-		sound.setInitialData(self.bast.width)
+		sound.setInitialData(self.size)
 
 		# Create a thread-condition object to keep the simulation and
 		# audiovisual threads synchronized.
@@ -185,7 +185,7 @@ class ThreadedSequence(object):
 			# Update the display
 			self.bast.refreshBackground(self.display)
 			# Update the audio
-			sound.inputDataControl(sndCtrlCells, populNorm)
+			sound.inputDataControl(self.kemet, populNorm)
 			self.bckgrndThreadCondition.notify()
 			self.bckgrndThreadCondition.wait()
 			self.bckgrndThreadCondition.release()

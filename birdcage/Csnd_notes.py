@@ -12,6 +12,7 @@ Pan		= NM.Pan()
 Env		= NM.Env()
 
 
+
 class AgentNote(object):
 	""" Note class for the sound played when an agent is born.
 	"""
@@ -80,6 +81,7 @@ class BckgrndNote(object):
 		self.partls			= Spctrm.mkPartls(self.spectType, self.numOfPartls)
 		self.dSpect2		= Spctrm.dSpect(self.fundFreq, self.partls,
 												self.distor2)
+
 		# Ensure that both spectra will have the same number of
 		# partials, since the spectrum construction method
 		# discards harmonics over 20,000hz.

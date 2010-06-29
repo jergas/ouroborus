@@ -135,7 +135,7 @@ def main(stdscr):
 	# Start the background-sound related threads.
 	for x in backgroundVoices:
 		x.start()
-	backgroundControl.start()
+	backgroundControl.start()	
 
 	# Main iteration cycle.
 	while bast.annum < doomsday:

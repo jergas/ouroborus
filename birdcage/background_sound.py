@@ -4,17 +4,18 @@
 # Python's native libraries
 import time
 import threading
-from random import choice, randint, uniform
+import random
 # Sound-related submodules
 from csnd_interface import initCSnd, perf, cSnd
 import Numeric_utils as NU
 from equal_temper import centsToFreq
 from Csnd_notes import BckgrndNote
-import sound_globals as sGlobals
+import sound_globals as soundGlobals
 
 # Instantiate the numeric scaling class. 
 Scaling = NU.Scaling()
 
+#logging = open("log.txt", 'w')
 
 def oneBckgrndVox(frstInstr, dur, ptch, strtDistr, specType, distrBias, pan):
 	"""Starts a note-generating loop which -parting from initial
@@ -29,52 +30,55 @@ def oneBckgrndVox(frstInstr, dur, ptch, strtDistr, specType, distrBias, pan):
 	pan			---> Note's panning
 	"""
 	fundFreq		= centsToFreq(ptch)
-	numOfPartls		= 12
-	endDistrFact	= strtDistr + Scaling.valToRng(sGlobals.populNorm[0],
-													sGlobals.populMin[0],
-													sGlobals.populMax[0],
+	numOfPartls		= 13
+	endDistrFact	= strtDistr + Scaling.valToRng(soundGlobals.populNorm[0],
+													soundGlobals.populMin[0],
+													soundGlobals.populMax[0],
 													-0.1, 0.1)
 	instrNos 		= range(frstInstr, (frstInstr + numOfPartls))
 	# Instantiate the background sound note class.
 	bckgrndNote = BckgrndNote(instrNos, fundFreq, numOfPartls, specType,
 								strtDistr, endDistrFact, pan, dur)
 
-	while sGlobals.mainIterCycle == 1:
+	while soundGlobals.mainIterCycle == 1:
 		spectrum	= bckgrndNote.mkScoStrings()
+#		logging.write ('\n' + str(len(spectrum)))
 		# Feed the partials to Csound.
 		for x in spectrum:
 			perf.InputMessage(x)
 		# Change the parameters for the next note.
-		fundFreq = centsToFreq(ptch + randint(-50, 50))
-		bckgrndNote.fundFreq = fundFreq
-		strtDistr = endDistrFact
-		bckgrndNote.distor = strtDistr
-		if not distrBias:
-			endDistrFact = strtDistr + Scaling.valToRng(sGlobals.populNorm[0],
-														sGlobals.populMin[0],
-														sGlobals.populMax[0],
-														-0.1, 0.1)
-			bckgrndNote.distor2 = endDistrFact
-		elif distrBias is 1:
-			endDistrFact = strtDistr + Scaling.valToRng(sGlobals.populNorm[0],
-														sGlobals.populMin[0],
-														sGlobals.populMax[0],
-														0, 0.2)
-			bckgrndNote.distor2 = endDistrFact
-		elif distrBias is 2:
-			endDistrFact = strtDistr + Scaling.valToRng(sGlobals.populNorm[0],
-														sGlobals.populMin[0],
-														sGlobals.populMax[0],
-														-.2, 0)
-			bckgrndNote.distor2 = endDistrFact
-		if endDistrFact > .75:
-			distrBias = 2
-		if endDistrFact < .25:
-			distrBias = 1
-		time.sleep(abs(dur) - 2)	
+		#fundFreq = centsToFreq(ptch + random.randint(-50, 50))
+		#bckgrndNote.fundFreq = fundFreq
+		#strtDistr = endDistrFact
+		#bckgrndNote.distor = strtDistr
+		#if not distrBias:
+		#	endDistrFact = strtDistr+Scaling.valToRng(soundGlobals.populNorm[0],
+		#												soundGlobals.populMin[0],
+		#												soundGlobals.populMax[0],
+		#												-0.1, 0.1)
+		#	bckgrndNote.distor2 = endDistrFact
+		#elif distrBias is 1:
+		#	endDistrFact = strtDistr+Scaling.valToRng(soundGlobals.populNorm[0],
+		#												soundGlobals.populMin[0],
+		#												soundGlobals.populMax[0],
+		#												0, 0.2)
+		#	bckgrndNote.distor2 = endDistrFact
+		#elif distrBias is 2:
+		#	endDistrFact = strtDistr+Scaling.valToRng(soundGlobals.populNorm[0],
+		#												soundGlobals.populMin[0],
+		#												soundGlobals.populMax[0],
+		#												-.2, 0)
+		#	bckgrndNote.distor2 = endDistrFact
+		#if endDistrFact > .75:
+		#	distrBias = 2
+		#if endDistrFact < .25:
+		#	distrBias = 1
+#		logging.write('\nsleeping' + str(counter))
+		time.sleep(abs(dur))
+#		logging.write ('\nwaking' + str(counter))
 
 
-def ctrlBckgrndSnd():
+def ctrlBckgrndSndOLD():
 	"""Uses parameters from the automaton (stored by sound.py in
 	sound_globals.py) to control the background sound after the notes
 	have started. Changes at note-start times are handled by
@@ -93,12 +97,12 @@ def ctrlBckgrndSnd():
 	counter			= 1.0
 	oldPartialsOn	=	0
 
-	while sGlobals and sGlobals.mainIterCycle:
+	while soundGlobals and soundGlobals.mainIterCycle:
 		allpartlsOn			= []
 		onChans				= []
 		offChans			= []
 		updatepartls 		= 0
-		possiblePartlsOn	= round(Scaling.valToRng(sGlobals.populNorm[0],
+		possiblePartlsOn	= round(Scaling.valToRng(soundGlobals.populNorm[0],
 											.001875, .31375, 1, 39))
 	# Wait until number of the automaton's live cells has varied.
 	# (needed when running the threaded version of the threaded
@@ -141,72 +145,84 @@ def ctrlBckgrndSnd():
 					updatepartls = len(x) - w
 					for z in range(0, int(updatepartls)):
 						if len(x):
-							newOff = x.pop(randint(0, len(x)-1))
+							newOff = x.pop(random.randint(0, len(x)-1))
 							cSnd.SetChannel("chan%s" %(newOff),
-											choice(wheightedGates))
+											random.choice(wheightedGates))
 							y.append(newOff)
-		# Introduces (slight) discontinuity to the update of partial's
-		# intencity.		
-#		if sGlobals.sndCtrlCells == [1, 1, 1]:
-#			time.sleep(0.017)
-#		elif sGlobals.sndCtrlCells == [1, 1, 0]:
-#			time.sleep(0.013)
-#		elif sGlobals.sndCtrlCells == [1, 0, 1]:
-#			time.sleep(0.011)
-#		elif sGlobals.sndCtrlCells == [0, 1, 1]:
-#			time.sleep(0.007)
-#		elif sGlobals.sndCtrlCells == [1, 0, 0]:
-#			time.sleep(0.005)
-#		elif sGlobals.sndCtrlCells == [0, 1, 0]:
-#			time.sleep(0.003)
-#		elif sGlobals.sndCtrlCells == [0, 0, 1]:
-#			time.sleep(0.002)
-#		if counter % 105 == 0:
-#			time.sleep(0.031)
-#		elif counter % 35 == 0:
-#			time.sleep(.029)
-#		elif counter % 21 == 0:
-#			time.sleep(.023)
-#		elif counter % 15== 0:
-#			time.sleep(.019)
-		if sGlobals.populNorm[0] > sGlobals.populMax[0]:
-			sGlobals.populMax[0] = sGlobals.populNorm[0]
+
+		if soundGlobals.populNorm[0] > soundGlobals.populMax[0]:
+			soundGlobals.populMax[0] = soundGlobals.populNorm[0]
 		counter += 1
 		time.sleep(.01)
+		
+		
+def ctrlBckgrndSnd():
+	"""Uses parameters from the automaton (stored by sound.py in
+	sound_globals.py) to control the background sound after the notes
+	have started. Changes at note-start times are handled by
+	oneBckgrndVox().
+	"""	
+	wheightedGates	= [0.5]*2 + [0.25]*3 + [0.125]*5 + [0.0625]*7 + [.03125]*11
+	oldAutomatonState	= soundGlobals.backgroundUpdateList
+	
+	while soundGlobals and soundGlobals.mainIterCycle:
+		# Wait until number of the automaton's live cells has varied.
+		newAutomatonState = soundGlobals.backgroundUpdateList
+#		while oldAutomatonState == newAutomatonState:
+#			time.sleep(.1)
+#			break
+		# Attenuate or boost the relevant partials
+		if oldAutomatonState != newAutomatonState:
+			for x in newAutomatonState:
+				if x[1] == 1:
+					cSnd.SetChannel("chan%s" %(x[0]), 1)
+				else:
+					cSnd.SetChannel("chan%s" %(x[0]), 0)
+#									random.choice(wheightedGates))
+		oldAutomatonState = soundGlobals.backgroundUpdateList
+		time.sleep(.1)
 
 
-voiceList	= []
 
-def playback():
-	""" Creates three threads, each running a background voice thread.
+
+def setControlCells(width, height, controlChannels=range(1,40)):
+	""" Randomly chooses a list of cells which will control whether an
+	individual background (harmonic) partial will be on or off.
+	width	---> the cellular automaton's width
+	height	---> the cellular automaton's height
+	return	-->> a dictionary key=controlChannel value=(cell, state)
 	"""
-	argsList	= [(2, -12, 3400, 0.8, 0, 1, 0.25),
-					(15, -8, 3400, 0.5, 3, 0, 0.5),
-					(27, -14, 3400, 0.2, 1, 2, 0.75)]
-	voiceNo		= 1
-
-	for x in argsList:
-		threadName = 'BackgroundVoice' + str(voiceNo)
-		voice = threading.Thread(name=threadName, target=oneBckgrndVox, args=x)
-		voice.setDaemon(True)
-		voice.start()
-		voiceList.append(voice)
-		voiceNo = voiceNo + 1
-
-
-def control():
-	"""Starts the background sound control thread, which modifies the
-	the background sound voices.
+	# Construct a list of tuples representing the cells of the
+	# automaton.
+	cellList = []
+	for x in range(width):
+		for y in range(height):
+			cell = (x, y)
+			cellList.append(cell)
+	# Take a random sample, which will serve as the background-sound
+	# control cells.
+	cellSample = random.sample(cellList, 39)
+	# Construct a dictionary with the control channels as keys, and a
+	# 2-tuple with cell-address and cell-state as values.
+	dictList = []
+	for channel, cell in zip (controlChannels, cellSample):
+		keyValue = (str(channel), (cell, 0))
+		dictList.append(keyValue)
+	cellControlDict = dict(dictList)
+	return cellControlDict
+	
+	
+def updateControlCells(automaton):
+	""" Updates the state of the automaton's sound-controll cells.
+	automaton	---> a birdcage cellular automaton
+	return		-->> a list of channel-number new-state 2-tuples
 	"""
-	controlThread = threading.Thread(name='backgroundVoicesControl',
-									target=ctrlBckgrndSnd)
-	controlThread.setDaemon(True)
-	controlThread.start()
-	voiceList.append(controlThread)
-
-
-# This was used for debugging, and may become handy again.
-if __name__ == "__main__":
-	initCSnd()
-	playback()
-	control()
+	backgroundUpdateList = []
+	for channel, cellAndCellState in soundGlobals.cellControlDict.iteritems():
+		oldCellState = soundGlobals.cellControlDict[channel][1]
+		cellState = automaton.get(cellAndCellState[0])
+		if oldCellState != cellState:
+			soundGlobals.cellControlDict[channel] = (cellAndCellState[0],
+														cellState)
+			backgroundUpdateList.append((channel, cellState))
+	return backgroundUpdateList

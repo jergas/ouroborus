@@ -8,19 +8,36 @@
 import threading
 
 # Sound-related submodules.
-import background_sound as background
+import background_sound as backgroundSound
 import csnd_interface as csndInterface
-import sound_globals as sGlobals
+import sound_globals as soundGlobals
 
 
-def setInitialData(automatonWidth):
-	sGlobals.automatonWidth = automatonWidth
+def setInitialData(size):
+	""" Record and make global data needed for sound processing. The
+	data is recorded on sound_globals.py.
+	size	---> a tuple representing the automaton's width and height
+	"""
+	(width, height) = size
+	soundGlobals.cellControlDict = backgroundSound.setControlCells(width, height)
 
 
 def startSoundServer(specificity):
 	"""Starts the sound server.
 	"""
 	csndInterface.initCSnd(specificity)
+
+
+def agentBirth(VocalTract):
+	"""Plays the birth sound.
+	"""
+	VocalTract.birthSound()
+	
+	
+def eatSound(VocalTract):
+	"""Plays the eating sound.
+	"""
+	VocalTract.eatSound()
 
 
 def backgroundVoices():
@@ -34,8 +51,8 @@ def backgroundVoices():
 	for index, item in enumerate(argsList):
 		threadName = 'BackgroundVoice' + str(index)
 		voice = threading.Thread(name=threadName,
-									target=background.oneBckgrndVox, args=item)
-#		voice.start()
+									target=backgroundSound.oneBckgrndVox,
+									args=item)
 		voiceList.append(voice)
 	return voiceList
 
@@ -45,23 +62,19 @@ def backgroundControl():
 	the background sound voices.
 	"""
 	controlThread = threading.Thread(name='backgroundVoicesControl',
-									target=background.ctrlBckgrndSnd)
-#	controlThread.start()
-#	voiceList.append(controlThread)
+										target=backgroundSound.ctrlBckgrndSnd)
 	return controlThread
 
 
-def inputDataControl(sndCtrlCells, populNorm):
+def inputDataControl(automaton, populNorm):
 	"""Updates the automaton's variables needed to control the
 	background sound. These global sound-control variables 'live'
 	in sound_globals.py.
 
-	sndCtrlCells	---> three element list containing the state of
-						three automaton's cells.
-	populationNORM	---> the automaton's normalized cell population
+	automaton	---> a birdcage cellular automaton.
 	"""
-	sGlobals.populNorm 	= [populNorm]
-	sGlobals.sndCtrlCells = sndCtrlCells
+	soundGlobals.backgroundUpdateList = backgroundSound.updateControlCells(automaton)
+	soundGlobals.populNorm = [populNorm] 
 
 
 def stopSoundServer():
@@ -69,9 +82,5 @@ def stopSoundServer():
 	background_sound.py. The latter causes the iteration of the
 	background sound loops (and thus its threads) to end.
 	"""
-#	logging = open('logging.txt', 'w')
-#	logging.write('you have reached here!')
-#	logging.close()
-#	background.joinThreads()
 	csndInterface.endCsnd()
-	sGlobals.mainIterCycle = 0
+	soundGlobals.mainIterCycle = 0

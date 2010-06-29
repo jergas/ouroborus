@@ -36,14 +36,14 @@ specificity = "Environment"
 
 for option in optionList:
 	if option[0] == "--specificity": specificity = option[1].capitalize()
-	else: specificity = "Alpha"
+	else: specificity = "Environment"
 
 # NOTE that all other options are being ignored.
 
 try:
 	specific = __import__("specific" + specificity)
 except (ImportError, NameError, TypeError):
-	specific = __import__("specificAlpha")
+	specific = __import__("specificEnvironment")
 
 # Now the specificity has been loaded.
 
@@ -63,20 +63,19 @@ def main(mode = "Audiovisual", submode = "Normal"):
 			module = __import__("sequence_"+mode.lower())
 		except ImportError:
 			notify()
-			module = __import__("sequence_debug")
-			notify()
+			module = __import__("sequence_arduino")
 		function = getattr(module, "startExecution"+submode.capitalize(), module.startExecutionNormal)
 		return function
 		
-		def notify():
-			print "ImportError:"
-
 	chooseExecutionMode()()
 	return 1
 
+def notify():
+	print "ImportError:"
+
 def setMode():
 	global specific
-	submode = "Noramal"
+	submode = "Normal"
 	mode = "Audiovisual"
 	if len(sys.argv) == 3:
 		submode = sys.argv.pop()
@@ -97,7 +96,6 @@ def setMode():
 if __name__ == "__main__":
 	(mode, submode) = setMode()
 	main(mode, submode)
-	os.system("rm " + module.specific.name + "*")
 
 
 # History

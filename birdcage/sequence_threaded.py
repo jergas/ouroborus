@@ -198,7 +198,7 @@ class ThreadedSequence(object):
 			self.display = aset.generateDisplay(self.kemet, self.size, None)
 
 		# Set some initial data for sound control.
-		sound.setInitialData(self.bast.width)
+		sound.setInitialData(self.size)
 
 		# Initialize variables for inter-thread communication.
 		self.population = 0
@@ -256,7 +256,7 @@ class ThreadedSequence(object):
 			# Update the display
 			self.bast.refreshDisplay(self.display)
 			# Update the audio
-			sound.inputDataControl(sndCtrlCells, populNorm)
+			sound.inputDataControl(self.kemet, populNorm)
 			self.bckgrndThreadCondition.notify()
 			self.bckgrndThreadCondition.wait()
 			self.bckgrndThreadCondition.release()
