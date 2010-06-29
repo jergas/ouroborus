@@ -20,6 +20,10 @@ try:
 		import agents_sound as agentsSound
 except ImportError:
 	print "WARNING: agent management, display or sound may not function 		correctly"
+	class Emptybox:
+		def __init__(self):
+			self.simWSound = None
+	soundGlobals = Emptybox()	
 
 try:
 	# these are the ingredients for the Pyrex compile spell
