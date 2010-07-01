@@ -7,6 +7,7 @@ cp ../birdcage/neighborhood.pxd .
 cp ../birdcage/topology.pxd .
 cp ../birdcage/rule.pxd .
 cp ../birdcage/visual.py .
+cp ../birdcage/sound.py .
 cp ../birdcage/sound_globals.py .
 cp ../birdcage/background_sound.py .
 cp ../birdcage/csnd_interface.py .

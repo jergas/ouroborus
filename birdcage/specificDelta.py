@@ -44,6 +44,8 @@ backgroundColour = "COLOR_BLACK"
 manaColour = "COLOR_GREEN"
 agentsColour = "COLOR_RED"
 
+simWithAgents = True
+
 
 ############
 

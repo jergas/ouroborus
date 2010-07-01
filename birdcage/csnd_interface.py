@@ -15,13 +15,13 @@ perf			= csnd.CsoundPerformanceThread(cSnd)
 #CsdGenerator	= CsndData.CsdGenerator(39, specificity)
 
 
-def initCSnd(specificity):
+def initCSnd(csOptions):
 	"""Generates a single-file Csound Structured Data (.csd) string,
 	sets it in the Csound API, exports it for performance, compiles it,
 	and starts the 	performance.
 	"""
 	#cSnd.setPythonMessageCallback() # useful for debugging.
-	CsdGenerator	= CsndData.CsdGenerator(39, specificity)
+	CsdGenerator	= CsndData.CsdGenerator(39, csOptions)
 	csd = CsdGenerator.csd
 	cSnd.setCSD(csd)
 	cSnd.exportForPerformance()

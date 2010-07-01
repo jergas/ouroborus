@@ -30,6 +30,8 @@ seedCode	= "Yi Yc Ys Cb Cd Cr Ld Lp Le Iy Ir Ip Ix Ik Lr Rd Rl"
 prana	= 7
 mana		= 1
 
+simWithAgents = False
+
 
 ############
 
@@ -65,6 +67,10 @@ logFile = "log.txt"
 ############
 
 # Sound preferences:
+
+# Partials per background voice (minimum 1 maximum 13)
+
+backgroundPartials = 1
 
 # One of the csOptions should be commented. If you don't know
 # what you are doing, use the first version (uses the ALSA

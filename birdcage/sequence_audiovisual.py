@@ -48,7 +48,7 @@ def startExecutionNormal():
 	return	-->> 1
 	"""
 	# Start the sound server.
-	sound.startSoundServer(specificity)
+	sound.startSoundServer()
 	# curses.wrapper is the kosher way to fire up curses visual
 	# services; it guarantees that the terminal will not be left
 	# stranded in an ocean of insanity if the program terminates

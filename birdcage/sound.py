@@ -6,12 +6,34 @@
 
 #Python's native libraries.
 import threading
+import sys
 
 # Sound-related submodules.
-import agents_sound as agentsSound
 import background_sound as backgroundSound
 import csnd_interface as csndInterface
 import sound_globals as soundGlobals
+
+specificity = sys.modules["__main__"].specificity
+specific = __import__("specific"+specificity)
+
+# Import the agent's sound module and methods, except when a simulation
+# lacks agents.
+if specific.simWithAgents:
+	import agents_sound as agentsSound
+
+
+	def agentBirth(VocalTract):
+		"""Plays the birth sound.
+		"""
+		VocalTract.birthSound()
+		
+		
+	def eatSound(VocalTract):
+		"""Plays the eating sound.
+		"""
+		VocalTract.eatSound()
+else:
+	print 'If this is a simulation with agents, set simWithAgents to True in your specificXXX.py module.'
 
 
 def setInitialData(size):
@@ -23,22 +45,10 @@ def setInitialData(size):
 	soundGlobals.cellControlDict = backgroundSound.setControlCells(width, height)
 
 
-def startSoundServer(specificity):
+def startSoundServer():
 	"""Starts the sound server.
 	"""
-	csndInterface.initCSnd(specificity)
-
-
-def agentBirth(VocalTract):
-	"""Plays the birth sound.
-	"""
-	VocalTract.birthSound()
-	
-	
-def eatSound(VocalTract):
-	"""Plays the eating sound.
-	"""
-	VocalTract.eatSound()
+	csndInterface.initCSnd(specific.csOptions)
 
 
 def backgroundVoices():
