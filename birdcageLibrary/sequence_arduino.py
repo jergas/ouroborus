@@ -178,6 +178,8 @@ class ThreadedSequence(object):
 
 		while self.simulationOn and not self.interrupt:
 			self.bckgrndThreadCondition.acquire()
+			self.bckgrndThreadCondition.notify()
+			self.bckgrndThreadCondition.wait()
 			# Update the data needed by the background sound engine.
 			populNorm = float(self.population) / operator.mul(width,height)
 			sndCtrlCells = [self.kemet.get((22,18)), self.kemet.get((40,18)),
@@ -186,6 +188,4 @@ class ThreadedSequence(object):
 			self.bast.refreshBackground(self.display)
 			# Update the audio
 			sound.inputDataControl(self.kemet, populNorm)
-			self.bckgrndThreadCondition.notify()
-			self.bckgrndThreadCondition.wait()
 			self.bckgrndThreadCondition.release()

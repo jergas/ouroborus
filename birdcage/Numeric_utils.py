@@ -22,6 +22,24 @@ class Series(object):
 			print 'Initialization parameter must be 0 or 1'
 
 
+	def all(self, noOfElmnts):
+		""" Constructs a natural number series of noOfElements.
+		noOfElements	---> the desired elements in the series
+		"""
+		naturalLst    = []
+		natural       = 1
+		# If series is intended for a harmonic series, limit the series
+		# so that its last harmonic is below 1/2 of the sample rate
+		# (assuming a fundamental of 20hz and a distortion facotr of 1).
+		if self.harmonic == 1 and noOfElmnts > 500:
+			noOfElmnts = 500
+
+		for x in xrange(noOfElmnts):
+			naturalLst.append(natural)
+			natural += 1
+		return naturalLst
+
+
 	def even(self, noOfElmnts):
 		""" Constructs an even-number series of noOfElements.
 		noOfElements	---> the desired elements in the series

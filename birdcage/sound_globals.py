@@ -6,8 +6,8 @@ simWSound		= 0
 mainIterCycle	= 1
 
 # A dictionary used to control the background sound. It contains channel
-# numbers as keys and a 2-tuple consisting of a cell address and a cell
-# state.
+# numbers as keys and a 3-tuple consisting of a cell address, a cell
+# state, and a counter.
 cellControlDict	= []
 
 # A list with the data needed to update the background sound.

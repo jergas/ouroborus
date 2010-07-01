@@ -44,9 +44,9 @@ def eatSound(VocalTract):
 def backgroundVoices():
 	""" Creates three threads, each running a background voice thread.
 	"""
-	argsList	= [(2, -12, 3400, 0.8, 0, 1, 0.25),
-			   (15, -8, 3400, 0.5, 3, 0, 0.5),
-			   (27, -14, 3400, 0.2, 1, 2, 0.75)]
+	argsList	= [(2, -12, 3400, 0.50, 1, 1, 1),
+			   (15, -8, 3400, 0.50, 0, 0, 0.5),
+			   (27, -14, 3400, 0.50, 2, 2, 0)]
 	voiceList	= []
 
 	for index, item in enumerate(argsList):
