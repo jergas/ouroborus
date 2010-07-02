@@ -17,7 +17,7 @@ Scaling = NU.Scaling()
 
 #logging = open("log.txt", 'w')
 
-def oneBckgrndVox(frstInstr, dur, ptch, strtDistr, specType, distrBias, pan):
+def oneBckgrndVox(frstInstr, dur, ptch, strtDistr, specType, numOfPartls, pan):
 	"""Starts a note-generating loop which -parting from initial
 	parameters- is modified via the simulation (and some randomness).
 
@@ -26,11 +26,10 @@ def oneBckgrndVox(frstInstr, dur, ptch, strtDistr, specType, distrBias, pan):
 	ptch		---> Initial ptch of the fundamental frecuency
 	strtDistr	---> The initial spectral-distortion factor
 	specType	---> Spectrum type (odd, even, fibonacci or prime)
-	distrBias	---> A bias for how the spectrum will tend to vary
+	numOfPartls	---> Number of partials in the harmonic spectrum
 	pan			---> Note's panning
 	"""
 	fundFreq		= centsToFreq(ptch)
-	numOfPartls		= 13
 	endDistrFact	= strtDistr + (.01 * random.randint(-10, 10))
 	instrNos 		= range(frstInstr, (frstInstr + numOfPartls))
 	# Instantiate the background sound note class.
@@ -99,7 +98,8 @@ def ctrlBckgrndSnd():
 					if not x[2] % mod13:
 						cSnd.SetChannel("chan%s" %(x[0]), 1)
 				else:
-					cSnd.SetChannel("chan%s" %(x[0]), random.choice(wheightedGates))
+					cSnd.SetChannel("chan%s" %(x[0]),
+									random.choice(wheightedGates))
 #									random.choice(wheightedGates))
 		oldAutomatonState = soundGlobals.backgroundUpdateList
 		time.sleep(.1)
@@ -107,7 +107,7 @@ def ctrlBckgrndSnd():
 
 
 
-def setControlCells(width, height, controlChannels=range(1,40)):
+def setControlCells(width, height, backgroundPartials):
 	""" Randomly chooses a list of cells which will control whether an
 	individual background (harmonic) partial will be on or off.
 	width	---> the cellular automaton's width
@@ -116,6 +116,8 @@ def setControlCells(width, height, controlChannels=range(1,40)):
 	"""
 	# Construct a list of tuples representing the cells of the
 	# automaton.
+	backgroundPartials = (backgroundPartials * 3) + 1
+	controlChannels = range(1, backgroundPartials)
 	cellList = []
 	for x in range(width):
 		for y in range(height):
@@ -123,7 +125,7 @@ def setControlCells(width, height, controlChannels=range(1,40)):
 			cellList.append(cell)
 	# Take a random sample, which will serve as the background-sound
 	# control cells.
-	cellSample = random.sample(cellList, 39)
+	cellSample = random.sample(cellList, backgroundPartials)
 	# Construct a dictionary with the control channels as keys, and a
 	# 3-tuple with cell-address, cell-state as values and a counter.
 	dictList = []

@@ -42,21 +42,29 @@ def setInitialData(size):
 	size	---> a tuple representing the automaton's width and height
 	"""
 	(width, height) = size
-	soundGlobals.cellControlDict = backgroundSound.setControlCells(width, height)
+	soundGlobals.cellControlDict = backgroundSound.setControlCells(width, height, specific.backgroundPartials)
 
 
 def startSoundServer():
 	"""Starts the sound server.
 	"""
-	csndInterface.initCSnd(specific.csOptions)
+	csndInterface.initCSnd(specific.csOptions,
+							specific.backgroundPartials)
 
 
 def backgroundVoices():
 	""" Creates three threads, each running a background voice thread.
 	"""
-	argsList	= [(2, -12, 3400, 0.50, 1, 1, 1),
-			   (15, -8, 3400, 0.50, 0, 0, 0.5),
-			   (27, -14, 3400, 0.50, 2, 2, 0)]
+	backgroundPartials = specific.backgroundPartials
+	frstInstr = 2
+	frstInstrLst = range(frstInstr, (backgroundPartials + frstInstr) * 2,
+						backgroundPartials)
+	argsList	= [(frstInstrLst[0], -12, 3400, 0.50, 1, backgroundPartials,
+						1),
+					(frstInstrLst[1], -8, 3400, 0.50, 0, backgroundPartials,
+						0.5),
+					(frstInstrLst[2], -14, 3400, 0.50, 2, backgroundPartials,
+						0)]
 	voiceList	= []
 
 	for index, item in enumerate(argsList):

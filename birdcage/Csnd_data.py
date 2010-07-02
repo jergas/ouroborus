@@ -209,11 +209,11 @@ iright			= sqrt(1-p7)
 
 ; prtamento for the channel input
 
-;if (kchan == 1) then
+if (kchan == 1) then
 kgate	port kchan, .01
-;else
-;kgate	port kchan, 1
-;endif
+else
+kgate	port kchan, 1
+endif
 
 ; test if the note is tied
 ir		tival
@@ -238,15 +238,15 @@ signlgen:
 ; frequency glissando.
 kfreqgliss	expseg ifreq1, idur, ifreq2; * .1, ifreq1, idur * .8, ifreq2, idur *.1, ifreq2
 
-;; filtered noise
-;anoise	rand 15000, i1
-;afilt	butterbp anoise, kfreqgliss, 1, i1
+; filtered noise
+anoise	rand 15000, i1
+afilt	butterbp anoise, kfreqgliss, kgate * 10, i1
 ;abalance balance afilt, anoise
-; oscilator with amplitude and frequency envelopes
-asig		oscili kampenv, kfreqgliss, 1, i1
+;; oscilator with amplitude and frequency envelopes
+;asig		oscili kampenv, kfreqgliss, 1, i1
 ; stereo output
-	asig = asig * kgate
-    outs asig * ileft, asig * iright
+	afilt = afilt * kgate
+    outs afilt * ileft, afilt * iright
     endin
 		"""
 

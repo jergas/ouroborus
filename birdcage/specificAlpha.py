@@ -59,6 +59,9 @@ logFile = "log.txt"
 
 # Sound preferences:
 
+# Partials per background voice (minimum 1 maximum 13)
+backgroundPartials = 5
+
 # One of the csOptions should be commented. If you don't know
 # what you are doing, use the first version (uses the ALSA
 # sound module). The second version uses JACK.
