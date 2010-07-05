@@ -93,7 +93,7 @@ def inputDataControl(automaton, populNorm):
 	automaton	---> a birdcage cellular automaton.
 	"""
 	soundGlobals.backgroundUpdateList = backgroundSound.updateControlCells(automaton)
-	soundGlobals.populNorm = [populNorm] 
+	soundGlobals.populNorm = [populNorm]
 
 
 def stopSoundServer():

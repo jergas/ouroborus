@@ -211,8 +211,10 @@ iright			= sqrt(1-p7)
 
 if (kchan == 1) then
 kgate	port kchan, .01
+kbandwidth	port kchan, 10
 else
 kgate	port kchan, 1
+kbandwidth	port kchan, 10
 endif
 
 ; test if the note is tied
@@ -240,7 +242,7 @@ kfreqgliss	expseg ifreq1, idur, ifreq2; * .1, ifreq1, idur * .8, ifreq2, idur *.
 
 ; filtered noise
 anoise	rand 15000, i1
-afilt	butterbp anoise, kfreqgliss, kgate * 10, i1
+afilt	butterbp anoise, kfreqgliss, kbandwidth, i1
 ;abalance balance afilt, anoise
 ;; oscilator with amplitude and frequency envelopes
 ;asig		oscili kampenv, kfreqgliss, 1, i1

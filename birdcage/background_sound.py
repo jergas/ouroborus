@@ -14,6 +14,7 @@ import sound_globals as soundGlobals
 
 # Instantiate the numeric scaling class. 
 Scaling = NU.Scaling()
+Series	= NU.Series(0)
 
 #logging = open("log.txt", 'w')
 
@@ -36,12 +37,12 @@ def oneBckgrndVox(frstInstr, dur, ptch, strtDistr, specType, numOfPartls, pan):
 	bckgrndNote = BckgrndNote(instrNos, fundFreq, numOfPartls, specType,
 								strtDistr, endDistrFact, pan, dur)
 
+	spectrum	= bckgrndNote.mkScoStrings()
+	for x, y in zip(spectrum, instrNos):
+		perf.InputMessage(x)
+		cSnd.SetChannel("chan%s" %(y-1), 1)
+
 	while soundGlobals.mainIterCycle == 1:
-		spectrum	= bckgrndNote.mkScoStrings()
-		# Feed the partials to Csound.
-#		print 'Voice Update'
-		for x in spectrum:
-			perf.InputMessage(x)
 		# Change the parameters for the next note.
 		fundFreq = centsToFreq(ptch + random.randint(-50, 50))
 		bckgrndNote.fundFreq = fundFreq
@@ -49,28 +50,11 @@ def oneBckgrndVox(frstInstr, dur, ptch, strtDistr, specType, numOfPartls, pan):
 		bckgrndNote.distor = strtDistr
 		endDistrFact	= strtDistr + (.01 * random.randint(-10, 10))
 		bckgrndNote.distor2 = endDistrFact
-		#if not distrBias:
-		#	endDistrFact = strtDistr+Scaling.valToRng(soundGlobals.populNorm[0],
-		#												soundGlobals.populMin[0],
-		#												soundGlobals.populMax[0],
-		#												-0.1, 0.1)
-		#	bckgrndNote.distor2 = endDistrFact
-		#elif distrBias is 1:
-		#	endDistrFact = strtDistr+Scaling.valToRng(soundGlobals.populNorm[0],
-		#												soundGlobals.populMin[0],
-		#												soundGlobals.populMax[0],
-		#												0, 0.2)
-		#	bckgrndNote.distor2 = endDistrFact
-		#elif distrBias is 2:
-		#	endDistrFact = strtDistr+Scaling.valToRng(soundGlobals.populNorm[0],
-		#												soundGlobals.populMin[0],
-		#												soundGlobals.populMax[0],
-		#												-.2, 0)
-		#	bckgrndNote.distor2 = endDistrFact
-		#if endDistrFact > .75:
-		#	distrBias = 2
-		#if endDistrFact < .25:
-		#	distrBias = 1
+		spectrum	= bckgrndNote.mkScoStrings()
+		# Feed the partials to Csound.
+#		print 'Voice Update'
+		for x, y in zip(spectrum, instrNos):
+			perf.InputMessage(x)
 		time.sleep(abs(dur))
 
 		
@@ -82,27 +66,23 @@ def ctrlBckgrndSnd():
 	oneBckgrndVox().
 	"""	
 	wheightedGates	= [0.5]*2 + [0.25]*3 + [0.125]*5 + [0.0625]*7 + [.03125]*11
+	wheightedAmps	= [4]*2 + [2]*4 + [1]*8
 	oldAutomatonState	= soundGlobals.backgroundUpdateList
 	
 	while soundGlobals and soundGlobals.mainIterCycle:
 		# Wait until number of the automaton's live cells has varied.
 		newAutomatonState = soundGlobals.backgroundUpdateList
-#		while oldAutomatonState == newAutomatonState:
-#			time.sleep(.1)
-#			break
 		# Attenuate or boost the relevant partials
 		if oldAutomatonState != newAutomatonState:
 			for x in newAutomatonState:
 				if x[1] == 1:
-					mod13 = (int(x[0]) % 13) + 1
-					if not x[2] % mod13:
-						cSnd.SetChannel("chan%s" %(x[0]), 1)
+						cSnd.SetChannel("chan%s" %(x[0]),
+										random.choice(wheightedAmps))
 				else:
 					cSnd.SetChannel("chan%s" %(x[0]),
 									random.choice(wheightedGates))
-#									random.choice(wheightedGates))
 		oldAutomatonState = soundGlobals.backgroundUpdateList
-		time.sleep(.1)
+		time.sleep(.01)
 
 
 
@@ -110,14 +90,14 @@ def ctrlBckgrndSnd():
 def setControlCells(width, height, backgroundPartials):
 	""" Randomly chooses a list of cells which will control whether an
 	individual background (harmonic) partial will be on or off.
-	width	---> the cellular automaton's width
-	height	---> the cellular automaton's height
-	return	-->> a dictionary key=controlChannel value=(cell, state)
+	width				---> the cellular automaton's width
+	height				---> the cellular automaton's height
+	backgroundPartials	---> number or partials per voice
+	return				-->> a dictionary for background-sound control
 	"""
 	# Construct a list of tuples representing the cells of the
 	# automaton.
-	backgroundPartials = (backgroundPartials * 3) + 1
-	controlChannels = range(1, backgroundPartials)
+	sampleSize = (backgroundPartials * 3)
 	cellList = []
 	for x in range(width):
 		for y in range(height):
@@ -125,12 +105,27 @@ def setControlCells(width, height, backgroundPartials):
 			cellList.append(cell)
 	# Take a random sample, which will serve as the background-sound
 	# control cells.
-	cellSample = random.sample(cellList, backgroundPartials)
+	cellSample = random.sample(cellList, sampleSize)
 	# Construct a dictionary with the control channels as keys, and a
-	# 3-tuple with cell-address, cell-state as values and a counter.
+	# 3-tuple with cell, oldCellState, onOffRate  and a counter 2-tuple.
+	controlChannels = range(1, sampleSize + 1)
+	primes = Series.prime(backgroundPartials)
+	primesSet = set(primes)
+	naturals = range(1, backgroundPartials + 1)
 	dictList = []
 	for channel, cell in zip (controlChannels, cellSample):
-		keyValue = (str(channel), (cell, 0, 0))
+		mod = (channel - 1) % backgroundPartials
+		if mod in primesSet:
+			onOffRate = primes[mod - 2]
+			#print mod
+			#print 'prime ', onOffRate
+#		elif mod:
+#			onOffRate = mod
+			#print mod
+			#print 'nonPrime ', onOffRate
+		else:
+			onOffRate =  random.choice([1, 2])
+		keyValue = (str(channel), (cell, 0, onOffRate, (0, 0)))
 		dictList.append(keyValue)
 	cellControlDict = dict(dictList)
 	return cellControlDict
@@ -142,15 +137,35 @@ def updateControlCells(automaton):
 	return		-->> a list of channel-number new-state 2-tuples
 	"""
 	backgroundUpdateList = []
-	for channel, cellAndCellState in soundGlobals.cellControlDict.iteritems():
-		oldCellState = soundGlobals.cellControlDict[channel][1]
-		cellState = automaton.get(cellAndCellState[0])
-		if oldCellState != cellState:
-			counter = soundGlobals.cellControlDict[channel][2]
-			if cellState:
-				counter += 1
-			soundGlobals.cellControlDict[channel] = (cellAndCellState[0],
-														cellState,
-														counter)
-			backgroundUpdateList.append((channel, cellState, counter))
+	for channel, entry in soundGlobals.cellControlDict.iteritems():
+		cell			= entry[0]
+		oldCellState	= entry[1]
+		onOffRate		= entry[2]
+		counters		= entry[3]
+		counterOn		= counters[0]
+		counterOff		= counters[1]
+		newCellState	= automaton.get(cell)
+		if oldCellState != newCellState:
+			if newCellState:
+				if not counterOff:
+					if  not counterOn:
+						counterOn += 1
+					elif counterOn % onOffRate:
+						counterOn += 1
+					else:
+						backgroundUpdateList.append((channel, 1))
+						counterOn = 0
+			else:
+				if not counterOn:
+					if not counterOff:
+						counterOff += 1
+					elif counterOff % onOffRate:
+						counterOff += 1
+					else:
+						backgroundUpdateList.append((channel, 0))
+						counterOff = 0
+
+			soundGlobals.cellControlDict[channel] = (cell, newCellState,
+														onOffRate,
+														(counterOn, counterOff))
 	return backgroundUpdateList
