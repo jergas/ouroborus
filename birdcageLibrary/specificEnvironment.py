@@ -7,9 +7,9 @@ Alpha is the default specificity."""
 
 size = (70,35)
 topology = ("ToroidTopology", 0)
-neighborhood = ("MooreNeighborhoodPlus", )
+neighborhood = ("MooreNeighborhoodPlus", None ,"lib_environment")
 import operator
-rule = ("ReductionRule", (operator.xor, 0))
+rule = ("EnvironmentRule", (operator.xor, 0),"lib_environment")
 automaton = ("SynchronousAutomaton_2D", )
 
 
@@ -49,7 +49,7 @@ seed = ("Random",1)
 # Display type ('curses' or 'pygame')
 displayType = 'pygame'
 
-# The Curses colours
+# Curses colours
 
 backgroundColour = "COLOR_BLACK"
 manaColour = "COLOR_YELLOW"
@@ -58,15 +58,19 @@ agentsColour = "COLOR_GREEN"
 
 ############
 
-# Other options:
+# The other options:
 
+# Logging
 logging = False
 logFile = "log.txt"
+
+# Libraries
+
 
 
 ############
 
-# Sound preferences:
+# The sound preferences:
 
 # Partials per background voice (minimum 1 maximum 13)
 backgroundPartials = 13

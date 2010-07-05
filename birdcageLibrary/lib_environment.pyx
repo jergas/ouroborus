@@ -6,6 +6,7 @@
 import serial
 import random
 import exceptions_birdcage as E
+import rule as R
 
 
 def updateRule(input_list,side,environment):

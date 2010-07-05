@@ -1,8 +1,18 @@
 # import all the necessary modules:
+import sys
+
+# the specificity is needed for the some of the imports
+specificity = sys.modules["__main__"].specificity
+specific = __import__("specific"+specificity)
+
 # these are the core birdcage modules:
 import topology
-import lib_environment as neighborhood
-import rule
+
+# the following core birdcage modules 
+# will be imported from the library 
+neighborhood = __import__(specific.neighborhood[2])
+rule = __import__(specific.rule[2])
+
 import agent as a
 import automaton
 import genome as g
