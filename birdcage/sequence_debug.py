@@ -32,7 +32,7 @@ import random
 import sys
 import time
 
-specificity = "Delta"
+specificity = "Epsilon"
 specific = __import__("specific"+specificity)
 # This refers to a configuration file which stores information such as automaton size, seed 
 # genome, number of iterations, etc. feel free to write your own
@@ -79,7 +79,7 @@ def startExecutionNormal():
 
 	# invoke GOD.Generator's automaton creation method with the data given above
 	kemet = aset.generateAutomaton(size, topologyData, neighborData, ruleData, automatonData)
-	print " aset has created terra"
+	print " aset has created kemet"
 
 	# now call a GOD.Organizer to oversee this automaton
 	bast = GOD.Organizer(kemet, taw, specificity)
@@ -97,8 +97,9 @@ def startExecutionNormal():
 		# GOD.Generator will write and compile a module for each creature, create
 		# a BookEntry to contain it and append it to the list biblos
 		aset.generateGenotype(specific.seedCode, taw)
-		print "aset compiled a genome and wrote it in taw"
 		avatars -= 1
+	else:
+		print "all original genomes have been compiled"
 
 	# prime the initial avatars for actual creation
 	for entry in taw:

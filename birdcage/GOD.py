@@ -56,6 +56,7 @@ class Generator:
 		#set the display functions using getattr
 		self.displayType = self.specific.displayType.capitalize()
 		self.generateDisplay = getattr(self, "generateDisplay" + self.displayType)
+		
 
 
 
@@ -85,6 +86,27 @@ class Generator:
 
 
 	def generateGenotype(self, poeio, ode):
+		"""Write and compile a file from a genome
+
+		poeio  ---> a list of characters
+		ode    ---> a list of names
+		return -->> 1"""
+
+		return getattr(self, "generateGenotype"+self.specific.compiling, "generateGenotypeIndividualCompile")(poeio, ode)
+		
+
+	def generateGenotypeVoid(self, poeio, ode):
+		"""Compile nothing, no agents
+
+		poeio  ---> a list of characters
+		ode    ---> a list of names
+		return -->> 1"""
+
+		print "blank genome - no compilation required!"
+		return 1
+
+
+	def generateGenotypeIndividualCompile(self, poeio, ode):
 		"""Write and compile a file from a genome
 
 		poeio  ---> a list of characters
@@ -124,6 +146,7 @@ class Generator:
 		ode.append(BookEntry(onoma)) 
 		#ode[-1].fatum["prayer"] = "CreateMe"
 		self.obstetrics += 1 
+		print "aset compiled a genome and wrote it in taw"
 		return 1
 
 

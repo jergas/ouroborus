@@ -17,9 +17,9 @@ automaton = ("SynchronousAutomaton_2D", )
 
 # The agents:
 
-compiling = "IndividualCompile"
+compiling = "Void"
 name = "heru"
-seedCode = "Yi Yc Ys Cb Cd Cr Ld Lp Le Iy Ir Ip Ix Ik Lr Rd Rl"
+seedCode = None
 prana = 7
 mana = 1
 
@@ -30,7 +30,7 @@ mana = 1
 
 avatars = 3
 doomsday = 39
-seed = ("Random",1)
+seed = ("Random",2)
 
 
 ############
