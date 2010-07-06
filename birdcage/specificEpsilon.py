@@ -18,6 +18,9 @@ automaton = ("SynchronousAutomaton_2D", )
 # The agents:
 
 compiling = "Void"
+# These are the options:
+# 	Void - deactivates agents; 
+# 	IndividualCompile - invokes c compiler every time an agent is created
 name = "heru"
 seedCode = None
 prana = 7
@@ -29,7 +32,9 @@ mana = 1
 # The iteration:
 
 avatars = 3
+# Number of agents at start
 doomsday = 39
+# Number of iterations to run through
 seed = ("Random",2)
 
 
