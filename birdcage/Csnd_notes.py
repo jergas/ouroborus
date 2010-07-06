@@ -60,7 +60,8 @@ class BckgrndNote(object):
 		dur			---> note's total duration
 		"""
 		self.instrNos		= instrNos
-		self.fundFreq		= fundFreq
+		self.fundFreqNew	= fundFreq
+		self.fundFreqOld	= fundFreq
 		self.numOfPartls	= numOfPartls
 		self.spectType		= spectType
 		self.distor			= distor
@@ -76,11 +77,12 @@ class BckgrndNote(object):
 					parameters to construct a Csound note-statement
 		"""
 		self.partls			= Spctrm.mkPartls(self.spectType, self.numOfPartls)
-		self.dSpect			= Spctrm.dSpect(self.fundFreq, self.partls,
+		self.dSpect			= Spctrm.dSpect(self.fundFreqOld, self.partls,
 												self.distor)
 		self.partls			= Spctrm.mkPartls(self.spectType, self.numOfPartls)
-		self.dSpect2		= Spctrm.dSpect(self.fundFreq, self.partls,
+		self.dSpect2		= Spctrm.dSpect(self.fundFreqNew, self.partls,
 												self.distor2)
+		self.fundFreqOld = self.fundFreqNew
 
 		# Ensure that both spectra will have the same number of
 		# partials, since the spectrum construction method
@@ -96,10 +98,9 @@ class BckgrndNote(object):
 		self.durs			= Durs.spectDurs(self.strts, self.dur)
 		self.amps			= Amps.spectUnifrmAmps(self.dSpect)
 		self.spectPan		= Pan.spctrlPans(self.pan, self.dSpect)
-		self.maxAmpT		= Env.gaussMaxAmp(self.durs[0], self.dSpect)
 
 		return zip(self.instrNos, self.strts, self.durs, self.amps, self.dSpect,
-					 self.dSpect2, self.spectPan, self.maxAmpT)
+					 self.dSpect2, self.spectPan)
 
 
 	def mkScoStrings(self):

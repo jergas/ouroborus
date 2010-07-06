@@ -195,57 +195,49 @@ endif
 		#envelope, and glissando pitch.
 		instr2	= """
     instr 2
-kchan	chnget "chan1"			;initialize a real-time control channel
 
 idur			= abs(p3)					; in seconds
-iamp			= p4						; 0-32767
-iamp1			= iamp * 0.5
+iamp			= 100000						; 0-32767
 ifreq1			= p5						; in hz
 ifreq2			= p6
-idurtoenvmax		= p8 - .02
-idurback		= idur - idurtoenvmax - .02
 ileft			= sqrt(p7)					; between 0-1, 1 is hard left
 iright			= sqrt(1-p7)
 
-; prtamento for the channel input
-
-if (kchan == 1) then
-kgate	port kchan, .01
-kbandwidth	port kchan, 10
-else
-kgate	port kchan, 1
-kbandwidth	port kchan, 10
-endif
 
 ; test if the note is tied
 ir		tival
 i1	= -1
 
-; if the note is tied, skip the rand initialization and define an amp. envlp.
+; if the note is tied, skip the rand initialization.
 	tigoto tied
 i1	= 0
-
-; amplitude envelope
-kampenv		linseg 0, .02, iamp1, idurtoenvmax, iamp;, idurback, iamp1, .5, 0
+kchan	chnget "chan1"			;initialize a real-time control channel
 
 tied:
 ; skip this section if the note is tied.
 if ir == 0 kgoto signlgen
 
 ; amplitude envelope for tied notes.
-;kampenvtied		linseg 0, .5, iamp1, idurtoenvmax, iamp, idurback, iamp1, .5, 0
-kampenv = k(iamp) + kampenv
+
 
 signlgen:
 ; frequency glissando.
 kfreqgliss	expseg ifreq1, idur, ifreq2; * .1, ifreq1, idur * .8, ifreq2, idur *.1, ifreq2
 
+; portamento for the channel input
+
+if (kchan >= 1) then
+kgate	portk kchan, .001
+kbandwidth	portk kchan, 1
+
+else
+kgate	portk kchan, .1
+kbandwidth	portk kchan, .01
+endif
+
 ; filtered noise
-anoise	rand 15000, i1
+anoise	rand iamp, i1
 afilt	butterbp anoise, kfreqgliss, kbandwidth, i1
-;abalance balance afilt, anoise
-;; oscilator with amplitude and frequency envelopes
-;asig		oscili kampenv, kfreqgliss, 1, i1
 ; stereo output
 	afilt = afilt * kgate
     outs afilt * ileft, afilt * iright

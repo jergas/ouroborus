@@ -33,6 +33,7 @@ def oneBckgrndVox(frstInstr, dur, ptch, strtDistr, specType, numOfPartls, pan):
 	fundFreq		= centsToFreq(ptch)
 	endDistrFact	= strtDistr + (.01 * random.randint(-10, 10))
 	instrNos 		= range(frstInstr, (frstInstr + numOfPartls))
+	oneDur			= float(abs(dur)) / numOfPartls
 	# Instantiate the background sound note class.
 	bckgrndNote = BckgrndNote(instrNos, fundFreq, numOfPartls, specType,
 								strtDistr, endDistrFact, pan, dur)
@@ -40,22 +41,23 @@ def oneBckgrndVox(frstInstr, dur, ptch, strtDistr, specType, numOfPartls, pan):
 	spectrum	= bckgrndNote.mkScoStrings()
 	for x, y in zip(spectrum, instrNos):
 		perf.InputMessage(x)
-		cSnd.SetChannel("chan%s" %(y-1), 1)
+		cSnd.SetChannel("chan%s" %(y-1), .5)
+		time.sleep(oneDur)
 
 	while soundGlobals.mainIterCycle == 1:
 		# Change the parameters for the next note.
-		fundFreq = centsToFreq(ptch + random.randint(-50, 50))
+		freqDeviation	= random.randint(-50, 50)
+		fundFreq = centsToFreq(ptch + freqDeviation)
 		bckgrndNote.fundFreq = fundFreq
 		strtDistr = endDistrFact
 		bckgrndNote.distor = strtDistr
-		endDistrFact	= strtDistr + (.01 * random.randint(-10, 10))
+		endDistrFact	= strtDistr + (.01 * random.randint(-5, 5))
 		bckgrndNote.distor2 = endDistrFact
 		spectrum	= bckgrndNote.mkScoStrings()
 		# Feed the partials to Csound.
-#		print 'Voice Update'
 		for x, y in zip(spectrum, instrNos):
 			perf.InputMessage(x)
-		time.sleep(abs(dur))
+			time.sleep(oneDur)
 
 		
 		
@@ -117,14 +119,8 @@ def setControlCells(width, height, backgroundPartials):
 		mod = (channel - 1) % backgroundPartials
 		if mod in primesSet:
 			onOffRate = primes[mod - 2]
-			#print mod
-			#print 'prime ', onOffRate
-#		elif mod:
-#			onOffRate = mod
-			#print mod
-			#print 'nonPrime ', onOffRate
 		else:
-			onOffRate =  random.choice([1, 2])
+			onOffRate =  random.choice([2, 3])
 		keyValue = (str(channel), (cell, 0, onOffRate, (0, 0)))
 		dictList.append(keyValue)
 	cellControlDict = dict(dictList)

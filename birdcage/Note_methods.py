@@ -151,7 +151,7 @@ class Pan:
 		return	--> a list of spectral panning positions
 		"""
 		spat 	= [pan]
-		for x in xrange(len(dSpect) - 1):
+		while len(dSpect) != len(spat):
 			onePan = random.gauss(pan, .01)
 			if 0 < onePan < 1:
 				spat.append(onePan)
