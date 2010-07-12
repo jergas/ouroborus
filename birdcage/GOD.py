@@ -145,8 +145,8 @@ class Generator:
 		# set its prayer and return
 		ode.append(BookEntry(onoma)) 
 		#ode[-1].fatum["prayer"] = "CreateMe"
-		self.obstetrics += 1 
-		print "aset compiled a genome and wrote it in taw"
+		self.obstetrics += 1
+#		print "aset compiled a genome and wrote it in taw"
 		return 1
 
 

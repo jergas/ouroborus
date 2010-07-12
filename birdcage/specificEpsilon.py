@@ -21,6 +21,9 @@ compiling = "Void"
 # These are the options:
 # 	Void - deactivates agents; 
 # 	IndividualCompile - invokes c compiler every time an agent is created
+
+simWithAgents = False
+
 name = "heru"
 seedCode = None
 prana = 7
@@ -49,8 +52,6 @@ displayType = 'curses'
 backgroundColour = "COLOR_BLACK"
 manaColour = "COLOR_GREEN"
 agentsColour = "COLOR_RED"
-
-simWithAgents = True
 
 
 ############

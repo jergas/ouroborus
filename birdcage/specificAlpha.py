@@ -17,6 +17,10 @@ automaton = ("SynchronousAutomaton_2D", )
 
 # The agents:
 
+# Void - deactivates agents; 
+# IndividualCompile - invokes c compiler every time an agent is created
+compiling = "IndividualCompile"
+
 name 		= "heru"
 seedCode	= "Yi Yc Ys Cb Cd Cr Ld Lp Le Iy Ir Ip Ix Ik Lr Rd Rl"
 prana		= 7
@@ -31,7 +35,7 @@ simWithAgents = True
 
 avatars = 3
 doomsday = 70
-seed = ("Random",1)
+seed = ("Random",2)
 
 
 ############
