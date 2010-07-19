@@ -73,8 +73,8 @@ cdef class EnvironmentRule(Rule_2D):
      def apply(self, address):
      
           state = 0
-          sumstates = self.neighborhood.countAlive(adress)
-          cell = neighborhood.topology.get(adress)
+          sumstates = self.neighborhood.countAlive(address)
+          cell = neighborhood.topology.get(address)
      
           if binarise(cell) == 1:  # If cell is alive
                if 2 <= sumstates <= 3:
@@ -94,7 +94,7 @@ cdef class EnvironmentRule(Rule_2D):
                else:
                     state = cell
      
-          self.neighborhood.topology.set(adress, state)
+          self.neighborhood.topology.set(address, state)
      
      def applyToTarget(self, object address, T.GridTopology target):
      
@@ -102,8 +102,8 @@ cdef class EnvironmentRule(Rule_2D):
                raise E.InvalidAddressError(address, self.neighborhood.topology.name)
                
           state = 0
-          sumstates = self.neighborhood.countAlive(adress)
-          cell = neighborhood.topology.get(adress)
+          sumstates = self.neighborhood.countAlive(address)
+          cell = neighborhood.topology.get(address)
      
           if binarise(cell) == 1:  # If cell is alive
 
@@ -125,7 +125,7 @@ cdef class EnvironmentRule(Rule_2D):
                else:
                     state = cell
           
-          target.set(adress, state)
+          target.set(address, state)
 
 
 cdef class MooreNeighborhoodPlus(MooreNeighborhood):
