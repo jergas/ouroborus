@@ -71,10 +71,10 @@ cdef class EnvironmentRule(Rule_2D):
           self.name = "Environment Rule"
 
      def apply(self, address):
-     
+          environment = getEnvironment()
           state = 0
           sumstates = self.neighborhood.countAlive(address)
-          cell = neighborhood.topology.get(address)
+          cell = self.neighborhood.topology.get(address)
      
           if binarise(cell) == 1:  # If cell is alive
                if 2 <= sumstates <= 3:
@@ -101,9 +101,10 @@ cdef class EnvironmentRule(Rule_2D):
           if not (len(address) == 2):
                raise E.InvalidAddressError(address, self.neighborhood.topology.name)
                
+          environment = getEnvironment()
           state = 0
           sumstates = self.neighborhood.countAlive(address)
-          cell = neighborhood.topology.get(address)
+          cell = self.neighborhood.topology.get(address)
      
           if binarise(cell) == 1:  # If cell is alive
 
@@ -126,6 +127,7 @@ cdef class EnvironmentRule(Rule_2D):
                     state = cell
           
           target.set(address, state)
+          return state
 
 
 cdef class MooreNeighborhoodPlus(MooreNeighborhood):
@@ -139,9 +141,11 @@ cdef class MooreNeighborhoodPlus(MooreNeighborhood):
 
 
 def binarise(int integer):
-     """Take an integer input and return 1 if it is positive and 0 if it is negative"""
-     
-     return ((integer / abs(integer)) + 1)/2
+     """Take an integer input and return 1 if it is non-negative and 0 if it is negative"""
+     if integer < 0:
+          return 0
+     else:
+          return 1
      
 
 def addBinarised(int a, int b):
