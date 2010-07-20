@@ -149,6 +149,10 @@ class ThreadedSequence(object):
 			
 		# Set some initial data for sound control.
 		sound.setInitialData(self.size)
+		
+		# Initialize variables for inter-thread communication.
+#		self.population = 0
+#		self.currentEntry = None
 
 		# Create a thread-condition object to keep the simulation and
 		# audiovisual threads synchronized.
