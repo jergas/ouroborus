@@ -7,9 +7,9 @@ Specificity Beta is meant to provide appropriate defaults for Diego's Demo."""
 
 size = (80,20)
 topology = ("ToroidTopology", 0)
-neighborhood = ("MooreNeighborhood", )
+neighborhood = ("VonNeumannNeighborhood", None ,"neighborhood")
 import operator
-rule = ("ReductionRule", (operator.xor, 0))
+rule = ("ReductionRule", (operator.xor, 0), "rule")
 automaton = ("SynchronousAutomaton_2D", )
 
 

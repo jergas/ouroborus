@@ -7,9 +7,9 @@ Alpha is the default specificity."""
 
 size = (80,20)
 topology = ("ToroidTopology", 0)
-neighborhood = ("VonNeumannNeighborhood", )
+neighborhood = ("VonNeumannNeighborhood", None ,"neighborhood")
 import operator
-rule = ("ReductionRule", (operator.xor, 0))
+rule = ("ReductionRule", (operator.xor, 0), "rule")
 automaton = ("SynchronousAutomaton_2D", )
 
 

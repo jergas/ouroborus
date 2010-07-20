@@ -7,9 +7,9 @@ Delta was meant for debugging"""
 
 size = (40,20)
 topology = ("ToroidTopology", 0)
-neighborhood = ("VonNeumannNeighborhood", )
+neighborhood = ("VonNeumannNeighborhood", None ,"neighborhood")
 import operator
-rule = ("ReductionRule", (operator.xor, 0))
+rule = ("ReductionRule", (operator.xor, 0), "rule")
 automaton = ("SynchronousAutomaton_2D", )
 
 

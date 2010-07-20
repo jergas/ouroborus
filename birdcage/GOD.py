@@ -1,18 +1,29 @@
 # import all the necessary modules:
+import sys
+
+# the specificity is needed for the some of the imports
+specificity = sys.modules["__main__"].specificity
+specific = __import__("specific"+specificity)
+
 # these are the core birdcage modules:
 import topology
-import neighborhood
-import rule
+
+# the following core birdcage modules 
+# will be imported from the library 
+neighborhood = __import__(specific.neighborhood[2])
+rule = __import__(specific.rule[2])
+
 import agent as a
 import automaton
 import genome as g
+import visual as v
 from code import tabula, tabula_antica
 
 try:
 	# other ouroborus core modules
 	from bookentry import BookEntry
-	# these is the module used for display
-	import visual as v
+	# these are the modules used for display
+	import curses as c
 	# these are the modules used for sound
 	import sound_globals as soundGlobals
 	# only load modules if running sound enabled simulations
@@ -20,10 +31,6 @@ try:
 		import agents_sound as agentsSound
 except ImportError:
 	print "WARNING: agent management, display or sound may not function 		correctly"
-	class Emptybox:
-		def __init__(self):
-			self.simWSound = None
-	soundGlobals = Emptybox()	
 
 try:
 	# these are the ingredients for the Pyrex compile spell
@@ -146,7 +153,6 @@ class Generator:
 		ode.append(BookEntry(onoma)) 
 		#ode[-1].fatum["prayer"] = "CreateMe"
 		self.obstetrics += 1
-#		print "aset compiled a genome and wrote it in taw"
 		return 1
 
 
@@ -166,11 +172,11 @@ class Generator:
 		# run the visual display refresh cycle as initialisation
 		seed = earth.returnTopology().random()
 		earth.set(seed,1)
-		
+
 		# Set the curses colours.
 		v.setCursesColors(self.specific.manaColour, 
-							self.specific.agentsColour,
-							self.specific.backgroundColour)
+					self.specific.agentsColour,
+					self.specific.backgroundColour)
 
 		v.updateLoop(earth, stdscr, displaywidth, displayheight)
 		stdscr.refresh()

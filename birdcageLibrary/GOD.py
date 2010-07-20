@@ -23,7 +23,6 @@ try:
 	# other ouroborus core modules
 	from bookentry import BookEntry
 	# these are the modules used for display
-	import visual as v
 	import curses as c
 	# these are the modules used for sound
 	import sound_globals as soundGlobals
@@ -61,6 +60,11 @@ class Generator:
 		self.specific = __import__("specific"+specificity)
 		self.obstetrics = 0
 		self.obstetrix = obstetrix
+		#set the display functions using getattr
+		self.displayType = self.specific.displayType.capitalize()
+		self.generateDisplay = getattr(self, "generateDisplay" + self.displayType)
+		
+
 
 
 	def generateAutomaton(self, size, tdata, ndata, rdata, adata):
@@ -89,6 +93,27 @@ class Generator:
 
 
 	def generateGenotype(self, poeio, ode):
+		"""Write and compile a file from a genome
+
+		poeio  ---> a list of characters
+		ode    ---> a list of names
+		return -->> 1"""
+
+		return getattr(self, "generateGenotype"+self.specific.compiling, "generateGenotypeIndividualCompile")(poeio, ode)
+		
+
+	def generateGenotypeVoid(self, poeio, ode):
+		"""Compile nothing, no agents
+
+		poeio  ---> a list of characters
+		ode    ---> a list of names
+		return -->> 1"""
+
+		print "blank genome - no compilation required!"
+		return 1
+
+
+	def generateGenotypeIndividualCompile(self, poeio, ode):
 		"""Write and compile a file from a genome
 
 		poeio  ---> a list of characters
@@ -127,11 +152,11 @@ class Generator:
 		# set its prayer and return
 		ode.append(BookEntry(onoma)) 
 		#ode[-1].fatum["prayer"] = "CreateMe"
-		self.obstetrics += 1 
+		self.obstetrics += 1
 		return 1
 
 
-	def generateDisplay(self, earth, size, stdscr):
+	def generateDisplayCurses(self, earth, size, stdscr):
 		"""Initialise a curses display for the automaton and its agents
 		earth  ---> a birdcage automaton
 		size   ---> a 2-tuple with the grid's dimensions
@@ -140,22 +165,41 @@ class Generator:
 
 		# a little workaround to make curses work for any terminal size
 		(width, height) = size
-		if self.specific.displayType == 'curses':
-			(winheight,winwidth) = stdscr.getmaxyx()
-			displaywidth = (winwidth < width) and winwidth-1 or width
-			displayheight = (winheight < height) and winheight-1 or height
+		(winheight,winwidth) = stdscr.getmaxyx()
+		displaywidth = (winwidth < width) and winwidth-1 or width
+		displayheight = (winheight < height) and winheight-1 or height
+
 		# run the visual display refresh cycle as initialisation
 		seed = earth.returnTopology().random()
 		earth.set(seed,1)
 
-		if self.specific.displayType == 'curses':
-			v.updateLoop(earth, stdscr, displaywidth, displayheight)
-			stdscr.refresh()
-			# return a 3-tuple useful for further display
-			return (stdscr, displaywidth, displayheight)
-		elif self.specific.displayType == 'pygame':
-			screen = v.pygGenerateDisplay(size, "birdcage reloaded")
-			v.pygUpdateBackground(earth, 1, size)
+		# Set the curses colours.
+		v.setCursesColors(self.specific.manaColour, 
+					self.specific.agentsColour,
+					self.specific.backgroundColour)
+
+		v.updateLoop(earth, stdscr, displaywidth, displayheight)
+		stdscr.refresh()
+		# return a 3-tuple useful for further display
+		return (stdscr, displaywidth, displayheight)
+
+
+	def generateDisplayPygame(self, earth, size, stdscr):
+		"""Initialise a pygame display for the automaton and its agents
+		earth  ---> a birdcage automaton
+		size   ---> a 2-tuple with the grid's dimensions
+		stdscr ---> a curses standard screen object
+		return -->> a 3-tuple of values useful for display"""
+
+		# run the visual display refresh cycle as initialisation
+		seed = earth.returnTopology().random()
+		earth.set(seed,1)
+
+		screen = v.pygGenerateDisplay(size, "birdcage reloaded")
+		v.pygUpdateBackground(earth, 1, size)
+
+
+
 
 class Organizer:
 	"""This object coordinates the iteration-per-iteration functioning of the
@@ -177,6 +221,12 @@ class Organizer:
 		self.annum = 0
 		self.size = self.specific.size
 		(self.width, self.height) = self.size
+
+		#set the display functions using getattr
+		self.displayType = self.specific.displayType.capitalize()
+		self.refreshDisplay = getattr(self, "refreshDisplay" + self.displayType)
+		self.refreshBackground = getattr(self, "refreshBackground"+self.displayType)
+		self.refreshAgent = getattr(self, "refreshAgent" + self.displayType)
 
 
 	def initialiseAutomaton(self, seed):
@@ -365,7 +415,7 @@ class Organizer:
 		return 1
 
 
-	def refreshDisplay(self, display):
+	def refreshDisplayCurses(self, display):
 		"""Refresh the display on a curses terminal
 
 		display       ---> a 3-tuple as follows:
@@ -374,14 +424,20 @@ class Organizer:
 		displaywidth  ---> the integer width of the curses terminal
 		displayheight ---> the integer height of the curses terminal
 		return        -->> 1"""
-		if self.specific.displayType == 'curses':
-			v.updateLoop(self.earth, display[0], display[1], display[2])
-			display[0].refresh()
-		elif self.specific.displayType == 'pygame':
-			v.pygUpdateLoop(self.earth, 1, self.size)
+		v.updateLoop(self.earth, display[0], display[1], display[2])
+		display[0].refresh()
 
 
-	def refreshBackground(self, display):
+	def refreshDisplayPygame(self, display):
+		"""Refresh the display on a pygame terminal
+		
+		The display argument is there for compatibility purposes.
+		See refreshDisplayCurses for an explanation."""
+
+		v.pygUpdateBackground(self.earth, 1, self.size)
+
+
+	def refreshBackgroundCurses(self, display):
 		"""Refresh the background of a display on a curses terminal
 
 		display       ---> a 3-tuple as follows:
@@ -391,19 +447,44 @@ class Organizer:
 		displayheight ---> the integer height of the curses terminal
 		return        -->> 1"""
 
-		if self.specific.displayType == 'curses':
-			v.updateBackground(self.earth, display[0], display[1], display[2])
-			display[0].refresh()
-		elif self.specific.displayType == 'pygame':
-			v.pygUpdateBackground(self.earth, 1, self.size)
+		v.updateBackground(self.earth, display[0], display[1], display[2])
+		display[0].refresh()
 
 
-	def refreshAgent(self, agent, display):
-		"""Refresh the display of a single agent.
+	def refreshBackgroundPygame(self, display):
+		"""Refresh the background of a display on a curses terminal
 
-		display		---> a 3-tuple as follows:
-		agent		---> a birdcage agent instance
-		return		-->> 1"""
+		display       ---> a 3-tuple as follows:
+						(stdscr, displaywidth, displayheight)
+		stdscr        ---> a curses standard screen object
+		displaywidth  ---> the integer width of the curses terminal
+		displayheight ---> the integer height of the curses terminal
+		return        -->> 1"""
+
+		v.pygUpdateBackground(self.earth, 1, self.size)
+
+	def refreshAgentCurses(self, agent, display):
+		"""Refresh the background of a display on a curses terminal
+
+		display       ---> a 3-tuple as follows:
+						(stdscr, displaywidth, displayheight)
+		stdscr        ---> a curses standard screen object
+		displaywidth  ---> the integer width of the curses terminal
+		displayheight ---> the integer height of the curses terminal
+		return        -->> 1"""
 
 		v.updateAgent(agent, display[0], display[1], display[2])
 		display[0].refresh()
+
+
+	def refreshAgentPygame(self, agent, display):
+		"""Refresh the background of a display on a curses terminal
+
+		display       ---> a 3-tuple as follows:
+						(stdscr, displaywidth, displayheight)
+		stdscr        ---> a curses standard screen object
+		displaywidth  ---> the integer width of the curses terminal
+		displayheight ---> the integer height of the curses terminal
+		return        -->> 1"""
+
+		v.pygDrawAgent(agent)
