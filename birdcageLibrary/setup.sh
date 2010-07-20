@@ -6,6 +6,7 @@ rm heru*
 cp ../birdcage/neighborhood.pxd .
 cp ../birdcage/topology.pxd .
 cp ../birdcage/rule.pxd .
+cp ../birdcage/GOD.py .
 cp ../birdcage/visual.py .
 cp ../birdcage/sound.py .
 cp ../birdcage/sound_globals.py .
