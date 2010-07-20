@@ -25,6 +25,10 @@ submode = "Normal"
 
 # The agents:
 
+# Void - deactivates agents; 
+# IndividualCompile - invokes c compiler every time an agent is created
+compiling = "Void"
+
 name 	= "heru"
 seedCode	= "Yi Yc Ys Cb Cd Cr Ld Lp Le Iy Ir Ip Ix Ik Lr Rd Rl"
 prana	= 7
