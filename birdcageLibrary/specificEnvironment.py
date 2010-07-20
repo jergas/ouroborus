@@ -53,6 +53,11 @@ seed = ("Random",1)
 # Display type ('curses' or 'pygame')
 displayType = 'pygame'
 
+# The criterion function
+# (a function which evaluates a cell's state for display,
+#  the library where its located must also be specified below)
+criterion = 'binarise'
+
 # Curses colours
 
 backgroundColour = "COLOR_BLACK"
@@ -69,7 +74,7 @@ logging = False
 logFile = "log.txt"
 
 # Libraries
-
+criterionLocation = "rule"
 
 
 ############

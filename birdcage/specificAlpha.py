@@ -40,9 +40,16 @@ seed = ("Random",2)
 
 ############
 
+# The Display
+
 # Display type ('curses' or 'pygame')
 
-displayType = 'curses'
+displayType = 'pygame'
+
+# The criterion function
+# (a function which evaluates a cell's state for display,
+#  the library where its located must also be specified below)
+criterion = 'identity'
 
 # The Curses colours
 
@@ -53,15 +60,19 @@ agentsColour = "COLOR_GREEN"
 
 ############
 
-# Keeping a log:
+# The other options:
 
+# Logging
 logging = False
 logFile = "log.txt"
+
+# Libraries
+criterionLocation = "v" # visual is renamed v in GOD.py
 
 
 ############
 
-# Sound preferences:
+# The sound preferences:
 
 # Partials per background voice (minimum 1 maximum 13)
 backgroundPartials = 5

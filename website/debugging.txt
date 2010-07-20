@@ -1,25 +1,56 @@
 reportar a Gobby bug (comportamiento no intuitivo) del boton de ok en el dialogo de preferencias
 
-diego@k1ll3r48b17:~/ouroborus/birdcage$ python2.5 start.py debug
+edgar@aura:~/ouroborus/birdcage$ ./start.py --s=alpha threaded
+BEGAN CppSound::compile()...
+BEGAN CppSound::compile(9, 0x8490f10)...
+PortMIDI real time MIDI plugin for Csound
+PortAudio real-time audio module for Csound
+virtual_keyboard real time MIDI plugin for Csound
+0dBFS level = 32768.0
+Csound version 5.08 (double samples) Nov  9 2008
+libsndfile-1.0.17
+orchname:  temp.orc
+scorename: temp.sco
+rtaudio: ALSA module enabled
+rtmidi: PortMIDI module enabled
+orch compiler:
+879 lines read
+        instr   1
+        instr   2
+<SNIP>
+        instr   15
+        instr   16
+sorting score ...
+        ... done
+Csound version 5.08 (double samples) Nov  9 2008
+displays suppressed
+0dBFS level = 32768.0
+orch now loaded
+audio buffered in 1024 sample-frame blocks
+writing 4096-byte blks of shorts to dac
+SECTION 1:
+ENDED CppSound::compile.
+ENDED CppSound::compile.
+<module 'visual' from '/home/edgar/ouroborus/birdcage/visual.pyc'>
+ALSA lib pcm_dmix.c:996:(snd_pcm_dmix_open) unable to open slave
+Exception in thread Agents:
 Traceback (most recent call last):
-  File "start.py", line 96, in <module>
-    (mode, submode) = setMode()
-  File "start.py", line 93, in setMode
-    return (mode, submode)
-UnboundLocalError: local variable 'submode' referenced before assignment
+  File "/usr/lib/python2.5/threading.py", line 486, in __bootstrap_inner
+    self.run()
+  File "/usr/lib/python2.5/threading.py", line 446, in run
+    self.__target(*self.__args, **self.__kwargs)
+  File "/home/edgar/ouroborus/birdcage/sequence_threaded.py", line 272, in agentsLoop
+    self.bast.refreshAgent(self.currentEntry.agent, self.display)
+  File "/home/edgar/ouroborus/birdcage/GOD.py", line 502, in refreshAgentPygame
+    v.pygDrawAgent(agent)
+  File "/home/edgar/ouroborus/birdcage/visual.py", line 208, in pygDrawAgent
+    zoom*picture.size[1]),Image.NEAREST)
+  File "/usr/lib/python2.5/site-packages/PIL/Image.py", line 1269, in resize
+    im = self.im.resize(size, resample)
+MemoryError
 
-edgar@aura:~/ouroborus/birdcage$ ./start.py debug > error.txt
-[] ['debug']
 
-edgar@aura:~/ouroborus/birdcage$ ./start.py
-[] []
 
-edgar@aura:~/ouroborus/birdcage$ ./start.py
-Traceback (most recent call last):
-  File "./start.py", line 41, in <module>
-    specific = __import__("specific"+specificity)
-NameError: name 'specificity' is not defined
-edgar@aura:~/ouroborus/birdcage$ 
 
 edgar@aura:~/ouroborus/birdcage$ ./start.py
   File "./start.py", line 44

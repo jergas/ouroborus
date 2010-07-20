@@ -21,7 +21,7 @@ def icon(i):
 	i      ---> an integer, the cell's state
 	return -->> a character: either dot or space.
 	"""
-	if i==1:
+	if i:
 		return ord(",")
 	else:
 		return ord(" ")
@@ -134,23 +134,33 @@ def updateLoopTranslucent(automaton, stdscr, displaywidth, displayheight):
 
 ####################################################################
 
+def identity(state):
+	"""This is the identity function, the most trivial criterion for cell
+	state display. It most only be used if cells only take alive (anything) 
+	or dead (0) values.
+	"""
+	return state
+	
+####################################################################
+
 def pygGenerateDisplay(size, caption, zoom=12):
-	"""Generates a pyGame windwo to display the automaton, it requires
+	"""Generates a pyGame windwow to display the automaton, it requires
 	the size in pixels as a tuple (width,height) and a caption in string
 	format (i.e. "Title") to be displayed
 	as the window title.
 	"""
 	pygame.init()
-	screen = pygame.display.set_mode((zoom*size[0],zoom*size[1]))
 	global screen
+	screen = pygame.display.set_mode((zoom*size[0],zoom*size[1]))
 	pygame.display.set_caption(caption)
 	fullscreen = False
 	
-def pygUpdateBackground(automaton, criterion, size,zoom=12,output='buffer.tiff'):
+def pygUpdateBackground(automaton, criterion, size, zoom=12, output='buffer.tiff'):
 	"""This function generates a buffer image that will be the main
 	visual feature of the viewer it requires a birdcage automaton,
-	an environment value and an image size-> A tuple in the format
-	(width,height).
+	a criterion function, an image size, a zoom factor and a buffer filename.
+	criterion -> A function which evaluates cell states to True of False
+	size      -> A tuple in the format (width,height)
 	"""
 	# Maka a new image.
 	picture = Image.new("RGB", size)
@@ -159,7 +169,7 @@ def pygUpdateBackground(automaton, criterion, size,zoom=12,output='buffer.tiff')
 	for x in range(0,size[0]):
 		for y in range(0,size[1]):
 			cellState = automaton.get((x, y))
-			if cellState == criterion:
+			if criterion(cellState):
 				draw.point((x,y),(0,255,0))
 			else:
 				draw.point((x,y),(0,0,0))

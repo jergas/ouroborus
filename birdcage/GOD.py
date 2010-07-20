@@ -7,17 +7,17 @@ specific = __import__("specific"+specificity)
 
 # these are the core birdcage modules:
 import topology
-
-# the following core birdcage modules 
-# will be imported from the library 
-neighborhood = __import__(specific.neighborhood[2])
-rule = __import__(specific.rule[2])
-
 import agent as a
 import automaton
 import genome as g
 import visual as v
 from code import tabula, tabula_antica
+
+# the following core birdcage modules's location 
+# can be configured in the specificity file
+neighborhood = __import__(specific.neighborhood[2])
+rule = __import__(specific.rule[2])
+
 
 try:
 	# other ouroborus core modules
@@ -60,9 +60,15 @@ class Generator:
 		self.specific = __import__("specific"+specificity)
 		self.obstetrics = 0
 		self.obstetrix = obstetrix
-		#set the display functions using getattr
+
+		# set the display functions using getattr
 		self.displayType = self.specific.displayType.capitalize()
 		self.generateDisplay = getattr(self, "generateDisplay" + self.displayType)
+
+		# set the library in which the criterion funtion is located, then set
+		# the criterion function for deciding which cells are displayed
+		self.criterionLocation = getattr(sys.modules["__main__"].module.GOD, specific.criterionLocation)
+		self.criterion = getattr(self.criterionLocation, specific.criterion)
 		
 
 
@@ -196,7 +202,7 @@ class Generator:
 		earth.set(seed,1)
 
 		screen = v.pygGenerateDisplay(size, "birdcage reloaded")
-		v.pygUpdateBackground(earth, 1, size)
+		v.pygUpdateBackground(earth, self.criterion, size)
 
 
 
@@ -222,11 +228,16 @@ class Organizer:
 		self.size = self.specific.size
 		(self.width, self.height) = self.size
 
-		#set the display functions using getattr
+		# set the display functions using getattr
 		self.displayType = self.specific.displayType.capitalize()
 		self.refreshDisplay = getattr(self, "refreshDisplay" + self.displayType)
 		self.refreshBackground = getattr(self, "refreshBackground"+self.displayType)
 		self.refreshAgent = getattr(self, "refreshAgent" + self.displayType)
+
+		# set the library in which the criterion funtion is located, then set
+		# the criterion function for deciding which cells are displayed
+		self.criterionLocation = getattr(sys.modules["__main__"].module.GOD, specific.criterionLocation)
+		self.criterion = getattr(self.criterionLocation, specific.criterion)
 
 
 	def initialiseAutomaton(self, seed):
@@ -434,7 +445,7 @@ class Organizer:
 		The display argument is there for compatibility purposes.
 		See refreshDisplayCurses for an explanation."""
 
-		v.pygUpdateBackground(self.earth, 1, self.size)
+		v.pygUpdateBackground(self.earth, self.criterion, self.size)
 
 
 	def refreshBackgroundCurses(self, display):
@@ -461,7 +472,7 @@ class Organizer:
 		displayheight ---> the integer height of the curses terminal
 		return        -->> 1"""
 
-		v.pygUpdateBackground(self.earth, 1, self.size)
+		v.pygUpdateBackground(self.earth, self.criterion, self.size)
 
 	def refreshAgentCurses(self, agent, display):
 		"""Refresh the background of a display on a curses terminal
