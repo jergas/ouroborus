@@ -191,7 +191,7 @@ class Generator:
 
 
 	def generateDisplayPygame(self, earth, size, stdscr):
-		"""Initialise a pygame display for the automaton and its agents
+		"""Initialise a curses display for the automaton and its agents
 		earth  ---> a birdcage automaton
 		size   ---> a 2-tuple with the grid's dimensions
 		stdscr ---> a curses standard screen object
@@ -440,10 +440,7 @@ class Organizer:
 
 
 	def refreshDisplayPygame(self, display):
-		"""Refresh the display on a pygame terminal
-		
-		The display argument is there for compatibility purposes.
-		See refreshDisplayCurses for an explanation."""
+		"""Refresh the display on a curses terminal"""
 
 		v.pygUpdateBackground(self.earth, self.criterion, self.size)
 
