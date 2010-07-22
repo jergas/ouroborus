@@ -31,45 +31,39 @@ void MyMainWindow::add_view(QWidget * viewthis, SoGroup * common, SbRotation cam
 
 MyMainWindow::MyMainWindow(void){
 
-	//	QWidget * this = new QWidget;
+	//QWidget * this = new QWidget;
   
 	this->setMinimumSize(400, 300);
 
 
 	// Set up the Qt widget layout data.
 
-	QHBoxLayout * hlayout = new QHBoxLayout(this);
+	//this is the main layout
+	QGridLayout *mainLayout = new QGridLayout;
 
-	QVBoxLayout * vlayout_right = new QVBoxLayout();
-	vlayout_right->heightForWidth(285);	
-	hlayout->addLayout(vlayout_right, 0.33);
-	
-	QVBoxLayout * vlayout_left = new QVBoxLayout();
-	hlayout->addLayout(vlayout_left, 0.33);
-	
-	
+	//create agents and CA's view
 	QGroupBox * view0 = new QGroupBox(this);
-	vlayout_left->addWidget(view0, 0.66);
-	
+	mainLayout->addWidget(view0, 0, 1,4,4);
+	//create variables view
 	QGroupBox * view1 = new QGroupBox(this);
-	vlayout_left->addWidget(view1, 0.66);
-	
+	mainLayout->addWidget(view1, 5,1,1,4); 
 
-	QSpinBox *spinBox = new QSpinBox;
-	QSlider *slider = new QSlider(Qt::Horizontal);
-	spinBox->setRange(0, 130);
-	slider->setRange(0, 130);
-	//slider->QSize(28, 20);	
-	vlayout_right->addWidget(spinBox, 0.20);
-	
-	
-	boton1 = new QPushButton("boton 1");
-	//boton1->QSize(28, 20);  
-	connect(this->boton1, SIGNAL(clicked()),this, SLOT(botonazo()));
-	vlayout_right->addWidget(boton1, 0.20);
+	//Create the play-pause button, the only default button
+	play = new QPushButton();
+	play->setMinimumSize(QSize(20, 20));
+	QIcon icon;
+        icon.addFile(QString::fromUtf8("play.jpg"), QSize(), QIcon::Normal, QIcon::Off);
+        play->setIcon(icon);
+
+	connect(this->play, SIGNAL(clicked()),this, SLOT(botonazo()));
+	mainLayout->addWidget(play, 0, 0);
+
 	QPushButton *boton2 = new QPushButton("boton 2");
-	//boton2->QSize(28, 20);
-	vlayout_right->addWidget(boton2, 0.20);
+	boton2->setMinimumSize(QSize(20, 20));
+	mainLayout->addWidget(boton2, 1, 0);
+	setLayout(mainLayout);
+
+
 	// Construct the common part of the scenegraph.
 
 	SoGroup * commonroot = new SoGroup;

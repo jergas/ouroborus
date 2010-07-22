@@ -68,7 +68,7 @@ private slots:
 
 public:
 	
-	QPushButton *boton1;
+	QPushButton *play;
 	MyMainWindow(void);
 };
 

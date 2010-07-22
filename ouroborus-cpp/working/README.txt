@@ -16,4 +16,4 @@ To compile and run the test:
 1.- Go to the ouroborus/test/ folder
 2.- Type "qmake" (without the brackets here, and heceforth)
 3.- Type "make"
-4.- Type "./blablabla"
+4.- Type "./main
