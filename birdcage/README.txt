@@ -70,10 +70,6 @@ Note: Other optional Csound environment variables are available (not setting the
 4.- Issues and workarounds
 ---------- --- -----------
 
-- To interrupt the simulation, hit ctrl^c twice (instead of once).
-
-- The terminal is not always restored when interrupting the application via "ctrl^c". In case the terminal becomes corrupted, type "reset" and hit enter to recover your terminal.
-
 - A Csound error -which shows a huge number of samples out of range- may occur if the simulation is started while another application is making use of sound resources. If this is the case, stop the other application, wait a few seconds, and try running the simulation again.
 
 - The above mentioned error can also happen if the Csound period and buffer sizes are not set correctly. Since proper setup can vary from architecture to architecture, you may need to set them up manually. This is done in the specificAlpha.py and/or specificBeta.py modules. There you will find a line that reads:
@@ -158,10 +154,6 @@ Aclaración: Es posible configurar otras variables de ambiente para Csound (que 
 
 4.- Problemas conocidos y soluciones
 ------------- - ----------
-
-- Para interrumpir la simulación se necesita pulsar "ctrl^c" dos veces (en lugar de una).
-
-- La terminal no siempre se restablece al interrumpir la aplicación vía "ctrl^c". En caso de que la terminal se corrompa, puede ser recuperada tecleando "reset" y pulsando "enter".
 
 - Un error de Csound -que arroja un numero enorme de "samples out of range"- ocurrirá si se inicia la simulación mientras otra aplicación está ocupando recursos sonoros. Si éste es el caso, detenga la otra aplicación, espere unos segundos, y trate de correr la aplicación nuevamente.
 
