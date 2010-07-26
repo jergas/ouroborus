@@ -75,6 +75,12 @@ cdef class EnvironmentRule(Rule_2D):
           state = 0
           sumstates = self.neighborhood.countAlive(address)
           cell = self.neighborhood.topology.get(address)
+
+          #Define the state of the cell (+ = alive - = dead)
+          if abs(abs(cell) - environment) <= 5:
+               cell = abs(cell)
+          else:
+               cell = -abs(cell)
      
           if binarise(cell) == 1:  # If cell is alive
                if 2 <= sumstates <= 3:
@@ -93,7 +99,6 @@ cdef class EnvironmentRule(Rule_2D):
                     state = environment
                else:
                     state = cell
-     
           self.neighborhood.topology.set(address, state)
      
      def applyToTarget(self, object address, T.GridTopology target):
@@ -105,6 +110,11 @@ cdef class EnvironmentRule(Rule_2D):
           state = 0
           sumstates = self.neighborhood.countAlive(address)
           cell = self.neighborhood.topology.get(address)
+          #Define the livingness of the cell (+ = alive - = dead)
+          if abs(abs(cell) - environment) <= 5:
+               cell = abs(cell)
+          else:
+               cell = -abs(cell)
      
           if binarise(cell) == 1:  # If cell is alive
 
@@ -127,6 +137,7 @@ cdef class EnvironmentRule(Rule_2D):
                     state = cell
           
           target.set(address, state)
+#          print state
           return state
 
 
@@ -175,7 +186,7 @@ def getEnvironment(port='/dev/ttyUSB0'):
                getEnvironment(port)
                environment = int(environment[0])
      except serial.serialutil.SerialException:
-          print 'No serial reading!!! using random environment.'
+#          print 'No serial reading!!! using random environment.'
           environment=random.randint(400,600)
      return environment
 	
