@@ -110,7 +110,6 @@ def main(stdscr):
 	try:
 		simulation.join()
 	except KeyboardInterrupt:
-		Sequence.interrupt = True
 		sound.stopSoundServer()
 
 	# Do some cleaunup.
@@ -208,15 +207,15 @@ class ThreadedSequence(object):
 		# audiovisual threads synchronized.
 		self.bckgrndThreadCondition	= threading.Condition()
 		self.agentThreadCondition	= threading.Condition()
+		# Control variable to stop secondary threads.
 		self.simulationOn	= True
-		self.interrupt		= False
 
 
 	def simulationLoop(self):
 		"""The simulation's main iteration cycle happens here.
 		"""	
 		# Main iteration cycle
-		while self.bast.annum < self.doomsday and not self.interrupt:
+		while self.bast.annum < self.doomsday:
 			self.bckgrndThreadCondition.acquire()
 			# GOD.Organizer iterates the c.a.
 			self.population = self.bast.iterateAutomaton()
@@ -249,7 +248,7 @@ class ThreadedSequence(object):
 		"""
 		(width, height)	= self.size
 
-		while self.simulationOn and not self.interrupt:
+		while self.simulationOn:
 			self.bckgrndThreadCondition.acquire()
 			self.bckgrndThreadCondition.notify()
 			self.bckgrndThreadCondition.wait()
@@ -267,7 +266,7 @@ class ThreadedSequence(object):
 	def agentsLoop(self):
 		""" Deals with drawing of agents and with their sound.
 		"""
-		while self.simulationOn and not self.interrupt:
+		while self.simulationOn:
 			self.agentThreadCondition.acquire()
 			self.agentThreadCondition.notify()
 			try:
