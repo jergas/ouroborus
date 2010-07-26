@@ -173,6 +173,8 @@ class ThreadedSequence(object):
 			self.bckgrndThreadCondition.wait()
 			self.bckgrndThreadCondition.release()
 #			time.sleep(8)
+			if sound.SoundServer.perf.GetStatus():
+				break
 		self.simulationOn = False
 		sound.stopSoundServer()
 

@@ -5,8 +5,7 @@
 import time
 import threading
 import random
-# Sound-related submodules
-from csnd_interface import initCSnd, perf, cSnd
+# User-defined submodules
 import Numeric_utils as NU
 from equal_temper import centsToFreq
 from Csnd_notes import BckgrndNote
@@ -18,7 +17,8 @@ Series	= NU.Series(0)
 
 #logging = open("log.txt", 'w')
 
-def oneBckgrndVox(frstInstr, dur, ptch, strtDistr, specType, numOfPartls, pan):
+def oneBckgrndVox(frstInstr, dur, ptch, strtDistr, specType, numOfPartls, pan,
+					perf, cSnd):
 	"""Starts a note-generating loop which -parting from initial
 	parameters- is modified via the simulation (and some randomness).
 
@@ -33,7 +33,6 @@ def oneBckgrndVox(frstInstr, dur, ptch, strtDistr, specType, numOfPartls, pan):
 	fundFreq		= centsToFreq(ptch)
 	endDistrFact	= strtDistr + (.01 * random.randint(-10, 10))
 	instrNos 		= range(frstInstr, (frstInstr + numOfPartls))
-	oneDur			= float(abs(dur)) / numOfPartls
 	# Instantiate the background sound note class.
 	bckgrndNote = BckgrndNote(instrNos, fundFreq, numOfPartls, specType,
 								strtDistr, endDistrFact, pan, dur)
@@ -42,9 +41,9 @@ def oneBckgrndVox(frstInstr, dur, ptch, strtDistr, specType, numOfPartls, pan):
 	for x, y in zip(spectrum, instrNos):
 		perf.InputMessage(x)
 		cSnd.SetChannel("chan%s" %(y-1), .5)
-		time.sleep(oneDur)
 
 	while soundGlobals.mainIterCycle == 1:
+		time.sleep(abs(dur) - 1)
 		# Change the parameters for the next note.
 		freqDeviation	= random.randint(-50, 50)
 		fundFreq = centsToFreq(ptch + freqDeviation)
@@ -57,11 +56,10 @@ def oneBckgrndVox(frstInstr, dur, ptch, strtDistr, specType, numOfPartls, pan):
 		# Feed the partials to Csound.
 		for x, y in zip(spectrum, instrNos):
 			perf.InputMessage(x)
-			time.sleep(oneDur)
 
 		
 		
-def ctrlBckgrndSnd():
+def ctrlBckgrndSnd(cSnd):
 	"""Uses parameters from the automaton (stored by sound.py in
 	sound_globals.py) to control the background sound after the notes
 	have started. Changes at note-start times are handled by
@@ -78,8 +76,8 @@ def ctrlBckgrndSnd():
 		if oldAutomatonState != newAutomatonState:
 			for x in newAutomatonState:
 				if x[1] == 1:
-						cSnd.SetChannel("chan%s" %(x[0]),
-										random.choice(wheightedAmps))
+					cSnd.SetChannel("chan%s" %(x[0]),
+									random.choice(wheightedAmps))
 				else:
 					cSnd.SetChannel("chan%s" %(x[0]),
 									random.choice(wheightedGates))
@@ -120,7 +118,7 @@ def setControlCells(width, height, backgroundPartials):
 		if mod in primesSet:
 			onOffRate = primes[mod - 2]
 		else:
-			onOffRate =  random.choice([2, 3])
+			onOffRate =  random.choice([1, 2])
 		keyValue = (str(channel), (cell, 0, onOffRate, (0, 0)))
 		dictList.append(keyValue)
 	cellControlDict = dict(dictList)

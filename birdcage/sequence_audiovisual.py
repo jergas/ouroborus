@@ -160,6 +160,8 @@ def main(stdscr):
 #		sndCtrlCells = [kemet.get((22,18)), kemet.get((40,18)),
 #						kemet.get((64,18))]
 		sound.inputDataControl(kemet, populNorm)
+		if sound.SoundServer.perf.GetStatus():
+			break
 
 	# Do some cleanup and return.
 	sound.stopSoundServer()

@@ -16,6 +16,9 @@ import sound_globals as soundGlobals
 specificity = sys.modules["__main__"].specificity
 specific = __import__("specific"+specificity)
 
+# Instantiate the sound server class.
+SoundServer = csndInterface.SoundServer()
+
 # Import the agent's sound module and methods, except when a simulation
 # lacks agents.
 if specific.simWithAgents:
@@ -25,13 +28,13 @@ if specific.simWithAgents:
 	def agentBirth(VocalTract):
 		"""Plays the birth sound.
 		"""
-		VocalTract.birthSound()
+		VocalTract.birthSound(SoundServer.perf)
 		
 		
 	def eatSound(VocalTract):
 		"""Plays the eating sound.
 		"""
-		VocalTract.eatSound()
+		VocalTract.eatSound(SoundServer.perf)
 else:
 	print 'If this is a simulation with agents, set simWithAgents to True in your specificXXX.py module.'
 
@@ -48,7 +51,7 @@ def setInitialData(size):
 def startSoundServer():
 	"""Starts the sound server.
 	"""
-	csndInterface.initCSnd(specific.csOptions,
+	SoundServer.initCSnd(specific.csOptions,
 							specific.backgroundPartials)
 
 
@@ -60,11 +63,11 @@ def backgroundVoices():
 	frstInstrLst = range(frstInstr, (backgroundPartials + frstInstr) * 2,
 						backgroundPartials)
 	argsList	= [(frstInstrLst[0], -12, 3400, 0.50, 1, backgroundPartials,
-						1),
+						1, SoundServer.perf, SoundServer.cSnd),
 					(frstInstrLst[1], -8, 3400, 0.50, 0, backgroundPartials,
-						0.5),
+						0.5, SoundServer.perf, SoundServer.cSnd),
 					(frstInstrLst[2], -14, 3400, 0.50, 2, backgroundPartials,
-						0)]
+						0, SoundServer.perf, SoundServer.cSnd)]
 	voiceList	= []
 
 	for index, item in enumerate(argsList):
@@ -81,7 +84,8 @@ def backgroundControl():
 	the background sound voices.
 	"""
 	controlThread = threading.Thread(name='backgroundVoicesControl',
-										target=backgroundSound.ctrlBckgrndSnd)
+										target=backgroundSound.ctrlBckgrndSnd,
+										args=(SoundServer.cSnd, ))
 	return controlThread
 
 
@@ -101,5 +105,5 @@ def stopSoundServer():
 	background_sound.py. The latter causes the iteration of the
 	background sound loops (and thus its threads) to end.
 	"""
-	csndInterface.endCsnd()
+	SoundServer.endCsnd()
 	soundGlobals.mainIterCycle = 0

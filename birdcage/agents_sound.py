@@ -34,7 +34,7 @@ class VocalTract(object):
 		self.ate		= 0
 
 
-	def birthSound(self):
+	def birthSound(self, perf):
 		""" Generates the sound that an agent does at birth.
 		"""
 		# Set the relevant parameters in the AgentNote class.
@@ -47,9 +47,9 @@ class VocalTract(object):
 		AgentNote.pan			= self.panning
 		# Make a score-statement string and feed it to Csound.
 		scoStatement = AgentNote.mkBirthString()
-		csndInterface.perf.InputMessage(scoStatement)
+		perf.InputMessage(scoStatement)
 
-	def eatSound(self):
+	def eatSound(self, perf):
 		""" Generates the sound that an agent does while eating.
 		"""
         # Set the relevant parameters in the AgentNote class.
@@ -60,4 +60,4 @@ class VocalTract(object):
 		AgentNote.pan			= self.panning
 		# Make a score-statement string and feed it to Csound.
 		scoStatement = AgentNote.mkEatString()
-		csndInterface.perf.InputMessage(scoStatement)
+		perf.InputMessage(scoStatement)
