@@ -89,7 +89,6 @@ def main(stdscr):
 	try:
 		simulation.join()
 	except KeyboardInterrupt:
-		Sequence.interrupt = True
 		sound.stopSoundServer()
 		
 	# Do some clean-up
@@ -149,30 +148,29 @@ class ThreadedSequence(object):
 			
 		# Set some initial data for sound control.
 		sound.setInitialData(self.size)
-		
-		# Initialize variables for inter-thread communication.
-#		self.population = 0
-#		self.currentEntry = None
 
 		# Create a thread-condition object to keep the simulation and
 		# audiovisual threads synchronized.
 		self.bckgrndThreadCondition	= threading.Condition()
+		# Control variable to stop secondary threads.
 		self.simulationOn	= True
-		self.interrupt		= False
 
 
 	def simulationLoop(self):
 		"""The simulation's main iteration cycle happens here.
 		"""	
 		# Main iteration cycle
-		while self.bast.annum < self.doomsday and not self.interrupt:
+		while self.bast.annum < self.doomsday:
 			self.bckgrndThreadCondition.acquire()
 			# GOD.Organizer iterates the c.a.
-			self.population = self.bast.iterateAutomaton()
+			self.bast.iterateAutomaton()
 			self.bckgrndThreadCondition.notify()
 			self.bckgrndThreadCondition.wait()
 			self.bckgrndThreadCondition.release()
 #			time.sleep(8)
+			# Test if the Csound performance-thread is still running, and
+			# break the simulation loop if not (solves the interruption
+			# bug).
 			if sound.SoundServer.perf.GetStatus():
 				break
 		self.simulationOn = False
@@ -183,16 +181,12 @@ class ThreadedSequence(object):
 		"""
 		(width, height)	= self.size
 
-		while self.simulationOn and not self.interrupt:
+		while self.simulationOn:
 			self.bckgrndThreadCondition.acquire()
 			self.bckgrndThreadCondition.notify()
 			self.bckgrndThreadCondition.wait()
-			# Update the data needed by the background sound engine.
-			populNorm = float(self.population) / operator.mul(width,height)
-			sndCtrlCells = [self.kemet.get((22,18)), self.kemet.get((40,18)),
-							self.kemet.get((64,18))]
 			# Update the display
 			self.bast.refreshBackground(self.display)
 			# Update the audio
-			sound.inputDataControl(self.kemet, populNorm)
+			sound.inputDataControl(self.kemet)
 			self.bckgrndThreadCondition.release()

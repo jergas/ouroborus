@@ -36,6 +36,7 @@ class VocalTract(object):
 
 	def birthSound(self, perf):
 		""" Generates the sound that an agent does at birth.
+		perf	---> a Csound performance thread
 		"""
 		# Set the relevant parameters in the AgentNote class.
 		AgentNote.dur			= random.uniform(.05, .2)
@@ -51,6 +52,7 @@ class VocalTract(object):
 
 	def eatSound(self, perf):
 		""" Generates the sound that an agent does while eating.
+		perf	---> a Csound performance thread
 		"""
         # Set the relevant parameters in the AgentNote class.
 		AgentNote.dur			= .1

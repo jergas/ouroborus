@@ -29,6 +29,8 @@ def oneBckgrndVox(frstInstr, dur, ptch, strtDistr, specType, numOfPartls, pan,
 	specType	---> Spectrum type (odd, even, fibonacci or prime)
 	numOfPartls	---> Number of partials in the harmonic spectrum
 	pan			---> Note's panning
+	perf		---> a Csound performance thread
+	cSnd		---> a Csound instance
 	"""
 	fundFreq		= centsToFreq(ptch)
 	endDistrFact	= strtDistr + (.01 * random.randint(-10, 10))
@@ -64,6 +66,7 @@ def ctrlBckgrndSnd(cSnd):
 	sound_globals.py) to control the background sound after the notes
 	have started. Changes at note-start times are handled by
 	oneBckgrndVox().
+	cSnd		---> a Csound instance
 	"""	
 	wheightedGates	= [0.5]*2 + [0.25]*3 + [0.125]*5 + [0.0625]*7 + [.03125]*11
 	wheightedAmps	= [4]*2 + [2]*4 + [1]*8

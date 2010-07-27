@@ -21,6 +21,8 @@ class SoundServer(object):
 		"""Generates a single-file Csound Structured Data (.csd) string,
 		sets it in the Csound API, exports it for performance, compiles it,
 		and starts the 	performance.
+		csOptions			---> the command-line csound options
+		backgroundPartials	---> the number of per voice spectral partials
 		"""
 		#cSnd.setPythonMessageCallback() # useful for debugging.
 		CsdGenerator	= CsndData.CsdGenerator(backgroundPartials*3,

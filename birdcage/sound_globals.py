@@ -12,8 +12,3 @@ cellControlDict	= []
 
 # A list with the data needed to update the background sound.
 backgroundUpdateList = []
-
-# The normalized population of the automaton as a one-element list.
-populNorm	= [.001875]
-populMin	= [.001875] 
-populMax	= [.0025] 

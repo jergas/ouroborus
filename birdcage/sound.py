@@ -27,12 +27,14 @@ if specific.simWithAgents:
 
 	def agentBirth(VocalTract):
 		"""Plays the birth sound.
+		VocalTract	--->> an agent's voice class
 		"""
 		VocalTract.birthSound(SoundServer.perf)
 		
 		
 	def eatSound(VocalTract):
 		"""Plays the eating sound.
+		VocalTract	--->> an agent's voice class
 		"""
 		VocalTract.eatSound(SoundServer.perf)
 else:
@@ -89,15 +91,13 @@ def backgroundControl():
 	return controlThread
 
 
-def inputDataControl(automaton, populNorm):
+def inputDataControl(automaton):
 	"""Updates the automaton's variables needed to control the
 	background sound. These global sound-control variables 'live'
 	in sound_globals.py.
-
 	automaton	---> a birdcage cellular automaton.
 	"""
 	soundGlobals.backgroundUpdateList = backgroundSound.updateControlCells(automaton)
-	soundGlobals.populNorm = [populNorm]
 
 
 def stopSoundServer():

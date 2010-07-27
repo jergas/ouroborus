@@ -140,8 +140,7 @@ def main(stdscr):
 	# Main iteration cycle.
 	while bast.annum < doomsday:
 		# GOD.Organizer iterates the c.a.
-		population = bast.iterateAutomaton()
-		populNorm = float(population) / operator.mul(width,height)
+		bast.iterateAutomaton()
 		# GOD.Organizer parses the whole length of taw
 		for entry in taw:
 			# If the agent is about to be created, then make a birth
@@ -157,9 +156,9 @@ def main(stdscr):
 
 		# The display and the sound control data are updated.
 		bast.refreshDisplay(display)
-#		sndCtrlCells = [kemet.get((22,18)), kemet.get((40,18)),
-#						kemet.get((64,18))]
-		sound.inputDataControl(kemet, populNorm)
+		sound.inputDataControl(kemet)
+		# Test if the Csound performance-thread is still running, and
+		# break the simulation loop if not (solves the interruption bug).
 		if sound.SoundServer.perf.GetStatus():
 			break
 
