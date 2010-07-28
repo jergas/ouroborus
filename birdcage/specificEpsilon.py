@@ -47,6 +47,11 @@ seed = ("Random",2)
 
 displayType = 'curses'
 
+# The criterion function
+# (a function which evaluates a cell's state for display,
+#  the library where its located must also be specified below)
+criterion = 'identity'
+
 # The Curses colours
 
 backgroundColour = "COLOR_BLACK"
@@ -56,10 +61,14 @@ agentsColour = "COLOR_RED"
 
 ############
 
-# Keeping a log:
+# The other options:
 
+# Logging
 logging = False
 logFile = "log.txt"
+
+# Libraries
+criterionLocation = "v" # visual is renamed v in GOD.py
 
 
 ############

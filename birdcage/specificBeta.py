@@ -34,7 +34,7 @@ simWithAgents = True
 # The iteration:
 
 avatars = 2
-doomsday = 39
+doomsday = 100
 seed = ("Random",1)
 
 
@@ -43,6 +43,11 @@ seed = ("Random",1)
 # Display type ('curses' or 'pygame')
 
 displayType = 'curses'
+
+# The criterion function
+# (a function which evaluates a cell's state for display,
+#  the library where its located must also be specified below)
+criterion = 'identity'
 
 # The Curses colours
 
@@ -53,10 +58,14 @@ agentsColour = "COLOR_RED"
 
 ############
 
-# Keeping a log:
+# The other options:
 
+# Logging
 logging = False
 logFile = "log.txt"
+
+# Libraries
+criterionLocation = "v" # visual is renamed v in GOD.py
 
 
 ############
