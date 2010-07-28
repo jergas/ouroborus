@@ -25,8 +25,8 @@ class SoundServer(object):
 		backgroundPartials	---> the number of per voice spectral partials
 		"""
 		#cSnd.setPythonMessageCallback() # useful for debugging.
-		CsdGenerator	= CsndData.CsdGenerator(backgroundPartials*3,
-												csOptions)
+		totalPartials	= backgroundPartials * 3
+		CsdGenerator	= CsndData.CsdGenerator(totalPartials, csOptions)
 		csd = CsdGenerator.csd
 		self.cSnd.setCSD(csd)
 		self.cSnd.exportForPerformance()

@@ -82,7 +82,7 @@ criterionLocation = "rule"
 # The sound preferences:
 
 # Partials per background voice (minimum 1 maximum 13)
-backgroundPartials = 13
+backgroundPartials = 30
 
 # One of the csOptions should be commented. If you don't know
 # what you are doing, use the first version (uses the ALSA

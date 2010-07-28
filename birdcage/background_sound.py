@@ -78,12 +78,13 @@ def ctrlBckgrndSnd(cSnd):
 		# Attenuate or boost the relevant partials
 		if oldAutomatonState != newAutomatonState:
 			for x in newAutomatonState:
-				if x[1] == 1:
+				if x[1]:
 					cSnd.SetChannel("chan%s" %(x[0]),
 									random.choice(wheightedAmps))
 				else:
 					cSnd.SetChannel("chan%s" %(x[0]),
 									random.choice(wheightedGates))
+
 		oldAutomatonState = soundGlobals.backgroundUpdateList
 		time.sleep(.01)
 
@@ -143,7 +144,7 @@ def updateControlCells(automaton):
 		counterOff		= counters[1]
 		newCellState	= automaton.get(cell)
 		if oldCellState != newCellState:
-			if newCellState:
+			if newCellState > 0:
 				if not counterOff:
 					if  not counterOn:
 						counterOn += 1

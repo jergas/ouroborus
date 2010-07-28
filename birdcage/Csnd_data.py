@@ -271,18 +271,21 @@ e ; end of the score
 class CsdGenerator(object):
 	"""
 	"""
-	def __init__(self, instr2clones, specificity):
-		"""
+	def __init__(self, totalPartials, csOptions):
+		""" Make and format all the data needed for Csound to run.
+		totalPartials	---> the total number of partials in the background
+								sound
+		csOptions		---> the csound command line options as a string
 		"""
 		# Inputed and externally generated attributes.
-		self.CsdStrings		= CsdStrings(specificity)
+		self.CsdStrings		= CsdStrings(csOptions)
 		self.opts			= self.CsdStrings.opts
 		self.orchHead		= self.CsdStrings.orchHead
 		self.instrs			= self.CsdStrings.instrs
 		self.instr1			= self.CsdStrings.instrs[0]
 		self.instr2			= self.CsdStrings.instrs[1]
 		self.sco			= self.CsdStrings.sco
-		self.instr2clones	= instr2clones
+		self.totalPartials	= totalPartials
 		self.strt 			= 1
 		# Internally generated attributes
 		self.chnnlLst		= self.mkChnnlNmes()
@@ -301,7 +304,7 @@ class CsdGenerator(object):
 		nmbr		= self.strt
 		chnnlLst	= []
 
-		for x in xrange(self.instr2clones):
+		for x in xrange(self.totalPartials):
 			channel = '%s%s%s%s' %(dblQuote, prfx, nmbr, dblQuote)
 			chnnlLst.append(channel)
 			nmbr += 1
