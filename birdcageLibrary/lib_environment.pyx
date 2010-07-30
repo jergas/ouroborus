@@ -170,10 +170,10 @@ def getEnvironment(port='/dev/ttyUSB0', environment=initialEnvironment, annum=0,
      ''' Every annum, gets a reading from readArduino().
         If no annum is passed, the same reading will be returned. 
      '''
-    while annum==lastAnnum:
+     while annum==lastAnnum:
           return environment
-    environment = readArduino()
-    return environment
+     environment = readArduino()
+     return environment
 
 def readArduino(port='/dev/ttyUSB0'):
      ''' Gets a reading from the environment sensor (an arduino now). In case there is no such
@@ -201,7 +201,7 @@ def readArduino(port='/dev/ttyUSB0'):
           environment=random.randint(400,405)
      return environment
 
-def setAnnum(annum=0)
+def setAnnum(annum=0):
      return getEnvironment(annum=annum)
 
 

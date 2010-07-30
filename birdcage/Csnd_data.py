@@ -292,6 +292,7 @@ class CsdGenerator(object):
 		self.chnnlDeclar	= self.chnnlDeclar()
 		self.orc			= self.mkOrc()
 		self.csd			= self.makeCSD()
+		print self.chnnlLst
 
 
 	def mkChnnlNmes(self):

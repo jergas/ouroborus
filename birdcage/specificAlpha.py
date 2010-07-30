@@ -7,7 +7,7 @@ Alpha is the default specificity."""
 
 size = (80,20)
 topology = ("ToroidTopology", 0)
-neighborhood = ("VonNeumannNeighborhood", None ,"neighborhood")
+neighborhood = ("MooreNeighborhood", None ,"neighborhood")
 import operator
 rule = ("ReductionRule", (operator.xor, 0), "rule")
 automaton = ("SynchronousAutomaton_2D", )
@@ -44,7 +44,7 @@ seed = ("Random",2)
 
 # Display type ('curses' or 'pygame')
 
-displayType = 'curses'
+displayType = 'pygame'
 
 # The criterion function
 # (a function which evaluates a cell's state for display,

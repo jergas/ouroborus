@@ -1,5 +1,9 @@
 reportar a Gobby bug (comportamiento no intuitivo) del boton de ok en el dialogo de preferencias
 
+edgar@aura:~/ouroborus/birdcageLibrary$ ./start.py
+Fatal Python error: (pygame parachute) Segmentation Fault
+Aborted
+
 edgar@aura:~/ouroborus/birdcage$ ./start.py --s=alpha threaded
 BEGAN CppSound::compile()...
 BEGAN CppSound::compile(9, 0x8490f10)...
@@ -616,3 +620,23 @@ end of score.		   overall amps:      0.0      0.0
 0 errors in performance
 Error writing data to audio output device
 Csound tidy up: Segmentation fault
+
+
+Vianagan, probe tu ultimo commit:
+edgar@aura:~/ouroborus/ouroborus-cpp/working$ qmake
+edgar@aura:~/ouroborus/ouroborus-cpp/working$ make
+g++ -c -pipe -O2 -Wall -W -D_REENTRANT -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SHARED -I/usr/share/qt4/mkspecs/linux-g++ -I. -I/usr/include/qt4/QtCore -I/usr/include/qt4/QtCore -I/usr/include/qt4/QtGui -I/usr/include/qt4/QtGui -I/usr/include/qt4 -I/usr/include/qt4/QtGui -I. -I. -o main.o main.cpp
+main.cpp:5: warning: unused parameter 'argc'
+main.cpp:5: warning: unused parameter 'argv'
+g++ -c -pipe -O2 -Wall -W -D_REENTRANT -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SHARED -I/usr/share/qt4/mkspecs/linux-g++ -I. -I/usr/include/qt4/QtCore -I/usr/include/qt4/QtCore -I/usr/include/qt4/QtGui -I/usr/include/qt4/QtGui -I/usr/include/qt4 -I/usr/include/qt4/QtGui -I. -I. -o MyMainWindow.o MyMainWindow.cpp
+/usr/bin/moc-qt4 -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SHARED -I/usr/share/qt4/mkspecs/linux-g++ -I. -I/usr/include/qt4/QtCore -I/usr/include/qt4/QtCore -I/usr/include/qt4/QtGui -I/usr/include/qt4/QtGui -I/usr/include/qt4 -I/usr/include/qt4/QtGui -I. -I. MyMainWindow.h -o moc_MyMainWindow.cpp
+g++ -c -pipe -O2 -Wall -W -D_REENTRANT -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SHARED -I/usr/share/qt4/mkspecs/linux-g++ -I. -I/usr/include/qt4/QtCore -I/usr/include/qt4/QtCore -I/usr/include/qt4/QtGui -I/usr/include/qt4/QtGui -I/usr/include/qt4 -I/usr/include/qt4/QtGui -I. -I. -o moc_MyMainWindow.o moc_MyMainWindow.cpp
+g++  -o main main.o MyMainWindow.o moc_MyMainWindow.o    -L/usr/lib /usr/lib/libboost_thread.so -lSoQt4 -lQtOpenGL -lQt3Support -lXmu -lXi -lCoin -lGL -lXext -lSM -lICE -lX11 -ldl -lsimage -lQtGui -lQtCore -lpthread
+edgar@aura:~/ouroborus/ouroborus-cpp/working$ ls
+baboon.png  main.cpp  main.pro  moc_MyMainWindow.cpp  MyMainWindow.cpp  MyMainWindow.o  play.jpg
+main        main.o    Makefile  moc_MyMainWindow.o    MyMainWindow.h    pelo.PNG        README.txt
+edgar@aura:~/ouroborus/ouroborus-cpp/working$ ./main
+main
+SoQt::init((QWidget *)NULL);
+MyMainWindow * window = new MyMainWindow();
+Segmentation fault
