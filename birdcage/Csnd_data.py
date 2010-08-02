@@ -320,7 +320,7 @@ class CsdGenerator(object):
 		chnnlDeclar	= ''
 
 		for x in self.chnnlLst:
-			chnnlDeclar = chnnlDeclar + 'chn_k ' + str(x) + ', 1, 0\n'
+			chnnlDeclar = chnnlDeclar + 'chn_k ' + str(x) + ', 1\n'
 		return chnnlDeclar
 
 

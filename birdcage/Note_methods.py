@@ -15,12 +15,12 @@ class Spctrm:
 	def mkPartls(self, spectType, numOfPartls):
 		""" Generates a list of partials that will be used to generate
 		spectra.
-		spectType	---> type of spectrum (0=all partls, 1=odd partls,
+		spectType	---> type of spectrum (0=natural partls, 1=odd partls,
 					2=even partls, 3=fibonacci partls, 4=odd partls)
 		numOfPartls	---> number of partials to generate
 		return		--> a partial-series list
 		"""
-		kinds		= [Series.all, Series.odd, Series.even, Series.fibo,
+		kinds		= [Series.naturals, Series.odd, Series.even, Series.fibo,
 						Series.prime]
 		kindChoice	= kinds[spectType]
 		partls		= kindChoice(numOfPartls)

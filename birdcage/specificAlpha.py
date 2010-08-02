@@ -44,7 +44,7 @@ seed = ("Random",2)
 
 # Display type ('curses' or 'pygame')
 
-displayType = 'pygame'
+displayType = 'curses'
 
 # The criterion function
 # (a function which evaluates a cell's state for display,

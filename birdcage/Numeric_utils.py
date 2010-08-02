@@ -22,7 +22,7 @@ class Series(object):
 			print 'Initialization parameter must be 0 or 1'
 
 
-	def all(self, noOfElmnts):
+	def naturals(self, noOfElmnts):
 		""" Constructs a natural number series of noOfElements.
 		noOfElements	---> the desired elements in the series
 		"""
@@ -86,7 +86,7 @@ class Series(object):
 		# If series is intended for a harmonic series, limit the series
 		# so that its last harmonic is below 1/2 of the sample rate
 		# (assuming a fundamental of 20hz and a distortion facotr of 1).
-		if noOfElmnts > 12:
+		if self.harmonic == 1 and noOfElmnts > 12:
 			noOfElmnts = 12
 		if self.harmonic == 1:
 			a = 1
