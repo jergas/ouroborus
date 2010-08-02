@@ -4,13 +4,6 @@ Welcome to Birdcage!
 ======= == ========
 
 
-ATTENTION: This file is a work in progress.
-
-
-This file contains important information regarding Birdcage. You can find information about the project, its dependencies and how to install them here.
-
-
-
 Contents
 --------
 
@@ -21,7 +14,6 @@ Contents
 3.- Configuring Csound
 
 4.- Known issues and workarounds
-
 
 
 1.- Dependencies
@@ -40,11 +32,20 @@ Contents
 2.- Installation
 ----------------
 
-- Install the necessary dependencies. Scroll down to see what these are.
+- Install the necessary dependencies (see section 1).
 
-- Open a terminal and, in the birdcage folder, run 'compile.sh' (without quotations) in order to compile the Pyrex modules.
+- Open a terminal and, in the birdcage directory, run './compile.sh' (without quotations) in order to compile the Pyrex modules.
 
-- To run the audiovisual simulation, simply type 'python start.py' (the full audiovisual simulation). You are also welcome to try 'python start.py debug normal' (a text render of the simulation), 'python start.py threaded normal' (a multi-threaded audiovisual version) and 'python start.py visual normal' (a visual-only rendering).
+- To run the threaded audiovisual simulation, type:
+
+	./start.py [--spec=SPECIFICITY] [SEQUENCE]
+
+Optional arguments:
+
+SEQUENCE	Selects the type of simulation. Available options are: threaded
+			(default), audiovisual, visual or debug.
+--spec=		Selects a specific configuration file. Available options are: Alpha
+			(default), beta, delta or epsilon. You are welcome to write your own.
 
 
 3.- Configuring Csound
@@ -72,7 +73,7 @@ Note: Other optional Csound environment variables are available (not setting the
 
 - A Csound error -which shows a huge number of samples out of range- may occur if the simulation is started while another application is making use of sound resources. If this is the case, stop the other application, wait a few seconds, and try running the simulation again.
 
-- The above mentioned error can also happen if the Csound period and buffer sizes are not set correctly. Since proper setup can vary from architecture to architecture, you may need to set them up manually. This is done in the specificAlpha.py and/or specificBeta.py modules. There you will find a line that reads:
+- The above mentioned error can also happen if the Csound period and buffer sizes are not set correctly. Since proper setup can vary from architecture to architecture, you may need to set them up manually. This is done in the specificAlpha.py and/or specific*.py modules. There you will find a line that reads:
 
 	csound -odac -+rtaudio=alsa -b1024 -B2048 -d -m0 temp.orc temp.sco
 
@@ -88,9 +89,6 @@ ________________________________________________________________________________
 
 Bienvenido a Birdcage!
 ========== = ========
-
-
-ATENCIÓN: Esta es una versión inconclusa.
 
 
 Este archivo contiene información importante relativa a Birdcage. En él puede encontrar información importante sobre el proyecto, sus dependencias y como instalarlas.
@@ -123,13 +121,23 @@ Contenido
 
 
 2.- Instalación
---------------
+----------------
 
-- Instalar las dependencias necesarias. Recorrer la pantalla para ver cuáles son éstas.
+- Instalar las dependencias del proyecto (ver punto 1).
 
-- Abrir una terminal y, parado sobre la carpeta birdcage, correr 'compile.sh' (sin comillas) para compilar lo módulos de pyrex.
+- Abrir una terminal y, en el directorio birdcaje, ejecutar './compile.sh' (sin las comillas) para compilar los módulos de Pyrex.
 
-- Para correr la simulación audiovisual, teclear 'python start.py'. también puede teclear 'python start.py debug normal' (sólo texto), 'python start.py threaded normal' (versión audiovisual multi-hilos) y 'python start.py visual normal' (gráficos sin sonido).
+- Para ejecutar la simulación audiovisual en hilos, teclee:
+
+	./start.py [SEQUENCE] [--spec=SPECIFICITY]
+
+Argumentos opcionales:
+
+SEQUENCE	Selecciona el tipo de simulación. Las opciones disponibles son:
+			threaded (default), audiovisual, visual o debug.
+--spec=		Selecciona un archivo de configuración 'specific'. Las opciones
+			disponibles son: alpha (default), beta, delta or epsilon. También se
+			puede escribir una propia.
 
 
 3.- Configuración de Csound

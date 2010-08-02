@@ -48,7 +48,7 @@ except (ImportError, NameError, TypeError):
 # Now the specificity has been loaded.
 
 
-def main(mode = "Audiovisual", submode = "Normal"):
+def main(mode = "Threaded", submode = "Normal"):
 	"""Main executable program. Sort between the variants of the execution sequence.
 
 	return -->> 1
@@ -76,7 +76,7 @@ def notify():
 def setMode():
 	global specific
 	submode = "Normal"
-	mode = "Audiovisual"
+	mode = "threaded"
 	if len(sys.argv) == 3:
 		submode = sys.argv.pop()
 		mode = sys.argv.pop()
@@ -88,7 +88,7 @@ def setMode():
 			mode = specific.mode
 		except AttributeError:
 			submode = "Normal"
-			mode = "Audiovisual"
+			mode = "Threaded"
 	while len(sys.argv) > 1:
 		del sys.argv[-1]
 	return (mode, submode)
