@@ -1,0 +1,72 @@
+"""This module contains the PyGVisual class which is used to produce a pyGame viewer of the circadian cellular automaton.
+It requires an enviroment reading interface or a random environment generator (such as getEnvironment from
+lib_environment.py). The automaton input must be coded as a list. For this to run you need to have python-pygame(tested under version 1.8.1-release1ubuntu1) and python-imaging (tested under version 1.1.6-3ubuntu) installed.
+
+Coded by Diego Trujillo (aka 5inister) May 2010"""
+
+#Import the needed modules
+import pygame
+import sys
+from pygame.locals import *
+import Image
+import ImageDraw
+
+class PyGVisual():
+     '''This class holds the methods in charge of rendering cellular automata on a pyGame window'''
+        
+     def __init__(self, width=800, height=800):
+          '''Initiate the pyGame display. This sets the window size and the caption at the top of the display.'''
+          pygame.init()
+          self.width = width
+          self.height = height
+          self.screen = pygame.display.set_mode((self.width,self.height))
+          pygame.display.set_caption("Circadian Viewer")
+          self.fullscreen = False
+                    
+     def generate(self, automaton, environment, side=100, output='buffer.tiff'):
+          '''This function generates a buffer image that will be the main visual feature of the viewer
+          it requires an automaton coded as a list, an environment value and an image size (default is 100).'''
+          self.picture = Image.new("RGB", (side,side))
+          self.draw = ImageDraw.Draw(self.picture)
+                
+          for i in range(0,side):
+               for j in range(0,side):
+                    if automaton[(side*i)+j]-5<= environment <= automaton[(side*i)+j]+5:
+				     self.draw.point((i,j),(0,255,0))
+                    else:
+				     self.draw.point((i,j),(0,0,0))
+				     
+          self.picture = self.picture.resize((8*self.picture.size[0],8*self.picture.size[1]), Image.NEAREST)
+          self.picture.save(output)
+           
+     def update(self,inputImage='buffer.tiff'):
+          '''This function is required in order to update the screen. At the end of the function all files are closed'''
+          self.file = open(inputImage, "rb")
+          self.image = pygame.image.load(self.file).convert()
+          self.screen.blit(self.image,(0,0))
+          pygame.display.flip()
+          self.file.close()
+          del self.file
+          self.image = None
+          del self.image
+          
+     def viewClose(self):
+          '''Closes the pygame window when the close button is pressed. It also enables and disables fullscreen when F-key is pressed'''
+          #Chek if close button is pressed and close the program
+          for event in pygame.event.get():
+               if event.type == pygame.QUIT: sys.exit()
+
+               #Check if fullscreen is enabled/disabled and enable/disable if F is pressed
+               if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_f:
+                         if not self.fullscreen:
+                              self.screen = pygame.display.set_mode((self.width,self.height), pygame.FULLSCREEN)
+                              self.fullscreen = True
+                              pygame.mouse.set_visible(0)
+                         else:
+                              self.screen = pygame.display.set_mode((self.width,self.height))
+                              self.fullscreen = False
+                              pygame.mouse.set_visible(1)
+     
+
+
