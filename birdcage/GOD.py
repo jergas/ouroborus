@@ -176,7 +176,7 @@ class Generator:
 		New version compatible with the new BookEntry class"""
 
 		# create a name for the new bookentry object
-		onoma = self.obstetrix+str(self.obstetrics)
+		onoma = self.obstetrix+"clone"+str(self.obstetrics)
 		# first check whether the genome has already been compiled
 		if poeio in self.scions:
 			
