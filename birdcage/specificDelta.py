@@ -17,7 +17,7 @@ automaton = ("SynchronousAutomaton_2D", )
 
 # The agents:
 
-compiling = "IndividualCompile"
+compiling = "MassCompile"
 # These are the options:
 # 	Void - deactivates agents; 
 # 	IndividualCompile - invokes c compiler every time an agent is created

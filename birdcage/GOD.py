@@ -60,6 +60,7 @@ class Generator:
 		self.specific = __import__("specific"+specificity)
 		self.obstetrics = 0
 		self.obstetrix = obstetrix
+		self.scions = [] # this is a list of strains used for MassCompiling
 
 		# set the display functions using getattr
 		self.displayType = self.specific.displayType.capitalize()
@@ -103,7 +104,11 @@ class Generator:
 
 		poeio  ---> a list of characters
 		ode    ---> a list of names
-		return -->> 1"""
+		return -->> 1
+	
+		this is actually a general handle for various specific genotype
+		generation methods, which are defined, sensibly enough, in the 
+		Specific file."""
 
 		return getattr(self, "generateGenotype"+self.specific.compiling, "generateGenotypeIndividualCompile")(poeio, ode)
 		
@@ -155,9 +160,61 @@ class Generator:
 		del sys.argv[-2:]
 
 		# finally, append the module's name to the list of names,
-		# set its prayer and return
-		ode.append(BookEntry(onoma)) 
-		#ode[-1].fatum["prayer"] = "CreateMe"
+		ode.append(BookEntry(onoma, onoma))
+		
+		self.obstetrics += 1
+		return 1
+
+
+	def generateGenotypeMassCompile(self, poeio, ode):
+		"""Write and compile a file from a genome
+
+		poeio  ---> a list of characters
+		ode    ---> a list of names
+		return -->> 1
+
+		New version compatible with the new BookEntry class"""
+
+		# create a name for the new bookentry object
+		onoma = self.obstetrix+str(self.obstetrics)
+		# first check whether the genome has already been compiled
+		if poeio in self.scions:
+			
+			# identify the genome in the list of compiled strains
+			strain = self.obstetrix+str(self.scions.index("poeio"))
+			ode.append(BookEntry(onoma, strain))
+			
+		else:
+			# if it hasn't, proceed to compile the new genome
+			# samskara is a genome binding poeio to tabula
+			samskara = g.Genome(poeio, tabula, 2)
+			# create a name for the module object
+			strain = self.obstetrix+str(len(self.scions))
+			# corpus is the relative filepath where the Pyrex genome code will be saved
+			corpus = 'creatures/'+strain+'.pyx'
+			# this incantation actually writes the .pyx file with the translated poeio code
+			samskara.incorporate(corpus)
+
+			# now we invoke the pyrex compiler to create the module
+			# this is a hack to do away with the command line arguments Pyrex expects
+			commandLineArgs = ['build_ext', '--inplace']
+			sys.argv.extend(commandLineArgs)
+			# send gcc's output to a file instead of the terminal
+			sys.stdout = file("dump.txt","w")
+			# and the actual call to the compiler using the Pyrex build_ext command
+			distutils.core.setup(
+				name = strain,
+				ext_modules = [Extension(strain,[corpus])],
+				cmdclass = {'build_ext':build_ext}
+				) 
+			# restore the standard output to its default
+			sys.stdout = sys.__stdout__
+			# bring the command line back to its original condition
+			del sys.argv[-2:]
+
+			# finally, append the module's name to the list of names,
+			ode.append(BookEntry(onoma, strain)) 
+
 		self.obstetrics += 1
 		return 1
 
@@ -359,6 +416,8 @@ class Organizer:
 		child.fatum["mana"] = self.specific.mana
 		(x, y) = (random.randint(0, self.width-1), random.randint(0, self.height-1))
 		child.fatum["address"] = (x, y)
+		# This appears to do nothing...investigate!!!
+		child.fatum["prayer"] = "BeBirthed"
 		# Instantiate the class that contains the agent's sound
 		# attributes and methods (if sound is enabled).
 		if soundGlobals.simWSound == 1:

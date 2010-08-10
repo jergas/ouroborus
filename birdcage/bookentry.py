@@ -32,22 +32,23 @@ class BookEntry:
 	agent  ---> a birdcage agent object, and
 	fatum  ---> a dictionary with data written by the agent"""
 
-	def __init__(self, name):
+	def __init__(self, name, modulename):
 		self.name = name
+		self.modulename = modulename
 		self.module = None
 		self.agent = None
 		self.fatum = {"prayer":"BeBirthed"}
 		self.automaton = None
 
 	def __str__(self):
-		display = ["Name of entry in BOL: "+self.name, "Entry's fatum:"]
+		display = ["Name of entry in BOL: "+self.name, "Strain: "+self.modulename, "Entry's fatum:"]
 		display.extend(["\t"+str(key)+":\t"+str(value) for key,value in self.fatum.items()])
 		return string.join(display, "\n")
 
 
 	def callModule(self):
 		"""Dynamically import the module with the agent into the runtime namespace"""
-		self.module = __import__(self.name)
+		self.module = __import__(self.modulename)
 
 
 	def instantiateAgent(self, automaton):

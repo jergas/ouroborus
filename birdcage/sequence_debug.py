@@ -32,7 +32,7 @@ import random
 import sys
 import time
 
-specificity = "Epsilon"
+specificity = "Delta"
 specific = __import__("specific"+specificity)
 # This refers to a configuration file which stores information such as automaton size, seed 
 # genome, number of iterations, etc. feel free to write your own
@@ -146,6 +146,8 @@ def startExecutionNormal():
 		# now display the BookEntries as they currently stand
 		print "the book of life, taw, reads:"
 		for entry in taw: print entry
+		print "\n"
+		print "there are "+str(kemet.tellPopulation())+" creatures on kemet"
 		print "\n"
 
 	del sys.argv[1:]
