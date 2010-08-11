@@ -1,21 +1,19 @@
 pushd ../birdcage/
-./compile.sh
+sudo python setup.py install
 popd
-cp ../birdcage/*.so .
+
 rm heru*
-cp ../birdcage/neighborhood.pxd .
-cp ../birdcage/topology.pxd .
-cp ../birdcage/rule.pxd .
-cp ../birdcage/GOD.py .
-cp ../birdcage/visual.py .
-cp ../birdcage/sound.py .
-cp ../birdcage/sound_globals.py .
-cp ../birdcage/background_sound.py .
-cp ../birdcage/csnd_interface.py .
-cp ../birdcage/Csnd_data.py .
-cp ../birdcage/Numeric_utils.py .
-cp ../birdcage/equal_temper.py .
-cp ../birdcage/Csnd_notes.py .
-cp ../birdcage/Note_methods.py .
+
+cp ../worldish/GOD.py .
+cp ../worldish/visual.py .
+cp ../worldish/sound.py .
+cp ../worldish/sound_globals.py .
+cp ../worldish/background_sound.py .
+cp ../worldish/csnd_interface.py .
+cp ../worldish/Csnd_data.py .
+cp ../worldish/Numeric_utils.py .
+cp ../worldish/equal_temper.py .
+cp ../worldish/Csnd_notes.py .
+cp ../worldish/Note_methods.py .
 
 python2.5 setup_lib_environment.py build_ext --inplace
