@@ -1,4 +1,4 @@
-Para la versión en español, recorra la pantalla hacia abajo.
+Para la versión en español, recorra la pantalla.
 
 Welcome to Birdcage!
 ======= == ========
@@ -23,6 +23,10 @@ Contents
 
 - Pyrex 0.9.8.5 - Can be downloaded from: http://www.cosc.canterbury.ac.nz/~greg/python/Pyrex/
  Straight forward installation instructions can be found on the INSTALL.txt file included with the download.
+
+- Pygame - It lives in the debian repositories, please intall the python2.5-pygame version
+
+- PIL (Python Imaging Library) - search the debian repositories for python-imaging
 
 - Csound 5.08.2 - Can be downloaded from the Debian repositories, or from: http://csounds.com/downloads. It may require additional configuration (except when downloaded from the repos). For instructions, scroll down to the section "Configuring Csound"
 
@@ -113,6 +117,11 @@ Contenido
 - Python 2.5.2 (incluido con las distribuciones actuales de Debian). Para mayor información, consulte: http://www.python.org/
 
 - Pyrex 0.9.8.4. - Puede ser descargado de: http://www.cosc.canterbury.ac.nz/~greg/python/Pyrex/
+
+- Pygame - Descargar python2.5-pygame de los repositorios de Debian.
+
+- PIL (Python Imaging Library) - Se llama python-imaging en los repositorios debianeros.
+
  Se puede encontrar información sencilla de como instalar Pyrex en el archivo INSTALL.txt, incluido en su descarga.
 
 - Csound 5.08.2 - Puede descargarse de los repositorios de Debian, o de http://csounds.com/downloads. Csound puede requerir configuración adicional (excepto cuando es descargada de lo repositorios). Para mayor información vea la sección "Configuración de Csound" de este texto.
