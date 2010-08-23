@@ -120,6 +120,9 @@ def main(stdscr):
 	else:
 		display = aset.generateDisplay(kemet, size, None)
 
+	# Number of simulation loops per audiovisual loop.
+	simulationToAudiovisual = specific.simulationToAudiovisual
+
 	# Main iteration cycle.
 	while bast.annum < doomsday:
 		# GOD.Organizer iterates the c.a.
@@ -129,9 +132,11 @@ def main(stdscr):
 		for entry in taw:
 			# Read the fatum of the current agent.
 			bast.readBookOfLife(entry)
-
-		# The display is updated.
-		bast.refreshDisplay(display)
+		# Only do an audiovisual loop every simulationToAudiovisual
+		# iterations.
+		if not bast.annum % simulationToAudiovisual:
+			# The display is updated.
+			bast.refreshDisplay(display)
 	# Do some cleanup and return.
 
 	del sys.argv[1:]

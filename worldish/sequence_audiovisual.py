@@ -127,6 +127,9 @@ def main(stdscr):
 	else:
 		display = aset.generateDisplay(kemet, size, None)
 
+	# Number of simulation loops per audiovisual loop.
+	simulationToAudiovisual = specific.simulationToAudiovisual
+
 	# Instantiate the background-sound related threads.
 	sound.setInitialData(size)
 	backgroundVoices	= sound.backgroundVoices()
@@ -143,22 +146,31 @@ def main(stdscr):
 		bast.iterateAutomaton()
 		# GOD.Organizer parses the whole length of taw
 		for entry in taw:
-			# If the agent is about to be created, then make a birth
-			# sound
-			if entry.fatum["prayer"] == "BeBirthed":
-				sound.agentBirth(entry.fatum["voice"])
-			# Read the fatum of the current agent.
+			# Only do an audiovisual loop every simulationToAudiovisual
+			# iterations.
+			if not bast.annum % simulationToAudiovisual:
+				# If the agent is about to be created, then make a birth
+				# sound
+				if entry.fatum["prayer"] == "BeBirthed":
+					sound.agentBirth(entry.fatum["voice"])
+				# Read the fatum of the current agent.
 			bast.readBookOfLife(entry)
-			# If the creature ate, make the appropriate sound.
-			if entry.fatum["voice"].ate == 1:
-				sound.eatSound(entry.fatum["voice"])
-				entry.fatum["voice"].ate = 0
+			# Only do an audiovisual loop every simulationToAudiovisual
+			# iterations.
+			if not bast.annum % simulationToAudiovisual:
+				# If the creature ate, make the appropriate sound.
+				if entry.fatum["voice"].ate == 1:
+					sound.eatSound(entry.fatum["voice"])
+					entry.fatum["voice"].ate = 0
 
-		# The display and the sound control data are updated.
-		bast.refreshDisplay(display)
-		sound.inputDataControl(kemet)
-		# Test if the Csound performance-thread is still running, and
-		# break the simulation loop if not (solves the interruption bug).
+		# Only do an audiovisual loop every simulationToAudiovisual
+		# iterations.
+		if not bast.annum % simulationToAudiovisual:
+			# The display and the sound control data are updated.
+			bast.refreshDisplay(display)
+			sound.inputDataControl(kemet)
+			# Test if the Csound performance-thread is still running, and
+			# break the simulation loop if not (solves the interruption bug).
 		if sound.SoundServer.perf.GetStatus():
 			break
 
