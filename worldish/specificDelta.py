@@ -58,6 +58,10 @@ agentsColour = "COLOR_RED"
 simWithAgents = True
 
 
+# Number of simulation loops per audiovisual loop.
+simulationToAudiovisual = 1
+
+
 ############
 
 # The other options:

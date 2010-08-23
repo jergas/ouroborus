@@ -59,6 +59,10 @@ manaColour = "COLOR_GREEN"
 agentsColour = "COLOR_RED"
 
 
+# Number of simulation loops per audiovisual loop.
+simulationToAudiovisual = 1
+
+
 ############
 
 # The other options:

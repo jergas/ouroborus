@@ -202,6 +202,8 @@ class ThreadedSequence(object):
 		# Initialize a variable for inter-thread communication.
 		self.currentEntry = None
 
+		# Number of simulation loops per audiovisual loop.
+		self.simulationToAudiovisual = specific.simulationToAudiovisual
 		# Create a thread-condition object to keep the simulation and
 		# audiovisual threads synchronized.
 		self.bckgrndThreadCondition	= threading.Condition()
@@ -212,13 +214,16 @@ class ThreadedSequence(object):
 
 	def simulationLoop(self):
 		"""The simulation's main iteration cycle happens here.
-		"""	
+		"""
 		# Main iteration cycle
 		while self.bast.annum < self.doomsday:
 			self.bckgrndThreadCondition.acquire()
 			# GOD.Organizer iterates the c.a.
 			self.bast.iterateAutomaton()
-			self.bckgrndThreadCondition.notify()
+			# Only do an audiovisual loop every simulationToAudiovisual
+			# iterations.
+			if not self.bast.annum % self.simulationToAudiovisual:
+				self.bckgrndThreadCondition.notify()
 			# GOD.Organizer parses the whole length of taw
 			for entry in self.taw:
 				self.agentThreadCondition.acquire()
@@ -229,12 +234,18 @@ class ThreadedSequence(object):
 					if self.currentEntry.fatum["prayer"] == "BeBirthed":
 						self.birth = 1
 					self.bast.readBookOfLife(entry)
-					self.agentThreadCondition.notify()
-					self.agentThreadCondition.wait()
+					# Only do an audiovisual loop every simulationToAudiovisual
+					# iterations.
+					if not self.bast.annum % self.simulationToAudiovisual:
+						self.agentThreadCondition.notify()
+						self.agentThreadCondition.wait()
 				except AttributeError:
 					pass
 				self.agentThreadCondition.release()
-			self.bckgrndThreadCondition.wait()
+			# Only do an audiovisual loop every simulationToAudiovisual
+			# iterations.
+			if not self.bast.annum % self.simulationToAudiovisual:
+				self.bckgrndThreadCondition.wait()
 			self.bckgrndThreadCondition.release()
 			# Test if the Csound performance-thread is still running, and
 			# break the simulation loop if not (solves the interruption
