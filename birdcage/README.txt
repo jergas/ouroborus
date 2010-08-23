@@ -59,9 +59,8 @@ Contenido
 1.- Sobre Birdcage
 ------------------
 
-Esta es una reimplementación de la maquinaria del automata celular Cage en Pyrex. Esta optimización corría aproximadamente 100 veces más rápido que la versión original en Python cuando la primera optimización fue realizada. Ahora puede que la optimización sea un poco más lenta, dado que nuevas características y niveles de abstracción han sido agregadas. 
+Esta es una reimplementación del generador del automata celular Cage en Pyrex. Esta optimización corría aproximadamente 100 veces más rápido que la versión original en Python cuando la primera optimización fue realizada. Ahora puede que la optimización sea un poco más lenta, dado que nuevas características y niveles de abstracción han sido agregadas. 
 
- This optimisation of our engine currently ran approximately 100 times faster than the original version in Python when the first optimisation was completed. It has probably become slower since then as new features and abstraction layers have been added.
 
 2.- Dependencias
 ----------------

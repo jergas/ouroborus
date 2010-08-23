@@ -18,8 +18,11 @@ Contents
 5.- Known issues and workarounds
 
 
-1.- About
 
+1.- About
+---------
+
+Worldish is the main demo for birdcage. Utilising its agents capabilities over a cellular automaton background. The demo displays very simple automaton rules, and agents that just eat and reproduce. Worldish is meant to always use the latest birdcage features as a way of showcasing them and testing them.
 
 
 2.- Dependencies
@@ -118,9 +121,11 @@ Contenido
 5.- Problemas y soluciones
 
 
+
 1.- Sobre Worldish
+------------------
 
-
+Worldish es el demo principal de Birdcage. Utiliza las aptitudes de sus agentes sobre un fondo constituido por un autómata de celdas. La demostración despliega reglas para el autómata muy simples, y agentes que sólo comen y se reproducen. Worldish está diseñado para usar las características más nuevas de birdcage, para así demostrarlas y probarlas.
 
 
 2.- Dependencias
