@@ -8,7 +8,6 @@ import random
 import exceptions_birdcage as E
 import rule as R
 
-initialEnvironment = readArduino()
 
 def updateRule(input_list,side,environment):
      
@@ -72,19 +71,13 @@ cdef class EnvironmentRule(Rule_2D):
           self.name = "Environment Rule"
 
      def apply(self, address):
-          environment = getEnvironment()
+     
           state = 0
-          sumStates = self.neighborhood.countAlive(address)
-          cell = self.neighborhood.topology.get(address)
-
-          #Define the state of the cell (+ = alive - = dead)
-          if abs(abs(cell) - environment) <= 5:
-               cell = abs(cell)
-          else:
-               cell = -abs(cell)
+          sumstates = self.neighborhood.countAlive(address)
+          cell = neighborhood.topology.get(address)
      
           if binarise(cell) == 1:  # If cell is alive
-               if 2 <= sumStates <= 3:
+               if 2 <= sumstates <= 3:
                     state = environment
                elif (cell - environment) > 0:
                     state = environment - 15
@@ -96,11 +89,11 @@ cdef class EnvironmentRule(Rule_2D):
                     state = environment-15
      
           elif binarise(cell) == 0:     # If cell is dead
-               if sumStates == 3:
+               if sumstates == 3:
                     state = environment
                else:
                     state = cell
-
+     
           self.neighborhood.topology.set(address, state)
      
      def applyToTarget(self, object address, T.GridTopology target):
@@ -108,39 +101,31 @@ cdef class EnvironmentRule(Rule_2D):
           if not (len(address) == 2):
                raise E.InvalidAddressError(address, self.neighborhood.topology.name)
                
-          environment = getEnvironment()
           state = 0
-          sumStates = self.neighborhood.countAlive(address)
-          cell = self.neighborhood.topology.get(address)
-
-          #Define the livingness of the cell (+ = alive - = dead)
-          if abs(abs(cell) - environment) <= 5:
-               cell = abs(cell)
-          else:
-               cell = -abs(cell)
+          sumstates = self.neighborhood.countAlive(address)
+          cell = neighborhood.topology.get(address)
      
           if binarise(cell) == 1:  # If cell is alive
 
-               if 2 <= sumStates <= 3:
+               if 2 <= sumstates <= 3:
                     state = environment
                elif (cell - environment) > 0:
                     state = environment - 15
                elif (cell - environment) < 0:
                     state = environment + 15
-               elif cell < 500:
-                    state = environment+15
                else:
-                    state = environment-15
+                    if cell < 500:
+                         state = environment+15
+                    else:
+                         state = environment-15
      
           elif binarise(cell) == 0:     # If cell is dead
-               if sumStates == 3:
+               if sumstates == 3:
                     state = environment
                else:
                     state = cell
           
           target.set(address, state)
-          print state
-          return state
 
 
 cdef class MooreNeighborhoodPlus(MooreNeighborhood):
@@ -154,11 +139,9 @@ cdef class MooreNeighborhoodPlus(MooreNeighborhood):
 
 
 def binarise(int integer):
-     """Take an integer input and return 1 if it is non-negative and 0 if it is negative"""
-     if integer < 0:
-          return 0
-     else:
-          return 1
+     """Take an integer input and return 1 if it is positive and 0 if it is negative"""
+     
+     return ((integer / abs(integer)) + 1)/2
      
 
 def addBinarised(int a, int b):
@@ -166,18 +149,9 @@ def addBinarised(int a, int b):
      
      return binarise(a) + binarise(b)
 
-def getEnvironment(port='/dev/ttyUSB0', environment=initialEnvironment, annum=0, lastAnnum=0):
-     ''' Every annum, gets a reading from readArduino().
-        If no annum is passed, the same reading will be returned. 
-     '''
-     while annum==lastAnnum:
-          return environment
-     environment = readArduino()
-     return environment
-
-def readArduino(port='/dev/ttyUSB0'):
-     ''' Gets a reading from the environment sensor (an arduino now). In case there is no such
-     device (may print a notification of such a lack), generates a random environmental value.
+def getEnvironment(port='/dev/ttyUSB0'):
+     ''' Gets a reading from the environment sensor. In case there is no such
+     device, prints a notification of such a lack and generates a random environmental value.
      '''
      ## The try except clause is used in order to be able to run the code
      # without an arduino interface.
@@ -197,11 +171,7 @@ def readArduino(port='/dev/ttyUSB0'):
                getEnvironment(port)
                environment = int(environment[0])
      except serial.serialutil.SerialException:
-#          print 'No serial reading!!! using random environment.'
-          environment=random.randint(400,405)
+          print 'No serial reading!!! using random environment.'
+          environment=random.randint(400,600)
      return environment
-
-def setAnnum(annum=0):
-     return getEnvironment(annum=annum)
-
-
+	
