@@ -1,5 +1,8 @@
 Agent Prayers
 
+
+Introduction
+
 One of the characteristic features of Ouroborus is that agents living on the 
 cellular automaton grid can be thought of as a number of things, depending on 
 one's focus. Thus agents are:
@@ -9,27 +12,61 @@ information, i.e. a genome.
 2) a script in Pyrex with some executable code written from the genome. Python 
 imports this into the runtime envirnoment, i.e. a module.
 3) a dictionary-type object, with various attributes such as name, genome, 
-module, grid address and so on, i.e. a bookentry in a list which is an attribute of GOD.Organizer
+module, grid address and so on, i.e. a bookentry in a list which is an attribute
+of GOD.Organizer
 4) a birdcage agent object which is called by GOD.Organizer through the 
 bookentry.
 
-It is of course naturally simple for GOD.Organizer to send information to the agents, via the respective bookentries which are callable subobjects of a simple list attribute. GOD.Organizer can retrieve information from the agents with the same ease, when this is part of the silicon demiurge's execution loop. However some more elaborate means of data transmission is required for the agents themselves to send information to GOD.Organizer, so to speak out of their own volition. It is exactly for this purpose that agent prayers were introduced.
+It is of course naturally simple for GOD.Organizer to send information to the 
+agents, via the respective bookentries which are callable subobjects of a simple
+list attribute. GOD.Organizer can retrieve information from the agents with the 
+same ease, when this is part of the silicon demiurge's execution loop. However 
+some more elaborate means of data transmission is required for the agents 
+themselves to send information to GOD.Organizer, so to speak out of their own 
+volition. It is exactly for this purpose that agent prayers were introduced.
 
 
+Technical Details
 
+The GOD module consists of three main objects, Generator, Organizer and 
+Destroyer. The Generator is in charge of initialising everything and the 
+Destroyer's role is left as an exercise to the reader. (A very trivial one.) It 
+is the Organizer which concerns us here. 
 
+All the prayers have corresponding methods in the Organizer. Their names are 
+prefixed by the string "grantPrayer" followed by the prayer name. This methods 
+are called through reflection (using the getattr function) by the readBookOfLife
+method of the Organizer. It is important to notice that the prayer method in 
+question is being called and returned simultaneously by the readBookofLife 
+method's return statement.
 
 So far, the following prayers are implemented:
 
 1) CreateMe
+This prayer should be set when an agent is first created. It populates the new 
+agent's bookentry. In doing that it sets its prayer to BeBirthed. (NOTE: It also
+does some sound related initialisation which also needs to be explained.)
 
 2) BeBirthed
+This method takes the newly created agent and makes it live, that is, it
+registers the agent with the relevant automaton instance, as well as calling
+any other method needed to initialise it. Last, but not least, it sets the 
+prayer to Live.
 
 3) Live
 This is the default prayer, it executes the main loop of the agent, so to speak.
 (The agents don't actually have a main loop, but more on this later.)
 
 4) GrantChild
+This prayer is a request for reproduction. It resets the parent's prayer to 
+Live. (NOTE: Oddly enough, it sets the childs prayer to BeBirthed, thus 
+contradicting this text, as well as the systems architechture as this author, 
+Jergas, understands it. MEA CULPA: Methinks this is my fault, as I remeber 
+having hacked this aspect of the prayer system before properly understanding 
+it.)
 
 5) KillMe
-
+This prayer is a destructor method, so to speak, it should contain everything 
+needed to properly erase (or kill) an agent. For obvious reasons, this is the
+only prayer, apart from Live, that doesn't need to reset the calling agent's 
+prayer.
