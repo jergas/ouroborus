@@ -1,0 +1,35 @@
+Agent Prayers
+
+One of the characteristic features of Ouroborus is that agents living on the 
+cellular automaton grid can be thought of as a number of things, depending on 
+one's focus. Thus agents are:
+
+1) a string containing a sequence of letter groupings codifying genetic 
+information, i.e. a genome.
+2) a script in Pyrex with some executable code written from the genome. Python 
+imports this into the runtime envirnoment, i.e. a module.
+3) a dictionary-type object, with various attributes such as name, genome, 
+module, grid address and so on, i.e. a bookentry in a list which is an attribute of GOD.Organizer
+4) a birdcage agent object which is called by GOD.Organizer through the 
+bookentry.
+
+It is of course naturally simple for GOD.Organizer to send information to the agents, via the respective bookentries which are callable subobjects of a simple list attribute. GOD.Organizer can retrieve information from the agents with the same ease, when this is part of the silicon demiurge's execution loop. However some more elaborate means of data transmission is required for the agents themselves to send information to GOD.Organizer, so to speak out of their own volition. It is exactly for this purpose that agent prayers were introduced.
+
+
+
+
+
+So far, the following prayers are implemented:
+
+1) CreateMe
+
+2) BeBirthed
+
+3) Live
+This is the default prayer, it executes the main loop of the agent, so to speak.
+(The agents don't actually have a main loop, but more on this later.)
+
+4) GrantChild
+
+5) KillMe
+
