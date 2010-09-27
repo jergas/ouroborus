@@ -280,6 +280,7 @@ class Organizer:
 		self.specific = __import__("specific"+specificity)
 		self.earth = earth
 		self.generator = None
+		self.destroyer = None
 		self.book = book
 		self.annum = 0
 		self.size = self.specific.size

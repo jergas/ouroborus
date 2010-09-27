@@ -18,7 +18,10 @@ automaton = ("SynchronousAutomaton_2D", )
 # The agents:
 
 # Void - deactivates agents; 
-# IndividualCompile - invokes c compiler every time an agent is created
+# IndividualCompile		- invokes c compiler every time an agent is
+#						created
+#	MassCompile			- invokes c compiler only when a genome differs
+#						from its predecesors
 compiling = "IndividualCompile"
 
 name 		= "heru"

@@ -19,8 +19,11 @@ automaton = ("SynchronousAutomaton_2D", )
 
 compiling = "Void"
 # These are the options:
-# 	Void - deactivates agents; 
-# 	IndividualCompile - invokes c compiler every time an agent is created
+# 	Void - deactivates agents;
+# IndividualCompile		- invokes c compiler every time an agent is
+#						created
+#	MassCompile			- invokes c compiler only when a genome differs
+#						from its predecesors
 
 simWithAgents = False
 
