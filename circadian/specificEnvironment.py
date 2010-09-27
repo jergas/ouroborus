@@ -12,6 +12,11 @@ import operator
 rule = ("EnvironmentRule", (operator.xor, 0),"lib_environment")
 automaton = ("SynchronousAutomaton_2D", )
 
+# This option is the delay time (in seconds)between one annum and the
+# next one. The option only works in simulations where the automaton
+#runs in a thread that is autonomus from the agents.
+annumDuration	= .1
+
 
 ############
 
@@ -26,7 +31,10 @@ submode = "Normal"
 # The agents:
 
 # Void - deactivates agents; 
-# IndividualCompile - invokes c compiler every time an agent is created
+# IndividualCompile		- invokes c compiler every time an agent is
+#						created
+#	MassCompile			- invokes c compiler only when a genome differs
+#						from its predecesors
 compiling = "Void"
 
 name 	= "heru"

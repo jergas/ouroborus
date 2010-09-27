@@ -12,6 +12,11 @@ import operator
 rule = ("ReductionRule", (operator.xor, 0), "rule")
 automaton = ("SynchronousAutomaton_2D", )
 
+# This option is the delay time (in seconds)between one annum and the
+# next one. The option only works in simulations where the automaton
+#runs in a thread that is autonomus from the agents.
+annumDuration	= .1
+
 
 ############
 
