@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 """ Greetings! This script orchestrates execution for an ouroborus artificial life environment. It includes no visual display or sound, but lots of witty comments instead.
 
 Coded by Sat Tara Singh, Jergas Apwith and Ernesto Illescas

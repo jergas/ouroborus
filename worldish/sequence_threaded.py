@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 # This script orchestrates execution for an ouroborus artificial life
 # environment. The module is based on sequence_audiovisual.py, with the
 # novelty that it implements threads.

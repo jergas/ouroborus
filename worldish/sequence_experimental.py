@@ -1,4 +1,3 @@
-#!/usr/bin/python
 #
 # This script orchestrates execution for an ouroborus artificial life
 # environment. The module is based on sequence_threaded.py, with the
@@ -10,19 +9,20 @@
 #
 # This module is a work in progress. Things still lacking are:
 #	* The terminal window is not re-established if the application is
-#		terminated via ctrl^c (this bug is almost squished, it only 
-#		happens ocassionally now, and any further info leading to 
-#		its capture will be greatly appreciated)
+#		terminated via ctrl^c (this bug is putatively squished, if you 
+#		see it in the wild, please let us know)
 #	* Background sound algorithms must be updated to accomodate the
 #		threaded execution
 #
 # It includes the following features:
-#
 #	* Execution of the simulation proper, background audiovisuals and
 #	  the agents audiovisuals occur in separate threads
+#
+# If you're trying to understand how the code works:
 #	* All the AL functionality resides in the GOD module
-#	* If you're trying to understand how the code works, refer to
-#		sequence_debug.py and sequence_auidovisual.py
+#	* Refer to sequence_debug.py and sequence_auidovisual.py before this
+#		one, unless you are very confortable understanding code that
+#		uses threads
 
 
 # Python's native libraries

@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 # Greetings! This script orchestrates execution for an ouroborus
 # artificial life environment. It includes visual display.
 #
