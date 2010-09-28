@@ -13,7 +13,7 @@
 # It includes the following features:
 #
 #	* Execution of the simulation proper, background audiovisuals and
-#	  the agents audiovisuals occur in separate threads.
+#	  the agents audiovisuals occur in separate threads
 #	* All the AL functionality resides in the GOD module; look therein
 #		for pearls of wisdom
 #	* If you're trying to understand how the code works, refer to

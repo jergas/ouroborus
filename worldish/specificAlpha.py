@@ -12,29 +12,25 @@ import operator
 rule = ("ReductionRule", (operator.xor, 0), "rule")
 automaton = ("SynchronousAutomaton_2D", )
 
-# This option is the delay time (in seconds)between one annum and the
-# next one. The option only works in simulations where the automaton
-#runs in a thread that is autonomus from the agents.
-annumDuration	= .1
-
 
 ############
 
 # The agents:
 
-# Void - deactivates agents; 
-# IndividualCompile		- invokes c compiler every time an agent is
-#						created
-#	MassCompile			- invokes c compiler only when a genome differs
-#						from its predecesors
+# Void 			- deactivates agents
+# 
+# IndividualCompile	- invokes c compiler every time an agent is
+#					created
+# MassCompile		- invokes c compiler only when a genome differs
+#					from its predecesors
 compiling = "IndividualCompile"
 
-name 		= "heru"
+name 	= "heru"
 seedCode	= "Yi Yc Ys Cb Cd Cr Ld Lp Le Iy Ir Ip Ix Ik Lr Rd Rl"
-prana		= 7
+prana	= 7
 mana		= 1
 
-simWithAgents = True
+simWithAgents	= True
 
 
 ############
@@ -42,16 +38,35 @@ simWithAgents = True
 # The iteration:
 
 avatars = 3
-doomsday = 70
+doomsday = 150
 seed = ("Random",2)
 
 
 ############
 
-# The Display
+# The delays
+
+# Set this option to true if you are running a simulation with one
+# thread per agent.
+threadedAgents	= True
+
+# This option is the delay time (in seconds)between one annum and the
+# next one. The option only works if the attribute threadeAgents is set
+# to true (and this is congruent with the chosen sequence).
+annumDelay	= .1
+
+# This option is the delay time (in seconds)between one iteration of a
+# single agent and the next one. The option only works if the attribute
+# threadeAgents is set to true (and this is congruent with the chosen
+# sequence).
+agentsDelay	= .5
+
+
+############
+
+# The display
 
 # Display type ('curses' or 'pygame')
-
 displayType = 'curses'
 
 # The criterion function
@@ -60,7 +75,6 @@ displayType = 'curses'
 criterion = 'identity'
 
 # The Curses colours
-
 backgroundColour = "COLOR_BLACK"
 manaColour = "COLOR_YELLOW"
 agentsColour = "COLOR_GREEN"
@@ -78,7 +92,10 @@ logging = False
 logFile = "log.txt"
 
 # Libraries
-criterionLocation = "v" # visual is renamed v in GOD.py
+# (refer to 'The display' section of this file is to understand
+#  what the criterion is)
+# visual is renamed v in GOD.py
+criterionLocation = "v" 
 
 
 ############
@@ -102,3 +119,10 @@ csound -odac -+rtaudio=alsa -b1024 -B2048 -d -m0 temp.orc temp.sco
 #<CsOptions>
 #csound -odac:alsa_pcm:playback_ -+rtaudio=jack -b1024 -B2048 -d -m0 temp.orc #temp.sco
 #</CsOptions>"""
+
+
+############
+
+# The spanish inquisition
+
+# Nobody expects the spanish inquisition!

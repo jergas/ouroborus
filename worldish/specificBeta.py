@@ -12,11 +12,6 @@ import operator
 rule = ("ReductionRule", (operator.xor, 0), "rule")
 automaton = ("SynchronousAutomaton_2D", )
 
-# This option is the delay time (in seconds)between one annum and the
-# next one. The option only works in simulations where the automaton
-#runs in a thread that is autonomus from the agents.
-annumDuration	= .1
-
 
 ############
 
@@ -44,6 +39,26 @@ simWithAgents = True
 avatars = 2
 doomsday = 100
 seed = ("Random",1)
+
+
+############
+
+# The delays
+
+# Set this option to true if you are running a simulation with one
+# thread per agent.
+threadedAgents	= True
+
+# This option is the delay time (in seconds)between one annum and the
+# next one. The option only works if the attribute threadeAgents is set
+# to true (and this is congruent with the chosen sequence).
+annumDelay	= .1
+
+# This option is the delay time (in seconds)between one iteration of a
+# single agent and the next one. The option only works if the attribute
+# threadeAgents is set to true (and this is congruent with the chosen
+# sequence).
+agentsDelay	= .5
 
 
 ############

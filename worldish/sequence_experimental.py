@@ -1,22 +1,25 @@
+# Coded by Sat Tara Singh, Jergas Apwith and Ernesto Illescas
+#
 #
 # This script orchestrates execution for an ouroborus artificial life
 # environment. The module is based on sequence_threaded.py, with the
 # idea of taking threads further. The simulation implements some sort
-# of schedules for the agents, but the system already has a sophisticated
-# scheduler, which can be harnessed if every agent runs its own thread.
+# of schedules for the agents, but the python interpreter and the 
+# operating system already have sophisticated schedulers, which can 
+# be harnessed if every agent runs in its own thread or process, 
+# respectively.This is not fully implemented, but it's the goal of 
+# this sequence.
 #
-# Coded by Sat Tara Singh, Jergas Apwith and Ernesto Illescas
-#
-# This module is a work in progress. Things still lacking are:
+# Things still lacking in this module:
 #	* The terminal window is not re-established if the application is
-#		terminated via ctrl^c (this bug is putatively squished, if you 
-#		see it in the wild, please let us know)
+#		terminated via ctrl^c (UPDATE: this bug is putatively squished,  
+#		if you see it in the wild, please let us know)
 #	* Background sound algorithms must be updated to accomodate the
 #		threaded execution
 #
 # It includes the following features:
-#	* Execution of the simulation proper, background audiovisuals and
-#	  the agents audiovisuals occur in separate threads
+#	* Execution of the background and the agents occur in separate
+#		threads
 #
 # If you're trying to understand how the code works:
 #	* All the AL functionality resides in the GOD module
@@ -81,16 +84,23 @@ def main(stdscr):
 	"""
 	# Instantiate the class ThreadedSequence, which contains the
 	# needed attributes and methods for the execution.
-	Sequence = ThreadedSequence(stdscr)
+	sequence = ThreadedSequence(stdscr)
 
 	# Instantiate two threads with target methods: the background
 	# loop, and the agent's loop.
-#	simulation	= threading.Thread(name='Simulation',
-#									target=Sequence.simulationLoop)
-	background	= threading.Thread(name='Background',
-									target=Sequence.backgroundLoop)
-	agents		= threading.Thread(name='Agents',
-									target=Sequence.agentsLoop)
+	background			= threading.Thread(name='Background',
+									target=sequence.backgroundLoop)
+	if specific.threadedAgents:
+		agents	= []
+		for index, item in enumerate(sequence.taw):
+			agentName		= sequence.taw[index].name
+			agent		= threading.Thread(name=agentName,
+									target=sequence.agent, 
+									args=(item,))
+			agents.append(agent)
+	else:
+		agents			= threading.Thread(name='Agents',
+									target=sequence.agentsLoop)
 
 	# Create the background-sound threads.
 	voices = sound.backgroundVoices()
@@ -102,10 +112,11 @@ def main(stdscr):
 		x.setDaemon(True)
 		x.start()
 	voicesControl.setDaemon(True)
-	agents.setDaemon(True)
 	voicesControl.start()
 	background.start()
-	agents.start()
+	for agent in agents:
+		agent.setDaemon(True)
+		agent.start()
 
 	# Wait until the simulation thread has finished.
 	try:
@@ -144,8 +155,10 @@ class ThreadedSequence(object):
 		neighborData = specific.neighborhood
 		ruleData = specific.rule
 		automatonData = specific.automaton
-		# The time 
-		self.annumDuration = specific.annumDuration
+		# The time delay between anna
+		self.annumDelay = specific.annumDelay
+		# The time delay between agent's iterations.
+		self.agentsDelay = specific.agentsDelay
 		# avatars is the number of initial creatures, and doomsday the
 		# number of iterations.	
 		(avatars, self.doomsday) = (specific.avatars, specific.doomsday)
@@ -228,13 +241,13 @@ class ThreadedSequence(object):
 			# bug).
 			if sound.SoundServer.perf.GetStatus():
 				break
-			time.sleep(self.annumDuration)
+			time.sleep(self.annumDelay)
 		self.simulationOn = False
 		sound.stopSoundServer()
 
 
 	def agentsLoop(self):
-		""" Deals with drawing of agents and with their sound.
+		""" Deals with drawing the agents and with their sounds.
 		"""
 		while self.simulationOn:
 			for entry in self.taw:
@@ -247,7 +260,8 @@ class ThreadedSequence(object):
 					# Read the agent's bookentry
 					self.bast.readBookOfLife(entry)
 					# Refresh the agent's visualization.
-					self.bast.refreshAgent(self.currentEntry.agent, self.display)
+					self.bast.refreshAgent(self.currentEntry.agent,
+											self.display)
 					# If the agent was born or ate, make the appropriate
 					#sound.
 					if self.birth == 1:
@@ -258,3 +272,41 @@ class ThreadedSequence(object):
 						self.currentEntry.fatum["voice"].ate = 0
 				except AttributeError:
 					pass
+
+
+	def agent(self, entry):
+		"""This function is meant for running a single agent 
+		in its own thread.
+		"""
+		child = 1
+		while self.simulationOn:
+			try:
+				if child is not 1:
+					newBorn.setDaemon(True)
+					newBorn.start()
+				self.birth = 0
+				entry = entry
+				# If the agent is about to be born, record it.
+				if entry.fatum["prayer"] == "BeBirthed":
+					self.birth = 1
+				# Read the agent's bookentry
+				child = self.bast.readBookOfLife(entry)
+				if child is not 1:
+					newBorn = threading.Thread(name=child.name,
+											target=self.agent, 
+											args=(child,))
+#					newBorn.setDaemon(True)
+#					newBorn.start()
+				# Refresh the agent's visualization.
+				self.bast.refreshAgent(entry.agent,
+										self.display)
+				# If the agent was born or ate, make the appropriate
+				#sound.
+				if self.birth == 1:
+					sound.agentBirth(entry.fatum["voice"])
+				if entry.fatum["voice"].ate == 1:
+					sound.eatSound(entry.fatum["voice"])
+					entry.fatum["voice"].ate = 0
+				time.sleep(self.agentsDelay)
+			except AttributeError:
+				pass
