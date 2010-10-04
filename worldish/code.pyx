@@ -24,7 +24,9 @@ tabula = {'Yi':'import topology; import neighborhood; import agent',
           'Rd':'def reproduce(creature):',
           'Rl':'  creature.losePrana(14)',
           'Rp':'  prayer = "Live"',
-          'Rr':'  return prayer',}
+          'Rr':'  return prayer',
+          'Md':'def move(creature):',
+          'Mp':'  pass'}
   
 
 tabula_antica = {'Yi':'import topology; import neighborhood; import agent',
