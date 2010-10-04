@@ -26,8 +26,8 @@ automaton = ("SynchronousAutomaton_2D", )
 compiling = "IndividualCompile"
 
 name 	= "heru"
-seedCode	= "Yi Yc Ys Cb Cd Cr Ld Lp Le Iy Ir Ip Ix Ik Lr Rd Rl"
-prana	= 7
+seedCode	= "Yi Yc Ys Cb Cd Cr Ld Lp Ll Le Iy Ir Ip Ix Ik Lr Rd Rl Md Mp"
+prana	= 17
 mana		= 1
 
 simWithAgents	= True
@@ -48,16 +48,17 @@ seed = ("Random",2)
 
 # Set this option to true if you are running a simulation with one
 # thread per agent.
-threadedAgents	= False
+threadedAgents	= True
+agentThreadsNum	= 3
 
 # This option is the delay time (in seconds)between one annum and the
-# next one. The option only works if the attribute threadeAgents is set
+# next one. The option only works if the attribute threadedAgents is set
 # to true (and this is congruent with the chosen sequence).
 annumDelay	= .1
 
 # This option is the delay time (in seconds)between one iteration of a
 # single agent and the next one. The option only works if the attribute
-# threadeAgents is set to true (and this is congruent with the chosen
+# threadedAgents is set to true (and this is congruent with the chosen
 # sequence).
 agentsDelay	= .5
 

@@ -25,8 +25,8 @@ automaton = ("SynchronousAutomaton_2D", )
 compiling = "IndividualCompile"
 
 name 		= "heru"
-seedCode	= "Yi Yc Ys Cb Cd Cr Ld Lp Le Iy Ir Ip Ix Ik Lr Rd Rl"
-prana		= 7
+seedCode	= "Yi Yc Ys Cb Cd Cr Ld Lp Ll Le Iy Ir Ip Ix Ik Lr Rd Rl Md Mp"
+prana		= 17
 mana		= 1
 
 simWithAgents = True
@@ -37,7 +37,7 @@ simWithAgents = True
 # The iteration:
 
 avatars = 2
-doomsday = 100
+doomsday = 300
 seed = ("Random",1)
 
 
