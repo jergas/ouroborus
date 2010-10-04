@@ -38,7 +38,7 @@ simWithAgents	= True
 # The iteration:
 
 avatars = 3
-doomsday = 150
+doomsday = 300
 seed = ("Random",2)
 
 
@@ -48,7 +48,7 @@ seed = ("Random",2)
 
 # Set this option to true if you are running a simulation with one
 # thread per agent.
-threadedAgents	= True
+threadedAgents	= False
 
 # This option is the delay time (in seconds)between one annum and the
 # next one. The option only works if the attribute threadeAgents is set

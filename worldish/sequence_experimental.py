@@ -114,9 +114,13 @@ def main(stdscr):
 	voicesControl.setDaemon(True)
 	voicesControl.start()
 	background.start()
-	for agent in agents:
-		agent.setDaemon(True)
-		agent.start()
+	if specific.threadedAgents:
+		for agent in agents:
+			agent.setDaemon(True)
+			agent.start()
+	else:
+		agents.setDaemon(True)
+		agents.start()
 
 	# Wait until the simulation thread has finished.
 	try:
@@ -301,7 +305,7 @@ class ThreadedSequence(object):
 				self.bast.refreshAgent(entry.agent,
 										self.display)
 				# If the agent was born or ate, make the appropriate
-				#sound.
+				# sound.
 				if self.birth == 1:
 					sound.agentBirth(entry.fatum["voice"])
 				if entry.fatum["voice"].ate == 1:
