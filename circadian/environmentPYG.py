@@ -11,6 +11,7 @@ import random
 import pyGameVisual
 from lib_environment import updateRule
 from lib_environment import getEnvironment
+from lib_environment import readArduino
 
 def initials(fractON, side, environment):
 	'''Generates the initial condition of the automaton, it requires a 
@@ -33,7 +34,7 @@ def initials(fractON, side, environment):
 #-#-#-#-#-#-#-#-#-# Run the program #-#-#-#-#-#-#-#-#-#
            
 sideL = 100                                  #Define the automaton's dimensions
-environment = getEnvironment('/dev/ttyUSB0') #Initialize environment
+environment = getEnvironment() #Initialize environment
 cells = initials(0.1,sideL,environment)     #Initialize the automaton (create generation 0)
 
 viewer = pyGameVisual.PyGVisual()
@@ -43,7 +44,7 @@ while True:
 	viewer.update()
 	viewer.viewClose()
 	cells = updateRule(cells,sideL,environment)
-	environment = getEnvironment("/dev/ttyUSB0")
+	environment = getEnvironment()
 	print environment
 
 
