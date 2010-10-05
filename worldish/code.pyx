@@ -5,7 +5,7 @@
 
 
 
-tabula = {'Yi':'import topology; import neighborhood; import agent',
+tabula = {'Yi':'import birdcage.topology as topology; import birdcage.neighborhood as neighborhood; import birdcage.agent as agent',
           'Yc':'corporality = neighborhood.VonNeumannNeighborhood',
           'Ys':'sensoriality = neighborhood.VonNeumannNeighborhood',
           'Cb':'def birth(earth, code, prana, mana, address):',

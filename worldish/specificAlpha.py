@@ -1,15 +1,18 @@
 """These are some specific parameters for running ouroborus.
 Alpha is the default specificity."""
 
+from birdcage.specific import *
+
+
 ############
 
 # The automaton:
 
 size = (80,20)
 topology = ("ToroidTopology", 0)
-neighborhood = ("MooreNeighborhood", None ,"neighborhood")
+neighborhood = ("MooreNeighborhood", None ,"birdcage.neighborhood")
 import operator
-rule = ("ReductionRule", (operator.xor, 0), "rule")
+rule = ("ReductionRule", (operator.xor, 0), "birdcage.rule")
 automaton = ("SynchronousAutomaton_2D", )
 
 
@@ -48,8 +51,15 @@ seed = ("Random",2)
 
 # Set this option to true if you are running a simulation with one
 # thread per agent.
-threadedAgents	= True
-agentThreadsNum	= 3
+# 'one'			- All the agents run in a single thread
+# 'custom'		- Specify a fixed number of threads to manage the
+			# agents
+# 'onePerAgent'	- Each agent runs in a single thread
+agentThreads	= 'one'
+
+# Number of agent-managing threads. This option only works if
+# agentThreads	= 'custom'
+agentThreadsNumber = 5
 
 # This option is the delay time (in seconds)between one annum and the
 # next one. The option only works if the attribute threadedAgents is set
@@ -60,7 +70,7 @@ annumDelay	= .1
 # single agent and the next one. The option only works if the attribute
 # threadedAgents is set to true (and this is congruent with the chosen
 # sequence).
-agentsDelay	= .5
+agentsDelay	= .2
 
 
 ############

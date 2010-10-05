@@ -1,15 +1,18 @@
 """These are some specific parameters for running ouroborus.
 Delta was meant for debugging"""
 
+from birdcage.specific import *
+
+
 ############
 
 # The automaton:
 
 size = (40,20)
 topology = ("ToroidTopology", 0)
-neighborhood = ("VonNeumannNeighborhood", None ,"neighborhood")
+neighborhood = ("VonNeumannNeighborhood", None ,"birdcage.neighborhood")
 import operator
-rule = ("ReductionRule", (operator.xor, 0), "rule")
+rule = ("ReductionRule", (operator.xor, 0), "birdcage.rule")
 automaton = ("SynchronousAutomaton_2D", )
 
 
@@ -37,7 +40,7 @@ mana = 1
 
 avatars = 3
 # Number of agents at start
-doomsday = 300
+doomsday = 239
 # Number of iterations to run through
 seed = ("Random",1)
 
@@ -48,7 +51,15 @@ seed = ("Random",1)
 
 # Set this option to true if you are running a simulation with one
 # thread per agent.
-threadedAgents	= True
+# 'one'			- All the agents run in a single thread
+# 'custom'		- Specify a fixed number of threads to manage the
+			# agents
+# 'onePerAgent'	- Each agent runs in a single thread
+agentThreads	= 'one'
+
+# Number of agent-managing threads. This option only works if
+# agentThreads	= 'custom'
+agentThreadsNumber = 5
 
 # This option is the delay time (in seconds)between one annum and the
 # next one. The option only works if the attribute threadeAgents is set

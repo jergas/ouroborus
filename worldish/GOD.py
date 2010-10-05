@@ -6,17 +6,20 @@ specificity = sys.modules["__main__"].specificity
 specific = __import__("specific"+specificity)
 
 # these are the core birdcage modules:
-import topology
-import agent as a
-import automaton
-import genome as g
+import birdcage.topology as topology
+import birdcage.agent as a
+import birdcage.automaton as automaton
+import birdcage.genome as g
 import visual as v
 from code import tabula, tabula_antica
 
 # the following core birdcage modules's location 
 # can be configured in the specificity file
-neighborhood = __import__(specific.neighborhood[2])
-rule = __import__(specific.rule[2])
+neighborhood = __import__(specific.neighborhood[2], fromlist=[''])
+rule = __import__(specific.rule[2], fromlist=[''])
+# this use of the fromlist argument is a hack,
+# it depends on some weird behaviour in the api,
+# and thus might break unexpectedly in the future
 
 
 try:
@@ -37,7 +40,10 @@ try:
 	import sys
 	import distutils.core 
 	from distutils.extension import Extension
-	from Pyrex.Distutils import build_ext
+	if specific.compiler == "cython":
+		from Cython.Distutils import build_ext
+	else:
+		from Pyrex.Distutils import build_ext
 except ImportError:
 	print "WARNING: genome compilation disabled"
 

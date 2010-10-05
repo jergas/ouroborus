@@ -1,10 +1,12 @@
-pushd ../birdcage/
+cd ../birdcage/
+pwd
 sudo python setup.py install
-popd
 
-pushd ../worldish/
-./compile.sh
-popd
+
+cd ../worldish/
+pwd
+python setup_code.py build_ext --inplace
+cd ../circadian/
 
 rm heru*
 

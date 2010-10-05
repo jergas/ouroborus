@@ -90,7 +90,7 @@ def main(stdscr):
 	# loop, and the agent's loop.
 	background			= threading.Thread(name='Background',
 									target=sequence.backgroundLoop)
-	if specific.threadedAgents:
+	if specific.agentThreads == 'onePerAgent':
 		agents	= []
 		for index, item in enumerate(sequence.taw):
 			agentName		= sequence.taw[index].name
@@ -98,7 +98,7 @@ def main(stdscr):
 									target=sequence.agent, 
 									args=(item,))
 			agents.append(agent)
-	else:
+	elif specific.agentThreads == 'one':
 		agents			= threading.Thread(name='Agents',
 									target=sequence.agentsLoop)
 
@@ -114,11 +114,11 @@ def main(stdscr):
 	voicesControl.setDaemon(True)
 	voicesControl.start()
 	background.start()
-	if specific.threadedAgents:
+	if specific.agentThreads == 'onePerAgent':
 		for agent in agents:
 			agent.setDaemon(True)
 			agent.start()
-	else:
+	elif specific.agentThreads == 'one':
 		agents.setDaemon(True)
 		agents.start()
 
@@ -208,7 +208,14 @@ class ThreadedSequence(object):
 		# compiled by aset.
 		for entry in self.taw:	
 			self.bast.readBookOfLife(entry)
-
+		
+		if specific.agentThreads == 'custom':
+			self.agentThreads = []
+			for x in xrange(specific.agentThreadsNumber):
+				self.agentThreads.append([])
+			for entry in self.taw:
+				self.agentThreads[random.randint(0,
+						len(self.agentThreads) - 1)].append(entry)
 		# Decide whether to use a Curses or Pygame display
 		if stdscr:
 			# Generate a curses display.
@@ -219,8 +226,8 @@ class ThreadedSequence(object):
 		# Set some initial data for sound control.
 		sound.setInitialData(self.size)
 
-		# Initialize a variable for inter-thread communication.
-		self.currentEntry = None
+#		# Initialize a variable for inter-thread communication.
+#		self.currentEntry = None
 
 		# Number of simulation loops per audiovisual loop.
 		self.simulationToAudiovisual = specific.simulationToAudiovisual
@@ -232,6 +239,14 @@ class ThreadedSequence(object):
 		(the agents are also re-drawn so that they don't disappear).
 		"""
 		(width, height)	= self.size
+		
+		if specific.agentThreads == 'custom':
+			for index in xrange(specific.agentThreadsNumber):
+				oneThread = threading.Thread(name='Agents',
+												target=self.someAgents,
+												args=(index, ))
+				oneThread.setDaemon(True)
+				oneThread.start()
 
 		while self.bast.annum < self.doomsday:
 			# GOD.Organizer iterates the c.a.
@@ -256,24 +271,23 @@ class ThreadedSequence(object):
 		while self.simulationOn:
 			for entry in self.taw:
 				self.birth = 0
-				self.currentEntry = entry
 				try:
 					# If the agent is about to be born, record it.
-					if self.currentEntry.fatum["prayer"] == "BeBirthed":
+					if entry.fatum["prayer"] == "BeBirthed":
 						self.birth = 1
 					# Read the agent's bookentry
 					self.bast.readBookOfLife(entry)
 					# Refresh the agent's visualization.
-					self.bast.refreshAgent(self.currentEntry.agent,
+					self.bast.refreshAgent(entry.agent,
 											self.display)
 					# If the agent was born or ate, make the appropriate
 					#sound.
 					if self.birth == 1:
-						sound.agentBirth(self.currentEntry.fatum["voice"])
-						time.sleep(random.uniform(.2, 0.4))
-					if self.currentEntry.fatum["voice"].ate == 1:
-						sound.eatSound(self.currentEntry.fatum["voice"])
-						self.currentEntry.fatum["voice"].ate = 0
+						sound.agentBirth(entry.fatum["voice"])
+						time.sleep(random.uniform(.2, 04))
+					if entry.fatum["voice"].ate == 1:
+						sound.eatSound(entry.fatum["voice"])
+						entry.fatum["voice"].ate = 0
 				except AttributeError:
 					pass
 
@@ -289,7 +303,6 @@ class ThreadedSequence(object):
 					newBorn.setDaemon(True)
 					newBorn.start()
 				self.birth = 0
-				entry = entry
 				# If the agent is about to be born, record it.
 				if entry.fatum["prayer"] == "BeBirthed":
 					self.birth = 1
@@ -314,3 +327,42 @@ class ThreadedSequence(object):
 				time.sleep(self.agentsDelay)
 			except AttributeError:
 				pass
+
+
+	def someAgents(self, index):
+		""" Deals with drawing the agents and with their sounds.
+		"""
+		newBorns = []
+		while self.simulationOn:
+			if not len(self.agentThreads[index]):
+				time.sleep(specific.annumDelay)
+			else:
+				for entry in self.agentThreads[index]:
+					if len(newBorns):
+						for newBorn in newBorns:
+							self.agentThreads[random.randint(0,
+							len(self.agentThreads) - 1)].append(newBorn)
+						newBorns = []
+					self.birth = 0
+					try:
+						# If the agent is about to be born, record it.
+						if entry.fatum["prayer"] == "BeBirthed":
+							self.birth = 1
+						# Read the agent's bookentry
+						child = self.bast.readBookOfLife(entry)
+						if child is not 1:
+							newBorns.append(child)
+						# Refresh the agent's visualization.
+						self.bast.refreshAgent(entry.agent,
+												self.display)
+						# If the agent was born or ate, make the appropriate
+						#sound.
+						if self.birth == 1:
+							sound.agentBirth(entry.fatum["voice"])
+							time.sleep(random.uniform(.2, 04))
+						if entry.fatum["voice"].ate == 1:
+							sound.eatSound(entry.fatum["voice"])
+							entry.fatum["voice"].ate = 0
+						time.sleep(self.agentsDelay)
+					except AttributeError:
+						pass

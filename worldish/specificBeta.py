@@ -1,15 +1,17 @@
 """These are some specific parameters for running ouroborus.
 Specificity Beta is meant to provide appropriate defaults for Diego's Demo."""
 
+from birdcage.specific import *
+
 ############
 
 # The automaton:
 
 size = (80,20)
 topology = ("ToroidTopology", 0)
-neighborhood = ("VonNeumannNeighborhood", None ,"neighborhood")
+neighborhood = ("VonNeumannNeighborhood", None ,"birdcage.neighborhood")
 import operator
-rule = ("ReductionRule", (operator.xor, 0), "rule")
+rule = ("ReductionRule", (operator.xor, 0), "birdcage.rule")
 automaton = ("SynchronousAutomaton_2D", )
 
 
@@ -25,8 +27,8 @@ automaton = ("SynchronousAutomaton_2D", )
 compiling = "IndividualCompile"
 
 name 		= "heru"
-seedCode	= "Yi Yc Ys Cb Cd Cr Ld Lp Ll Le Iy Ir Ip Ix Ik Lr Rd Rl Md Mp"
-prana		= 17
+seedCode	= "Yi Yc Ys Cb Cd Cr Ld Lp Le Iy Ir Ip Ix Ik Lr Rd Rl"
+prana		= 7
 mana		= 1
 
 simWithAgents = True
@@ -37,7 +39,7 @@ simWithAgents = True
 # The iteration:
 
 avatars = 2
-doomsday = 300
+doomsday = 100
 seed = ("Random",1)
 
 
@@ -47,7 +49,15 @@ seed = ("Random",1)
 
 # Set this option to true if you are running a simulation with one
 # thread per agent.
-threadedAgents	= True
+# 'one'			- All the agents run in a single thread
+# 'custom'		- Specify a fixed number of threads to manage the
+			# agents
+# 'onePerAgent'	- Each agent runs in a single thread
+agentThreads	= 'one'
+
+# Number of agent-managing threads. This option only works if
+# agentThreads	= 'custom'
+agentThreadsNumber = 5
 
 # This option is the delay time (in seconds)between one annum and the
 # next one. The option only works if the attribute threadeAgents is set

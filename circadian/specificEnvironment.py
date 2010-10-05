@@ -1,6 +1,8 @@
 """These are some specific parameters for running ouroborus.
 Alpha is the default specificity."""
 
+from birdcage.specific import *
+
 ############
 
 # The automaton:
@@ -33,8 +35,8 @@ submode = "Normal"
 compiling = "Void"
 
 name 	= "heru"
-seedCode	= "Yi Yc Ys Cb Cd Cr Ld Lp Ll Le Iy Ir Ip Ix Ik Lr Rd Rl Md Mp"
-prana	= 17
+seedCode	= "Yi Yc Ys Cb Cd Cr Ld Lp Le Iy Ir Ip Ix Ik Lr Rd Rl"
+prana	= 7
 mana		= 1
 
 simWithAgents = False
@@ -55,7 +57,15 @@ seed = ("Random",1)
 
 # Set this option to true if you are running a simulation with one
 # thread per agent.
-threadedAgents	= True
+# 'one'			- All the agents run in a single thread
+# 'custom'		- Specify a fixed number of threads to manage the
+			# agents
+# 'onePerAgent'	- Each agent runs in a single thread
+agentThreads	= 'one'
+
+# Number of agent-managing threads. This option only works if
+# agentThreads	= 'custom'
+agentThreadsNumber = 5
 
 # This option is the delay time (in seconds)between one annum and the
 # next one. The option only works if the attribute threadeAgents is set
