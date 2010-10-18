@@ -13,7 +13,8 @@ List of dependencies for this test:
 
 To compile and run the test:
 
-1.- Go to the ouroborus/test/ folder
+1.- Go to the ouroborus-cpp/working/ directory
 2.- Type "qmake" (without the brackets here, and heceforth)
 3.- Type "make"
 4.- Type "./main
+
