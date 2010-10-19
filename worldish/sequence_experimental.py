@@ -211,7 +211,11 @@ class ThreadedSequence(object):
 		
 		if specific.agentThreads == 'custom':
 			self.agentThreads = []
+			self.threadLocks = []
+#			self.agentThreadsLock = threading.Lock()
 			for x in xrange(specific.agentThreadsNumber):
+				lock = threading.Lock()
+				self.threadLocks.append(lock)
 				self.agentThreads.append([])
 			for entry in self.taw:
 				self.agentThreads[random.randint(0,
@@ -337,11 +341,18 @@ class ThreadedSequence(object):
 			if not len(self.agentThreads[index]):
 				time.sleep(specific.annumDelay)
 			else:
+##				self.agentThreadsLock.acquire()
+#				self.threadLocks[index].acquire()
 				for entry in self.agentThreads[index]:
 					if len(newBorns):
+						controlerThread = random.randint(0,
+							len(self.agentThreads) - 1)
+###						self.agentThreadsLock.acquire()
+						self.threadLocks[controlerThread].acquire()
 						for newBorn in newBorns:
-							self.agentThreads[random.randint(0,
-							len(self.agentThreads) - 1)].append(newBorn)
+							self.agentThreads[controlerThread].append(newBorn)
+###						self.agentThreadsLock.release()
+						self.threadLocks[controlerThread].release()
 						newBorns = []
 					self.birth = 0
 					try:
@@ -359,10 +370,13 @@ class ThreadedSequence(object):
 						#sound.
 						if self.birth == 1:
 							sound.agentBirth(entry.fatum["voice"])
-							time.sleep(random.uniform(.2, 04))
+							time.sleep(random.uniform(0.2, 0.4))
 						if entry.fatum["voice"].ate == 1:
 							sound.eatSound(entry.fatum["voice"])
+							time.sleep(random.uniform(0.1, 0.2))
 							entry.fatum["voice"].ate = 0
 						time.sleep(self.agentsDelay)
 					except AttributeError:
 						pass
+##				self.agentThreadsLock.release()
+#				self.threadLocks[index].release()

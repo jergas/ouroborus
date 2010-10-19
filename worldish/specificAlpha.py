@@ -55,22 +55,22 @@ seed = ("Random",2)
 # 'custom'		- Specify a fixed number of threads to manage the
 			# agents
 # 'onePerAgent'	- Each agent runs in a single thread
-agentThreads	= 'one'
+agentThreads	= 'custom'
 
 # Number of agent-managing threads. This option only works if
 # agentThreads	= 'custom'
-agentThreadsNumber = 5
+agentThreadsNumber = 3
 
 # This option is the delay time (in seconds)between one annum and the
 # next one. The option only works if the attribute threadedAgents is set
 # to true (and this is congruent with the chosen sequence).
-annumDelay	= .1
+annumDelay	= .11
 
 # This option is the delay time (in seconds)between one iteration of a
 # single agent and the next one. The option only works if the attribute
 # threadedAgents is set to true (and this is congruent with the chosen
 # sequence).
-agentsDelay	= .2
+agentsDelay	= .005
 
 
 ############
@@ -128,7 +128,7 @@ csound -odac -+rtaudio=alsa -b1024 -B2048 -d -m0 temp.orc temp.sco
 #csOptions	= """
 #<CsoundSynthesizer>
 #<CsOptions>
-#csound -odac:alsa_pcm:playback_ -+rtaudio=jack -b1024 -B2048 -d -m0 temp.orc #temp.sco
+#csound -odac:alsa_pcm:playback_ -+rtaudio=jack -b1024 -B2048 -d -m0 temp.orc temp.sco
 #</CsOptions>"""
 
 
