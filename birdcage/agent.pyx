@@ -21,6 +21,7 @@
 ####################################################################
 
 import exceptions_birdcage as E
+import random
 
 
 
@@ -281,7 +282,7 @@ cdef class Agent_2D(Agent):
           """Change the direction in which the agent faces
 
           facing ---> an integer
-          return -->> 1 if successful"""
+          return -->> 1 if succesful"""
 
           if self.pyx_changeFacing(facing) == -1:
               raise E.NotInNeighborhoodError(facing, self.sensoriality.name)
@@ -292,12 +293,22 @@ cdef class Agent_2D(Agent):
           """Change the direction in which the agent faces
 
           facing ---> an integer
-          return -->> 1 if successful, -1 otherwise"""
+          return -->> 1 if succesful, -1 otherwise"""
 
           if facing < 0 or facing >= self.directions:
               return -1
           else:
               self.facing = facing
+
+
+     def  randomFacing(self):
+          """Randomly change the direction in which the agent faces
+
+          return -->> 1 if succesful"""
+
+          if self.pyx_changeFacing(random.randint(1, self.directions/1)) == -1:
+              raise E.NotInNeighborhoodError("new direction", self.sensoriality.name)
+          return 1
 
 
      def  advance(self):
