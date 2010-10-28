@@ -8,7 +8,7 @@ from birdcage.specific import *
 
 # The automaton:
 
-size = (40,20)
+size = (80,40)
 topology = ("ToroidTopology", 0)
 neighborhood = ("VonNeumannNeighborhood", None ,"birdcage.neighborhood")
 import operator
@@ -29,8 +29,8 @@ automaton = ("SynchronousAutomaton_2D", )
 compiling = "MassCompile"
 
 name = "heru"
-seedCode = "Yi Yc Ys Cb Cd Cr Ld Lp Ll Le Iy Ir Ip Ix Ik Lr Rd Rl Md Mp"
-prana = 17
+seedCode = "Yi Yc Ys Cb Cd Cr Ld Lp La Lm Ll Le Iy Ir Ip Ix Ik Lr Rd Rl Md Mp"
+prana = 22
 mana = 1
 
 
@@ -40,7 +40,7 @@ mana = 1
 
 avatars = 3
 # Number of agents at start
-doomsday = 239
+doomsday = 4000
 # Number of iterations to run through
 seed = ("Random",1)
 

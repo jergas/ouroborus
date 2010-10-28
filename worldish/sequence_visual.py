@@ -30,7 +30,7 @@ import GOD
 # This refers to a configuration file which stores information such as
 # automaton size, seed genome, number of iterations, etc. Feel free to
 # write your own.
-specificity = sys.modules["__main__"].specificity
+specificity = "Delta" #sys.modules["__main__"].specificity
 specific = __import__("specific"+specificity)
 
 

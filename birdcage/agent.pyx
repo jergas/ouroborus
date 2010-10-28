@@ -306,7 +306,7 @@ cdef class Agent_2D(Agent):
 
           return -->> 1 if succesful"""
 
-          if self.pyx_changeFacing(random.randint(1, self.directions/1)) == -1:
+          if self.pyx_changeFacing(random.randint(1, self.directions-1)) == -1:
               raise E.NotInNeighborhoodError("new direction", self.sensoriality.name)
           return 1
 

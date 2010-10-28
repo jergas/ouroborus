@@ -92,6 +92,7 @@ class Generator:
 
 		topologyClass = getattr(topology, tdata[0])
 		topologyInstance = topologyClass(size, tdata[1])
+		print topology, neighborhood
 
 		neighborhoodClass = getattr(neighborhood, ndata[0])
 		neighborhoodInstance = neighborhoodClass(topologyInstance)
