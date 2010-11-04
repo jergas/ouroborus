@@ -384,8 +384,9 @@ class ThreadedSequence(object):
 #						logging.debug(str(entry))
 						self.bast.refreshAgent(entry.agent,
 												self.display)
-						logging.debug(str(threading.currentThread().getName()))
-						logging.debug(str(entry))
+						if specific.logging:
+							logging.debug(str(threading.currentThread().getName()))
+							logging.debug(str(entry))
 						# If the agent was born or ate, make the appropriate
 						#sound.
 						if self.birth == 1:

@@ -1,5 +1,5 @@
 """These are some specific parameters for running ouroborus.
-Alpha is the default specificity."""
+Delta was meant for debugging"""
 
 from birdcage.specific import *
 
@@ -8,7 +8,7 @@ from birdcage.specific import *
 
 # The automaton:
 
-size = (80,20)
+size = (80,40)
 topology = ("ToroidTopology", 0)
 neighborhood = ("MooreNeighborhood", None ,"birdcage.neighborhood")
 import operator
@@ -28,10 +28,10 @@ automaton = ("SynchronousAutomaton_2D", )
 #					from its predecesors
 compiling = "IndividualCompile"
 
-name 	= "heru"
-seedCode	= "Yi Yc Ys Cb Cd Cr Ld Lp Ll Le Iy Ir Ip Ix Ik Lr Rd Rl Md Mp"
-prana	= 17
-mana		= 1
+name = "heru"
+seedCode = "Yi Yc Ys Cb Cd Cr Ld Lp La Lm Ll Le Iy Ir Ip Ix Ik Lr Rd Rl Md Mp"
+prana = 22
+mana = 1
 
 simWithAgents	= True
 
@@ -41,8 +41,10 @@ simWithAgents	= True
 # The iteration:
 
 avatars = 3
-doomsday = 300
-seed = ("Random",2)
+# Number of agents at start
+doomsday = 4000
+# Number of iterations to run through
+seed = ("Random",1)
 
 
 ############
@@ -70,7 +72,7 @@ annumDelay	= .11
 # single agent and the next one. The option only works if the attribute
 # threadedAgents is set to true (and this is congruent with the chosen
 # sequence).
-agentsDelay	= .005
+agentsDelay	= .13
 
 
 ############
@@ -99,7 +101,7 @@ simulationToAudiovisual = 1
 # The other options:
 
 # Logging
-logging = True
+logging = False
 logFile = "log.txt"
 
 # Libraries
