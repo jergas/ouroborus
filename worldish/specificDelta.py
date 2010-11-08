@@ -29,7 +29,7 @@ automaton = ("SynchronousAutomaton_2D", )
 compiling = "MassCompile"
 
 name = "heru"
-seedCode = "Yi Yc Ys Cb Cd Cr Ld Lp La Lm Ll Le Iy Ir Ip Ix Ik Lr Rd Rl Md Mp"
+seedCode = "Yi Yc Ys Cb Cd Cr Ld Lp Lm Ll Le Iy Ir Ip Ix Ik Lr Md Mf Ma Mr Rd Rl"
 prana = 22
 mana = 1
 

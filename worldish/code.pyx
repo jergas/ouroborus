@@ -13,8 +13,7 @@ tabula = {'Yi':'import birdcage.topology as topology; import birdcage.neighborho
           'Cr':'  return myself',
           'Ld':'def live(creature):',
           'Lp':'  prayer = "Live"',
-          'La':'  creature.randomFacing()',
-          'Lm':'  creature.advance()',
+          'Lm':'  move(creature)',
           'Ll':'  creature.losePrana(1)',
           'Le':'  creature.eatMana()',
           'Iy':'  if creature.tellPrana() > 27:',
@@ -23,12 +22,14 @@ tabula = {'Yi':'import birdcage.topology as topology; import birdcage.neighborho
           'Ix':'  elif creature.tellPrana() <= 0:',
           'Ik':'      prayer = "KillMe"',
           'Lr':'  return prayer',
+          'Md':'def move(creature):',
+          'Mf':'  creature.randomFacing()',
+          'Ma':'  creature.advance()',
+          'Mr':'  return',
           'Rd':'def reproduce(creature):',
           'Rl':'  creature.losePrana(14)',
           'Rp':'  prayer = "Live"',
-          'Rr':'  return prayer',
-          'Md':'def move(creature):',
-          'Mp':'  pass'}
+          'Rr':'  return prayer'}
   
 
 tabula_antica = {'Yi':'import topology; import neighborhood; import agent',
