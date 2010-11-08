@@ -7,7 +7,7 @@ from birdcage.specific import *
 
 # The automaton:
 
-size = (80,20)
+size = (80,40)
 topology = ("ToroidTopology", 0)
 neighborhood = ("VonNeumannNeighborhood", None ,"birdcage.neighborhood")
 import operator
@@ -24,12 +24,12 @@ automaton = ("SynchronousAutomaton_2D", )
 #						created
 #	MassCompile			- invokes c compiler only when a genome differs
 #						from its predecesors
-compiling = "IndividualCompile"
+compiling = "MassCompile"
 
-name 		= "heru"
-seedCode	= "Yi Yc Ys Cb Cd Cr Ld Lp Le Iy Ir Ip Ix Ik Lr Rd Rl"
-prana		= 7
-mana		= 1
+name = "heru"
+seedCode = "Yi Yc Ys Cb Cd Cr Ld Lp Lm Ll Le Iy Ir Ip Ix Ik Lr Md Mf Ma Mr Rd Rl"
+prana = 22
+mana = 1
 
 simWithAgents = True
 
@@ -38,8 +38,10 @@ simWithAgents = True
 
 # The iteration:
 
-avatars = 2
-doomsday = 100
+avatars = 3
+# Number of agents at start
+doomsday = 4000
+# Number of iterations to run through
 seed = ("Random",1)
 
 
@@ -53,28 +55,29 @@ seed = ("Random",1)
 # 'custom'		- Specify a fixed number of threads to manage the
 			# agents
 # 'onePerAgent'	- Each agent runs in a single thread
-agentThreads	= 'one'
+agentThreads	= 'custom'
 
 # Number of agent-managing threads. This option only works if
 # agentThreads	= 'custom'
-agentThreadsNumber = 5
+agentThreadsNumber = 4
 
 # This option is the delay time (in seconds)between one annum and the
-# next one. The option only works if the attribute threadeAgents is set
+# next one. The option only works if the attribute threadedAgents is set
 # to true (and this is congruent with the chosen sequence).
-annumDelay	= .1
+annumDelay	= .11
 
 # This option is the delay time (in seconds)between one iteration of a
 # single agent and the next one. The option only works if the attribute
-# threadeAgents is set to true (and this is congruent with the chosen
+# threadedAgents is set to true (and this is congruent with the chosen
 # sequence).
-agentsDelay	= .5
+agentsDelay	= .13
 
 
 ############
 
-# Display type ('curses' or 'pygame')
+# The display
 
+# Display type ('curses' or 'pygame')
 displayType = 'curses'
 
 # The criterion function
@@ -90,7 +93,7 @@ agentsColour = "COLOR_RED"
 
 
 # Number of simulation loops per audiovisual loop.
-simulationToAudiovisual = 10
+simulationToAudiovisual = 1
 
 
 ############
@@ -107,10 +110,10 @@ criterionLocation = "v" # visual is renamed v in GOD.py
 
 ############
 
-# Sound preferences:
+# The sound preferences:
 
 # Partials per background voice (minimum 1 maximum 13)
-backgroundPartials = 7
+backgroundPartials = 13
 
 # One of the csOptions should be commented. If you don't know
 # what you are doing, use the first version (uses the ALSA
@@ -122,7 +125,14 @@ csound -odac -+rtaudio=alsa -b1024 -B2048 -d -m0 temp.orc temp.sco
 </CsOptions>"""
 
 #csOptions	= """
-#<CsoundSynthesizer
+#<CsoundSynthesizer>
 #<CsOptions>
-#csound -odac:alsa_pcm:playback_ -+rtaudio=jack -b1024 -B2048 -d -m0 temp.orc #temp.sco
+#csound -odac:alsa_pcm:playback_ -+rtaudio=jack -b1024 -B2048 -d -m0 temp.orc temp.sco
 #</CsOptions>"""
+
+
+############
+
+# The spanish inquisition
+
+# Nobody expects the spanish inquisition!

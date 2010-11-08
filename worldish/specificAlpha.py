@@ -26,10 +26,10 @@ automaton = ("SynchronousAutomaton_2D", )
 #					created
 # MassCompile		- invokes c compiler only when a genome differs
 #					from its predecesors
-compiling = "IndividualCompile"
+compiling = "MassCompile"
 
 name = "heru"
-seedCode = "Yi Yc Ys Cb Cd Cr Ld Lp La Lm Ll Le Iy Ir Ip Ix Ik Lr Rd Rl Md Mp"
+seedCode = "Yi Yc Ys Cb Cd Cr Ld Lp Lm Ll Le Iy Ir Ip Ix Ik Lr Md Mf Ma Mr Rd Rl"
 prana = 22
 mana = 1
 
@@ -61,7 +61,7 @@ agentThreads	= 'custom'
 
 # Number of agent-managing threads. This option only works if
 # agentThreads	= 'custom'
-agentThreadsNumber = 3
+agentThreadsNumber = 4
 
 # This option is the delay time (in seconds)between one annum and the
 # next one. The option only works if the attribute threadedAgents is set
@@ -101,7 +101,7 @@ simulationToAudiovisual = 1
 # The other options:
 
 # Logging
-logging = False
+logging = True
 logFile = "log.txt"
 
 # Libraries
