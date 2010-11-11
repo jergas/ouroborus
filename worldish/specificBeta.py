@@ -29,7 +29,7 @@ compiling = "MassCompile"
 name = "heru"
 seedCode = "Yi Yc Ys Cb Cd Cr Ld Lp Lm Ll Le Iy Ir Ip Ix Ik Lr Md Mf Ma Mr Rd Rl"
 prana = 22
-mana = 1
+mana		= 1
 
 simWithAgents = True
 
@@ -55,29 +55,28 @@ seed = ("Random",1)
 # 'custom'		- Specify a fixed number of threads to manage the
 			# agents
 # 'onePerAgent'	- Each agent runs in a single thread
-agentThreads	= 'custom'
+agentThreads	= 'one'
 
 # Number of agent-managing threads. This option only works if
 # agentThreads	= 'custom'
-agentThreadsNumber = 4
+agentThreadsNumber = 5
 
 # This option is the delay time (in seconds)between one annum and the
-# next one. The option only works if the attribute threadedAgents is set
+# next one. The option only works if the attribute threadeAgents is set
 # to true (and this is congruent with the chosen sequence).
-annumDelay	= .11
+annumDelay	= .1
 
 # This option is the delay time (in seconds)between one iteration of a
 # single agent and the next one. The option only works if the attribute
-# threadedAgents is set to true (and this is congruent with the chosen
+# threadeAgents is set to true (and this is congruent with the chosen
 # sequence).
-agentsDelay	= .13
+agentsDelay	= .5
 
 
 ############
 
-# The display
-
 # Display type ('curses' or 'pygame')
+
 displayType = 'curses'
 
 # The criterion function
@@ -110,10 +109,10 @@ criterionLocation = "v" # visual is renamed v in GOD.py
 
 ############
 
-# The sound preferences:
+# Sound preferences:
 
 # Partials per background voice (minimum 1 maximum 13)
-backgroundPartials = 13
+backgroundPartials = 7
 
 # One of the csOptions should be commented. If you don't know
 # what you are doing, use the first version (uses the ALSA
@@ -125,14 +124,7 @@ csound -odac -+rtaudio=alsa -b1024 -B2048 -d -m0 temp.orc temp.sco
 </CsOptions>"""
 
 #csOptions	= """
-#<CsoundSynthesizer>
+#<CsoundSynthesizer
 #<CsOptions>
-#csound -odac:alsa_pcm:playback_ -+rtaudio=jack -b1024 -B2048 -d -m0 temp.orc temp.sco
+#csound -odac:alsa_pcm:playback_ -+rtaudio=jack -b1024 -B2048 -d -m0 temp.orc #temp.sco
 #</CsOptions>"""
-
-
-############
-
-# The spanish inquisition
-
-# Nobody expects the spanish inquisition!

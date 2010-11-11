@@ -50,6 +50,7 @@ class VocalTract(object):
 		scoStatement = AgentNote.mkBirthString()
 		perf.InputMessage(scoStatement)
 
+
 	def eatSound(self, perf):
 		""" Generates the sound that an agent does while eating.
 		perf	---> a Csound performance thread
@@ -62,4 +63,21 @@ class VocalTract(object):
 		AgentNote.pan			= self.panning
 		# Make a score-statement string and feed it to Csound.
 		scoStatement = AgentNote.mkEatString()
+		perf.InputMessage(scoStatement)
+
+
+	def deathSound(self, perf):
+		""" Generates the sound that an agent does when dying.
+		perf	---> a Csound performance thread
+		"""
+		# Set the relevant parameters in the AgentNote class.
+		AgentNote.dur			= random.uniform(.05, .2)
+		AgentNote.ptch1			= self.ptch2
+		AgentNote.ptch2 		= self.ptch1
+		AgentNote.vibr			= self.vibr
+		AgentNote.IDeviation	= self.IDeviation
+		AgentNote.ADeviation	= self.ADeviation	
+		AgentNote.pan			= self.panning
+		# Make a score-statement string and feed it to Csound.
+		scoStatement = AgentNote.mkBirthString()
 		perf.InputMessage(scoStatement)

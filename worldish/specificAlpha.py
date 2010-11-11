@@ -8,9 +8,9 @@ from birdcage.specific import *
 
 # The automaton:
 
-size = (80,40)
+size = (80,20)
 topology = ("ToroidTopology", 0)
-neighborhood = ("MooreNeighborhood", None ,"birdcage.neighborhood")
+neighborhood = ("VonNeumannNeighborhood", None ,"birdcage.neighborhood")
 import operator
 rule = ("ReductionRule", (operator.xor, 0), "birdcage.rule")
 automaton = ("SynchronousAutomaton_2D", )

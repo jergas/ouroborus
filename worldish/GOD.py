@@ -33,7 +33,7 @@ try:
 	if soundGlobals.simWSound == 1:
 		import agents_sound as agentsSound
 except ImportError:
-	print "WARNING: agent management, display or sound may not function 		correctly"
+	print "WARNING: agent management, display or sound may not function correctly"
 
 try:
 	# these are the ingredients for the Pyrex compile spell

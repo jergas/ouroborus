@@ -37,6 +37,15 @@ if specific.simWithAgents:
 		VocalTract	--->> an agent's voice class
 		"""
 		VocalTract.eatSound(SoundServer.perf)
+
+
+	def agentDeath(VocalTract):
+		"""Plays the death sound.
+		VocalTract	--->> an agent's voice class
+		"""
+		VocalTract.deathSound(SoundServer.perf)
+
+
 else:
 	print 'If this is a simulation with agents, set simWithAgents to True in your specificXXX.py module.'
 

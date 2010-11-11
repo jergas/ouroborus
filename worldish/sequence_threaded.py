@@ -4,12 +4,6 @@
 #
 # Coded by Sat Tara Singh, Jergas Apwith and Ernesto Illescas
 #
-# This module is a work in progress. Things still lacking are:
-#	* The terminal window is not re-established if the application is
-#		terminated via ctrl^c
-#	* Background sound algorithms must be updated to accomodate the
-#		threaded execution
-#
 # It includes the following features:
 #
 #	* Execution of the simulation proper, background audiovisuals and
@@ -95,11 +89,11 @@ def main(stdscr):
 	#prevent the simulation from exciting. Also start them.
 	for x in voices:
 		x.setDaemon(True)
-		x.start()
+#		x.start()
 	voicesControl.setDaemon(True)
 	background.setDaemon(True)
 	agents.setDaemon(True)
-	voicesControl.start()
+#	voicesControl.start()
 	simulation.start()
 	background.start()
 	agents.start()
@@ -225,12 +219,16 @@ class ThreadedSequence(object):
 			# GOD.Organizer parses the whole length of taw
 			for entry in self.taw:
 				self.agentThreadCondition.acquire()
-				self.birth = 0
+				self.birth	= 0
+				self.death	= 0
 				self.currentEntry = entry
-				# If the agent is about to be born, record it.
 				try:
+					# If the agent is about to be born or to die, then record
+					# it.
 					if self.currentEntry.fatum["prayer"] == "BeBirthed":
 						self.birth = 1
+					if self.currentEntry.fatum["prayer"] == "KillMe":
+						self.death	= 1
 					self.bast.readBookOfLife(entry)
 					# Only do an audiovisual loop every simulationToAudiovisual
 					# iterations.
@@ -276,16 +274,21 @@ class ThreadedSequence(object):
 		while self.simulationOn:
 			self.agentThreadCondition.acquire()
 			self.agentThreadCondition.notify()
-			try:
+
+			if self.death:
+				sound.agentDeath(self.currentEntry.fatum["voice"])
+				time.sleep(random.uniform(0.2, 0.4))
+			else:
+				# Update the agent in the display.
 				self.bast.refreshAgent(self.currentEntry.agent, self.display)
+				# If the agent is born or eats, then make the appropriate
+				# sound.
 				if self.birth == 1:
 					sound.agentBirth(self.currentEntry.fatum["voice"])
-					time.sleep(random.uniform(.2, 0.4))
-				if self.currentEntry.fatum["voice"].ate == 1:
+					time.sleep(random.uniform(0.2, 0.4))
+				elif self.currentEntry.fatum["voice"].ate == 1:
 					sound.eatSound(self.currentEntry.fatum["voice"])
 					self.currentEntry.fatum["voice"].ate = 0
 					time.sleep(random.uniform(0.1, 0.2))
-			except AttributeError:
-				pass
 			self.agentThreadCondition.wait()
 			self.agentThreadCondition.release()
