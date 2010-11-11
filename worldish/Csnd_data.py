@@ -65,8 +65,7 @@ nchnls = 2	; # of channels
 		return --> a list of strings, each representing an instrument
 					definition
 		"""
-		# Instrument 1: Stereo filtered pink noise with amplitude
-		#envelope.
+		# Instrument 1: Formant based instrument.
 		instr1	= """
 instr    1
 
@@ -83,6 +82,7 @@ iodev = p9
 
 ileft	= sqrt(p10)	; between 0-1, 1 is hard left
 iright	= sqrt(1 - p10)
+itype	= p11 ; 0=birth, 1=eat, 3=death
 
 ; formants frequencies
 ifrq1i	= 1270 + iidev
@@ -118,7 +118,7 @@ ibw2o	= 80
 ibw3o	= 100
 
 ; specific to birth sounds.
-if (iodev == 0) then
+if (itype == 0) then
 	; fof1 i-a envelopes
 	kfrq1 linseg ifrq1i, idur * .6, ifrq1a, .01, ifrq1a
 	kamp1 linseg iamp1i, idur * .6, iamp1a, .01, iamp1a
@@ -150,8 +150,7 @@ if (iodev == 0) then
 	avoice = (a1 + a2 + a3) * klvlenv * .1
 
 ; specific to eating sounds.
-else
-
+elseif (itype == 1) then
 	; fof1 o envelopes
 	kfrq1 = ifrq1o
 	kamp1 = iamp1o
@@ -184,6 +183,38 @@ else
 	a2 fof  kamp2, iptch1, kfrq2, koct, kbw2, .003, .02, .007, 1000, 1, 2, idur, rnd(1), 1
 	a3 fof  kamp3, iptch1, kfrq3, koct, kbw3, .003, .02, .007, 1000, 1, 2, idur, rnd(1), 1
 	avoice = (a1 + a2 + a3) * klvlenv * 0.9 * afilt
+
+; specific to death sounds.
+elseif (itype == 2) then
+	; fof1 a-i envelopes
+	kfrq1 linseg ifrq1a, idur * .6, ifrq1i, .01, ifrq1o
+	kamp1 linseg iamp1a, idur * .6, iamp1i, .01, iamp1o
+	kbw1 linseg ibw1a, idur * .6, ibw1i, .01, ibw1o
+
+	; fof2 a-i envelopes
+	kfrq2 linseg ifrq2a, idur * .6, ifrq2i, .01, ifrq2o
+	kamp2 linseg iamp2a, idur * .6, iamp2i, .01, iamp2o
+	kbw2 linseg ibw2a, idur * .6, ibw2i, .01, ibw2o
+
+	; fof3 a-i envelopes
+	kfrq3 linseg ifrq3a, idur * .6, ifrq3i, .01, ifrq3o
+	kamp3 linseg iamp3a, idur * .6, iamp3i, .01, iamp3o
+	kbw3 linseg ibw3a, idur * .6, ibw3i, .01, ibw3o
+
+	; Pitch envelope
+	kptch	linseg iptch1, idur * .3, iptch1, idur * .1, iptch2, idur * .4, iptch2, idur * .2, iptch1
+
+	; vibrato
+	klfo lfo 50, ivibr
+
+	; Overall level envelope
+	klvlenv linseg  0, .01, 1, idur - .02, 1, .01, 0
+
+	; signal generators
+	a1 fof  kamp1, kptch + klfo, kfrq1, 0, kbw1, .003, .02, .007, 1000, 1, 2, idur, rnd(1), 1
+	a2 fof  kamp2, kptch + klfo, kfrq2, 0, kbw2, .003, .02, .007, 1000, 1, 2, idur, rnd(1), 1
+	a3 fof  kamp3, kptch + klfo, kfrq3, 0, kbw3, .003, .02, .007, 1000, 1, 2, idur, rnd(1), 1
+	avoice = (a1 + a2 + a3) * klvlenv * .1
 
 endif
 

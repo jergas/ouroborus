@@ -274,10 +274,13 @@ class ThreadedSequence(object):
 		while self.simulationOn:
 			self.agentThreadCondition.acquire()
 			self.agentThreadCondition.notify()
-
+			# If the current agent died, make the appropriate sound.
 			if self.death:
 				sound.agentDeath(self.currentEntry.fatum["voice"])
+#				logging.write(str(self.currentEntry.fatum["voice"])) #debugging
 				time.sleep(random.uniform(0.2, 0.4))
+			# Else refresh the agent's display and (possibly) make the
+			# appropriate sound.
 			else:
 				# Update the agent in the display.
 				self.bast.refreshAgent(self.currentEntry.agent, self.display)

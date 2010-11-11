@@ -25,7 +25,7 @@ class AgentNote(object):
 									' ', str(self.ptch2), ' ', str(self.vibr),
 									' ', str(self.IDeviation), ' ',
 									str(self.ADeviation), ' ', '0 ',
-									str(self.pan)])
+									str(self.pan), ' ', '0'])
 		return scoStatement
 
 
@@ -36,8 +36,23 @@ class AgentNote(object):
 		"""
 		scoStatement 	= ''.join(['i1 0 ', str(self.dur), ' ', str(self.ptch1),
 									' ', str(self.ptch2), ' ', '0 ', '0 ', '0 ',
-									str(self.ODeviation), ' ', str(self.pan)])
+									str(self.ODeviation), ' ', str(self.pan),
+									' ', '1'])
 		return scoStatement
+
+
+	def mkDeathString(self):
+		""" Generates a string suitible to be fed to Csound as
+		a score statement. The resulting sound is a birth sound.
+		return	--> a note-statement string.
+		"""
+		scoStatement 	= ''.join(['i1 0 ', str(self.dur), ' ', str(self.ptch1),
+									' ', str(self.ptch2), ' ', str(self.vibr),
+									' ', str(self.IDeviation), ' ',
+									str(self.ADeviation), ' ', '0 ',
+									str(self.pan), ' ', '2'])
+		return scoStatement
+
 
 
 class BckgrndNote(object):

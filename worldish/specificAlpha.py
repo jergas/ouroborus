@@ -30,7 +30,7 @@ compiling = "MassCompile"
 
 name = "heru"
 seedCode = "Yi Yc Ys Cb Cd Cr Ld Lp Lm Ll Le Iy Ir Ip Ix Ik Lr Md Mf Ma Mr Rd Rl"
-prana = 22
+prana = 17
 mana = 1
 
 simWithAgents	= True
@@ -101,7 +101,7 @@ simulationToAudiovisual = 1
 # The other options:
 
 # Logging
-logging = True
+logging = False
 logFile = "log.txt"
 
 # Libraries
