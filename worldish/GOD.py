@@ -54,7 +54,7 @@ import random
 
 class Generator:
 	"""This object creates a code object from a genome and appends it onto
-	the list of creatures. It also performs other creation-related functions
+	the dictionary of creatures. It also performs other creation-related functions
 	such as generating a fully-functioning cellular automaton"""
 
 
@@ -67,6 +67,9 @@ class Generator:
 		self.obstetrics = 0
 		self.obstetrix = obstetrix
 		self.scions = [] # this is a list of strains used for MassCompiling
+		
+		# Set the compile mode using getattr
+		self.generateGenotype = getattr(self, "generateGenotype"+self.specific.compiling, "generateGenotypeIndividualCompile")
 
 		# set the display functions using getattr
 		self.displayType = self.specific.displayType.capitalize()
@@ -110,13 +113,15 @@ class Generator:
 		"""Write and compile a file from a genome
 
 		poeio  ---> a list of characters
-		ode    ---> a list of names
-		return -->> 1
+		ode    ---> a dictionary of names (the Book of Life)
+		return -->> 1, None or onoma (the new agents name)
 	
 		this is actually a general handle for various specific genotype
 		generation methods, which are defined, sensibly enough, in the 
 		Specific file."""
 
+		# This function is a placeholder, the actual function is assigned to 
+		# this name in Generator.__init__(). The following line is a failsafe.
 		return getattr(self, "generateGenotype"+self.specific.compiling, "generateGenotypeIndividualCompile")(poeio, ode)
 		
 
@@ -125,18 +130,18 @@ class Generator:
 
 		poeio  ---> a list of characters
 		ode    ---> a list of names
-		return -->> 1"""
+		return -->> None"""
 
 		print "blank genome - no compilation required!"
-		return 1
+		return None
 
 
 	def generateGenotypeIndividualCompile(self, poeio, ode):
 		"""Write and compile a file from a genome
 
 		poeio  ---> a list of characters
-		ode    ---> a list of names
-		return -->> 1
+		ode    ---> a dictionary of names (the book of life)
+		return -->> the new agents name (onoma)
 
 		New version compatible with the new BookEntry class"""
 
@@ -166,19 +171,21 @@ class Generator:
 		# bring the command line back to its original condition
 		del sys.argv[-2:]
 
-		# finally, append the module's name to the list of names,
-		ode.append(BookEntry(onoma, onoma))
-		
+#		# finally, append the module's name to the list of names,
+#		#ode.append(BookEntry(onoma, onoma))
+		# finally, add the module's BookEntry to the Book of Life
+		# (dictionary of names) using its name as a key
+		ode[onoma] = BookEntry(onoma, onoma)
 		self.obstetrics += 1
-		return 1
+		return onoma
 
 
 	def generateGenotypeMassCompile(self, poeio, ode):
 		"""Write and compile a file from a genome
 
 		poeio  ---> a list of characters
-		ode    ---> a list of names
-		return -->> 1
+		ode    ---> a dictionary of names (the Book of Life)
+		return -->> the new agent's name (onoma)
 
 		New version compatible with the new BookEntry class"""
 
@@ -187,9 +194,9 @@ class Generator:
 		# first check whether the genome has already been compiled
 		if poeio in self.scions:
 			
-			# identify the genome in the list of compiled strains
+			# identify the genome in the dictionary of compiled strains
 			strain = self.obstetrix+str(self.scions.index("poeio"))
-			ode.append(BookEntry(onoma, strain))
+			ode[onoma]=(BookEntry(onoma, strain))
 			
 		else:
 			# if it hasn't, proceed to compile the new genome
@@ -219,11 +226,12 @@ class Generator:
 			# bring the command line back to its original condition
 			del sys.argv[-2:]
 
-			# finally, append the module's name to the list of names,
-			ode.append(BookEntry(onoma, strain)) 
+			# finally, add the module's BookEntry to the Book of Life
+			# (dictionary of names) using its name as a key
+			ode[onoma] = BookEntry(onoma, strain)
 
 		self.obstetrics += 1
-		return 1
+		return onoma
 
 
 	def generateDisplayCurses(self, earth, size, stdscr):
@@ -281,7 +289,7 @@ class Organizer:
 		"""Create an Organizer instance
 
 		earth       ---> some complete birdcage Automaton instance
-		book        ---> a list of agent code objects (genotypes)
+		book        ---> a dictionary of agent code objects (genotypes)
 		specificity ---> the suffix of a configuration module"""
 
 		self.specific = __import__("specific"+specificity)
@@ -416,9 +424,8 @@ class Organizer:
 
 		# the Generator compiles the new module and writes it in the book
 		code = bookentry.fatum["code"]
-		self.generator.generateGenotype(code, self.book)
+		child = self.book[self.generator.generateGenotype(code, self.book)]
 		# add some necessary data to the new entry
-		child = self.book[-1]
 		child.fatum["code"] = bookentry.fatum["code"]
 		child.fatum["prana"] = self.specific.prana
 		child.fatum["mana"] = self.specific.mana
@@ -442,7 +449,7 @@ class Organizer:
 		
 		self.earth.removeAgent(bookentry.agent)
 		bookentry.terminateAgent()
-		self.book.remove(bookentry)
+		del self.book[bookentry.name]
 		return 1
 
 
@@ -483,7 +490,7 @@ class Organizer:
 
 
 	def iterateAgents(self):
-		"""Go through the list of agents and let them perform their actions
+		"""Go through the dictionary of agents and let them perform their actions
 
 		return -->> 1 """
 

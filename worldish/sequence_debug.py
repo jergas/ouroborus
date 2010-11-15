@@ -70,9 +70,9 @@ def startExecutionNormal():
 	# avatars is the number of initial creatures, and doomsday the number of iterations	
 	(avatars, doomsday) = (specific.avatars, specific.doomsday)
 	
-	# taw is a list which whill contain runtime information essential for the agents
-	# in the form of BookEntries
-	taw = []
+	# taw is a dictionary which whill contain runtime information
+	# essential for the agents in the form of BookEntries
+	taw = {}
 	print "A blank book of life exists"
 
 	# invoke GOD.Generator's automaton creation method with the data given above
@@ -100,8 +100,8 @@ def startExecutionNormal():
 		print "all original genomes have been compiled"
 
 	# prime the initial avatars for actual creation
-	for entry in taw:
-		entry.fatum["prayer"] = "CreateMe"
+	for key in taw.keys():
+		taw[key].fatum["prayer"] = "CreateMe"
 		# each BookEntry has a dictionary (called its fatum, for in a way it holds 
 		# the creature's fate). The key "prayer" is linked to strings which 
 		# GOD.Organizer will interpret (via Python introspection) to act in various
@@ -112,18 +112,18 @@ def startExecutionNormal():
 
 	# first sanity check: view the avatars' BookEntries before they are created
 	print "the book of life's first page reads:"
-	for entry in taw: print entry
+	for key in taw.keys(): print taw[key]
 	print "\n"
 
 	# bast reads the BookEntries in taw and calls actual agent objects
 	# into being from the code in the modules which were compiled by aset
-	for entry in taw:	
-		bast.readBookOfLife(entry)
+	for key in taw.keys():	
+		bast.readBookOfLife(taw[key])
 		print "bast read taw and instantiated an agent from the genome"
 
 	# second sanity check: view the initial BookEntries following initialization
 	print "the book of life's prologue reads:"
-	for entry in taw: print entry
+	for key in taw.keys(): print taw[key]
 	print "\n"
 
 	print "the initial population phase has finished\n"
@@ -137,13 +137,13 @@ def startExecutionNormal():
 		
 		print "bast will now read the book of life"
 		# GOD.Organizer parses the whole length of taw
-		for entry in taw:
-			bast.readBookOfLife(entry)
+		for key in taw.keys():
+			bast.readBookOfLife(taw[key])
 		print "the book has been read"
 		
 		# now display the BookEntries as they currently stand
 		print "the book of life, taw, reads:"
-		for entry in taw: print entry
+		for key in taw.keys(): print taw[key]
 		print "\n"
 		print "there are "+str(kemet.tellPopulation())+" creatures on kemet"
 		print "\n"

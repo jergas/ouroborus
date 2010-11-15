@@ -10,7 +10,7 @@ from birdcage.specific import *
 
 size = (80,20)
 topology = ("ToroidTopology", 0)
-neighborhood = ("VonNeumannNeighborhood", None ,"birdcage.neighborhood")
+neighborhood = ("MooreNeighborhood", None ,"birdcage.neighborhood")
 import operator
 rule = ("ReductionRule", (operator.xor, 0), "birdcage.rule")
 automaton = ("SynchronousAutomaton_2D", )
@@ -30,7 +30,7 @@ compiling = "MassCompile"
 
 name = "heru"
 seedCode = "Yi Yc Ys Cb Cd Cr Ld Lp Lm Ll Le Iy Ir Ip Ix Ik Lr Md Mf Ma Mr Rd Rl"
-prana = 17
+prana = 22
 mana = 1
 
 simWithAgents	= True
@@ -42,7 +42,7 @@ simWithAgents	= True
 
 avatars = 3
 # Number of agents at start
-doomsday = 4000
+doomsday = 1000
 # Number of iterations to run through
 seed = ("Random",1)
 
@@ -101,7 +101,7 @@ simulationToAudiovisual = 1
 # The other options:
 
 # Logging
-logging = False
+logging = True
 logFile = "log.txt"
 
 # Libraries

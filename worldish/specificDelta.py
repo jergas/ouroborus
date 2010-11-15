@@ -40,7 +40,7 @@ mana = 1
 
 avatars = 3
 # Number of agents at start
-doomsday = 4000
+doomsday = 50
 # Number of iterations to run through
 seed = ("Random",1)
 
