@@ -89,11 +89,11 @@ def main(stdscr):
 	#prevent the simulation from exciting. Also start them.
 	for x in voices:
 		x.setDaemon(True)
-#		x.start()
+		x.start()
 	voicesControl.setDaemon(True)
 	background.setDaemon(True)
 	agents.setDaemon(True)
-#	voicesControl.start()
+	voicesControl.start()
 	simulation.start()
 	background.start()
 	agents.start()
@@ -138,9 +138,10 @@ class ThreadedSequence(object):
 		# avatars is the number of initial creatures, and doomsday the
 		# number of iterations.	
 		(avatars, self.doomsday) = (specific.avatars, specific.doomsday)
-		# self.taw is a list which whill contain runtime information
-		# essential for the agents in the form of BookEntries.
-		self.taw = []
+		# self.taw is a dictionary which whill contain runtime
+		# information essential for the agents in the form of
+		# BookEntries.
+		self.taw = {}
 
 		# Invoke GOD.Generator's automaton creation method with the data
 		# given above.
@@ -164,8 +165,8 @@ class ThreadedSequence(object):
 			avatars -= 1
 
 		# Prime the initial avatars for actual creation.
-		for entry in self.taw:
-			entry.fatum["prayer"] = "CreateMe"
+		for key in self.taw.keys():
+			self.taw[key].fatum["prayer"] = "CreateMe"
 			# Each BookEntry has a dictionary called its fatum. The key
 			# "prayer" is linked to strings which GOD.Organizer will
 			# interpret (via Python introspection) to act in various
@@ -178,8 +179,8 @@ class ThreadedSequence(object):
 		# bast reads the BookEntries in taw and calls actual agent
 		# objects into being from the code in the modules which were
 		# compiled by aset.
-		for entry in self.taw:	
-			self.bast.readBookOfLife(entry)
+		for key in self.taw.keys():
+			self.bast.readBookOfLife(self.taw[key])
 
 		# Decide whether to use a Curses or Pygame display
 		if stdscr:
@@ -191,8 +192,11 @@ class ThreadedSequence(object):
 		# Set some initial data for sound control.
 		sound.setInitialData(self.size)
 
-		# Initialize a variable for inter-thread communication.
+		# Initialize variables for agent-related inter-thread
+		# communication.
 		self.currentEntry = None
+		self.birth	= 0
+		self.death	= 0
 
 		# Number of simulation loops per audiovisual loop.
 		self.simulationToAudiovisual = specific.simulationToAudiovisual
@@ -217,26 +221,23 @@ class ThreadedSequence(object):
 			if not self.bast.annum % self.simulationToAudiovisual:
 				self.bckgrndThreadCondition.notify()
 			# GOD.Organizer parses the whole length of taw
-			for entry in self.taw:
+			for key in self.taw.keys():
 				self.agentThreadCondition.acquire()
 				self.birth	= 0
 				self.death	= 0
-				self.currentEntry = entry
-				try:
-					# If the agent is about to be born or to die, then record
-					# it.
-					if self.currentEntry.fatum["prayer"] == "BeBirthed":
-						self.birth = 1
-					if self.currentEntry.fatum["prayer"] == "KillMe":
-						self.death	= 1
-					self.bast.readBookOfLife(entry)
-					# Only do an audiovisual loop every simulationToAudiovisual
-					# iterations.
-					if not self.bast.annum % self.simulationToAudiovisual:
-						self.agentThreadCondition.notify()
-						self.agentThreadCondition.wait()
-				except AttributeError:
-					pass
+				self.currentEntry = self.taw[key]
+				# If the agent is about to be born or to die, then record
+				# it.
+				if self.currentEntry.fatum["prayer"] == "BeBirthed":
+					self.birth = 1
+				if self.currentEntry.fatum["prayer"] == "KillMe":
+					self.death = 1
+				self.bast.readBookOfLife(self.currentEntry)
+				# Only do an audiovisual loop every simulationToAudiovisual
+				# iterations.
+				if not self.bast.annum % self.simulationToAudiovisual:
+					self.agentThreadCondition.notify()
+					self.agentThreadCondition.wait()
 				self.agentThreadCondition.release()
 			# Only do an audiovisual loop every simulationToAudiovisual
 			# iterations.
@@ -271,13 +272,15 @@ class ThreadedSequence(object):
 	def agentsLoop(self):
 		""" Deals with drawing of agents and with their sound.
 		"""
+		# Make sure that simulationLoop() runs before this thread.
+		while self.bast.annum < 1:
+			time.sleep(.01)
 		while self.simulationOn:
 			self.agentThreadCondition.acquire()
 			self.agentThreadCondition.notify()
 			# If the current agent died, make the appropriate sound.
 			if self.death:
 				sound.agentDeath(self.currentEntry.fatum["voice"])
-#				logging.write(str(self.currentEntry.fatum["voice"])) #debugging
 				time.sleep(random.uniform(0.2, 0.4))
 			# Else refresh the agent's display and (possibly) make the
 			# appropriate sound.
