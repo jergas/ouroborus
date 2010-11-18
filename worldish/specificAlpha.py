@@ -101,7 +101,7 @@ simulationToAudiovisual = 1
 # The other options:
 
 # Logging
-logging = False
+logging = True
 logFile = "log.txt"
 
 # Libraries

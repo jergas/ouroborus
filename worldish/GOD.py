@@ -439,7 +439,7 @@ class Organizer:
 			child.fatum["voice"] = agentsSound.VocalTract(x, self.width)
 		# set the agent's prayer back to live
 		bookentry.fatum["prayer"] = "Live"
-		return child
+		return child.name
 
 
 	def grantPrayerKillMe(self, bookentry):
