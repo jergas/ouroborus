@@ -88,6 +88,33 @@ def updateLoop(automaton, stdscr, displaywidth, displayheight):
 		printAgent(stdscr, agent, displaywidth, displayheight)
 
 
+def debugUpdateDisplay(earth, book):
+	""" Display data relative to one iteration of the simulation's
+	automaton and agents.
+	earth	---> a birdcage automaton instance
+	book	---> a book of life dictionary containing birdcage Agent_2D
+					instances
+	"""
+	try:
+## SEE WHY ANNUM IS NEVER DISPLAYED!!!
+		print "the time now is \t", earth.annum
+		print "bast will now read the book of life"
+	except AttributeError:
+		print "Annum was not displayed. This is not an error during the initialization phase."
+#	# GOD.Organizer parses the whole length of taw
+#	for key in taw.keys():
+#		bast.readBookOfLife(taw[key])
+	# now display the BookEntries as they currently stand
+	print "the book of life, taw, reads:"
+	for key in book.keys():
+		print book[key]
+	print "\n"
+	print "there are "+str(len(book.keys()))+" creatures on kemet"
+	print "\n"	
+	print "the book has been read"
+	print "\n"
+
+
 def updateBackground(automaton, stdscr, displaywidth, displayheight):
 	"""this function is similar to updateLoop(), but only
 	updates the background. The method is only
@@ -102,6 +129,16 @@ def updateBackground(automaton, stdscr, displaywidth, displayheight):
 			printIcon(automaton, stdscr, (x,y))
 
 
+def debugUpdateBackground(earth):
+	""" Display data relative to one iteration of the simulation's
+	automaton.
+	earth	---> a birdcage automaton instance
+	"""
+	print "\n"
+	print "the time now is \t", earth.annum
+	print "\n"
+
+
 def updateAgent(agent, stdscr, displaywidth, displayheight):
 	"""Update the visualization of a single agent. This method is only
 	used in the threaded version of the simulation
@@ -112,6 +149,18 @@ def updateAgent(agent, stdscr, displaywidth, displayheight):
 	"""
 
 	printAgent(stdscr, agent, displaywidth, displayheight)
+
+
+def debugUpdateAgent(agent):
+	"""Display data relative to the actualization of a single birdcage
+	agent. This method is only used in the threaded version of the
+	simulation.
+	agent			---> a birdcage Agent_2D instance
+	"""
+	print "\n"
+	print "the current book of life's entry reads:"
+	print agent.fatum
+	print "\n"
 
 
 def updateLoopTranslucent(automaton, stdscr, displaywidth, displayheight):

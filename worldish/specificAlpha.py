@@ -79,7 +79,7 @@ agentsDelay	= .13
 
 # The display
 
-# Display type ('curses' or 'pygame')
+# Display type ('curses', 'pygame' or 'debug')
 displayType = 'curses'
 
 # The criterion function

@@ -16,6 +16,16 @@ import sys
 import os
 from getopt import *
 
+# Now try to import birdcage.specific in order to read the default specificity,
+# the failsafe being Alpha.
+
+try:
+	from birdcage import specific
+except ImportError:
+	specific.specificity = "Alpha"
+	print "birdcage.specific not available, setting specific = Alpha."
+
+
 # The following two constants define the options and longoptions available.
 # They must be hardcoded somewhere, as the config scripts will be loaded
 # according to the options used. However, the options must be processed
@@ -29,21 +39,34 @@ longOptions	= ["specificity="]
 optionList, arguments = gnu_getopt(sys.argv[1:], options, longOptions)
 sys.argv = [sys.argv[0]] + arguments
 
-# Now the optionList will be parsed. 
-# For now we are only looking for the specificity so a placeholder for the variable must exist.
 
-specificity = "Alpha"
+# Try to read birdcage.specific.specificity, with Alpha as failsafe.
+
+try:
+	specificity = specific.specificity
+except AttributeError:
+	specificity = "Alpha"
+	print "birdcage.specific must have an attribute specificity, which defaults to alpha."
+
+
+# Now the optionList will be parsed. 
+# For now we are only looking for the specificity.
 
 for option in optionList:
 	if option[0] == "--specificity": specificity = option[1].capitalize()
-	else: specificity = "Alpha"
 
 # NOTE that all other options are being ignored.
+
+
+# If all else fails, make sure the specificity attribute of this module is sane
+# (as it will be read by other modules) before using it to load the config file.
 
 try:
 	specific = __import__("specific" + specificity)
 except (ImportError, NameError, TypeError):
-	specific = __import__("specificAlpha")
+	specificity = "Alpha"
+	specific = __import__("specific"+specificity)
+	print "Error importing specificX, defaulting to specificAlpha."
 
 # Now the specificity has been loaded.
 

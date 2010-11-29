@@ -46,8 +46,8 @@ import sound
 
 
 # This refers to a configuration file which stores information such as
-# automaton self.size, seed genome, number of iterations, etc. Feel free to
-# write your own.
+# automaton self.size, seed genome, number of iterations, etc. Feel free
+# to write your own.
 specificity = sys.modules["__main__"].specificity
 specific = __import__("specific"+specificity)
 
@@ -71,7 +71,7 @@ def startExecutionNormal():
 	# services; it guarantees that the terminal will not be left
 	# stranded in an ocean of insanity if the program terminates
 	# exceptionally. If Pygame is used a new display window is opened.
-	if specific.displayType == 'pygame':
+	if specific.displayType == 'pygame' or specific.displayType == 'debug':
 		main(None)
 	elif specific.displayType == 'curses':
 		curses.wrapper(main)
@@ -234,7 +234,7 @@ class ThreadedSequence(object):
 			# Generate a curses display.
 			self.display = aset.generateDisplay(self.kemet, self.size, stdscr)
 		else:
-			self.display = aset.generateDisplay(self.kemet, self.size, None)
+			self.display = aset.generateDisplay(self.kemet, self.size, self.taw)
 
 		# Set some initial data for sound control.
 		sound.setInitialData(self.size)
@@ -293,8 +293,7 @@ class ThreadedSequence(object):
 					# Read the agent's bookentry
 					self.bast.readBookOfLife(entry)
 					# Refresh the agent's visualization.
-					self.bast.refreshAgent(entry.agent,
-											self.display)
+					self.bast.refreshAgent(entry, self.display)
 					# If the agent was born or ate, make the appropriate
 					#sound.
 					if self.birth == 1:
@@ -333,8 +332,7 @@ class ThreadedSequence(object):
 					newBorn.setDaemon(True)
 					newBorn.start()
 				# Refresh the agent's visualization.
-				self.bast.refreshAgent(entry.agent,
-										self.display)
+				self.bast.refreshAgent(entry, self.display)
 				# If the agent was born or ate, make the appropriate
 				# sound.
 				if self.birth == 1:
@@ -408,8 +406,7 @@ class ThreadedSequence(object):
 						####
 						####
 						else:
-							self.bast.refreshAgent(self.taw[key].agent,
-													self.display)
+							self.bast.refreshAgent(self.taw[key], self.display)
 						# If the agent was born or ate, make the appropriate
 						#sound.
 						if self.birth == 1:

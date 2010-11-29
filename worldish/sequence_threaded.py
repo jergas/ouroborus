@@ -53,8 +53,9 @@ def startExecutionNormal():
 	# curses.wrapper is the kosher way to fire up curses visual
 	# services; it guarantees that the terminal will not be left
 	# stranded in an ocean of insanity if the program terminates
-	# exceptionally. If Pygame is used a new display window is opened.
-	if specific.displayType == 'pygame':
+	# exceptionally. If Pygame or debug are used, the curses.wrapper
+	# hides the output, so it is not used.
+	if specific.displayType == 'pygame' or specific.displayType == 'debug':
 		main(None)
 	elif specific.displayType == 'curses':
 		curses.wrapper(main)
@@ -187,7 +188,7 @@ class ThreadedSequence(object):
 			# Generate a curses display.
 			self.display = aset.generateDisplay(self.kemet, self.size, stdscr)
 		else:
-			self.display = aset.generateDisplay(self.kemet, self.size, None)
+			self.display = aset.generateDisplay(self.kemet, self.size, self.taw)
 
 		# Set some initial data for sound control.
 		sound.setInitialData(self.size)
@@ -286,7 +287,7 @@ class ThreadedSequence(object):
 			# appropriate sound.
 			else:
 				# Update the agent in the display.
-				self.bast.refreshAgent(self.currentEntry.agent, self.display)
+				self.bast.refreshAgent(self.currentEntry, self.display)
 				# If the agent is born or eats, then make the appropriate
 				# sound.
 				if self.birth == 1:

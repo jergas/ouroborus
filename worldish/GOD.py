@@ -62,7 +62,7 @@ class Generator:
 		"""Create a Generator instance
 
 		obstetrix ---> a string to head all generated filenames"""
-		
+
 		self.specific = __import__("specific"+specificity)
 		self.obstetrics = 0
 		self.obstetrix = obstetrix
@@ -276,6 +276,15 @@ class Generator:
 		screen = v.pygGenerateDisplay(size, "birdcage reloaded")
 		v.pygUpdateBackground(earth, self.criterion, size)
 
+
+	def generateDisplayDebug(self, earth, size, book):
+		"""Initialise a debug display.
+		earth  ---> a birdcage automaton
+		"""
+		# run the display refresh cycle as initialisation
+		seed = earth.returnTopology().random()
+		earth.set(seed,1)
+		v.debugUpdateDisplay(earth, book)
 
 
 
@@ -519,6 +528,13 @@ class Organizer:
 		v.pygUpdateBackground(self.earth, self.criterion, self.size)
 
 
+	def refreshDisplayDebug(self, display):
+		""" Display the automaton and agents data after a whole
+		self.earth iteration.
+		"""
+		v.debugUpdateDisplay(self.earth, self.book)
+
+
 	def refreshBackgroundCurses(self, display):
 		"""Refresh the background of a display on a curses terminal
 
@@ -545,8 +561,17 @@ class Organizer:
 
 		v.pygUpdateBackground(self.earth, self.criterion, self.size)
 
-	def refreshAgentCurses(self, agent, display):
-		"""Refresh the background of a display on a curses terminal
+
+	def refreshBackgroundDebug(self):
+		""" Display the automaton data after a whole self.earth
+		iteration.
+		"""
+		v.debugUpdateBackground(self.earth)
+
+
+
+	def refreshAgentCurses(self, entry, display):
+		"""Refresh the image of an agent on a curses terminal
 
 		display       ---> a 3-tuple as follows:
 						(stdscr, displaywidth, displayheight)
@@ -554,13 +579,13 @@ class Organizer:
 		displaywidth  ---> the integer width of the curses terminal
 		displayheight ---> the integer height of the curses terminal
 		return        -->> 1"""
-
+		agent = entry.agent
 		v.updateAgent(agent, display[0], display[1], display[2])
 		display[0].refresh()
 
 
-	def refreshAgentPygame(self, agent, display):
-		"""Refresh the background of a display on a curses terminal
+	def refreshAgentPygame(self, entry, display):
+		"""Refresh the image of an agent on in the pygame viewer
 
 		display       ---> a 3-tuple as follows:
 						(stdscr, displaywidth, displayheight)
@@ -568,5 +593,11 @@ class Organizer:
 		displaywidth  ---> the integer width of the curses terminal
 		displayheight ---> the integer height of the curses terminal
 		return        -->> 1"""
-
+		agent = entry.agent
 		v.pygDrawAgent(agent)
+
+
+	def refreshAgentDebug(self, agent, display):
+		"""Report the status of an agent in the debug viewer mode.
+		"""
+		v.debugUpdateAgent(agent)
