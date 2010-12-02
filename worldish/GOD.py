@@ -429,8 +429,8 @@ class Organizer:
 	def grantPrayerGrantChild(self, bookentry):
 		"""Make a new entry for an agent which has reproduced
 
-		return -->> 1"""
-
+		return -->> a string, the agent child's name
+		"""
 		# the Generator compiles the new module and writes it in the book
 		code = bookentry.fatum["code"]
 		child = self.book[self.generator.generateGenotype(code, self.book)]
