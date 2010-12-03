@@ -8,12 +8,12 @@ cellular automaton grid can be thought of as a number of things, depending on
 one's focus. Thus agents are:
 
 1) a string containing a sequence of letter groupings codifying genetic 
-information, i.e. a genome.
+information, i.e. a genome,
 2) a script in Pyrex with some executable code written from the genome. Python 
-imports this into the runtime envirnoment, i.e. a module.
+imports this into the runtime envirnoment, i.e. a module,
 3) a dictionary-type object, with various attributes such as name, genome, 
 module, grid address and so on, i.e. a bookentry in a list which is an attribute
-of GOD.Organizer
+of GOD.Organizer, or,
 4) a birdcage agent object which is called by GOD.Organizer through the
 bookentry.
 
@@ -31,25 +31,38 @@ Technical Details
 The GOD module consists of three main objects, Generator, Organizer and 
 Destroyer. The Generator is in charge of initialising everything and the 
 Destroyer's role is left as an exercise to the reader. (A very trivial one.) It 
-is the Organizer which concerns us here, as it manages a list of bookentries, called book (of life) through which it interprets the agent's messages to the world around them. 
+is the Organizer which concerns us here, as it manages a list of bookentries, 
+called book (of life) through which it interprets the agent's messages to the 
+world around them. 
 
-An agent's bookentry is a complex data type which includes the following information:
+An agent's bookentry is a complex data type which includes the following 
+information:
 
-a) name - a sequential name for each agent 
-b) modulename - a name for the strain; this is the same as 'name' if individual compilation is selected
-c) module - the pyrex module object imported into the python runtime environmente
-d) agent - the corresponding birdcage automaton object
-e) automaton - the birdcage automaton object which is the agent's environment.
-f) fatum - a python dictionary which contains miscellaneous information
+a) name - a sequential name for each agent, 
+b) modulename - a name for the strain, this is the same as 'name' if individual 
+compilation is selected,
+c) module - the pyrex module object imported into the python runtime 
+environment,
+d) agent - the corresponding birdcage agent object,
+e) automaton - the birdcage automaton object which is the agent's environment, 
+and, 
+f) fatum - a python dictionary which contains miscellaneous information.
 
-Among this 'miscellaneous information' there is an all-important datum, under the key 'prayer'. The associated value is a string which contains the agent's intention as it projects out to the world. As this is written in GOD.Organizer's book, this superior entity acknowledges the agents' prayers and grants them by calling the corresponding methods. This in turn normally involves calling the agent's own methods (decoded from its genome and written in its pyrex module) which will return a string to be written in the bookentry's fatum as the next prayer, and so forth until the end of the execution cycle.
+Among this 'miscellaneous information' there is an all-important datum, under 
+the key 'prayer'. The associated value is a string which contains the agent's 
+intention as it projects out to the world. As this is written in GOD.Organizer's
+book, this superior entity acknowledges the agents' prayers and grants them by 
+calling the corresponding methods. This, in turn, normally involves calling the 
+agent's own methods (decoded from its genome and written in its pyrex module), 
+which will return a string to be written in the bookentry's fatum as the next 
+prayer, and so forth until the end of the execution cycle.
 
 All the prayers have corresponding methods in the Organizer. Their names are 
 prefixed by the string "grantPrayer" followed by the prayer name. These methods 
-are called through introspection (using the getattr function) by the readBookOfLife
-method of the Organizer. It is important to notice that the prayer method in 
-question is being called and returned simultaneously by the readBookofLife 
-method's return statement.
+are called through introspection (using the getattr function) by the 
+readBookOfLife method of the Organizer. It is important to notice that the 
+prayer method in question is being called and returned simultaneously by the 
+readBookofLife method's return statement.
 
 So far, the following prayers have been implemented:
 
@@ -57,8 +70,8 @@ So far, the following prayers have been implemented:
 This prayer should be set when an agent is first created, i.e. at the beginning 
 of the simulation (this prayer's equivalent once the simulation is running is
 GrantChild). It populates the new agent's bookentry. In doing that it sets its
-prayer to BeBirthed. 'Phenotypical' characteristics are also set here (currently,
-only the voice coloration and pitch range).
+prayer to BeBirthed. 'Phenotypical' characteristics are also set here 
+(currently, only the voice coloration and pitch range).
 
 2) BeBirthed
 This method takes the newly created agent and makes it live, that is, it
@@ -68,7 +81,12 @@ prayer to Live.
 
 3) Live
 This is the default prayer, it executes the main loop of the agent, so to speak.
-(The agents don't actually have a main loop, but more on this later.)
+(The agents don't actually have a main loop, but more on this later.) Then, in 
+case they changed during the former's execution, it updates the 'prana' and 
+'address' values in the agent's bookentry.fatum dictionary. It also checks if 
+the music is on and if the agent has eaten, in which case it sets the 
+fatum["voice"] object's 'ate' attribute to '1', so that the appropiate sound 
+gets 'rendered'.
 
 4) GrantChild
 This prayer is a request for reproduction. It resets the parent's prayer to 
@@ -84,3 +102,14 @@ This prayer is a destructor method, so to speak, it should contain everything
 needed to properly erase (or kill) an agent. For obvious reasons, this is the
 only prayer, apart from Live, that doesn't need to reset the calling agent's 
 prayer.
+
+The Live prayer deserves special notice because of its singular method of 
+execution. The method GOD.Organizer.grantPrayerLive calls the agentLive method 
+of the agent's own BookEntry. The first thing the latter method does is call the
+'live' method of the module object, which is referenced by the bookentry's 
+'module' attribute; since this is all happening in the agent's BookEntry, 
+the module can be accessed through the self parameter. Of course, this means 
+that any valid genome, when compiled, must implement the live function. This 
+function must accept exactly one parameter, a birdcage agent object, and must be
+passed the agent itself when called, so that the agent may know things about 
+itself as it carries on the business of living.

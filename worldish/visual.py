@@ -9,6 +9,7 @@ import sys
 def setCursesColors(mana, agents, background):
 	""" Set the curses colours.
 	"""
+	
 	curses.init_pair(1, curses.COLOR_RED, curses.COLOR_BLACK)
 	curses.init_pair(2, getattr(curses, agents), getattr(curses, background))
 	curses.init_pair(3, getattr(curses, mana), getattr(curses, background))
@@ -21,6 +22,7 @@ def icon(i):
 	i      ---> an integer, the cell's state
 	return -->> a character: either dot or space.
 	"""
+	
 	if i:
 		return ord(",")
 	else:
@@ -34,6 +36,7 @@ def printIcon(automaton, stdscr, address):
 	stdscr    ---> a curses stdscr object
 	address   ---> a 2-tuple, a cell in the c.a. grid
 	"""
+	
 	(x,y) = address
 	stdscr.addch(y, x, icon(automaton.get(address)), curses.color_pair(3))
 
@@ -46,6 +49,7 @@ def printAgent(stdscr, agent, displaywidth, displayheight):
 	displaywidth  ---> an integer
 	displayheight ---> an integer
 	"""
+	
 	corporality = agent.tellCorporality()
 	for address in corporality:
 		(x,y) = address
@@ -61,6 +65,7 @@ def printTranslucentAgent(stdscr, agent, displaywidth, displayheight, automaton)
 	displaywidth  ---> an integer
 	displayheight ---> an integer
 	"""
+	
 	corporality = agent.tellCorporality()
 	for address in corporality:
 		(x,y) = address
@@ -78,40 +83,50 @@ def updateLoop(automaton, stdscr, displaywidth, displayheight):
 	displaywidth  ---> an integer
 	displayheight ---> an integer
 	"""
-	for x in range(displaywidth):
-		for y in range(displayheight):
-			printIcon(automaton, stdscr, (x,y))
-
+	
+	updateBackground(automaton, stdscr, displaywidth, displayheight)
 	agents = automaton.tellAgents()
 
 	for agent in agents:
 		printAgent(stdscr, agent, displaywidth, displayheight)
 
 
-def debugUpdateDisplay(earth, book):
+def updateLoopTranslucent(automaton, stdscr, displaywidth, displayheight):
+	""" Update the curses display
+
+	automaton     ---> a birdcage automaton instance
+	stdscr        ---> a curses stdscr object
+	displaywidth  ---> an integer
+	displayheight ---> an integer
+     """
+
+	updateBackground(automaton, stdscr, displaywidth, displayheight)
+	agents = automaton.tellAgents()
+
+	for agent in agents:
+		printTranslucentAgent(stdscr, agent, displaywidth, displayheight, automaton)
+
+
+def debugUpdateDisplay(annum, book):
 	""" Display data relative to one iteration of the simulation's
 	automaton and agents.
-	earth	---> a birdcage automaton instance
+
+	annum	---> the number of iterations that the automaton has
+					undergone
 	book	---> a book of life dictionary containing birdcage Agent_2D
 					instances
 	"""
-	try:
-## SEE WHY ANNUM IS NEVER DISPLAYED!!!
-		print "the time now is \t", earth.annum
-		print "bast will now read the book of life"
-	except AttributeError:
-		print "Annum was not displayed. This is not an error during the initialization phase."
-#	# GOD.Organizer parses the whole length of taw
-#	for key in taw.keys():
-#		bast.readBookOfLife(taw[key])
-	# now display the BookEntries as they currently stand
-	print "the book of life, taw, reads:"
+
+	debugUpdateBackground(annum)
+	
+	print "The organizer will now read the book of life..."
+	print "There are "+str(len(book.keys()))+" creatures on this worldish:"
+	
+	# Display the BookEntries as they currently stand.
 	for key in book.keys():
 		print book[key]
-	print "\n"
-	print "there are "+str(len(book.keys()))+" creatures on kemet"
-	print "\n"	
-	print "the book has been read"
+		
+	print "The book has been read."
 	print "\n"
 
 
@@ -124,19 +139,21 @@ def updateBackground(automaton, stdscr, displaywidth, displayheight):
 	displaywidth  ---> an integer
 	displayheight ---> an integer
 	"""
+	
 	for x in range(displaywidth):
 		for y in range(displayheight):
 			printIcon(automaton, stdscr, (x,y))
 
 
-def debugUpdateBackground(earth):
+def debugUpdateBackground(annum):
 	""" Display data relative to one iteration of the simulation's
 	automaton.
-	earth	---> a birdcage automaton instance
+	annum	---> the number of iterations that the automaton has
+					undergone
 	"""
+	
 	print "\n"
-	print "the time now is \t", earth.annum
-	print "\n"
+	print "The time now is \t", annum
 
 
 def updateAgent(agent, stdscr, displaywidth, displayheight):
@@ -151,35 +168,16 @@ def updateAgent(agent, stdscr, displaywidth, displayheight):
 	printAgent(stdscr, agent, displaywidth, displayheight)
 
 
-def debugUpdateAgent(agent):
+def debugUpdateAgent(entry):
 	"""Display data relative to the actualization of a single birdcage
 	agent. This method is only used in the threaded version of the
 	simulation.
-	agent			---> a birdcage Agent_2D instance
+	entry			---> the agent's bookentry
 	"""
+	
+	print "The following agent is being updated:"
+	print entry
 	print "\n"
-	print "the current book of life's entry reads:"
-	print agent.fatum
-	print "\n"
-
-
-def updateLoopTranslucent(automaton, stdscr, displaywidth, displayheight):
-	""" Update the curses display
-
-	automaton     ---> a birdcage automaton instance
-	stdscr        ---> a curses stdscr object
-	displaywidth  ---> an integer
-	displayheight ---> an integer
-     """
-
-	for x in range(displaywidth):
-		for y in range(displayheight):
-			printIcon(automaton, stdscr, (x,y))
-
-	agents = automaton.tellAgents()
-
-	for agent in agents:
-		printTranslucentAgent(stdscr, agent, displaywidth, displayheight, automaton)
 
 ####################################################################
 
@@ -188,6 +186,7 @@ def identity(state):
 	state display. It most only be used if cells only take alive (anything) 
 	or dead (0) values.
 	"""
+	
 	return state
 	
 ####################################################################
@@ -198,6 +197,7 @@ def pygGenerateDisplay(size, caption, zoom=12):
 	format (i.e. "Title") to be displayed
 	as the window title.
 	"""
+	
 	pygame.init()
 	global screen
 	screen = pygame.display.set_mode((zoom*size[0],zoom*size[1]))
@@ -211,6 +211,7 @@ def pygUpdateBackground(automaton, criterion, size, zoom=12, output='buffer.tiff
 	criterion -> A function which evaluates cell states to True of False
 	size      -> A tuple in the format (width,height)
 	"""
+	
 	# Maka a new image.
 	picture = Image.new("RGB", size)
 	draw = ImageDraw.Draw(picture)
@@ -246,6 +247,7 @@ def pygDrawAgent(agent,agentImg='agent.png',output= 'buffer.tiff',zoom =12):
 	corporality (position) of an agent, an agent image file (3x3px) and an
 	output image to draw the agent on.
 	"""
+	
 	picture = Image.open(output)
 	agentImg = Image.open(agentImg)
 	address = agent.tellAddress()
@@ -271,7 +273,9 @@ def pygDrawAgent(agent,agentImg='agent.png',output= 'buffer.tiff',zoom =12):
 
 
 def pygViewClose(self):
-	'''Closes the pygame window when the close button is pressed. It also enables and disables fullscreen when F-key is pressed'''
+	'''Closes the pygame window when the close button is pressed. 
+	It also enables and disables fullscreen when F-key is pressed'''
+	
 	#Check if close button is pressed and close the program
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT: sys.exit()

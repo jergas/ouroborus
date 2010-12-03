@@ -40,8 +40,9 @@ class BookEntry:
 		self.fatum = {"prayer":"BeBirthed"}
 		self.automaton = None
 
+
 	def __str__(self):
-		display = ["Name of entry in BOL: "+self.name, "Strain: "+self.modulename, "Entry's fatum:"]
+		display = [self.name+", of strain "+self.modulename+" has the following fatum:"]
 		display.extend(["\t"+str(key)+":\t"+str(value) for key,value in self.fatum.items()])
 		return string.join(display, "\n")
 
@@ -64,6 +65,7 @@ class BookEntry:
 		self.agent = self.module.birth(automaton, code, prana, mana, address)
 		self.automaton = automaton
 
+
 	def agentLive(self):
 		"""Call on the agent to perform its live method
 
@@ -78,6 +80,7 @@ class BookEntry:
 			if self.agent.hasEaten():
 				self.fatum["voice"].ate = 1
 		return 1
+
 
         def terminateAgent(self):
                 """Terminate the agent at its life's end

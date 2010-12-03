@@ -122,6 +122,7 @@ class Generator:
 
 		# This function is a placeholder, the actual function is assigned to 
 		# this name in Generator.__init__(). The following line is a failsafe.
+		print "A failsafe generateGenotype has been used. This should not happen!"
 		return getattr(self, "generateGenotype"+self.specific.compiling, "generateGenotypeIndividualCompile")(poeio, ode)
 		
 
@@ -284,7 +285,7 @@ class Generator:
 		# run the display refresh cycle as initialisation
 		seed = earth.returnTopology().random()
 		earth.set(seed,1)
-		v.debugUpdateDisplay(earth, book)
+		v.debugUpdateDisplay(0, book)
 
 
 
@@ -299,8 +300,8 @@ class Organizer:
 
 		earth       ---> some complete birdcage Automaton instance
 		book        ---> a dictionary of agent code objects (genotypes)
-		specificity ---> the suffix of a configuration module"""
-
+		specificity ---> the suffix of a configuration module
+		"""
 		self.specific = __import__("specific"+specificity)
 		self.earth = earth
 		self.generator = None
@@ -532,7 +533,7 @@ class Organizer:
 		""" Display the automaton and agents data after a whole
 		self.earth iteration.
 		"""
-		v.debugUpdateDisplay(self.earth, self.book)
+		v.debugUpdateDisplay(self.annum, self.book)
 
 
 	def refreshBackgroundCurses(self, display):
@@ -566,7 +567,7 @@ class Organizer:
 		""" Display the automaton data after a whole self.earth
 		iteration.
 		"""
-		v.debugUpdateBackground(self.earth)
+		v.debugUpdateBackground(self.annum)
 
 
 
@@ -597,7 +598,7 @@ class Organizer:
 		v.pygDrawAgent(agent)
 
 
-	def refreshAgentDebug(self, agent, display):
+	def refreshAgentDebug(self, entry, display):
 		"""Report the status of an agent in the debug viewer mode.
 		"""
-		v.debugUpdateAgent(agent)
+		v.debugUpdateAgent(entry)

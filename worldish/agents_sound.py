@@ -34,6 +34,13 @@ class VocalTract(object):
 		self.ate		= 0
 
 
+	def __str__(self):
+		""" Prints the class's relevant data, i.e. the attributes that
+		make a particular voice unique.
+		"""
+		display = "Vocal tract formant deviations(A,I,O): ("+str(self.ADeviation)+","+str(self.IDeviation)+","+str(self.ODeviation)+")"
+		return display
+
 	def birthSound(self, perf):
 		""" Generates the sound that an agent does at birth.
 		perf	---> a Csound performance thread

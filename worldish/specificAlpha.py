@@ -80,7 +80,7 @@ agentsDelay	= .13
 # The display
 
 # Display type ('curses', 'pygame' or 'debug')
-displayType = 'curses'
+displayType = 'debug'
 
 # The criterion function
 # (a function which evaluates a cell's state for display,
