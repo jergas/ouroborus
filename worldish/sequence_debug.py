@@ -30,8 +30,11 @@ import random
 import sys
 import time
 
-specificity = "Delta"
+specificity = sys.modules["__main__"].specificity
 specific = __import__("specific"+specificity)
+#specificity = "Delta"
+#specific = __import__("specific"+specificity)
+
 # This refers to a configuration file which stores information such as automaton size, seed 
 # genome, number of iterations, etc. feel free to write your own
 
@@ -53,6 +56,7 @@ def startExecutionNormal():
 	return -->> 1"""
 
 	print "Ready for execution. Warning: DEBUG MODE! no sound or visual effects"
+	print "Specificity is " + specificity
 
 	aset = GOD.Generator(specific.name, specificity)
 	print "Instatiated a Generator called aset."

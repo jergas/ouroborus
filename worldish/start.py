@@ -16,14 +16,15 @@ import sys
 import os
 from getopt import *
 
+
 # Now try to import birdcage.specific in order to read the default specificity,
 # the failsafe being Alpha.
 
-try:
-	from birdcage import specific
-except ImportError:
-	specific.specificity = "Alpha"
-	print "birdcage.specific not available, setting specific = Alpha."
+#try:
+from birdcage import specific
+#except ImportError:
+#	specific.specificity = "Alpha"
+#	print "birdcage.specific not available, setting specific = Alpha."
 
 
 # The following two constants define the options and longoptions available.
@@ -31,22 +32,23 @@ except ImportError:
 # according to the options used. However, the options must be processed
 # after the config is loaded, so that its values may be modified accordingly.
 
-options		= ""
+options		= "s,"
 longOptions	= ["specificity="]
 
 # Now the options are parsed:
 
 optionList, arguments = gnu_getopt(sys.argv[1:], options, longOptions)
+print optionList
 sys.argv = [sys.argv[0]] + arguments
 
 
 # Try to read birdcage.specific.specificity, with Alpha as failsafe.
 
-try:
-	specificity = specific.specificity
-except AttributeError:
-	specificity = "Alpha"
-	print "birdcage.specific must have an attribute specificity, which defaults to alpha."
+#try:
+#	specificity = specific.specificity
+#except AttributeError:
+#	specificity = "Alpha"
+#	print "birdcage.specific must have an attribute specificity, which defaults to alpha."
 
 
 # Now the optionList will be parsed. 
