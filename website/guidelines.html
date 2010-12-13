@@ -276,6 +276,14 @@ the obvious.
 <p><code>""" This is an example docstring. The closing quotations are on an independent line.<br>
 """</code></p>
 </li>
+<li>After the docstring comment, indicate the input and output of the function. Input and output names shoulod be in an ordered list, followed by "--->" (inputs) or -->> (outputs), and a small comment explaining what the input/ouput is, e.g.(the underscores represent whitespace):
+<p><code>def myFunction(word, dictionary):<br>
+""" This unnecesary function looks for a word in a dictionary.<br>
+	word__________---> a string<br>
+	dictionary____---> a dictionary<br>
+	return________-->> an entry<br>
+"""</code></p>
+</li>
 </ol>
 </div>
 
