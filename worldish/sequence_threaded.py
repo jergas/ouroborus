@@ -106,7 +106,7 @@ def main(stdscr):
 	except KeyboardInterrupt:
 		sound.stopSoundServer()
 	finally:
-		if specific.debugOutputToFile == True:
+		if specific.debugOutputToFile == True and specific.displayType == 'debug':
 			os.system("nano " + specific.debugFileName)
 
 	# Do some cleaunup.
