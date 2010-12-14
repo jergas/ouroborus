@@ -106,12 +106,16 @@ def main(stdscr):
 	except KeyboardInterrupt:
 		sound.stopSoundServer()
 	finally:
+	
+		# Do some cleaunup.
+		sound.stopSoundServer()
+		del sys.argv[1:]
+	
 		if specific.debugOutputToFile == True and specific.displayType == 'debug':
 			os.system("nano " + specific.debugFileName)
-
-	# Do some cleaunup.
-	sound.stopSoundServer()
-	del sys.argv[1:]
+		elif specific.displayType == 'curses':
+			time.sleep(.5)
+			os.system("reset")
 	print "Done"
 	return 1
 
