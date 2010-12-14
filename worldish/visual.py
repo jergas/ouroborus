@@ -107,27 +107,44 @@ def updateLoopTranslucent(automaton, stdscr, displaywidth, displayheight):
 		printTranslucentAgent(stdscr, agent, displaywidth, displayheight, automaton)
 
 
-def debugUpdateDisplay(annum, book):
+def debugUpdateDisplay(annum, book, debugFile):
 	""" Display data relative to one iteration of the simulation's
 	automaton and agents.
-
-	annum	---> the number of iterations that the automaton has
-					undergone
-	book	---> a book of life dictionary containing birdcage Agent_2D
-					instances
+	annum		---> the number of iterations that the automaton has
+						undergone
+	book		---> a book of life dictionary containing birdcage Agent_2D
+						instances
+	debugFile	---> the output file
 	"""
+	# If there is a debug file, write the output in it. Otherwise,
+	# output to screen.
+	if debugFile:
+		debugFile.write('#' * 14 + 'Automaton and agents will now be refreshed.' + '#' * 14 + '\n' + '#' * 72 + '\n')
 
-	debugUpdateBackground(annum)
-	
-	print "The organizer will now read the book of life..."
-	print "There are "+str(len(book.keys()))+" creatures on this worldish:"
-	
-	# Display the BookEntries as they currently stand.
-	for key in book.keys():
-		print book[key]
+		debugUpdateBackground(annum, debugFile)
+
+		debugFile.write("The organizer will now read the book of life...\n")
+		debugFile.write("There are " + str(len(book.keys())) + " creatures on this worldish:\n")
 		
-	print "The book has been read."
-	print "\n"
+		# Display the BookEntries as they currently stand.
+		for key in book.keys():
+			debugFile.write('\n' + str(book[key]) + '\n')
+			
+		debugFile.write("The book has been read.")
+		debugFile.write("\n")
+		debugFile.write('#' * 72 + '\n' + '#' * 72 + '\n')
+	else:
+		debugUpdateBackground(annum, debugFile)
+		
+		print "The organizer will now read the book of life..."
+		print "There are "+str(len(book.keys()))+" creatures on this worldish:"
+		
+		# Display the BookEntries as they currently stand.
+		for key in book.keys():
+			print book[key]
+			
+		print "The book has been read."
+		print "\n"
 
 
 def updateBackground(automaton, stdscr, displaywidth, displayheight):
@@ -145,15 +162,18 @@ def updateBackground(automaton, stdscr, displaywidth, displayheight):
 			printIcon(automaton, stdscr, (x,y))
 
 
-def debugUpdateBackground(annum):
+def debugUpdateBackground(annum, debugFile):
 	""" Display data relative to one iteration of the simulation's
 	automaton.
 	annum	---> the number of iterations that the automaton has
 					undergone
+	debugFile	---> the output file
 	"""
-	
-	print "\n"
-	print "The time now is \t", annum
+	if debugFile:
+		debugFile.write("\nThe time now is \t" + str(annum) + '\n')
+	else:
+		print "\n"
+		print "The time now is \t", annum
 
 
 def updateAgent(agent, stdscr, displaywidth, displayheight):
@@ -167,17 +187,24 @@ def updateAgent(agent, stdscr, displaywidth, displayheight):
 
 	printAgent(stdscr, agent, displaywidth, displayheight)
 
-
-def debugUpdateAgent(entry):
+'A single agent will be updated.'
+def debugUpdateAgent(entry, debugFile):
 	"""Display data relative to the actualization of a single birdcage
 	agent. This method is only used in the threaded version of the
 	simulation.
 	entry			---> the agent's bookentry
+	debugFile	---> the output file
 	"""
-	
-	print "The following agent is being updated:"
-	print entry
-	print "\n"
+	if debugFile:
+		debugFile.write('-' * 20 + 'A single agent will be updated.' + '-' * 20 + '\n')
+		debugFile.write("\nThe following agent is being updated:")
+		debugFile.write('\n' + str(entry) + '\n')
+		debugFile.write("\n")
+		debugFile.write('-' * 72 + '\n')
+	else:
+		print "The following agent is being updated:"
+		print entry
+		print "\n"
 
 ####################################################################
 

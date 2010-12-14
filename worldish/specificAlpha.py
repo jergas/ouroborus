@@ -79,8 +79,13 @@ agentsDelay	= .13
 
 # The display
 
-# Display type ('curses', 'pygame' or 'debug')
+# Display type ('curses', 'pygame', 'debug', 'debugFile')
 displayType = 'debug'
+
+# If debugFile = True, record the simulation's output in
+# debug_output.txt.
+debugOutputToFile = True
+debugFileName = 'debug_output.txt'
 
 # The criterion function
 # (a function which evaluates a cell's state for display,

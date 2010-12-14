@@ -50,6 +50,12 @@ except ImportError:
 # anything extra goes here
 import random
 
+# If instructed to by the configuration file, open a file to output to.
+if specific.debugOutputToFile:
+	debugOutputToFile = open(specific.debugFileName, 'w')
+else:
+	debugOutputToFile = None
+
 
 
 class Generator:
@@ -285,7 +291,7 @@ class Generator:
 		# run the display refresh cycle as initialisation
 		seed = earth.returnTopology().random()
 		earth.set(seed,1)
-		v.debugUpdateDisplay(0, book)
+		v.debugUpdateDisplay(0, book, debugOutputToFile)
 
 
 
@@ -532,8 +538,9 @@ class Organizer:
 	def refreshDisplayDebug(self, display):
 		""" Display the automaton and agents data after a whole
 		self.earth iteration.
+		display	---> the input is syntactically needed, but not used
 		"""
-		v.debugUpdateDisplay(self.annum, self.book)
+		v.debugUpdateDisplay(self.annum, self.book, debugOutputToFile)
 
 
 	def refreshBackgroundCurses(self, display):
@@ -544,8 +551,8 @@ class Organizer:
 		stdscr        ---> a curses standard screen object
 		displaywidth  ---> the integer width of the curses terminal
 		displayheight ---> the integer height of the curses terminal
-		return        -->> 1"""
-
+		return        -->> 1
+		"""
 		v.updateBackground(self.earth, display[0], display[1], display[2])
 		display[0].refresh()
 
@@ -558,8 +565,8 @@ class Organizer:
 		stdscr        ---> a curses standard screen object
 		displaywidth  ---> the integer width of the curses terminal
 		displayheight ---> the integer height of the curses terminal
-		return        -->> 1"""
-
+		return        -->> 1
+		"""
 		v.pygUpdateBackground(self.earth, self.criterion, self.size)
 
 
@@ -567,8 +574,7 @@ class Organizer:
 		""" Display the automaton data after a whole self.earth
 		iteration.
 		"""
-		v.debugUpdateBackground(self.annum)
-
+		v.debugUpdateBackground(self.annum, debugOutputToFile)
 
 
 	def refreshAgentCurses(self, entry, display):
@@ -600,5 +606,7 @@ class Organizer:
 
 	def refreshAgentDebug(self, entry, display):
 		"""Report the status of an agent in the debug viewer mode.
+		entry	---> a bookOfLife entry
+		display	---> the input is syntactically needed, but not used
 		"""
-		v.debugUpdateAgent(entry)
+		v.debugUpdateAgent(entry, debugOutputToFile)
