@@ -79,7 +79,7 @@ agentsDelay	= .13
 
 # The display
 
-# Display type ('curses', 'pygame', 'debug', 'debugFile')
+# Display type ('curses', 'pygame', 'debug')
 displayType = 'debug'
 
 # If debugFile = True, record the simulation's output in

@@ -17,6 +17,7 @@
 # Python's native libraries
 import curses
 import operator
+import os
 import random
 import sys
 import threading
@@ -104,6 +105,9 @@ def main(stdscr):
 		simulation.join()
 	except KeyboardInterrupt:
 		sound.stopSoundServer()
+	finally:
+		if specific.debugOutputToFile == True:
+			os.system("nano " + specific.debugFileName)
 
 	# Do some cleaunup.
 	sound.stopSoundServer()
