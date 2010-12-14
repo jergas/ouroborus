@@ -42,7 +42,7 @@ simWithAgents	= True
 
 avatars = 3
 # Number of agents at start
-doomsday = 1000
+doomsday = 10
 # Number of iterations to run through
 seed = ("Random",1)
 
@@ -80,7 +80,7 @@ agentsDelay	= .13
 # The display
 
 # Display type ('curses', 'pygame', 'debug')
-displayType = 'debug'
+displayType = 'curses'
 
 # If debugFile = True, record the simulation's output in
 # debug_output.txt.
