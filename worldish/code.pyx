@@ -1,13 +1,10 @@
+# This file contains the dictionary that defines the genetic system.
+# The system is a dictionary, where every genetic word corresponds to a line of
+# code. This dictionary must always implement the 'boilerplate' key. This
+# special word is fixed, always included first by default, and cannot mutate.
+# It would make no sense for the initial imports and setup to mutate.
 
-
-
-
-
-
-
-tabula = {'Yi':'import birdcage.topology as topology; import birdcage.neighborhood as neighborhood; import birdcage.agent as agent',
-          'Yc':'corporality = neighborhood.MooreNeighborhood',
-          'Ys':'sensoriality = neighborhood.MooreNeighborhood',
+tabula = {'boilerplate':'import birdcage.topology as topology; import birdcage.neighborhood as neighborhood; import birdcage.agent as agent; corporality = neighborhood.MooreNeighborhood; sensoriality = neighborhood.MooreNeighborhood',
           'Cb':'def birth(earth, code, prana, mana, address):',
           'Cd':'  myself = agent.Agent_2D(code,corporality(earth.returnTopology()),sensoriality(earth.returnTopology()),prana,mana,address)',
           'Cr':'  return myself',

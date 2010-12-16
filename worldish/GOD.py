@@ -12,6 +12,8 @@ import birdcage.automaton as automaton
 import birdcage.genome as g
 import visual as v
 from code import tabula, tabula_antica
+if hasattr(specific, 'boilerplate'):
+	tabula['boilerplate'] = specific.boilerplate
 
 # the following core birdcage modules's location 
 # can be configured in the specificity file

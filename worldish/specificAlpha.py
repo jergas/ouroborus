@@ -29,11 +29,15 @@ automaton = ("SynchronousAutomaton_2D", )
 compiling = "MassCompile"
 
 name = "heru"
-seedCode = "Yi Yc Ys Cb Cd Cr Ld Lp Lm Ll Le Iy Ir Ip Ix Ik Lr Md Mf Ma Mr Rd Rl"
+seedCode = "Cb Cd Cr Ld Lp Lm Ll Le Iy Ir Ip Ix Ik Lr Md Mf Ma Mr Rd Rl"
 prana = 22
 mana = 1
 
 simWithAgents	= True
+
+# If you need to change code.tabula['boilerplate'], uncomment and edit the 
+# following variable.
+# boilerplate = 'import birdcage.topology as topology; import birdcage.neighborhood as neighborhood; import birdcage.agent as agent; corporality = neighborhood.MooreNeighborhood; sensoriality = neighborhood.MooreNeighborhood'
 
 
 ############
