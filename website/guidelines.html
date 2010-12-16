@@ -32,20 +32,20 @@
 
 <ol>
 <li>Module names
-	<p><code>my_name.py</code></p></li>
+	<p class="plainstart"><code>my_name.py</code></p></li>
 
 <li>Imported modules
-	<p>It is desirable to do this:<br>
+	<p class="plainstart">It is desirable to do this:<br />
 	<code>import module_name as moduleName</code> (lower camelCase)</p></li>
 
 <li>Class names<br>
-	<p><code>MyClass()</code> (CamelCase plus parenthesis)<p></li>
+	<p class="plainstart"><code>MyClass()</code> (CamelCase plus parenthesis)<p></li>
 
 <li>Method names
-	<p><code>myFunction()</code> (lower camelCase plus parenthesis)</p></li>
+	<p class="plainstart"><code>myFunction()</code> (lower camelCase plus parenthesis)</p></li>
 
 <li>Variable Names
-	<p><code>myVariable</code> (lower camelCase)</p></li>
+	<p class="plainstart"><code>myVariable</code> (lower camelCase)</p></li>
 </ol>
 </div>
 	
@@ -105,12 +105,12 @@
 	<p>Put any relevant __all__ specification after the imports.</p>
 </li>
 <li>When importing a class from a class-containing module, it's usually okay to spell this:
-	<p><code>from myclass import MyClass</code></p>
-	<p><code>from foo.bar.yourclass import YourClass</code></p></li>
+	<p class="plainstart"><code>from myclass import MyClass</code></p>
+	<p class="plainstart"><code>from foo.bar.yourclass import YourClass</code></p></li>
 	<p>If this spelling causes local name clashes, then spell them:</p>
-	<p><code>import myclass</code></p>
-	<p><code>import foo.bar.yourclass</code></p>
-	<p>and use <code>myclass.MyClass</code> and <code>foo.bar.yourclass.YourClass</code></p>
+	<p class="plainstart"><code>import myclass</code></p>
+	<p class="plainstart"><code>import foo.bar.yourclass</code></p>
+	<p class="plainstart">and use<br><code>myclass.MyClass</code><br>and<br><code>foo.bar.yourclass.YourClass</code></p>
 </li>
 
 </div>
@@ -208,10 +208,10 @@
 	<p>Definitely not:<br>
 	<code>if foo == 'blah': do_blah_thing()<br>
 	else: do_non_blah_thing()</p>
-	<p>try: something()<br>
+	<p class="plainstart"><code>try: something()</code><br>
 	finally: cleanup()</p>
-	<p>do_one(); do_two(); do_three(long, argument, list, like, this)</p>
-	<p>if foo == 'blah': one(); two(); three()</code></p>
+	<p class="plainstart"><code>do_one(); do_two(); do_three (long, argument, list, like, this)</code></p>
+	<p class="plainstart"><code>if foo == 'blah': one(); two(); three()</code></p>
 </li>
 </ol>
 </div>
@@ -219,7 +219,7 @@
 <div class="section" id="comments">
 <h3><a name="comments"></a>Comments</h3>
 <ol>
-<li>Comments that contradict the code are worse than no comments.  Always makea priority of keeping the comments up-to-date when the code changes!
+<li>Comments that contradict the code are worse than no comments.  Always make a priority of keeping the comments up-to-date when the code changes!
 </li>
 <li>Comments should be complete sentences.  If a comment is a phrase or sentence, its first word should be capitalized, unless it is an identifier that begins with a lower case letter (never alter the case of identifiers!).
 </li>
@@ -273,15 +273,15 @@ the obvious.
 <li>Write docstrings for all public modules, functions, classes, and methods. Docstrings are not necessary for non-public methods, but you should have a comment that describes what the method does.  This comment should appear after the "def" line.
 </li>
 <li>Note that most importantly, the """ that ends a multiline docstring should be on a line by itself, e.g.:
-<p><code>""" This is an example docstring. The closing quotations are on an independent line.<br>
+<p class="plainstart"><code>""" This is an example docstring. The closing quotations are on an independent line.<br>
 """</code></p>
 </li>
 <li>After the docstring comment, indicate the input and output of the function. Input and output names shoulod be in an ordered list, followed by "--->" (inputs) or -->> (outputs), and a small comment explaining what the input/ouput is, e.g.(the underscores represent whitespace):
-<p><code>def myFunction(word, dictionary):<br>
+<p class="plainstart"><code>def myFunction(word, dictionary):<br>
 """ This unnecesary function looks for a word in a dictionary.<br>
-	word__________---> a string<br>
-	dictionary____---> a dictionary<br>
-	return________-->> an entry<br>
+	word__________---> a string to be looked-up in a dictionary<br>
+	dictionary____---> a python dictionary<br>
+	return________-->> the word's entry<br>
 """</code></p>
 </li>
 </ol>

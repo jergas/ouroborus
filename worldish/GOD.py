@@ -291,7 +291,7 @@ class Generator:
 		# run the display refresh cycle as initialisation
 		seed = earth.returnTopology().random()
 		earth.set(seed,1)
-		v.debugUpdateDisplay(0, book, debugOutputToFile)
+		v.debugUpdateDisplay(1, book, debugOutputToFile)
 
 
 

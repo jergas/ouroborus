@@ -93,9 +93,9 @@ def main(stdscr):
 		x.setDaemon(True)
 		x.start()
 	voicesControl.setDaemon(True)
+	voicesControl.start()
 	background.setDaemon(True)
 	agents.setDaemon(True)
-	voicesControl.start()
 	simulation.start()
 	background.start()
 	agents.start()
@@ -276,7 +276,7 @@ class ThreadedSequence(object):
 			# Update the audio
 			sound.inputDataControl(self.kemet)
 			self.bckgrndThreadCondition.release()
-
+		self.simulationOn = False
 
 	def agentsLoop(self):
 		""" Deals with drawing of agents and with their sound.
@@ -307,3 +307,4 @@ class ThreadedSequence(object):
 					time.sleep(random.uniform(0.1, 0.2))
 			self.agentThreadCondition.wait()
 			self.agentThreadCondition.release()
+		self.simulationOn = False

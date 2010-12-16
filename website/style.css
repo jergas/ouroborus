@@ -6,14 +6,20 @@ position: relative;
 }
 				
 div.section {
-margin: 2em;
-width: 60%;
+margin-left: 2em;
+width: 80%;
+margin-right: -4000px;
+}
+
+div#naming {
+width: 100%;
+margin-right: -4000px;
 }
 
 div#logo {
 position: relative;
-left: 250px;
-top: 70px;
+left: 50px;
+top: 220px;
 margin-left: -200px;
 float: right;
 }
@@ -52,7 +58,48 @@ text-align: right;
 
 p.plainstart:first-letter {
 font-weight: normal;
+font-size: 14px;
+color: #9ec1d1;
 letter-spacing: 0px;
+}
+
+code:first-letter {
+font-weight: normal;
+font-size: 104px;
+color: #9ec1d1;
+letter-spacing: 0px;
+}
+
+li:first-letter {
+font-weight: bold;
+letter-spacing: 3px;
+font-size: 18px;
+color: #9ec1d1;
+font-family: Georgia serif;
+inherit: none;
+}
+
+li li:first-letter {
+font-weight: normal;
+font-size: 14px;
+color: #9ec1d1;
+letter-spacing: 0px;
+}
+
+h2:first-letter {
+font-weight: bold;
+letter-spacing: 3px;
+font-size: 36px;
+font-family: Georgia serif;
+inherit: none;
+}
+
+h3:first-letter {
+font-weight: bold;
+letter-spacing: 3px;
+font-size: 28px;
+font-family: Georgia serif;
+inherit: none;
 }
 
 p:first-letter {
@@ -60,7 +107,8 @@ font-weight: bold;
 letter-spacing: 3px;
 font-size: 18px;
 color: #9ec1d1;
-font-family: Monotype Corsiva;
+font-family: Georgia serif;
+inherit: none;
 }
 
 a:hover.menu {
@@ -77,7 +125,15 @@ padding: 3px;
 }
 
 a:link {
-color: #33ffff;
+color: #33ffff;li:first-letter {
+font-weight: bold;
+letter-spacing: 3px;
+font-size: 18px;
+color: #9ec1d1;
+font-family: Georgia serif;
+inherit: none;
+}
+
 }
 
 a:visited {

@@ -6,8 +6,8 @@
 
 
 tabula = {'Yi':'import birdcage.topology as topology; import birdcage.neighborhood as neighborhood; import birdcage.agent as agent',
-          'Yc':'corporality = neighborhood.VonNeumannNeighborhood',
-          'Ys':'sensoriality = neighborhood.VonNeumannNeighborhood',
+          'Yc':'corporality = neighborhood.MooreNeighborhood',
+          'Ys':'sensoriality = neighborhood.MooreNeighborhood',
           'Cb':'def birth(earth, code, prana, mana, address):',
           'Cd':'  myself = agent.Agent_2D(code,corporality(earth.returnTopology()),sensoriality(earth.returnTopology()),prana,mana,address)',
           'Cr':'  return myself',

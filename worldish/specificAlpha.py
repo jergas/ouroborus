@@ -42,7 +42,7 @@ simWithAgents	= True
 
 avatars = 3
 # Number of agents at start
-doomsday = 100
+doomsday = 500
 # Number of iterations to run through
 seed = ("Random",1)
 
@@ -119,6 +119,9 @@ criterionLocation = "v"
 ############
 
 # The sound preferences:
+
+# Decide whether the simulation will have sound or not.
+soundOn = True
 
 # Partials per background voice (minimum 1 maximum 13)
 backgroundPartials = 13
