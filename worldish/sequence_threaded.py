@@ -112,7 +112,7 @@ def main(stdscr):
 		del sys.argv[1:]
 	
 		if specific.debugOutputToFile == True and specific.displayType == 'debug':
-			os.system("nano " + specific.debugFileName)
+			os.system("editor " + specific.debugFileName)
 		elif specific.displayType == 'curses':
 			time.sleep(.5)
 			os.system("reset")

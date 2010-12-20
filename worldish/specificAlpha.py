@@ -84,7 +84,7 @@ agentsDelay	= .13
 # The display
 
 # Display type ('curses', 'pygame', 'debug')
-displayType = 'curses'
+displayType = 'debug'
 
 # If debugFile = True, record the simulation's output in
 # debug_output.txt.
@@ -125,7 +125,7 @@ criterionLocation = "v"
 # The sound preferences:
 
 # Decide whether the simulation will have sound or not.
-soundOn = True
+soundOn = False
 
 # Partials per background voice (minimum 1 maximum 13)
 backgroundPartials = 13

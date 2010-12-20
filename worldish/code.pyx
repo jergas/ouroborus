@@ -4,7 +4,12 @@
 # special word is fixed, always included first by default, and cannot mutate.
 # It would make no sense for the initial imports and setup to mutate.
 
-tabula = {'boilerplate':'import birdcage.topology as topology; import birdcage.neighborhood as neighborhood; import birdcage.agent as agent; corporality = neighborhood.MooreNeighborhood; sensoriality = neighborhood.MooreNeighborhood',
+tabula = {'boilerplate':'''# This agent's genome is compiled with the tabula system
+import birdcage.topology as topology 
+import birdcage.neighborhood as neighborhood 
+import birdcage.agent as agent 
+corporality = neighborhood.MooreNeighborhood
+sensoriality = neighborhood.MooreNeighborhood''',
           'Cb':'def birth(earth, code, prana, mana, address):',
           'Cd':'  myself = agent.Agent_2D(code,corporality(earth.returnTopology()),sensoriality(earth.returnTopology()),prana,mana,address)',
           'Cr':'  return myself',
