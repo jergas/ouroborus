@@ -1,27 +1,59 @@
+"""GOD stands for Generator, Organizer and Destroyer. This module contains
+3 classes whose methods and attributes relate to the execution and 
+orchestration of the various components of an Ouroborus AL world, such as
+the backdrop cellular automaton, the agents who inhabit it, and the sound
+and visual display through which humans perceive it."""
+
+"""The actual execution flow is defined in a different module called 
+sequence_threaded, sequence_experimental, or in general sequence_x. Such
+a module calls the objects defined in GOD. GOD lies therefore at the very
+crux of the matter, as it puts together relatively low level objects of
+many different sorts, and defines ways to handle them from a high level
+perspective."""
+
+"""GOD was created by a list of creatures including Ernesto Illescas, 
+Jergas Apwith and Sat Tara Singh."""
+
 # import all the necessary modules:
 import sys
+import random
 
-# the specificity is needed for the some of the imports
+# specificity is a module containing parameters which define many aspects
+# of the AL world, i.e. it acts like a config file. There can be any 
+# number of specificity files, and the choice of which one to use is 
+# made at the sequence_x module. It is imported here under the variable
+# name specific
 specificity = sys.modules["__main__"].specificity
 specific = __import__("specific"+specificity)
 
-# these are the core birdcage modules:
+# the following are the core birdcage modules which are necessary to
+# setup the backdrop cellular automaton, and the agents which 
+# populate the AL world:
 import birdcage.topology as topology
 import birdcage.agent as a
 import birdcage.automaton as automaton
 import birdcage.genome as g
-import visual as v
-from code import tabula, tabula_antica
+# the following modules' location is configured in the specificity file.
+# The standard versions can be found in the birdcage directory and
+# have names like birdcage.neighborhood, alternate verions  of these
+# modules can be found in the circadian directory under the same 
+# filenames; others may exist in the future.
+neighborhood = __import__(specific.neighborhood[2], fromlist=[''])
+rule = __import__(specific.rule[2], fromlist=[''])
+# WARNING: This use of the fromlist argument is a hack,
+# it depends on some weird behaviour in the api,
+# and thus might break unexpectedly in the future
+
+# These modules live in the local directory
+import visual as v # the visual representation of the world
+from code import tabula # encoding the agent's genetics
+
+# Add a fixed header-like section to the tabula encoding the
+# worlds' genetics and therefore the agents' genome. This is taken
+# from the specificity file and contains a list of imports.
 if hasattr(specific, 'boilerplate'):
 	tabula['boilerplate'] = specific.boilerplate
 
-# the following core birdcage modules's location 
-# can be configured in the specificity file
-neighborhood = __import__(specific.neighborhood[2], fromlist=[''])
-rule = __import__(specific.rule[2], fromlist=[''])
-# this use of the fromlist argument is a hack,
-# it depends on some weird behaviour in the api,
-# and thus might break unexpectedly in the future
 
 
 try:
@@ -49,8 +81,6 @@ try:
 except ImportError:
 	print "WARNING: genome compilation disabled"
 
-# anything extra goes here
-import random
 
 # If instructed to by the configuration file, open a file to output to.
 if specific.debugOutputToFile:
