@@ -16,9 +16,6 @@ setup(name='Birdcage',
       package_dir = {'birdcage':'.'},
       py_modules = ['birdcage.specific'],
       cmdclass = {'build_ext': build_ext},
-# We don't want for the moment all the extensions in the birdcage directory :(
-# unless we write a __init__ maybe later. Also the CAPITALS where used 'cause when I installed
-# all the packages in the same dir begin with Capital or were all CAPITAL names.
       ext_package = 'birdcage', 
       ext_modules = [Extension('agent', ['agent.pyx']),
                      Extension('automaton', ['automaton.pyx']),

@@ -4,9 +4,6 @@
 # It was written in Pyrex 0.9.6 on February 25th 2008
 # by Jergas. Love is the Law, Love under Will!
 
-# This Pyrex code has been compiled on an Ubuntu system
-# using the gcc compiler, and run from Python 2.5 
-
 # A Genome should contain all the information necesary
 # to create an agent and animate it, as well as the
 # information it needs to reproduce.
@@ -85,7 +82,10 @@ cdef class Genome:
 
           cdef int i
           cdef object code
-          code = ""
+          
+          # The boilerplate must be defined as a key in the genomic table,
+          # or as a variable in the specificity.
+          code = self.table["boilerplate"] + "\n"
 
           for i in range(0,len(self.text),self.wordlength):
               code = code + self.pyx_decode(self.pyx_readWord(i)) + "\n"
