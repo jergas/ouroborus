@@ -54,7 +54,10 @@ from code import tabula # encoding the agent's genetics
 if hasattr(specific, 'boilerplate'):
 	tabula['boilerplate'] = specific.boilerplate
 
-
+#
+if specific.debugOutputToFile:
+	sys.stdout = specific.debugFile
+	sys.stderr = specific.debugFile
 
 try:
 	# other ouroborus core modules
@@ -83,10 +86,9 @@ except ImportError:
 
 
 # If instructed to by the configuration file, open a file to output to.
-if specific.debugOutputToFile:
-	debugOutputToFile = open(specific.debugFileName, 'w')
-else:
-	debugOutputToFile = None
+#	specific.debugFile = open(specific.debugFileName, 'w')
+#else:
+#	specific.debugFile = None
 
 
 
@@ -198,7 +200,7 @@ class Generator:
 		commandLineArgs = ['build_ext', '--inplace']
 		sys.argv.extend(commandLineArgs)
 		# send gcc's output to a file instead of the terminal
-		sys.stdout = file("dump.txt","w")
+#		sys.stdout = file("dump.txt","w")
 		# and the actual call to the compiler using the Pyrex build_ext command
 		distutils.core.setup(
 			name = onoma,
@@ -206,7 +208,7 @@ class Generator:
 			cmdclass = {'build_ext':build_ext}
 			) 
 		# restore the standard output to its default
-		sys.stdout = sys.__stdout__
+#		sys.stdout = sys.__stdout__
 		# bring the command line back to its original condition
 		del sys.argv[-2:]
 
@@ -253,7 +255,7 @@ class Generator:
 			commandLineArgs = ['build_ext', '--inplace']
 			sys.argv.extend(commandLineArgs)
 			# send gcc's output to a file instead of the terminal
-			sys.stdout = file("dump.txt","w")
+#			sys.stdout = file("dump.txt","w")
 			# and the actual call to the compiler using the Pyrex build_ext command
 			distutils.core.setup(
 				name = strain,
@@ -261,7 +263,7 @@ class Generator:
 				cmdclass = {'build_ext':build_ext}
 				) 
 			# restore the standard output to its default
-			sys.stdout = sys.__stdout__
+#			sys.stdout = sys.__stdout__
 			# bring the command line back to its original condition
 			del sys.argv[-2:]
 
@@ -323,7 +325,7 @@ class Generator:
 		# run the display refresh cycle as initialisation
 		seed = earth.returnTopology().random()
 		earth.set(seed,1)
-		v.debugUpdateDisplay(1, book, debugOutputToFile)
+		v.debugUpdateDisplay(1, book, specific.debugFile)
 
 
 
@@ -572,7 +574,7 @@ class Organizer:
 		self.earth iteration.
 		display	---> the input is syntactically needed, but not used
 		"""
-		v.debugUpdateDisplay(self.annum, self.book, debugOutputToFile)
+		v.debugUpdateDisplay(self.annum, self.book, specific.debugFile)
 
 
 	def refreshBackgroundCurses(self, display):
@@ -606,7 +608,7 @@ class Organizer:
 		""" Display the automaton data after a whole self.earth
 		iteration.
 		"""
-		v.debugUpdateBackground(self.annum, debugOutputToFile)
+		v.debugUpdateBackground(self.annum, specific.debugFile)
 
 
 	def refreshAgentCurses(self, entry, display):
@@ -641,4 +643,4 @@ class Organizer:
 		entry	---> a bookOfLife entry
 		display	---> the input is syntactically needed, but not used
 		"""
-		v.debugUpdateAgent(entry, debugOutputToFile)
+		v.debugUpdateAgent(entry, specific.debugFile)

@@ -90,6 +90,14 @@ displayType = 'debug'
 # debug_output.txt.
 debugOutputToFile = True
 debugFileName = 'debug_output.txt'
+# If true, output all system messages to debug_output.txt.
+sysOutToFile =True
+
+# If debugOutputToFile is true, then open a file to contain all output.
+if debugOutputToFile:
+	debugFile = open(debugFileName, 'w')
+else:
+	debugFile = False
 
 # The criterion function
 # (a function which evaluates a cell's state for display,

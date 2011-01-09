@@ -59,6 +59,12 @@ if specific.logging:
 	logging.basicConfig(filename=LOG_FILENAME,level=logging.DEBUG, filemode='w')
 
 	logging.debug('This message should go to the log file')
+	
+# If instructed by the configuration file, enable system output to be
+# printed to file. 
+if specific.sysOutToFile:
+	sys.stdout = specific.debugFile
+	sys.stderr = specific.debugFile
 
 
 def startExecutionNormal():

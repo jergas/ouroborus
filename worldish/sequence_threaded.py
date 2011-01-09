@@ -43,6 +43,12 @@ specific = __import__("specific"+specificity)
 if specific.logging:
 	logging = open(specific.logFile, 'w')
 
+# If instructed by the configuration file, enable system output to be
+# printed to file. 
+if specific.sysOutToFile:
+	sys.stdout = specific.debugFile
+	sys.stderr = specific.debugFile
+
 
 def startExecutionNormal():
 	""" Start normal execution cycle with sound and visual display.
