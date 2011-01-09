@@ -38,7 +38,10 @@ class VocalTract(object):
 		""" Prints the class's relevant data, i.e. the attributes that
 		make a particular voice unique.
 		"""
-		display = "Vocal tract formant deviations(A,I,O): ("+str(self.ADeviation)+","+str(self.IDeviation)+","+str(self.ODeviation)+")"
+#		display = "Vocal tract formant deviations(A,I,O): ("+str(self.ADeviation)+","+str(self.IDeviation)+","+str(self.ODeviation)+")"
+		display = '%s%.2f%s%.2f%s%.2f%s' %("Vocal tract formant deviations(A,I,O): (",
+									self.ADeviation, ", ", self.IDeviation,
+									", ", self.ODeviation, ')')
 		return display
 
 	def birthSound(self, perf):
