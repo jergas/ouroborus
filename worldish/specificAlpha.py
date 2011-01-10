@@ -84,14 +84,16 @@ agentsDelay	= .13
 # The display
 
 # Display type ('curses', 'pygame', 'debug')
-displayType = 'debug'
+displayType = 'curses'
 
 # If debugFile = True, record the simulation's output in
-# debug_output.txt.
+# debug_output.txt. SET debugOutputToFile OR sysOutToFile TO FALSE AT
+#YOUR OUN RISK!!!
 debugOutputToFile = True
+
 debugFileName = 'debug_output.txt'
 # If true, output all system messages to debug_output.txt.
-sysOutToFile =True
+sysOutToFile = True
 
 # If debugOutputToFile is true, then open a file to contain all output.
 if debugOutputToFile:

@@ -9,12 +9,12 @@ import threading
 import sys
 
 # Sound-related submodules.
-import background_sound as backgroundSound
+#import background_sound as backgroundSound
 import csnd_interface as csndInterface
-import sound_globals as soundGlobals
+#import sound_globals as soundGlobals
 
-# Instantiate the sound server class.
-SoundServer = csndInterface.SoundServer()
+## Instantiate the sound server class.
+#SoundServer = csndInterface.SoundServer()
 
 
 specificity = sys.modules["__main__"].specificity
@@ -24,13 +24,13 @@ specific = __import__("specific"+specificity)
 
 if specific.soundOn:
 
-#	# Sound-related submodules.
-#	import background_sound as backgroundSound
+	# Sound-related submodules.
+	import background_sound as backgroundSound
 #	import csnd_interface as csndInterface
-#	import sound_globals as soundGlobals
+	import sound_globals as soundGlobals
 	
-#	# Instantiate the sound server class.
-#	SoundServer = csndInterface.SoundServer()
+	# Instantiate the sound server class.
+	SoundServer = csndInterface.SoundServer()
 
 	# Import the agent's sound module and methods, except when a simulation
 	# lacks agents.
@@ -132,6 +132,9 @@ if specific.soundOn:
 
 
 else:
+	# Instantiate the sound server class.
+	SoundServer = csndInterface.DummyServer()
+
 	# Import the agent's sound module and methods, except when a simulation
 	# lacks agents.
 
@@ -167,7 +170,7 @@ else:
 	def startSoundServer():
 		"""Starts the sound server.
 		"""
-		SoundServer.initCSnd(specific.csOptions, specific.backgroundPartials)
+		SoundServer.blankInit()
 
 
 	def backgroundVoices():

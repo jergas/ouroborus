@@ -42,3 +42,13 @@ class SoundServer(object):
 		self.perf.Stop()
 		self.perf.Join()
 		self.cSnd.cleanup()
+
+
+class DummyServer(object):
+	"""This class substitutes SoundServer() when the simulation lacks
+	sound.
+	"""
+	def blankInit(self):
+		"""This does nothing.
+		"""
+		pass

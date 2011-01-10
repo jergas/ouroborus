@@ -262,8 +262,9 @@ class ThreadedSequence(object):
 			# Test if the Csound performance-thread is still running, and
 			# break the simulation loop if not (solves the interruption
 			# bug).
-			if sound.SoundServer.perf.GetStatus():
-				break
+			if specific.soundOn:
+				if sound.SoundServer.perf.GetStatus():
+					break
 		self.simulationOn = False
 		sound.stopSoundServer()
 
