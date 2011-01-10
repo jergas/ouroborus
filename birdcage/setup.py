@@ -7,7 +7,7 @@ else:
 	from Pyrex.Distutils import build_ext
 
 setup(name='Birdcage',
-      version='0.5.5',
+      version='1.0.0',
       description='Cellular Automata Engine',
       author='Sat Tara Singh Khalsa',
       author_email='sattara@guruarjan.com',
