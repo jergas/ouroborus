@@ -54,13 +54,10 @@ from code import tabula # encoding the agent's genetics
 if hasattr(specific, 'boilerplate'):
 	tabula['boilerplate'] = specific.boilerplate
 
-#
-if specific.debugOutputToFile:
-	sys.stdout = specific.debugFile
-	sys.stderr = specific.debugFile
-
+# The following suite of imports is pretty high-level and directly related
+# to the worldish simulation implemented mainly through this module
 try:
-	# other ouroborus core modules
+	# an encapsulation module to facilitate handling of agents
 	from bookentry import BookEntry
 	# these are the modules used for display
 	import curses as c
@@ -72,23 +69,26 @@ try:
 except ImportError:
 	print "WARNING: agent management, display or sound may not function correctly"
 
+# The following modules are needed for runtime compilation of the
+# agents' genomes. The default compiler is cython, but pyrex may be
+# used instead
 try:
-	# these are the ingredients for the Pyrex compile spell
-	import sys
 	import distutils.core 
 	from distutils.extension import Extension
-	if specific.compiler == "cython":
-		from Cython.Distutils import build_ext
-	else:
+	if specific.compiler == "pyrex":
 		from Pyrex.Distutils import build_ext
+	else:
+		from Cython.Distutils import build_ext
 except ImportError:
 	print "WARNING: genome compilation disabled"
 
 
-# If instructed to by the configuration file, open a file to output to.
-#	specific.debugFile = open(specific.debugFileName, 'w')
-#else:
-#	specific.debugFile = None
+# the debugOutputToFile flag is by default set to True on specificity files. 
+# It redirects all output to a logfile
+if specific.debugOutputToFile:
+	sys.stdout = specific.debugFile
+	sys.stderr = specific.debugFile
+
 
 
 
@@ -200,7 +200,8 @@ class Generator:
 		commandLineArgs = ['build_ext', '--inplace']
 		sys.argv.extend(commandLineArgs)
 		# send gcc's output to a file instead of the terminal
-#		sys.stdout = file("dump.txt","w")
+		if not specific.debugOutputToFile:
+			sys.stdout = file("dump.txt","w")
 		# and the actual call to the compiler using the Pyrex build_ext command
 		distutils.core.setup(
 			name = onoma,
@@ -208,7 +209,8 @@ class Generator:
 			cmdclass = {'build_ext':build_ext}
 			) 
 		# restore the standard output to its default
-#		sys.stdout = sys.__stdout__
+		if not specific.debugOutputToFile:
+			sys.stdout = sys.__stdout__
 		# bring the command line back to its original condition
 		del sys.argv[-2:]
 
@@ -255,7 +257,8 @@ class Generator:
 			commandLineArgs = ['build_ext', '--inplace']
 			sys.argv.extend(commandLineArgs)
 			# send gcc's output to a file instead of the terminal
-#			sys.stdout = file("dump.txt","w")
+			if not specific.debugOutputToFile:
+				sys.stdout = file("dump.txt","w")
 			# and the actual call to the compiler using the Pyrex build_ext command
 			distutils.core.setup(
 				name = strain,
@@ -263,7 +266,8 @@ class Generator:
 				cmdclass = {'build_ext':build_ext}
 				) 
 			# restore the standard output to its default
-#			sys.stdout = sys.__stdout__
+			if not specific.debugOutputToFile:
+				sys.stdout = sys.__stdout__
 			# bring the command line back to its original condition
 			del sys.argv[-2:]
 
