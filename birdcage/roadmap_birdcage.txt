@@ -15,7 +15,7 @@ are also welcome.
 
 VERSION		FEATURES							DEADLINE
 
-0.1 (DONE)	compiles fully in pyrex, supports all current automata		28 Feb 2005
+0.1 (DONE)	compiles fully in pyrex, supports all current automata		28 feb 2005
 
 0.2 (DONE)	creates buffer map using c int values, using a c array		-----------
 		supports only parity automaton
@@ -26,14 +26,14 @@ VERSION		FEATURES							DEADLINE
 0.4 (DROPPED)	clean-up and generalise code, include at least one other	-----------
 		automaton
 
-0.5 (DONE)	as 0.4 but resolve deprecated dependencies and compile in	1 Dec 2007
+0.5 (DONE)	as 0.4 but resolve deprecated dependencies and compile in	1 dec 2007
                 gcc
 
 0.6 (WORKING)	allow for robust genetics, feeding and asexual reproduction
 
 0.9		optimise all the logical functionalities currently in cage	-----------
 
-1.0		debugged release 						-----------
+1.0		debugged release 						20 dec 2010
 
 
 **** ToDo shortlist ****
@@ -138,3 +138,13 @@ DATE		EVENT		COMMENT
 28 may 2008	birdcage 0.5.5	The genome is dynamically compiled as a pyrex module.
 
 19 feb 2009	ouroborus 0.2.0	A genetically robust, GOD-centered architecture based on birdcage.
+
+11 ago 2009 	birdcage 0.9.4	Moved all non birdcage files to worldish and some extensive
+
+21 sep 2009	birdcage 0.9.5	Some initially steps to package in Debian, also fix install
+				version conflicts.
+
+05 oct 2009	birdcage 0.9.9	Added the option to use cyhton or pyrex, also final cleanup
+				required to relese version 1.
+
+20 dic 2010	birdcage 1.0	The first stable release is reached. 
