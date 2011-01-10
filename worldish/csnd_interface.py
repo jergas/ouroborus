@@ -2,10 +2,59 @@
 # It also contains the methods for preparing Csound for performance,
 # and to end the performance.
 
+# Python native libraries.
+import time
+import threading
+
 # Csound API library.
 import csnd
 # Sound-related submodules.
 import Csnd_data as CsndData
+
+class DummyPerf(object):
+	""" This class deals with ctrl^c when simulations lack sound.
+	"""
+	def __init__(self):
+		"""
+		"""
+		self.keyInterrupt = False
+
+
+	def sigIntCatcher(self):
+		""" Start a loop that catches a ctrl^c signal.
+		"""
+		while not self.keyInterrupt:
+			try:
+				time.sleep(0.1)
+			except KeyboardInterrupt:
+				break
+		self.keyInterrupt = True
+
+
+	def start(self):
+		""" Stop the ctrl^c signal catcher.
+		"""
+		dummyPerf = threading.Thread(target=self.sigIntCatcher)
+		dummyPerf.setDaemon(True)
+		dummyPerf.start()
+
+
+	def GetStatus(self):
+		if self.keyInterrupt:
+			exit = 1
+		else:
+			exit = 0
+		return exit
+		
+
+
+
+	def stop(self):
+		""" Stop the ctrl^c signal catcher.
+		"""
+		self.keyInterrupt = True
+
+
 
 class SoundServer(object):
 	"""This class functions as a Csound sound server.
@@ -48,7 +97,19 @@ class DummyServer(object):
 	"""This class substitutes SoundServer() when the simulation lacks
 	sound.
 	"""
-	def blankInit(self):
+	def __init__(self):
 		"""This does nothing.
 		"""
-		pass
+		self.perf = DummyPerf()
+
+
+	def start(self):
+		"""This does nothing.
+		"""
+		self.perf.start()
+
+
+	def stop(self):
+		"""This does nothing.
+		"""
+		self.perf.stop()

@@ -31,6 +31,7 @@ import curses
 import operator
 import os
 import random
+import signal
 import sys
 import threading
 import time
@@ -73,6 +74,7 @@ def startExecutionNormal():
 	return	-->> 1
 	"""
 	# Start the sound server.
+	signal.signal(signal.SIGINT, signal.SIG_DFL)
 	sound.startSoundServer()
 	# curses.wrapper is the kosher way to fire up curses visual
 	# services; it guarantees that the terminal will not be left

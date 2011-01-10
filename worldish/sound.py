@@ -168,9 +168,9 @@ else:
 		
 
 	def startSoundServer():
-		"""Starts the sound server.
+		"""Starts a dummy server that should catch interruptions.
 		"""
-		SoundServer.blankInit()
+		SoundServer.start()
 
 
 	def backgroundVoices():
@@ -181,7 +181,7 @@ else:
 		def dummy():
 			pass
 
-		for index in xrange(2):
+		for index in xrange(1):
 			threadName = 'BackgroundVoice' + str(index)
 			voice = threading.Thread(name=threadName,
 										target=dummy)
@@ -214,5 +214,5 @@ else:
 		background_sound.py. The latter causes the iteration of the
 		background sound loops (and thus its threads) to end.
 		"""
-		SoundServer.endCsnd()
-		soundGlobals.mainIterCycle = 0
+		SoundServer.stop()
+		#soundGlobals.mainIterCycle = 0

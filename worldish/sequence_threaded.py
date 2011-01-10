@@ -19,6 +19,7 @@ import curses
 import operator
 import os
 import random
+import signal
 import sys
 import threading
 import time
@@ -56,6 +57,7 @@ def startExecutionNormal():
 	return	-->> 1
 	"""
 	# Start the sound server.
+	signal.signal(signal.SIGINT, signal.SIG_DFL)
 	sound.startSoundServer()
 	# curses.wrapper is the kosher way to fire up curses visual
 	# services; it guarantees that the terminal will not be left
@@ -94,25 +96,25 @@ def main(stdscr):
 	voicesControl = sound.backgroundControl()
 
 	# Make all non-simulation threads daemonic, so that they won't
-	#prevent the simulation from exciting. Also start them.
-	for x in voices:
-		x.setDaemon(True)
-		x.start()
-	voicesControl.setDaemon(True)
-	voicesControl.start()
-	background.setDaemon(True)
-	agents.setDaemon(True)
-	simulation.start()
-	background.start()
-	agents.start()
-
-	# Wait until the simulation thread has finished.
+	#prevent the simulation from exciting. Start the threads.
 	try:
+		simulation.start()
+		for x in voices:
+			x.setDaemon(True)
+			x.start()
+		voicesControl.setDaemon(True)
+		background.setDaemon(True)
+		agents.setDaemon(True)
+		voicesControl.start()
+		background.start()
+		agents.start()
+	
+		# Wait until the simulation thread has finished.
 		simulation.join()
 	except KeyboardInterrupt:
 		sound.stopSoundServer()
+		os.system("reset")
 	finally:
-	
 		# Do some cleaunup.
 		sound.stopSoundServer()
 		del sys.argv[1:]
@@ -227,44 +229,46 @@ class ThreadedSequence(object):
 		"""The simulation's main iteration cycle happens here.
 		"""
 		# Main iteration cycle
-		while self.bast.annum < self.doomsday:
-			self.bckgrndThreadCondition.acquire()
-			# GOD.Organizer iterates the c.a.
-			self.bast.iterateAutomaton()
-			# Only do an audiovisual loop every simulationToAudiovisual
-			# iterations.
-			if not self.bast.annum % self.simulationToAudiovisual:
-				self.bckgrndThreadCondition.notify()
-			# GOD.Organizer parses the whole length of taw
-			for key in self.taw.keys():
-				self.agentThreadCondition.acquire()
-				self.birth	= 0
-				self.death	= 0
-				self.currentEntry = self.taw[key]
-				# If the agent is about to be born or to die, then record
-				# it.
-				if self.currentEntry.fatum["prayer"] == "BeBirthed":
-					self.birth = 1
-				if self.currentEntry.fatum["prayer"] == "KillMe":
-					self.death = 1
-				self.bast.readBookOfLife(self.currentEntry)
+		while self.bast.annum < self.doomsday and self.simulationOn:
+			try:
+				self.bckgrndThreadCondition.acquire()
+				# GOD.Organizer iterates the c.a.
+				self.bast.iterateAutomaton()
 				# Only do an audiovisual loop every simulationToAudiovisual
 				# iterations.
 				if not self.bast.annum % self.simulationToAudiovisual:
-					self.agentThreadCondition.notify()
-					self.agentThreadCondition.wait()
-				self.agentThreadCondition.release()
-			# Only do an audiovisual loop every simulationToAudiovisual
-			# iterations.
-			if not self.bast.annum % self.simulationToAudiovisual:
-				self.bckgrndThreadCondition.wait()
-			self.bckgrndThreadCondition.release()
-			# Test if the Csound performance-thread is still running, and
-			# break the simulation loop if not (solves the interruption
-			# bug).
-			if specific.soundOn:
+					self.bckgrndThreadCondition.notify()
+				# GOD.Organizer parses the whole length of taw
+				for key in self.taw.keys():
+					self.agentThreadCondition.acquire()
+					self.birth	= 0
+					self.death	= 0
+					self.currentEntry = self.taw[key]
+					# If the agent is about to be born or to die, then record
+					# it.
+					if self.currentEntry.fatum["prayer"] == "BeBirthed":
+						self.birth = 1
+					if self.currentEntry.fatum["prayer"] == "KillMe":
+						self.death = 1
+					self.bast.readBookOfLife(self.currentEntry)
+					# Only do an audiovisual loop every simulationToAudiovisual
+					# iterations.
+					if not self.bast.annum % self.simulationToAudiovisual:
+						self.agentThreadCondition.notify()
+						self.agentThreadCondition.wait()
+					self.agentThreadCondition.release()
+				# Only do an audiovisual loop every simulationToAudiovisual
+				# iterations.
+				if not self.bast.annum % self.simulationToAudiovisual:
+					self.bckgrndThreadCondition.wait()
+				self.bckgrndThreadCondition.release()
+				# Test if the Csound performance-thread is still running, and
+				# break the simulation loop if not (solves the interruption
+				# bug).
 				if sound.SoundServer.perf.GetStatus():
 					break
+			except KeyboardInterrupt:
+				self.simulationOn = False
 		self.simulationOn = False
 		sound.stopSoundServer()
 
@@ -275,15 +279,19 @@ class ThreadedSequence(object):
 		(width, height)	= self.size
 
 		while self.simulationOn:
-			self.bckgrndThreadCondition.acquire()
-			self.bckgrndThreadCondition.notify()
-			self.bckgrndThreadCondition.wait()
-			# Update the display
-			self.bast.refreshDisplay(self.display)
-			# Update the audio
-			sound.inputDataControl(self.kemet)
-			self.bckgrndThreadCondition.release()
+			try:
+				self.bckgrndThreadCondition.acquire()
+				self.bckgrndThreadCondition.notify()
+				self.bckgrndThreadCondition.wait()
+				# Update the display
+				self.bast.refreshDisplay(self.display)
+				# Update the audio
+				sound.inputDataControl(self.kemet)
+				self.bckgrndThreadCondition.release()
+			except KeyboardInterrupt:
+				self.simulationOn = False
 		self.simulationOn = False
+
 
 	def agentsLoop(self):
 		""" Deals with drawing of agents and with their sound.
@@ -292,26 +300,29 @@ class ThreadedSequence(object):
 		while self.bast.annum < 1:
 			time.sleep(.01)
 		while self.simulationOn:
-			self.agentThreadCondition.acquire()
-			self.agentThreadCondition.notify()
-			# If the current agent died, make the appropriate sound.
-			if self.death:
-				sound.agentDeath(self.currentEntry.fatum["voice"])
-				time.sleep(random.uniform(0.2, 0.4))
-			# Else refresh the agent's display and (possibly) make the
-			# appropriate sound.
-			else:
-				# Update the agent in the display.
-				self.bast.refreshAgent(self.currentEntry, self.display)
-				# If the agent is born or eats, then make the appropriate
-				# sound.
-				if self.birth == 1:
-					sound.agentBirth(self.currentEntry.fatum["voice"])
+			try:
+				self.agentThreadCondition.acquire()
+				self.agentThreadCondition.notify()
+				# If the current agent died, make the appropriate sound.
+				if self.death:
+					sound.agentDeath(self.currentEntry.fatum["voice"])
 					time.sleep(random.uniform(0.2, 0.4))
-				elif self.currentEntry.fatum["voice"].ate == 1:
-					sound.eatSound(self.currentEntry.fatum["voice"])
-					self.currentEntry.fatum["voice"].ate = 0
-					time.sleep(random.uniform(0.1, 0.2))
-			self.agentThreadCondition.wait()
-			self.agentThreadCondition.release()
+				# Else refresh the agent's display and (possibly) make the
+				# appropriate sound.
+				else:
+					# Update the agent in the display.
+					self.bast.refreshAgent(self.currentEntry, self.display)
+					# If the agent is born or eats, then make the appropriate
+					# sound.
+					if self.birth == 1:
+						sound.agentBirth(self.currentEntry.fatum["voice"])
+						time.sleep(random.uniform(0.2, 0.4))
+					elif self.currentEntry.fatum["voice"].ate == 1:
+						sound.eatSound(self.currentEntry.fatum["voice"])
+						self.currentEntry.fatum["voice"].ate = 0
+						time.sleep(random.uniform(0.1, 0.2))
+				self.agentThreadCondition.wait()
+				self.agentThreadCondition.release()
+			except KeyboardInterrupt:
+				self.simulationOn = False
 		self.simulationOn = False

@@ -46,7 +46,7 @@ simWithAgents	= True
 
 avatars = 3
 # Number of agents at start
-doomsday = 500
+doomsday = 200
 # Number of iterations to run through
 seed = ("Random",1)
 
