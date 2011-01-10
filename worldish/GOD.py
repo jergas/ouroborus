@@ -14,7 +14,7 @@ perspective."""
 """GOD was created by a list of creatures including Ernesto Illescas, 
 Jergas Apwith and Sat Tara Singh."""
 
-# import all the necessary modules:
+# import all the necessary modules, starting with some from the standard library
 import sys
 import random
 
@@ -49,7 +49,7 @@ import visual as v # the visual representation of the world
 from code import tabula # encoding the agent's genetics
 
 # Add a fixed header-like section to the tabula encoding the
-# worlds' genetics and therefore the agents' genome. This is taken
+# worlds' genetics and therefore the agents' genomes. This is taken
 # from the specificity file and contains a list of imports.
 if hasattr(specific, 'boilerplate'):
 	tabula['boilerplate'] = specific.boilerplate
