@@ -88,7 +88,7 @@ def main(mode = "Threaded", submode = "Normal"):
 			module = __import__("sequence_"+mode.lower())
 		except ImportError:
 			notify()
-			module = __import__("sequence_debug")
+			module = __import__("sequence_threaded")
 		function = getattr(module, "startExecution"+submode.capitalize(), module.startExecutionNormal)
 		return function
 		

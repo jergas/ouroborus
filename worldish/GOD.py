@@ -56,6 +56,7 @@ if hasattr(specific, 'boilerplate'):
 
 # The following suite of imports is pretty high-level and directly related
 # to the worldish simulation implemented mainly through this module
+
 try:
 	# an encapsulation module to facilitate handling of agents
 	from bookentry import BookEntry
@@ -70,15 +71,18 @@ except ImportError:
 	print "WARNING: agent management, display or sound may not function correctly"
 
 # The following modules are needed for runtime compilation of the
-# agents' genomes. The default compiler is cython, but pyrex may be
-# used instead
+# agents' genomes. The compiler, Pyrex or Cython, is defined in the
+# module birdcage.specific
 try:
-	import distutils.core 
+	import distutils.core
 	from distutils.extension import Extension
-	if specific.compiler == "pyrex":
-		from Pyrex.Distutils import build_ext
-	else:
-		from Cython.Distutils import build_ext
+	compiler = __import__(specific.compiler + ".Distutils", fromlist = "bollocks")
+	# This weird use of the fromlist argument derives from the way the import
+	# statement is defined in Python from the __import__ builtin function. In
+	# short, __import__ will return only the left-most module unless fromlist
+	# is passed as a non-empty argument
+	build_ext = compiler.build_ext
+
 except ImportError:
 	print "WARNING: genome compilation disabled"
 
@@ -261,7 +265,7 @@ class Generator:
 				sys.stdout = file("dump.txt","w")
 			# and the actual call to the compiler using the Pyrex build_ext command
 			distutils.core.setup(
-				name = strain,
+						name = strain,
 				ext_modules = [Extension(strain,[corpus])],
 				cmdclass = {'build_ext':build_ext}
 				) 

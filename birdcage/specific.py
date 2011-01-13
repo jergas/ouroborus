@@ -4,7 +4,7 @@
 
 # Choose the compiler to be used. Possible options are "cython" and
 # "pyrex".
-compiler = "pyrex"
+compiler = "Pyrex"
 
 # This is the default configuration file. The actual name of the file is
 # specificAlpha.py
