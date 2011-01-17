@@ -2,11 +2,12 @@
 # thing that gets loaded, so that the compilation and instalation of birdcage
 # could proceed automagically with the chosen compiler.
 
-# Choose the compiler to be used. Possible options are "cython" and
-# "pyrex". Question in the next line is written Uppercase or must be lower as 
-# in the comments above?
+# Choose the compiler to be used. Possible options are "Cython" and
+# "Pyrex".
 compiler = "Pyrex"
 
 # This is the default configuration file. The actual name of the file is
 # specificAlpha.py
 specificity = "Alpha"
+
+
