@@ -87,7 +87,7 @@ agentsDelay	= .13
 displayType = 'curses'
 
 # If debugFile = True, record the simulation's output in
-# debug_output.txt. SET debugOutputToFile OR sysOutToFile TO FALSE AT
+# debug_output.txt. IF displayType = CURSES OR PYGAME, SET debugOutputToFile OR sysOutToFile TO FALSE AT
 #YOUR OUN RISK!!!
 debugOutputToFile = True
 
@@ -135,7 +135,7 @@ criterionLocation = "v"
 # The sound preferences:
 
 # Decide whether the simulation will have sound or not.
-soundOn = False
+soundOn = True
 
 # Partials per background voice (minimum 1 maximum 13)
 backgroundPartials = 13
