@@ -302,7 +302,7 @@ class ThreadedSequence(object):
 		"""
 		# Make sure that simulationLoop() runs before this thread.
 		while self.bast.annum < 1:
-			time.sleep(.01)
+			time.sleep(self.agentsDelay)
 		while self.simulationOn:
 			# GOD.Organizer parses the whole length of taw.
 			for key in self.taw.keys():

@@ -65,18 +65,18 @@ agentThreads	= 'custom'
 
 # Number of agent-managing threads. This option only works if
 # agentThreads	= 'custom'
-agentThreadsNumber = 4
+agentThreadsNumber = 3
 
 # This option is the delay time (in seconds)between one annum and the
 # next one. The option only works if the attribute threadedAgents is set
 # to true (and this is congruent with the chosen sequence).
-annumDelay	= .11
+annumDelay	= .31
 
 # This option is the delay time (in seconds)between one iteration of a
 # single agent and the next one. The option only works if the attribute
 # threadedAgents is set to true (and this is congruent with the chosen
 # sequence).
-agentsDelay	= .13
+agentsDelay	= .29
 
 
 ############
@@ -138,7 +138,7 @@ criterionLocation = "v"
 soundOn = True
 
 # Partials per background voice (minimum 1 maximum 13)
-backgroundPartials = 13
+backgroundPartials = 7
 
 # One of the csOptions should be commented. If you don't know
 # what you are doing, use the first version (uses the ALSA

@@ -65,24 +65,25 @@ nchnls = 2	; # of channels
 		return --> a list of strings, each representing an instrument
 					definition
 		"""
-		# Instrument 1: Formant based instrument.
+		# Instrument 1: Formant based instrument. Used for the agents'
+		# voices.
 		instr1	= """
 instr    1
 
-idur    = p3
+idur    = p3 ; duration
 
-iptch1	= p4
-iptch2	= p5
+iptch1	= p4 ; starting pitch
+iptch2	= p5 ; final pitch
 
-ivibr	= p6
+ivibr	= p6 ; vibrato
 
-iidev = p7
-iadev = p8
-iodev = p9
+iidev = p7 ; deviation for the 'i' formant
+iadev = p8 ; deviation for the 'a' formant
+iodev = p9 ; deviation for the 'o' formant
 
-ileft	= sqrt(p10)	; between 0-1, 1 is hard left
-iright	= sqrt(1 - p10)
-itype	= p11 ; 0=birth, 1=eat, 3=death
+ileft	= sqrt(p10)	; panning. Between 0-1, 1 is hard left
+iright	= sqrt(1 - p10) ; ibidem
+itype	= p11 ; the type of sound: 0=birth, 1=eat, 3=death
 
 ; formants frequencies
 ifrq1i	= 1270 + iidev
@@ -228,7 +229,7 @@ endif
     instr 2
 
 idur			= abs(p3)					; in seconds
-iamp			= 100000						; 0-32767
+iamp			= 25000
 ifreq1			= p5						; in hz
 ifreq2			= p6
 ileft			= sqrt(p7)					; between 0-1, 1 is hard left
