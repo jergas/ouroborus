@@ -1,7 +1,7 @@
 import specific
 from distutils.core import setup
 from distutils.extension import Extension
-if specific.compiler == "cython":
+if specific.compiler == "Cython":
 	from Cython.Distutils import build_ext
 else:
 	from Pyrex.Distutils import build_ext
