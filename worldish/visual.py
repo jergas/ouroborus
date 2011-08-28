@@ -1,6 +1,9 @@
 import curses
-import pygame
-from pygame.locals import *
+try:
+	import pygame
+	from pygame.locals import *
+except ImportError:
+	pass
 import Image
 import ImageDraw
 import sys

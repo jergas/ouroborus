@@ -24,7 +24,7 @@ import random
 # made at the sequence_x module. It is imported here under the variable
 # name specific
 specificity = sys.modules["__main__"].specificity
-specific = __import__("specific"+specificity)
+specific = __import__("specific_"+specificity.lower())
 
 # the following are the core birdcage modules which are necessary to
 # setup the backdrop cellular automaton, and the agents which 
@@ -107,7 +107,7 @@ class Generator:
 
 		obstetrix ---> a string to head all generated filenames"""
 
-		self.specific = __import__("specific"+specificity)
+		self.specific = __import__("specific_"+specificity.lower())
 		self.obstetrics = 0
 		self.obstetrix = obstetrix
 		self.scions = [] # this is a list of strains used for MassCompiling
@@ -121,7 +121,7 @@ class Generator:
 
 		# set the library in which the criterion funtion is located, then set
 		# the criterion function for deciding which cells are displayed
-		self.criterionLocation = getattr(sys.modules["__main__"].module.GOD, specific.criterionLocation)
+		self.criterionLocation = getattr(sys.modules["__main__"].mainSequence.GOD, specific.criterionLocation)
 		self.criterion = getattr(self.criterionLocation, specific.criterion)
 		
 
@@ -367,7 +367,7 @@ class Organizer:
 
 		# set the library in which the criterion funtion is located, then set
 		# the criterion function for deciding which cells are displayed
-		self.criterionLocation = getattr(sys.modules["__main__"].module.GOD, specific.criterionLocation)
+		self.criterionLocation = getattr(sys.modules["__main__"].mainSequence.GOD, specific.criterionLocation)
 		self.criterion = getattr(self.criterionLocation, specific.criterion)
 
 

@@ -38,7 +38,7 @@ import sound
 # automaton self.size, seed genome, number of iterations, etc. Feel free to
 # write your own.
 specificity = sys.modules["__main__"].specificity
-specific = __import__("specific"+specificity)
+specific = __import__("specific_"+specificity.lower())
 
 # If logging is enabled, then open a log file.
 if specific.logging:

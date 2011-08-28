@@ -18,7 +18,7 @@ import csnd_interface as csndInterface
 
 
 specificity = sys.modules["__main__"].specificity
-specific = __import__("specific"+specificity)
+specific = __import__("specific_"+specificity.lower())
 
 
 
