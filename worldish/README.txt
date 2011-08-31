@@ -39,9 +39,9 @@ Worldish is the main demo for birdcage. Utilising its agents capabilities over a
 
 - PIL (Python Imaging Library) - search the debian repositories for python-imaging
 
-- Csound 5.08.2 - Can be downloaded from the Debian repositories, or from: http://csounds.com/downloads. It may require additional configuration (except when downloaded from the repos). For instructions, scroll down to the section "Configuring Csound"
+- Csound 5.12 - Can be downloaded from the Debian repositories, or from: http://csounds.com/downloads. It may require additional configuration (except when downloaded from the repos). For instructions, scroll down to the section "Configuring Csound"
 
-- Python-Csound 5.08.2 - Can be downloaded from the Debian repositories or from: http://packages.debian.org/lenny/python-csound
+- Python-Csound 5.12 - Can be downloaded from the Debian repositories or from: http://packages.debian.org/lenny/python-csound
 
 
 3.- Installation
