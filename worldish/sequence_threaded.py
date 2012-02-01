@@ -34,15 +34,13 @@ from bookentry import BookEntry
 import sound
 
 
-# This refers to a configuration file which stores information such as
-# automaton self.size, seed genome, number of iterations, etc. Feel free to
-# write your own.
+# __main__.specificity is (part of) a filename for a config file which
+# stores information such as the cellular aoutomaton's parameters, the seed
+# genome for agents, and so forth. This is name is passed down from the 
+# command line and used here to actually import the config file. 
 specificity = sys.modules["__main__"].specificity
 specific = __import__("specific_"+specificity.lower())
 
-# If logging is enabled, then open a log file.
-if specific.logging:
-	logging = open(specific.logFile, 'w')
 
 # If instructed by the configuration file, enable system output to be
 # printed to file. 

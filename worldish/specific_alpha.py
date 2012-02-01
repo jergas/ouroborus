@@ -92,6 +92,7 @@ displayType = 'curses'
 debugOutputToFile = True
 
 debugFileName = 'debug_output.txt'
+
 # If true, output all system messages to debug_output.txt.
 sysOutToFile = True
 
@@ -118,10 +119,6 @@ simulationToAudiovisual = 1
 ############
 
 # The other options:
-
-# Logging
-logging = False
-logFile = "log.txt"
 
 # Libraries
 # (refer to 'The display' section of this file is to understand

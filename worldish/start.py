@@ -14,9 +14,9 @@ throughout the program will be completed successfully.
 
 2) What this code does is read command line options and store them in
 variables at the local namspace, which would normally be __main__. If
-this is imported as a module and called from someplace else, then it
-will be necessary to adjust this, both here and elsewhere throughout
-the program.
+this is imported as a module instead, and called from someplace else,
+then it will be necessary to adjust this, both here and elsewhere 
+throughout the program.
 
 3) The first option, stored as specificity, is a config file module
 with various information needed for the runtime implementation of the
@@ -113,6 +113,8 @@ for i in range(len(strippedLongOptions)):
 
 try:
 	specific = __import__("specific_"+specificity.lower())
+	# specificity is not actually used in start, but this verifies
+	# existence of the module.
 except ImportError:
 	specificity = defaults[0]
 	specific = __import__("specific_"+specificity.lower())
