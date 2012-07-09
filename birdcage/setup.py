@@ -2,9 +2,9 @@ import specific
 from distutils.core import setup
 from distutils.extension import Extension
 if specific.compiler == "Pyrex":
-	from Cython.Distutils import build_ext
-else:
 	from Pyrex.Distutils import build_ext
+else:
+	from Cython.Distutils import build_ext
 
 setup(name='Birdcage',
       version='1.0.0',
