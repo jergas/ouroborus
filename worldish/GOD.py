@@ -350,7 +350,7 @@ class Organizer:
 		book        ---> a dictionary of agent code objects (genotypes)
 		specificity ---> the suffix of a configuration module
 		"""
-		self.specific = __import__("specific"+specificity)
+		self.specific = __import__("specific_"+specificity.lower())
 		self.earth = earth
 		self.generator = None
 		self.destroyer = None
