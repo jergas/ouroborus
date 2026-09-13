@@ -19,17 +19,17 @@ automaton = ("SynchronousAutomaton_2D", )
 
 # The agents:
 
-# Void - deactivates agents; 
-# IndividualCompile		- invokes c compiler every time an agent is
-#						created
-#	MassCompile			- invokes c compiler only when a genome differs
-#						from its predecesors
+# Void - deactivates agents;
+# IndividualCompile             - invokes c compiler every time an agent is
+#                                               created
+#       MassCompile                     - invokes c compiler only when a genome differs
+#                                               from its predecesors
 compiling = "MassCompile"
 
 name = "heru"
-seedCode = "Yi Yc Ys Cb Cd Cr Ld Lp Lm Ll Le Iy Ir Ip Ix Ik Lr Md Mf Ma Mr Rd Rl"
+seedCode = "Cb Cd Cr Ld Lp Lm Ll Le Iy Ir Ip Ix Ik Lr Md Mf Ma Mr Rd Rl"
 prana = 22
-mana		= 1
+mana            = 1
 
 simWithAgents = True
 
@@ -51,26 +51,26 @@ seed = ("Random",1)
 
 # Set this option to true if you are running a simulation with one
 # thread per agent.
-# 'one'			- All the agents run in a single thread
-# 'custom'		- Specify a fixed number of threads to manage the
-			# agents
-# 'onePerAgent'	- Each agent runs in a single thread
-agentThreads	= 'one'
+# 'one'                 - All the agents run in a single thread
+# 'custom'              - Specify a fixed number of threads to manage the
+                        # agents
+# 'onePerAgent' - Each agent runs in a single thread
+agentThreads    = 'one'
 
 # Number of agent-managing threads. This option only works if
-# agentThreads	= 'custom'
+# agentThreads  = 'custom'
 agentThreadsNumber = 5
 
 # This option is the delay time (in seconds)between one annum and the
 # next one. The option only works if the attribute threadeAgents is set
 # to true (and this is congruent with the chosen sequence).
-annumDelay	= .1
+annumDelay      = .1
 
 # This option is the delay time (in seconds)between one iteration of a
 # single agent and the next one. The option only works if the attribute
 # threadeAgents is set to true (and this is congruent with the chosen
 # sequence).
-agentsDelay	= .5
+agentsDelay     = .5
 
 
 ############
@@ -117,14 +117,23 @@ backgroundPartials = 7
 # One of the csOptions should be commented. If you don't know
 # what you are doing, use the first version (uses the ALSA
 # sound module). The second version uses JACK.
-csOptions	= """
+csOptions       = """
 <CsoundSynthesizer>
 <CsOptions>
-csound -odac -+rtaudio=alsa -b1024 -B2048 -d -m0 temp.orc temp.sco
+-odac -b1024 -B2048 -d -m0
 </CsOptions>"""
 
-#csOptions	= """
+#csOptions      = """
 #<CsoundSynthesizer
 #<CsOptions>
 #csound -odac:alsa_pcm:playback_ -+rtaudio=jack -b1024 -B2048 -d -m0 temp.orc #temp.sco
 #</CsOptions>"""
+
+# Shared logging and sound defaults used by the Python 3 launcher.
+debugOutputToFile = True
+sysOutToFile = True
+debugFileName = "debug_output.txt"
+debugFile = None
+soundOn = True
+
+boilerplate = "from birdcage import topology, neighborhood, agent\ncorporality = neighborhood.VonNeumannNeighborhood\nsensoriality = neighborhood.MooreNeighborhood"

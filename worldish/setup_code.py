@@ -1,14 +1,8 @@
+"""Compatibility entry point; prefer installing from the repository root."""
+from pathlib import Path
+import os
+import runpy
 
-
-
-
-from distutils.core import setup
-from distutils.extension import Extension
-from Pyrex.Distutils import build_ext
-setup(
-  name = "code",
-  ext_modules=[
-    Extension("code", ["code.pyx"])
-    ],
-  cmdclass = {'build_ext': build_ext}
-)
+root = Path(__file__).resolve().parents[1]
+os.chdir(root)
+runpy.run_path(str(root / "setup.py"), run_name="__main__")

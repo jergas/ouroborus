@@ -1,7 +1,5 @@
-cd ../birdcage/
-pwd
-sudo su -c "python setup.py install"
-cd ../worldish/
-pwd
-python setup_code.py build_ext --inplace
-mkdir creatures
+#!/bin/sh
+set -eu
+cd "$(dirname "$0")/.."
+python3 -m venv .venv
+.venv/bin/python -m pip install -e '.[graphics,audio,test]'

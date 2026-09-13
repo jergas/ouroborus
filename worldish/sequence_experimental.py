@@ -1,461 +1,109 @@
-# Coded by Sat Tara Singh, Jergas Apwith and Ernesto Illescas
-#
-#
-# This script orchestrates execution for an ouroborus artificial life
-# environment. The module is based on sequence_threaded.py, with the
-# idea of taking threads further. The simulation implements some sort
-# of schedules for the agents, but the python interpreter and the 
-# operating system already have sophisticated schedulers, which can 
-# be harnessed if every agent runs in its own thread or process, 
-# respectively.This is not fully implemented, but it's the goal of 
-# this sequence.
-#
-# Things still lacking in this module:
-#	* The terminal window is not re-established if the application is
-#		terminated via ctrl^c (UPDATE: this bug is putatively squished,  
-#		if you see it in the wild, please let us know)
-#
-# It includes the following features:
-#	* Execution of the background and the agents occur in separate
-#		threads
-#
-# If you're trying to understand how the code works:
-#	* All the AL functionality resides in the GOD module
-#	* Refer to sequence_debug.py and sequence_auidovisual.py before this
-#		one, unless you are very confortable understanding code that
-#		uses threads
+"""Experimental independent clocks for the automaton and agent workers.
 
-
-# Python's native libraries
+Original experiment by Sat Tara Singh, Jergas Apwith and Ernesto Illescas.
+The Python 3 implementation shares lifecycle/display handling with the
+threaded sequence and serializes access to the shared cellular automaton.
+"""
 import curses
-import operator
-import os
-import random
-import signal
-import sys
 import threading
-import time
 
+from . import runtime, sound_globals
+sound_globals.simWSound = int(runtime.get_specific().soundOn)
+from . import sequence_threaded as threaded
+from . import sound
 
-# These lines need to be read before GOD and bookentry!!!
-import sound_globals as soundGlobals
-soundGlobals.simWSound = 1
-
-# Ouroborus libraries
-import GOD
-from bookentry import BookEntry
-import sound
-
-
-# This refers to a configuration file which stores information such as
-# automaton self.size, seed genome, number of iterations, etc. Feel free
-# to write your own.
-specificity = sys.modules["__main__"].specificity
-specific = __import__("specific"+specificity)
-
-# If logging is enabled, then use the logging module.
-if specific.logging:
-	import logging
-	LOG_FILENAME = str(specific.logFile)
-	logging.basicConfig(filename=LOG_FILENAME,level=logging.DEBUG, filemode='w')
-
-	logging.debug('This message should go to the log file')
-	
-# If instructed by the configuration file, enable system output to be
-# printed to file. 
-if specific.sysOutToFile:
-	sys.stdout = specific.debugFile
-	sys.stderr = specific.debugFile
+specific = runtime.get_specific()
 
 
 def startExecutionNormal():
-	""" Start normal execution cycle with sound and visual display.
-
-	return	-->> 1
-	"""
-	# Start the sound server.
-	signal.signal(signal.SIGINT, signal.SIG_DFL)
-	sound.startSoundServer()
-	# curses.wrapper is the kosher way to fire up curses visual
-	# services; it guarantees that the terminal will not be left
-	# stranded in an ocean of insanity if the program terminates
-	# exceptionally. If Pygame is used a new display window is opened.
-	if specific.displayType == 'pygame' or specific.displayType == 'debug':
-		main(None)
-	elif specific.displayType == 'curses':
-		curses.wrapper(main)
-	return 1
+    sound.startSoundServer()
+    try:
+        if specific.displayType == "curses":
+            curses.wrapper(lambda screen: threaded.main(screen, ExperimentalSequence))
+        else:
+            threaded.main(None, ExperimentalSequence)
+    finally:
+        sound.stopSoundServer()
+    return 1
 
 
-def main(stdscr):
-	"""Runs the simulation initialization methods, converts the
-	simulation and audiovisual methods into threads and starts these
-	threads.
-	stdscr	---> a curses standard screen object
-	return	-->> 1
-	"""
-	# Instantiate the class ThreadedSequence, which contains the
-	# needed attributes and methods for the execution.
-	sequence = ThreadedSequence(stdscr)
+class ExperimentalSequence(threaded.ThreadedSequence):
+    """Keep independent agent clocks while protecting the shared agent registry."""
 
-	# Instantiate two threads with target methods: the background
-	# loop, and the agent's loop.
-	background			= threading.Thread(name='Background',
-									target=sequence.backgroundLoop)
-	if specific.agentThreads == 'onePerAgent':
-		agents	= []
-#		for index, item in enumerate(sequence.taw):
-		for key in sequence.taw.keys():
-			agentName		= sequence.taw[key].name
-			agent		= threading.Thread(name=agentName,
-									target=sequence.agent, 
-									args=(key,))
-			agents.append(agent)
-	elif specific.agentThreads == 'one':
-		agents			= threading.Thread(name='Agents',
-									target=sequence.agentsLoop)
+    def __init__(self, screen):
+        super().__init__(screen)
+        self.world_lock = threading.RLock()
+        self.started = threading.Event()
+        self.workers = []
+        self.assignments = {}
+        self.worker_count = specific.agentThreadsNumber if specific.agentThreads == "custom" else 1
+        if self.worker_count < 1:
+            raise ValueError("agentThreadsNumber must be positive")
+        self.per_agent = specific.agentThreads == "onePerAgent"
+        if specific.agentThreads not in ("custom", "one", "onePerAgent"):
+            raise ValueError(f"Unknown agentThreads setting: {specific.agentThreads}")
 
-	# Create the background-sound threads.
-	voices = sound.backgroundVoices()
-	voicesControl = sound.backgroundControl()
+    def add_worker(self, key):
+        worker = threading.Thread(target=self.agentLoop, args=(key,), name=f"Agents-{key}")
+        self.workers.append(worker)
+        worker.start()
 
-	# Make the threads, except for background, daemonic. This so that
-	# they won't prevent the simulation from exciting. Also start them.
-	for x in voices:
-		x.setDaemon(True)
-		x.start()
-	voicesControl.setDaemon(True)
-	voicesControl.start()
-	background.start()
-	if specific.agentThreads == 'onePerAgent':
-		for agent in agents:
-			agent.setDaemon(True)
-			agent.start()
-	elif specific.agentThreads == 'one':
-		agents.setDaemon(True)
-		agents.start()
+    def simulationLoop(self):
+        try:
+            if self.per_agent:
+                for key in list(self.taw):
+                    self.add_worker(key)
+            else:
+                for index in range(self.worker_count):
+                    self.add_worker(index)
+            while self.bast.annum < self.doomsday and not self.stop.is_set():
+                with self.world_lock:
+                    self.bast.iterateAutomaton()
+                    self.started.set()
+                    if self.bast.annum % self.simulationToAudiovisual == 0:
+                        self.on_display_thread(self.showBackground)
+                if sound.SoundServer.perf.status():
+                    break
+                self.stop.wait(max(specific.annumDelay, 0.001))
+        except BaseException as error:
+            self.error = error
+        finally:
+            self.stop.set()
+            self.started.set()
+            # Workers may have added descendants; after the stop signal no
+            # further workers are admitted, and all outstanding ones are joined.
+            with self.world_lock:
+                workers = list(self.workers)
+            for worker in workers:
+                worker.join()
 
-	# Wait until the simulation thread has finished.
-	try:
-		background.join()
-	except KeyboardInterrupt:
-		if specific.logging:
-			# If logging is enabled, print to file any exception derived from
-			# a KeyboardInterrupt.
-			logging.exception('Exception generated by ctrl^c!')
-		# Stop the sound server
-		sound.stopSoundServer()
-	finally:
-	
-		# Do some cleaunup.
-		sound.stopSoundServer()
-		del sys.argv[1:]
-	
-		if specific.debugOutputToFile == True and specific.displayType == 'debug':
-			os.system("editor " + specific.debugFileName)
-		elif specific.displayType == 'curses':
-			time.sleep(.5)
-			os.system("reset")
-	print "Done"
-	return 1
-
-
-class ThreadedSequence(object):
-	""" The initialization method sets up the attributes needed for the
-	(threaded) execution of the rest of the class' methods. Shared
-	variables are implemented as class attributes, and their data is
-	kept thread-safe and synchronized via the threading.Lock() and
-	threading.Condition() methods.
-	"""
-	def __init__(self, stdscr):
-		"""Instantiates GOD's automaton-generator and automaton-
-		organizer classes. Populates the automaton with some
-		initial creatures. Generates a display.
-
-		stdscr	---> a curses standard screen object
-		"""
-		# Instantiate a generator.
-		aset = GOD.Generator(specific.name, specificity)
-		# The following lines contain all the data to build a complete
-		# cellular automaton.
-		self.size = specific.size
-		(width, height) = self.size
-		topologyData = specific.topology
-		neighborData = specific.neighborhood
-		ruleData = specific.rule
-		automatonData = specific.automaton
-		# The time delay between anna
-		self.annumDelay = specific.annumDelay
-		# The time delay between agent's iterations.
-		self.agentsDelay = specific.agentsDelay
-		# avatars is the number of initial creatures, and doomsday the
-		# number of iterations.	
-		(avatars, self.doomsday) = (specific.avatars, specific.doomsday)
-		# self.taw is a dictionary which whill contain runtime
-		# information essential for the agents in the form of
-		# BookEntries.
-		self.taw = {}
-
-		# Invoke GOD.Generator's automaton creation method with the data
-		# given above.
-		self.kemet = aset.generateAutomaton(self.size, topologyData,
-											neighborData, ruleData,
-											automatonData)
-		# Now call a GOD.Organizer to oversee this automaton.
-		self.bast = GOD.Organizer(self.kemet, self.taw, specificity)
-		self.bast.generator = aset
-		(self.bast.width, self.bast.height) = (width, height)
-
-
-		# The bast organizer will now plant some seeds in kemet.
-		self.bast.initialiseAutomaton(specific.seed)
-		# Populate the automaton with some initial creatures.
-		while avatars:
-			# GOD.Generator will write and compile a module for each
-			# creature, create a BookEntry to contain it and append it
-			# to the list taw
-			aset.generateGenotype(specific.seedCode, self.taw)
-			avatars -= 1
-
-		# Prime the initial avatars for actual creation.
-		for key in self.taw.keys():
-			self.taw[key].fatum["prayer"] = "CreateMe"
-			# Each BookEntry has a dictionary called its fatum. The key
-			# "prayer" is linked to strings which GOD.Organizer will
-			# interpret (via Python introspection) to act in various
-			# ways on  the BookEntry and its attributes (i.e. the
-			# creature). The value "CreateMe" identifies the BookEntry
-			# as a candidate for initalization, meaning creating an
-			# agent object and placing it on the cellular automaton
-			# grid.
-
-		# bast reads the BookEntries in taw and calls actual agent
-		# objects into being from the code in the modules which were
-		# compiled by aset.
-		for key in self.taw.keys():
-			self.bast.readBookOfLife(self.taw[key])
-		
-		if specific.agentThreads == 'custom':
-			self.agentThreads = []
-			self.threadLocks = []
-#			self.agentThreadsLock = threading.Lock()
-			for x in xrange(specific.agentThreadsNumber):
-				lock = threading.Lock()
-				self.threadLocks.append(lock)
-				self.agentThreads.append([])
-			for key in self.taw.keys():
-					self.agentThreads[random.randint(0,
-							len(self.agentThreads) - 1)].append(key)
-		# Decide whether to use a Curses or Pygame display
-		if stdscr:
-			# Generate a curses display.
-			self.display = aset.generateDisplay(self.kemet, self.size, stdscr)
-		else:
-			self.display = aset.generateDisplay(self.kemet, self.size, self.taw)
-
-		# Set some initial data for sound control.
-		sound.setInitialData(self.size)
-
-		# Initialize variables for agent-related inter-thread
-		# communication.
-		self.currentEntry = None
-		self.birth	= 0
-		self.death	= 0
-
-		# Number of simulation loops per audiovisual loop.
-		self.simulationToAudiovisual = specific.simulationToAudiovisual
-		self.simulationOn	= True
-
-
-	def backgroundLoop(self):
-		""" Refreshing of the curses background happens here
-		(the agents are also re-drawn so that they don't disappear).
-		"""
-		(width, height)	= self.size
-		
-		if specific.agentThreads == 'custom':
-			for index in xrange(specific.agentThreadsNumber):
-				oneThread = threading.Thread(target=self.someAgents,
-												args=(index, ))
-				oneThread.setDaemon(True)
-				oneThread.start()
-
-		while self.bast.annum < self.doomsday:
-			# GOD.Organizer iterates the c.a.
-			self.bast.iterateAutomaton()
-			# Update the display
-			self.bast.refreshDisplay(self.display)
-			# Update the audio
-			sound.inputDataControl(self.kemet)
-			# Test if the Csound performance-thread is still running, and
-			# break the simulation loop if not (solves the interruption
-			# bug).
-			if sound.SoundServer.perf.GetStatus():
-				break
-			time.sleep(self.annumDelay)
-		self.simulationOn = False
-		sound.stopSoundServer()
-
-
-	def agentsLoop(self):
-		""" Deals with drawing the agents and with their sounds.
-		"""
-		# Make sure that simulationLoop() runs before this thread.
-		while self.bast.annum < 1:
-			time.sleep(self.agentsDelay)
-		while self.simulationOn:
-			# GOD.Organizer parses the whole length of taw.
-			for key in self.taw.keys():
-				self.birth = 0
-				try:
-					# If the agent is about to die, make the appropriate
-					# sound, kill the agent, and remove its bol key from
-					# self.agentThreads[index].
-					if self.taw[key].fatum["prayer"] == "KillMe":
-						sound.agentDeath(self.taw[key].fatum["voice"])
-						time.sleep(random.uniform(0.2, 0.4))
-						self.bast.readBookOfLife(self.taw[key])
-					# Otherwise, do the usual.
-					else:
-					# If the agent is about to be born, record it.
-						if self.taw[key].fatum["prayer"] == "BeBirthed":
-							self.birth = 1
-						# Read the agent's bookentry
-						self.bast.readBookOfLife(self.taw[key])
-					# Refresh the agent's visualization.
-					self.bast.refreshAgent(self.taw[key], self.display)
-					# If the agent was born or ate, make the appropriate
-					#sound.
-					if self.birth == 1:
-						sound.agentBirth(self.taw[key].fatum["voice"])
-						time.sleep(random.uniform(0.2, 0.4))
-					if self.taw[key].fatum["voice"].ate == 1:
-						sound.eatSound(self.taw[key].fatum["voice"])
-						time.sleep(random.uniform(0.1, 0.2))
-						self.taw[key].fatum["voice"].ate = 0
-					time.sleep(self.agentsDelay)
-				except:
-					if specific.logging:
-						# If logging is enabled, print to file any exception
-						# message.
-						logging.debug(str(threading.currentThread().getName()))
-						logging.exception('Exception generated by someAgents()!')
-		self.simulationOn = False
-
-
-	def agent(self, key):
-		"""This function is meant for running a single agent 
-		in its own thread.
-		"""
-		# Loop while the agent is alive.
-		while self.simulationOn:
-			try:
-				# Set some control attributes.
-				birth = 0
-				child = 1 # this will stay = one unless there is a birth.
-				# If the agent is about to die, make the appropriate
-				# sound, kill the agent, and remove its bol key from
-				# self.agentThreads[index].
-				if self.taw[key].fatum["prayer"] == "KillMe":
-					sound.agentDeath(self.taw[key].fatum["voice"])
-					time.sleep(random.uniform(0.2, 0.4))
-					self.bast.readBookOfLife(self.taw[key])
-					break
-				# Otherwise, do the usual.
-				else:
-				
-					# If the agent is about to be born, record it.
-					if self.taw[key].fatum["prayer"] == "BeBirthed":
-						birth = 1
-					# Read the agent's bookentry, child will equal 1, unless a
-					# child is granted, where child will be the entry's name.
-					child = self.bast.readBookOfLife(self.taw[key])
-					# if a child was granted, start a new thread to manage the
-					# newborn.
-					if child is not 1:
-						newBorn = threading.Thread(name=child,
-												target=self.agent, 
-												args=(child,))
-						newBorn.setDaemon(True)
-						newBorn.start()
-					# Refresh the agent's visualization.
-					self.bast.refreshAgent(self.taw[key], self.display)
-					# If the agent was born or ate, make the appropriate
-					# sound.
-					if birth == 1:
-						sound.agentBirth(self.taw[key].fatum["voice"])
-					if self.taw[key].fatum["voice"].ate == 1:
-						sound.eatSound(self.taw[key].fatum["voice"])
-						self.taw[key].fatum["voice"].ate = 0
-					time.sleep(self.agentsDelay)
-			except AttributeError:
-				if specific.logging:
-					# If logging is enabled, print to file any exception
-					# message.
-					logging.exception('Exception generated by agent()!')
-		self.simulationOn = False
-
-
-	def someAgents(self, index):
-		""" Deals with drawing the agents and with their sounds.
-		"""
-		newKeys = []
-		while self.simulationOn:
-			# If there are no agents asigned to the current thread, sleep.
-			if not len(self.agentThreads[index]):
-				time.sleep(specific.annumDelay)
-			else:
-				# If there were agents born as a result of the current
-				# thread, randomly asign their self.taw key to an instance of
-				# this method.
-				if len(newKeys):
-					for newKey in newKeys:
-						controlerThread = random.randint(0,
-													len(self.agentThreads) - 1)
-						self.threadLocks[controlerThread].acquire()
-						self.agentThreads[controlerThread].append(newKey)
-						self.threadLocks[controlerThread].release()
-					newKeys = []
-				# Parse the agents managed by the current thread.
-				for key in self.agentThreads[index]:
-					self.birth = 0
-					try:
-						# If the agent is about to die, make the appropriate
-						# sound, kill the agent, and remove its bol key from
-						# self.agentThreads[index].
-						if self.taw[key].fatum["prayer"] == "KillMe":
-							sound.agentDeath(self.taw[key].fatum["voice"])
-							time.sleep(random.uniform(0.2, 0.4))
-							self.bast.readBookOfLife(self.taw[key])
-							self.agentThreads[index].remove(key)
-						# Otherwise, do the usual.
-						else:
-						# If the agent is about to be born, record it.
-							if self.taw[key].fatum["prayer"] == "BeBirthed":
-								self.birth = 1
-							# Read the agent's bookentry
-							child = self.bast.readBookOfLife(self.taw[key])
-						# If a child was granted, add it to the list of new
-						# borns.
-						if child is not 1:
-							newKeys.append(child)
-						else:
-							# Refresh the agent's visualization.
-							self.bast.refreshAgent(self.taw[key], self.display)
-						# If the agent was born or ate, make the appropriate
-						#sound.
-						if self.birth == 1:
-							sound.agentBirth(self.taw[key].fatum["voice"])
-							time.sleep(random.uniform(0.2, 0.4))
-						if self.taw[key].fatum["voice"].ate == 1:
-							sound.eatSound(self.taw[key].fatum["voice"])
-							time.sleep(random.uniform(0.1, 0.2))
-							self.taw[key].fatum["voice"].ate = 0
-						time.sleep(self.agentsDelay)
-					except:
-						if specific.logging:
-							# If logging is enabled, print to file any exception
-							# message.
-							logging.debug(str(threading.currentThread().getName()))
-							logging.exception('Exception generated by someAgents()!')
-		self.simulationOn = False
+    def agentLoop(self, worker_key):
+        self.started.wait()
+        try:
+            while not self.stop.is_set():
+                with self.world_lock:
+                    if self.stop.is_set():
+                        return
+                    if self.per_agent:
+                        keys = [worker_key] if worker_key in self.taw else []
+                        if not keys:
+                            return
+                    else:
+                        for key in self.taw:
+                            if key not in self.assignments:
+                                self.assignments[key] = len(self.assignments) % self.worker_count
+                        keys = [key for key in self.taw if self.assignments[key] == worker_key]
+                    for key in keys:
+                        if self.stop.is_set():
+                            return
+                        entry = self.taw[key]
+                        prayer = entry.fatum["prayer"]
+                        child = self.bast.readBookOfLife(entry)
+                        if self.per_agent and isinstance(child, str) and not self.stop.is_set():
+                            self.add_worker(child)
+                        self.on_display_thread(lambda entry=entry, prayer=prayer: self.showAgent(entry, prayer))
+                self.stop.wait(max(specific.agentsDelay, 0.001))
+        except BaseException as error:
+            if not self.stop.is_set():
+                self.error = error
+                self.stop.set()

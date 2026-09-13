@@ -1,9 +1,10 @@
 ### This is a suite of unit test cases for the module topology
 
 import unittest as u
-import topology as t
-import exceptions_birdcage as E
+from birdcage import topology as t
+from birdcage import exceptions_birdcage as E
 import operator
+from functools import reduce
 
 class TopologySampleValues(u.TestCase):
 
@@ -145,7 +146,7 @@ class GridTopologySampleValues(TopologySampleValues):
 
     sampleValues = ( ((10,10), 0),
                      ((10,25), 7),
-                     ((50,30), 2),                                    
+                     ((50,30), 2),
                      ((80,80), 1) )
 
     category = "GridTopology"
@@ -212,7 +213,7 @@ class GridTopologyMethods(TopologyMethods):
 
     sampleValues = ( ((10,10), 0),
                      ((10,25), 7),
-                     ((50,30), 2),                                    
+                     ((50,30), 2),
                      ((80,80), 1) )
 
     category = "GridTopology"
@@ -275,7 +276,7 @@ class GridTopologyMethods(TopologyMethods):
 
     def testTopologyCopyFailsForInvalidGrid(self):
         """The source and target of GridTopology.copy must have the same size"""
-        
+
         for size, background in self.sampleValues:
             topology = self.topology(size, background)
             target = t.GridTopology((25,25), background)
@@ -284,7 +285,7 @@ class GridTopologyMethods(TopologyMethods):
 
     def testTopologyCopyYieldsSameGridValues(self):
         """GridTopology.copy pastes the grid values onto another grid"""
-            
+
         for size, background in self.sampleValues:
             topology = self.topology(size, background)
             target = t.GridTopology(size, 11)
@@ -373,7 +374,7 @@ class ToroidTopologySampleValues(GridTopologySampleValues):
 
     sampleValues = ( ((10,10), 0),
                      ((10,25), 7),
-                     ((50,30), 2),                                    
+                     ((50,30), 2),
                      ((80,80), 1) )
 
     category = "ToroidTopology"
@@ -438,7 +439,7 @@ class ToroidTopologyMethods(GridTopologyMethods):
 
     sampleValues = ( ((10,10), 0),
                      ((10,25), 7),
-                     ((50,30), 2),                                    
+                     ((50,30), 2),
                      ((80,80), 1) )
 
     category = "ToroidTopology"

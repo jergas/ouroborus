@@ -20,12 +20,12 @@ automaton = ("SynchronousAutomaton_2D", )
 
 # The agents:
 
-# Void 			- deactivates agents
-# 
-# IndividualCompile	- invokes c compiler every time an agent is
-#					created
-# MassCompile		- invokes c compiler only when a genome differs
-#					from its predecesors
+# Void                  - deactivates agents
+#
+# IndividualCompile     - invokes c compiler every time an agent is
+#                                       created
+# MassCompile           - invokes c compiler only when a genome differs
+#                                       from its predecesors
 compiling = "MassCompile"
 
 name = "heru"
@@ -33,9 +33,9 @@ seedCode = "Cb Cd Cr Ld Lp Lm Ll Le Iy Ir Ip Ix Ik Lr Md Mf Ma Mr Rd Rl"
 prana = 22
 mana = 1
 
-simWithAgents	= True
+simWithAgents   = True
 
-# If you need to change code.tabula['boilerplate'], uncomment and edit the 
+# If you need to change code.tabula['boilerplate'], uncomment and edit the
 # following variable.
 # boilerplate = 'import birdcage.topology as topology; import birdcage.neighborhood as neighborhood; import birdcage.agent as agent; corporality = neighborhood.MooreNeighborhood; sensoriality = neighborhood.MooreNeighborhood'
 
@@ -57,26 +57,26 @@ seed = ("Random",1)
 
 # Set this option to true if you are running a simulation with one
 # thread per agent.
-# 'one'			- All the agents run in a single thread
-# 'custom'		- Specify a fixed number of threads to manage the
-			# agents
-# 'onePerAgent'	- Each agent runs in a single thread
-agentThreads	= 'custom'
+# 'one'                 - All the agents run in a single thread
+# 'custom'              - Specify a fixed number of threads to manage the
+                        # agents
+# 'onePerAgent' - Each agent runs in a single thread
+agentThreads    = 'custom'
 
 # Number of agent-managing threads. This option only works if
-# agentThreads	= 'custom'
+# agentThreads  = 'custom'
 agentThreadsNumber = 3
 
 # This option is the delay time (in seconds)between one annum and the
 # next one. The option only works if the attribute threadedAgents is set
 # to true (and this is congruent with the chosen sequence).
-annumDelay	= .31
+annumDelay      = .31
 
 # This option is the delay time (in seconds)between one iteration of a
 # single agent and the next one. The option only works if the attribute
 # threadedAgents is set to true (and this is congruent with the chosen
 # sequence).
-agentsDelay	= .29
+agentsDelay     = .29
 
 
 ############
@@ -97,10 +97,7 @@ debugFileName = 'debug_output.txt'
 sysOutToFile = True
 
 # If debugOutputToFile is true, then open a file to contain all output.
-if debugOutputToFile:
-	debugFile = open(debugFileName, 'w')
-else:
-	debugFile = False
+debugFile = None
 
 # The criterion function
 # (a function which evaluates a cell's state for display,
@@ -124,7 +121,7 @@ simulationToAudiovisual = 1
 # (refer to 'The display' section of this file is to understand
 #  what the criterion is)
 # visual is renamed v in GOD.py
-criterionLocation = "v" 
+criterionLocation = "v"
 
 
 ############
@@ -140,13 +137,13 @@ backgroundPartials = 7
 # One of the csOptions should be commented. If you don't know
 # what you are doing, use the first version (uses the ALSA
 # sound module). The second version uses JACK.
-csOptions	= """
+csOptions       = """
 <CsoundSynthesizer>
 <CsOptions>
-csound -odac -+rtaudio=alsa -b1024 -B2048 -d -m0 temp.orc temp.sco
+-odac -b1024 -B2048 -d -m0
 </CsOptions>"""
 
-#csOptions	= """
+#csOptions      = """
 #<CsoundSynthesizer>
 #<CsOptions>
 #csound -odac:alsa_pcm:playback_ -+rtaudio=jack -b1024 -B2048 -d -m0 temp.orc temp.sco

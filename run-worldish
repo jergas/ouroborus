@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+root=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+if [ -d "$root/.deps/native/usr/lib" ]; then
+    export LD_LIBRARY_PATH="$root/.deps/native/usr/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+    export OPCODE6DIR64="${OPCODE6DIR64:-$root/.deps/native/usr/lib/csound/plugins64-6.0}"
+fi
+exec "$root/.venv/bin/python" -m worldish.start "$@"

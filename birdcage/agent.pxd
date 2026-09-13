@@ -5,9 +5,9 @@
 # Imported Pyrex modules
 
 
-cimport topology as T
-cimport neighborhood as N
-cimport genome as G
+from birdcage cimport topology as T
+from birdcage cimport neighborhood as N
+from birdcage cimport genome as G
 
 
 ####################################################################

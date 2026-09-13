@@ -21,8 +21,9 @@
 # Imported modules
 ####################################################################
 
-import exceptions_birdcage as E
+from birdcage import exceptions_birdcage as E
 import operator
+from functools import reduce
 import random
 
 
@@ -152,7 +153,7 @@ cdef class Topology:
           
           address = []
           for i in range(self.dimension):
-              address.append(self.size[i]/2)
+              address.append(self.size[i]//2)
           return tuple(address)
 
     

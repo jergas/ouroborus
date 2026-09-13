@@ -1,3 +1,11 @@
+PYTHON 3 UPDATE / ACTUALIZACIÓN A PYTHON 3
+
+See ../README.md for current installation and execution instructions.
+Consulte ../README.md para las instrucciones actuales.
+The instructions below describe the historical Python 2 version.
+Las instrucciones siguientes describen la versión histórica en Python 2.
+Do not use the historical sudo installation commands.
+
 Para la versión en español, recorra la pantalla.
 
 Welcome to Birdcage!

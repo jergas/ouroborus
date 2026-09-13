@@ -1,14 +1,8 @@
+"""Compatibility entry point; prefer installing from the repository root."""
+from pathlib import Path
+import os
+import runpy
 
-
-
-
-from distutils.core import setup
-from distutils.extension import Extension
-from Pyrex.Distutils import build_ext
-setup(
-  name = "exceptions_birdcage",
-  ext_modules=[
-    Extension("exceptions_birdcage", ["exceptions_birdcage.pyx"])
-    ],
-  cmdclass = {'build_ext': build_ext}
-)
+root = Path(__file__).resolve().parents[1]
+os.chdir(root)
+runpy.run_path(str(root / "setup.py"), run_name="__main__")

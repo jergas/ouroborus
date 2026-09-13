@@ -3,90 +3,90 @@
 # Python modules.
 import random
 # Sound-related sub-modules.
-import csnd_interface as csndInterface
-import Csnd_notes
+from . import csnd_interface as csndInterface
+from . import Csnd_notes
 # Other sub-modules
-import Numeric_utils as NumericUtils
+from . import Numeric_utils as NumericUtils
 
 #Instantiate the agents' birth sound note class and a scaling class.
-AgentNote	= Csnd_notes.AgentNote()
+AgentNote       = Csnd_notes.AgentNote()
 Scaling = NumericUtils.Scaling()
 
 
 class VocalTract(object):
-	""" Contains the attributes that define an agent's voice quality and
-	the methods to produce diffetent sounds.
-	"""
-	def __init__(self, agentXAxis, width):
-		"""
-		ADeviation	---> a deviation constant of the "a" formants
-		IDeviation	---> a deviation constant of the "i" formants
-		IDeviation	---> a deviation constant of the "o" formants
-		panning		---> the agent's normalized x-axis position
-		"""
-		self.ptch1		= random.randint(1, 20)
-		self.ptch2 		= random.randint(50, 400)
-		self.vibr		= random.randint(1, 50)
-		self.ADeviation = random.uniform(-250, 250)
-		self.IDeviation = random.uniform(-250, 250)
-		self.ODeviation = random.uniform(-250, 250)
-		self.panning	= Scaling.valToRng(agentXAxis, 0, width, 1, 0)
-		self.ate		= 0
+        """ Contains the attributes that define an agent's voice quality and
+        the methods to produce diffetent sounds.
+        """
+        def __init__(self, agentXAxis, width):
+                """
+                ADeviation      ---> a deviation constant of the "a" formants
+                IDeviation      ---> a deviation constant of the "i" formants
+                IDeviation      ---> a deviation constant of the "o" formants
+                panning         ---> the agent's normalized x-axis position
+                """
+                self.ptch1              = random.randint(1, 20)
+                self.ptch2              = random.randint(50, 400)
+                self.vibr               = random.randint(1, 50)
+                self.ADeviation = random.uniform(-250, 250)
+                self.IDeviation = random.uniform(-250, 250)
+                self.ODeviation = random.uniform(-250, 250)
+                self.panning    = Scaling.valToRng(agentXAxis, 0, width, 1, 0)
+                self.ate                = 0
 
 
-	def __str__(self):
-		""" Prints the class's relevant data, i.e. the attributes that
-		make a particular voice unique.
-		"""
-		display = '%s%.2f%s%.2f%s%.2f%s' %("Vocal tract formant deviations(A,I,O): (",
-									self.ADeviation, ", ", self.IDeviation,
-									", ", self.ODeviation, ')')
-		return display
+        def __str__(self):
+                """ Prints the class's relevant data, i.e. the attributes that
+                make a particular voice unique.
+                """
+                display = '%s%.2f%s%.2f%s%.2f%s' %("Vocal tract formant deviations(A,I,O): (",
+                                                                        self.ADeviation, ", ", self.IDeviation,
+                                                                        ", ", self.ODeviation, ')')
+                return display
 
-	def birthSound(self, perf):
-		""" Generates the sound that an agent does at birth.
-		perf	---> a Csound performance thread
-		"""
-		# Set the relevant parameters in the AgentNote class.
-		AgentNote.dur			= random.uniform(.05, 0.2)
-		AgentNote.ptch1			= self.ptch1
-		AgentNote.ptch2 		= self.ptch2
-		AgentNote.vibr			= self.vibr
-		AgentNote.IDeviation	= self.IDeviation
-		AgentNote.ADeviation	= self.ADeviation	
-		AgentNote.pan			= self.panning
-		# Make a score-statement string and feed it to Csound.
-		scoStatement = AgentNote.mkBirthString()
-		perf.InputMessage(scoStatement)
+        def birthSound(self, perf):
+                """ Generates the sound that an agent does at birth.
+                perf    ---> a Csound performance thread
+                """
+                # Set the relevant parameters in the AgentNote class.
+                AgentNote.dur                   = random.uniform(.05, 0.2)
+                AgentNote.ptch1                 = self.ptch1
+                AgentNote.ptch2                 = self.ptch2
+                AgentNote.vibr                  = self.vibr
+                AgentNote.IDeviation    = self.IDeviation
+                AgentNote.ADeviation    = self.ADeviation
+                AgentNote.pan                   = self.panning
+                # Make a score-statement string and feed it to Csound.
+                scoStatement = AgentNote.mkBirthString()
+                perf.inputMessage(scoStatement)
 
 
-	def eatSound(self, perf):
-		""" Generates the sound that an agent does while eating.
-		perf	---> a Csound performance thread
-		"""
+        def eatSound(self, perf):
+                """ Generates the sound that an agent does while eating.
+                perf    ---> a Csound performance thread
+                """
         # Set the relevant parameters in the AgentNote class.
-		AgentNote.dur			= .1
-		AgentNote.ptch1			= self.ptch1
-		AgentNote.ptch2 		= self.ptch2
-		AgentNote.ODeviation	= self.ODeviation
-		AgentNote.pan			= self.panning
-		# Make a score-statement string and feed it to Csound.
-		scoStatement = AgentNote.mkEatString()
-		perf.InputMessage(scoStatement)
+                AgentNote.dur                   = .1
+                AgentNote.ptch1                 = self.ptch1
+                AgentNote.ptch2                 = self.ptch2
+                AgentNote.ODeviation    = self.ODeviation
+                AgentNote.pan                   = self.panning
+                # Make a score-statement string and feed it to Csound.
+                scoStatement = AgentNote.mkEatString()
+                perf.inputMessage(scoStatement)
 
 
-	def deathSound(self, perf):
-		""" Generates the sound that an agent does when dying.
-		perf	---> a Csound performance thread
-		"""
-		# Set the relevant parameters in the AgentNote class.
-		AgentNote.dur			= random.uniform(.1, .4)
-		AgentNote.ptch1			= self.ptch2 / 2.0
-		AgentNote.ptch2 		= self.ptch1
-		AgentNote.vibr			= self.vibr
-		AgentNote.IDeviation	= self.IDeviation
-		AgentNote.ADeviation	= self.ADeviation	
-		AgentNote.pan			= self.panning
-		# Make a score-statement string and feed it to Csound.
-		scoStatement = AgentNote.mkDeathString()
-		perf.InputMessage(scoStatement)
+        def deathSound(self, perf):
+                """ Generates the sound that an agent does when dying.
+                perf    ---> a Csound performance thread
+                """
+                # Set the relevant parameters in the AgentNote class.
+                AgentNote.dur                   = random.uniform(.1, .4)
+                AgentNote.ptch1                 = self.ptch2 / 2.0
+                AgentNote.ptch2                 = self.ptch1
+                AgentNote.vibr                  = self.vibr
+                AgentNote.IDeviation    = self.IDeviation
+                AgentNote.ADeviation    = self.ADeviation
+                AgentNote.pan                   = self.panning
+                # Make a score-statement string and feed it to Csound.
+                scoStatement = AgentNote.mkDeathString()
+                perf.inputMessage(scoStatement)

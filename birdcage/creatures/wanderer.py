@@ -1,4 +1,6 @@
-import topology;import neighborhood;import rule;import operator;import automaton;import agent;import genome;import random
+from birdcage import topology, neighborhood, rule, automaton, agent, genome
+import operator
+import random
 topos = topology.ToroidTopology((90,40),0)
 ball = neighborhood.VonNeumannNeighborhood(topos)
 change = rule.ReductionRule(ball,(operator.xor,0))
@@ -9,4 +11,4 @@ def wander():
   myself.changeFacing(direction)
   myself.advance()
 def __print__():
-  print myself.tellAddress()
+  print(myself.tellAddress())

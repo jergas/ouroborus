@@ -13,7 +13,7 @@ cdef enum:
 # Imported Pyrex modules
 
 
-cimport topology as T
+from birdcage cimport topology as T
 
 
 ####################################################################

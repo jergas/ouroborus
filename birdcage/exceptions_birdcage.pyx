@@ -29,7 +29,7 @@ class SizeError(BirdcageError):
           self.limit = limit
 
       def __str__(self):
-          print "\n%i is greater than limiting value of %i" % (self.value,self.limit)
+          return "\n%i is greater than limiting value of %i" % (self.value,self.limit)
 
 
 class DimensionError(BirdcageError):
@@ -41,7 +41,7 @@ class DimensionError(BirdcageError):
           self.actual = actual
 
       def __str__(self):
-          print "\n%s must be dimension %i instead of %i" % (self.name, self.target, self.actual)
+          return "\n%s must be dimension %i instead of %i" % (self.name, self.target, self.actual)
 
 
 class InvalidAddressError(BirdcageError):
@@ -52,7 +52,7 @@ class InvalidAddressError(BirdcageError):
           self.name = name
 
       def __str__(self):
-          print "\naddress %s is not valid in a %s" % (self.address, self.name)
+          return "\naddress %s is not valid in a %s" % (self.address, self.name)
 
 
 class ConflictingTopologyError(BirdcageError):
@@ -63,7 +63,7 @@ class ConflictingTopologyError(BirdcageError):
           self.name2 = name2
 
       def __str__(self):
-          print "\n%s does not match %s" % (self.name1, self.name2)
+          return "\n%s does not match %s" % (self.name1, self.name2)
 
 
 class NotInNeighborhoodError(BirdcageError):
@@ -74,4 +74,4 @@ class NotInNeighborhoodError(BirdcageError):
           self.name = name
 
       def __str__(self):
-          print "\nvalue %s is not valid in a %s" % (self.value, self.name)
+          return "\nvalue %s is not valid in a %s" % (self.value, self.name)

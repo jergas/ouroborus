@@ -20,7 +20,7 @@
 # Imported modules
 ####################################################################
 
-import exceptions_birdcage as E
+from birdcage import exceptions_birdcage as E
 
 
 
