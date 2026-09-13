@@ -1,1 +1,0 @@
-#include "SyncronousAutomaton.h"

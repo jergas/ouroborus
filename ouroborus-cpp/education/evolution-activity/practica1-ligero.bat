@@ -1,1 +1,0 @@
-"programa/practica1-sin-seleccion-coin.exe"
