@@ -82,6 +82,8 @@ class SoundServer(object):
                 csd = CsdGenerator.csd
                 if self.cSnd.compileCsdText(csd) != 0:
                         raise RuntimeError("Csound could not compile the Worldish orchestra")
+                from . import runtime
+                self.cSnd.setControlChannel("worldish_attenuation", 1 - getattr(runtime.get_specific(), "desktopVolume", 1.0))
                 if self.cSnd.start() != 0:
                         raise RuntimeError("Csound could not start its audio output")
                 self.perf = self._ctcsound.CsoundPerformanceThread(self.cSnd.csound())

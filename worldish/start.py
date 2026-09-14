@@ -26,7 +26,7 @@ def main(argv=None):
     parser.add_argument("-s", "--specificity", "--spec", default="alpha", type=str.lower,
                         choices=["alpha", "beta", "delta", "epsilon"])
     parser.add_argument("-m", "--mode", default="threaded", type=str.lower,
-                        choices=["debug", "visual", "audiovisual", "threaded", "experimental"])
+                        choices=["debug", "visual", "audiovisual", "threaded", "experimental", "session"])
     parser.add_argument("-n", "--submode", default="normal", type=str.capitalize)
     parser.add_argument("--steps", type=positive, help="override the number of automaton iterations")
     parser.add_argument("--seed", type=int, help="seed Python's random generator for repeatable runs")

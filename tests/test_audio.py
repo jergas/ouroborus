@@ -62,3 +62,27 @@ def test_audio_waits_for_genome_builds():
         assert server.cSnd.currentTimeSamples() > 0
     finally:
         server.endCsnd()
+
+
+@pytest.mark.parametrize("volume", [0.0, 0.25, 1.0])
+def test_master_volume_controls_both_channels(tmp_path, volume):
+    ctcsound = csound_module()
+    from worldish.Csnd_data import CsdGenerator
+    output = tmp_path / "volume.wav"
+    options = f'<CsoundSynthesizer>\n<CsOptions>\n-o "{output}" -W -s -d -m0\n</CsOptions>'
+    csd = CsdGenerator(3, options).csd.replace(
+        "f3 36000 129 -7 0 128 1", "i1 0 0.2 440 480 5 0 0 0 0.5 0\nf0 0.25")
+    csound = ctcsound.Csound()
+    try:
+        assert csound.compileCsdText(csd) == 0
+        csound.setControlChannel("worldish_attenuation", 1 - volume)
+        assert csound.start() == 0
+        assert csound.perform() > 0
+    finally:
+        csound.cleanup()
+        csound.reset()
+    with wave.open(str(output)) as stream:
+        samples = array("h", stream.readframes(stream.getnframes()))
+    for channel in (samples[::2], samples[1::2]):
+        peak = max(abs(sample) for sample in channel)
+        assert peak == 0 if volume == 0 else 0 < peak < 32767

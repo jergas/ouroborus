@@ -219,7 +219,9 @@ elseif (itype == 2) then
 
 endif
 
-    outs avoice * ileft, avoice * iright
+    kAttenuation chnget "worldish_attenuation"
+    kMaster portk 1 - kAttenuation, 0.02
+    outs kMaster * avoice * ileft, kMaster * avoice * iright
 
  endin
                 """
@@ -272,7 +274,9 @@ anoise  rand iamp, i1
 afilt   butterbp anoise, kfreqgliss, kbandwidth, i1
 ; stereo output
         afilt = afilt * kgate
-    outs afilt * ileft, afilt * iright
+    kAttenuation chnget "worldish_attenuation"
+    kMaster portk 1 - kAttenuation, 0.02
+    outs kMaster * afilt * ileft, kMaster * afilt * iright
     endin
                 """
 
