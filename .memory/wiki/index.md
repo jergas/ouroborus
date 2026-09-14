@@ -8,6 +8,8 @@ Durable project knowledge consolidated on 2026-09-13 from the migration/port con
 - [Repository boundaries and historical components](adrs/0002-repository-boundaries.md)
 - [Accepted desktop architecture](adrs/0003-desktop-app-proposal.md)
 
+- [Current system and evolutionary-language baseline](../../docs/current-evolution-system.md) (source snapshot, 2026-09-14; proposed language directions remain undecided)
+
 ## Execution knowledge
 
 - [Environment and library gotchas](gotchas.md)

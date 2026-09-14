@@ -1,5 +1,9 @@
 # Memory Update Log
 
+## [2026-09-14] DOCUMENT | Current system baseline before evolutionary-language work
+
+Added docs/current-evolution-system.md with high-level architecture, source map, genome translation/build/cache mechanics, BookEntry lifecycle and tick timing, agent primitives, Alpha behavior, reproduction/energy semantics, desktop process boundaries and observability. Confirmed that normal births copy genomes unchanged, place children globally, and allocate preset energy; costs/death requests live in generated behavior. Recorded these facts in the document and this durable memory log. Linked the document from the memory index. Language alternatives and interpreter integration are explicitly proposals, not accepted decisions or implemented features. Validation: source cross-checks, relative document-link checks and git diff --check; no runtime behavior changed.
+
 ## [2026-09-14] DOCUMENT | Ingested Gemini survey on in silico evolution languages
 
 Extracted a Gemini report ("Architectures of Digital Life: A Comprehensive Survey of Languages for In Silico Code Evolution") from a share link via a logged-in Chromium/CDP dump. Reconstructed tables and headings into Markdown at notes/digital-life-languages-survey.md, added it to the index under Research and surveys, and mirrored it (pinned) in the ai-memory wiki. The report surveys Redcode/Coreworld, Tierra, Avida, Push/Plush, CGP, Fraglets/String, COSMOS/REPLiCa, Aevol, and compares them for the unfinished Ouroborus agent language. Later the same day, recovered the two source-lists ("Sources used in the report", 53 entries; "Sources read but not used in the report", 92 entries) from the live Gemini conversation (the share link omits them) via CDP DOM extraction of the source chips, and appended them with their original hrefs to both the repo-local and ai-memory copies.
