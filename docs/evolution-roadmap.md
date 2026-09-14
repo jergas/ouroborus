@@ -1,6 +1,10 @@
 # Evolutionary language roadmap
 
-Status: planned direction, 2026-09-14. This roadmap describes the conceptual architecture and choices. The [implementation task list](evolution-tasklist.md) gives the ordered, fine-grained work and completion criteria. The [current system baseline](current-evolution-system.md) describes what exists today. The forager and new execution methods below are not implemented yet.
+Status: planned direction, 2026-09-14. This roadmap describes the conceptual architecture and choices. The [implementation task list](evolution-tasklist.md) gives the ordered, fine-grained work and completion criteria. The [current system baseline](current-evolution-system.md) describes what exists today. The compiled forager and transfer reproduction option are implemented as an initial checkpoint; interpretation remains pending. See [current forager](forager.md) for behavior and validation.
+
+## Extension policy
+
+Favor adding supported options and selecting preferred defaults over replacing behavior and adding compatibility layers. Existing source-genome compilation and preset-funded reproduction remain first-class choices; the forager selects the new transfer option.
 
 ## Direction and order
 
@@ -21,11 +25,11 @@ A specificity defines a world and its initial organisms. Execution method determ
 
 Proposed configuration names are `execution_method = "compiled" | "interpreted"`, with `compiled` as the default when absent. These names are a design proposal, not an existing API. The current `compiling` setting selects `IndividualCompile`, `MassCompile` or `Void`; it is not the new execution-method selector. Keep strain reuse/build strategy separate from execution method, and preserve no-agent configurations explicitly.
 
-The framework should dispatch through a common agent-controller interface. Compiled controllers use the existing build/import path; interpreted controllers use a shared runtime and per-agent execution state. The body, world, lifecycle and energy accounting remain common. A compatibility adapter can retain historical generated `birth()`/`live()` modules without pretending arbitrary legacy Python/Cython source is a genome the new interpreter can execute.
+The framework should dispatch through a common agent-controller interface. Compiled controllers use the existing build/import path; interpreted controllers use a shared runtime and per-agent execution state. The body, world, lifecycle and energy accounting remain common. The existing generated `birth()`/`live()` execution remains a directly supported option. New execution mechanisms are added alongside it; arbitrary Python/Cython source is not assumed to be interpretable by the new genome interpreter.
 
 For the forager, prefer one authoritative program representation with compiled and interpreted realizations. Establish a small, explicit set of operations while writing the compiled version; the interpreter can later implement their semantics. This need not mean building a general compiler before the forager works. Avoid two independently maintained behavioral implementations that merely happen to produce similar results.
 
-An execution method and an energy policy must not be conflated. Historical compiled agents may retain a legacy policy while the forager's two execution methods share the new policy. If computational charging or resumable budgets change the compiled implementation, adapt it rather than allowing method choice to change the experimental rules.
+An execution method and an energy policy must not be conflated. Existing compiled agents retain their supported policy while the forager's two execution methods share the new policy. If computational charging or resumable budgets change the compiled implementation, adapt it rather than allowing method choice to change the experimental rules.
 
 ## Foraging and reproduction energy
 

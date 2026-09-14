@@ -13,6 +13,8 @@ Durable project knowledge consolidated on 2026-09-13 from the migration/port con
 - [Evolutionary language roadmap](../../docs/evolution-roadmap.md) (compiled forager first, execution-method selection, then bounded interpretation)
 - [Ordered evolutionary task list](../../docs/evolution-tasklist.md) (cross-referenced implementation phases and validation)
 
+- [Compiled forager and transfer policy](../../docs/forager.md) (implemented checkpoint; interpretation pending)
+
 ## Execution knowledge
 
 - [Environment and library gotchas](gotchas.md)

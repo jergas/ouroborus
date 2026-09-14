@@ -40,3 +40,8 @@ Recorded 2026-09-13 from the port and its confirmed validation.
 ## Public documentation audience
 
 - User preference, 2026-09-14: write public documentation for a general audience and avoid details specific to the user's hardware or local incidents unless necessary. Such context can remain in project memory. Relevant platform requirements and reproducibility details are still appropriate when needed.
+
+## Framework extension policy
+
+- User decision, 2026-09-14: favor adding new supported options and choosing preferred defaults. Existing behavior remains a valid first-class option rather than being demoted to legacy behavior requiring compatibility layers.
+- CA on bits ARE food. Forager specificity uses an evolving XOR rule; static cell setups are focused tests only. No separate food layer was introduced.

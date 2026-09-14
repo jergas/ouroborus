@@ -31,7 +31,7 @@ class Controller(QObject):
     def __init__(self, parent=None, output_root=None):
         super().__init__(parent)
         self._state = "idle"
-        self._message = "Choose a preset and bring a world to life."
+        self._message = "Choose a specificity and bring a world to life."
         self._metrics = "No active simulation"
         self._audio = "Audio stopped"
         self._run_path = ""

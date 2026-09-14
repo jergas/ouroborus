@@ -13,8 +13,8 @@ class SimulationConfig:
     volume: float = 0.5
 
     def __post_init__(self):
-        if self.preset not in ("alpha", "beta", "delta", "epsilon"):
-            raise ValueError("Unknown simulation preset")
+        if self.preset not in ("alpha", "beta", "delta", "epsilon", "forager"):
+            raise ValueError("Unknown simulation specificity")
         if type(self.steps) is not int or not 1 <= self.steps <= 1000000:
             raise ValueError("Iterations must be between 1 and 1,000,000")
         if type(self.seed) is not int or not 0 <= self.seed <= 2147483647:

@@ -79,7 +79,7 @@ or, equivalently:
 .venv/bin/python -m worldish.desktop.app
 ```
 
-The Qt desktop hosts the real curses view and a graphical **Living grid** view. Switching views preserves the running world. The sidebar provides the four existing specificities, iteration limit, random seed, tick pacing, audio output, volume/mute, and JSON save/load settings. Start, pause, single-step and stop controls remain visible while the settings scroll.
+The Qt desktop hosts the real curses view and a graphical **Living grid** view. Switching views preserves the running world. The sidebar provides the available specificities, iteration limit, random seed, tick pacing, audio output, volume/mute, and JSON save/load settings. Start, pause, single-step and stop controls remain visible while the settings scroll.
 
 Native Csound 6 is required for audio; the launcher automatically uses the repository's `.deps/native` libraries when present. The desktop prefers PulseAudio when its runtime socket exists and otherwise uses PortAudio; `WORLDISH_AUDIO_BACKEND` can select `pulse`, `pa`, `alsa`, or `jack`. A device-open stall is stopped after 20 seconds and reported in the window. Select **Off** to run without Csound, or **Silent test** to exercise Csound without opening an audio device.
 
@@ -121,7 +121,7 @@ Each run writes `debug_output.txt`, `build.log`, generated genomes, and `result.
 
 Other options:
 
-- `--specificity alpha|beta|delta|epsilon`: configuration; Epsilon runs without agents.
+- `--specificity alpha|beta|delta|epsilon|forager`: configuration; Epsilon runs without agents.
 - `--mode debug|visual|audiovisual|threaded|experimental`: execution sequence.
 - `--display curses|pygame|debug`: view, except debug mode always uses its textual view.
 - `--no-sound`: disable audio; visual and debug modes already do this.
@@ -145,3 +145,4 @@ LD_LIBRARY_PATH="$PWD/.deps/native/usr/lib" .venv/bin/python -m pytest -q
 ```
 
 Audio tests explicitly skip if native Csound libraries are unavailable. Pygame tests use SDL's dummy display driver. These do not verify physical speakers or a desktop window.
+The **Forager** specificity adds an authored food-seeking organism with exact parent-to-offspring prana transfer. See [Forager](docs/forager.md) for its program and supported reproduction policy.

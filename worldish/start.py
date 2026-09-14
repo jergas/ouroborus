@@ -24,7 +24,7 @@ def positive(value):
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Run agents on a Birdcage cellular automaton.")
     parser.add_argument("-s", "--specificity", "--spec", default="alpha", type=str.lower,
-                        choices=["alpha", "beta", "delta", "epsilon"])
+                        choices=["alpha", "beta", "delta", "epsilon", "forager"])
     parser.add_argument("-m", "--mode", default="threaded", type=str.lower,
                         choices=["debug", "visual", "audiovisual", "threaded", "experimental", "session"])
     parser.add_argument("-n", "--submode", default="normal", type=str.capitalize)

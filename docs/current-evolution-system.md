@@ -2,6 +2,8 @@
 
 Status: descriptive snapshot of the source on 2026-09-14, before implementing a new evolutionary language. The final section records discussion options, not accepted architecture. This document accompanies the [digital-life languages survey](../.memory/wiki/notes/digital-life-languages-survey.md). Planned architecture is in the [evolutionary language roadmap](evolution-roadmap.md); ordered implementation work is in the [task list](evolution-tasklist.md).
 
+Subsequent implementation: the [compiled Forager and transfer policy](forager.md) now extend this baseline. The descriptions below of unchanged genome copying and preset-funded offspring describe the original supported option, not the newly added transfer policy.
+
 ## 1. What the system does today
 
 Ouroborus runs mobile agents over a changing two-dimensional cellular automaton. The background evolves through a configured neighborhood and transition rule. Agents occupy separate objects, move over that grid, consume eligible cells, accumulate or lose energy, reproduce, and die according to executable behavior generated from a seed genome.

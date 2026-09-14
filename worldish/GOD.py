@@ -113,6 +113,7 @@ class Generator:
                 self.obstetrics = 0
                 self.obstetrix = obstetrix
                 self.scions = [] # this is a list of strains used for MassCompiling
+                self.genome_table = dict(getattr(self.specific, "genome_table", tabula))
 
                 # Set the compile mode using getattr
                 self.generateGenotype = getattr(self, "generateGenotype"+self.specific.compiling, self.generateGenotypeIndividualCompile)
@@ -193,7 +194,7 @@ class Generator:
                 New version compatible with the new BookEntry class"""
 
                 # samskara is a genome binding poeio to tabula
-                samskara = g.Genome(poeio, tabula, 2)
+                samskara = g.Genome(poeio, self.genome_table, 2)
                 # create a name for the module object
                 onoma = self.obstetrix+str(self.obstetrics)
                 # corpus is the relative filepath where the Pyrex genome code will be saved
@@ -234,7 +235,7 @@ class Generator:
                 else:
                         # if it hasn't, proceed to compile the new genome
                         # samskara is a genome binding poeio to tabula
-                        samskara = g.Genome(poeio, tabula, 2)
+                        samskara = g.Genome(poeio, self.genome_table, 2)
                         # create a name for the module object
                         strain = self.obstetrix+str(len(self.scions))
                         # corpus is the relative filepath where the Pyrex genome code will be saved
@@ -329,6 +330,11 @@ class Organizer:
                 self.annum = 0
                 self.births = 0
                 self.deaths = 0
+                self.prana_transferred = 0
+                self.max_generation = 0
+                self.reproduction_policy = getattr(self.specific, "reproduction_policy", "preset")
+                if self.reproduction_policy not in ("preset", "transfer"):
+                        raise ValueError("Unknown reproduction policy")
                 self.size = self.specific.size
                 (self.width, self.height) = self.size
 
@@ -428,6 +434,10 @@ class Organizer:
                 bookentry ---> a BookEntry object
                 return    -->> 1"""
 
+                if bookentry.fatum.pop("birth_complete", False):
+                        bookentry.fatum["prayer"] = "Live"
+                        return 1
+
                 # import the module (compiled by the generator) and place it in bookentry
                 bookentry.callModule()
                 # call the module's birth function to instantiate an agent object
@@ -454,6 +464,10 @@ class Organizer:
 
                 return -->> a string, the agent child's name
                 """
+                if self.reproduction_policy == "transfer":
+                        from .reproduction import transfer_birth
+                        return transfer_birth(self, bookentry)
+
                 # the Generator compiles the new module and writes it in the book
                 code = bookentry.fatum["code"]
                 child = self.book[self.generator.generateGenotype(code, self.book)]

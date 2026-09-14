@@ -20,5 +20,8 @@ def report_result(organizer, generator):
         "deaths": organizer.deaths,
         "genotypes_compiled": len(generator.scions) if generator.specific.compiling == "MassCompile" else generator.obstetrics,
     }
+    if getattr(organizer, "reproduction_policy", "preset") == "transfer":
+        result["prana_transferred"] = organizer.prana_transferred
+        result["max_generation"] = organizer.max_generation
     Path("result.json").write_text(json.dumps(result, indent=2) + "\n")
     return result

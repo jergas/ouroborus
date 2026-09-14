@@ -75,7 +75,7 @@ ApplicationWindow {
         onAccepted: {
             const settings = simulation.loadPreset(selectedFile)
             if (settings.preset === undefined) return
-            preset.currentIndex = ["alpha", "beta", "delta", "epsilon"].indexOf(settings.preset)
+            preset.currentIndex = ["alpha", "beta", "delta", "epsilon", "forager"].indexOf(settings.preset)
             steps.value = settings.steps
             seed.value = settings.seed
             pace.value = settings.interval
@@ -119,13 +119,13 @@ ApplicationWindow {
                     ComboBox {
                         id: preset
                         Layout.fillWidth: true
-                        model: ["Alpha", "Beta", "Delta", "Epsilon"]
+                        model: ["Alpha", "Beta", "Delta", "Epsilon", "Forager"]
                         Accessible.name: "Simulation specificity"
                         ToolTip.visible: hovered
                         ToolTip.text: "World rules, initial population, and seed genome"
                     }
                     Label {
-                        text: preset.currentIndex === 0 ? "World: 80 × 20 · 3 initial agents" : preset.currentIndex === 3 ? "World: 80 × 40 · no initial agents" : "World: 80 × 40 · 3 initial agents"
+                        text: (preset.currentIndex === 0 || preset.currentIndex === 4) ? "World: 80 × 20 · 3 initial agents" : preset.currentIndex === 3 ? "World: 80 × 40 · no initial agents" : "World: 80 × 40 · 3 initial agents"
                         color: "#C8B6DB"; font.pixelSize: 12
                     }
                     Label { text: "Iterations" }

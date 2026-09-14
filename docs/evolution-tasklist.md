@@ -1,16 +1,18 @@
 # Evolutionary implementation task list
 
-Status: planned, 2026-09-14. All tasks are pending unless checked. Follow phases 1–4 in order. Optional later branches can proceed independently once their dependencies are met. The [roadmap](evolution-roadmap.md) explains the concepts and open choices; the [current baseline](current-evolution-system.md) documents existing behavior. This list does not claim the planned forager or interpreter already exists.
+Status: planned, 2026-09-14. All tasks are pending unless checked. Follow phases 1–4 in order. Optional later branches can proceed independently once their dependencies are met. The [roadmap](evolution-roadmap.md) explains the concepts and open choices; the [current baseline](current-evolution-system.md) documents existing behavior. The compiled forager checkpoint is documented in [forager.md](forager.md); interpretation remains pending.
+
+Checkpoint: phases 1 and the core compiled behavior/transfer in phase 2 are implemented. Session runs pass; full desktop live validation, declared ecological studies and complete trace capture remain unchecked. The initial condition is an evolving XOR CA; static cells are used only in focused tests.
 
 ## Phase 1: Create the forager specificity
 
 Purpose: establish the new organism's configuration before writing its behavior. See [roadmap: direction and order](evolution-roadmap.md#direction-and-order).
 
-- [ ] 1.1 Choose a specificity name and add its module following existing `specific_*` conventions.
-- [ ] 1.2 Define topology, neighborhood, controlled food environment, initial population, initial founder prana and run duration. Specify a changing-CA evaluation configuration separately.
-- [ ] 1.3 Reserve the forager genome entry point; do not expose a placeholder as a working forager.
-- [ ] 1.4 Add specificity discovery/validation and selection support to CLI, shared settings and desktop. Remove fixed four-choice assumptions where necessary, including world/population summaries.
-- [ ] 1.5 Use the existing compiled path and compilation strategy; introduce no interpreter dependency yet.
+- [x] 1.1 Choose a specificity name and add its module following existing `specific_*` conventions.
+- [x] 1.2 Define topology, neighborhood, controlled food environment, initial population, initial founder prana and run duration. Specify a changing-CA evaluation configuration separately.
+- [x] 1.3 Reserve the forager genome entry point; do not expose a placeholder as a working forager.
+- [x] 1.4 Add specificity discovery/validation and selection support to CLI, shared settings and desktop. Remove fixed four-choice assumptions where necessary, including world/population summaries.
+- [x] 1.5 Use the existing compiled path and compilation strategy; introduce no interpreter dependency yet.
 - [ ] 1.6 Validate configuration and no-agent world setup independently of the unfinished genome. Document which behavior becomes available in phase 2.
 
 Completion: the specificity can construct its intended world and its pending organism is clearly identified. Phase 2 supplies the working seed program.
@@ -19,16 +21,16 @@ Completion: the specificity can construct its intended world and its pending org
 
 Purpose: obtain a viable organism with correct energy transfer using today's execution method. See [roadmap: one organism, two methods](evolution-roadmap.md#one-organism-two-execution-methods) and [reproduction energy](evolution-roadmap.md#foraging-and-reproduction-energy).
 
-- [ ] 2.1 Specify a deterministic sensing/turning/movement/feeding policy, with documented seeded randomness where used.
-- [ ] 2.2 Define the minimal semantic operations and authoritative program representation so the same organism can later be interpreted. Mark their state changes and possible future charge points; do not implement the interpreter yet.
-- [ ] 2.3 Choose world-owned reproduction eligibility, transfer amount E, placement and occupancy policy. Identify initial-founder allocation separately from offspring funding.
-- [ ] 2.4 Choose atomic birth-time transfer or reserved prana for delayed lifecycle requests. Specify failed/cancelled births, parent death and insufficient funds before changing lifecycle code.
-- [ ] 2.5 Implement the reproduction transfer so the parent's debit is exactly the child's initial prana. Prevent a second allocation from specificity defaults and prevent duplicate processing from duplicating energy.
-- [ ] 2.6 Implement and annotate the compiled forager using those operations. Route energy transfer through shared world policy; avoid a second private reproduction debit in its genome.
-- [ ] 2.7 Document the phase-2 maintenance/action-cost policy as a baseline, explicitly subject to compute-cost alignment in phase 4. Keep historical specificities on their identified policies.
+- [x] 2.1 Specify a deterministic sensing/turning/movement/feeding policy, with documented seeded randomness where used.
+- [x] 2.2 Define the minimal semantic operations and authoritative program representation so the same organism can later be interpreted. Mark their state changes and possible future charge points; do not implement the interpreter yet.
+- [x] 2.3 Choose world-owned reproduction eligibility, transfer amount E, placement and occupancy policy. Identify initial-founder allocation separately from offspring funding.
+- [x] 2.4 Choose atomic birth-time transfer or reserved prana for delayed lifecycle requests. Specify failed/cancelled births, parent death and insufficient funds before changing lifecycle code.
+- [x] 2.5 Implement the reproduction transfer so the parent's debit is exactly the child's initial prana. Prevent a second allocation from specificity defaults and prevent duplicate processing from duplicating energy.
+- [x] 2.6 Implement and annotate the compiled forager using those operations. Route energy transfer through shared world policy; avoid a second private reproduction debit in its genome.
+- [x] 2.7 Document the phase-2 maintenance/action-cost policy as a baseline, explicitly subject to compute-cost alignment in phase 4. Keep existing specificities on their supported policies.
 - [ ] 2.8 Connect the genome to the new specificity and run a complete birth/live/reproduction/death lifecycle through CLI and desktop session paths.
-- [ ] 2.9 Test exact prana balances on successful reproduction and all failure paths, including repeated requests and delayed births. Separate transfer from any additional cost in assertions.
-- [ ] 2.10 Test sensing, movement, consumption and sequential contention with known cell states.
+- [x] 2.9 Test exact prana balances on successful reproduction and all failure paths, including repeated requests and delayed births. Separate transfer from any additional cost in assertions.
+- [x] 2.10 Test sensing, movement, consumption and sequential contention with known cell states.
 - [ ] 2.11 Select seed set, duration and viability thresholds before evaluation. Demonstrate multiple generations in controlled food conditions and report survival/extinction in changing CA conditions.
 - [ ] 2.12 Record baseline genome, configuration, action trace, energy balances and birth/death results for comparison after interpretation is implemented.
 
@@ -41,7 +43,7 @@ Purpose: add the architecture before implementing the new interpreter. See [road
 - [ ] 3.1 Specify and version `execution_method` with compiled/interpreted values; default missing settings to compiled. Finalize public setting/CLI names before exposing them.
 - [ ] 3.2 Keep `compiling` strain-cache/build strategies independent. Define no-agent behavior and reject unsupported method/genome combinations clearly.
 - [ ] 3.3 Define a common controller interface for initialization, advance/yield, persistent state, lifecycle requests and cleanup at the `BookEntry` boundary.
-- [ ] 3.4 Adapt existing compiled modules behind that interface without changing historical lifecycle timing inadvertently.
+- [ ] 3.4 Keep existing compiled module execution as a directly supported option; add new execution implementations alongside it, with explicit defaults.
 - [ ] 3.5 Add an interpreter factory/registration point. Until phase 4 supplies a backend, report interpreted execution as unavailable; never silently fall back to compilation.
 - [ ] 3.6 Carry execution choice through specificity defaults, CLI overrides, validated desktop settings, worker startup and saved JSON. Define precedence and preserve old settings with no execution field.
 - [ ] 3.7 Adjust startup messages and result fields to distinguish building genomes from preparing interpreted programs. Preserve meaning/compatibility of existing compilation metrics.
