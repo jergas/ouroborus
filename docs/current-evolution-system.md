@@ -1,6 +1,6 @@
 # Ouroborus: current system and evolutionary-language baseline
 
-Status: descriptive snapshot of the source on 2026-09-14, before implementing a new evolutionary language. The final section records discussion options, not accepted architecture. This document accompanies the [digital-life languages survey](../.memory/wiki/notes/digital-life-languages-survey.md).
+Status: descriptive snapshot of the source on 2026-09-14, before implementing a new evolutionary language. The final section records discussion options, not accepted architecture. This document accompanies the [digital-life languages survey](../.memory/wiki/notes/digital-life-languages-survey.md). Planned architecture is in the [evolutionary language roadmap](evolution-roadmap.md); ordered implementation work is in the [task list](evolution-tasklist.md).
 
 ## 1. What the system does today
 
@@ -166,9 +166,7 @@ Current observability includes:
 - Worker snapshots containing tick, population, births/deaths, dimensions, Booleanized cell states and body-covered coordinates. These are display data, not complete checkpoints: they omit genome identity, VM state, ancestry, and per-agent energy.
 - Saved desktop settings, which are launch configuration rather than serialized living worlds.
 
-The machine-wide audio outage recorded on 2026-09-13 is an unresolved environmental observation, not proof of a simulation regression. This document was verified against source; it does not claim a new audible playback test or regression-suite run.
-
-## 8. Implications for the language discussion — proposals only
+## 8. Language discussion and planned direction
 
 The survey is useful as a catalog, but its recommendation of a drop-in language does not account for this runtime's lifecycle, energy semantics and module interface. Mutation-safe execution also does not guarantee mutant survival, adaptive behavior or open-ended evolution. No performance ranking among candidate interpreters has been measured here.
 
@@ -181,7 +179,7 @@ Four avenues were discussed:
 | Structured evolution of the existing language | Mutate valid blocks and generate structurally correct source | Are restricted variation and compilation per novel strain acceptable? |
 | Regulatory/chemical execution | Tagged rules activated by signals or concentrations | Is changing the scheduling/metabolic model part of the intended experiment? |
 
-The assistant suggested starting with a small Push-inspired interpreter, but the user has not selected or authorized that implementation. A possible integration would replace the module-specific calls behind `BookEntry` with an explicit controller interface, retain Birdcage bodies/worlds, and route birth/death through the organizer. This interface does not exist yet. Both a stack machine and a register machine could eventually use it.
+The planned order is now to create a forager specificity, establish a compiled forager with exact offspring energy transfer, add framework execution-method selection with compilation as the default, and then implement interpretation. A Push-inspired machine remains a candidate; detailed instruction and compute-cost policies are not finalized. A possible integration would replace the module-specific calls behind `BookEntry` with an explicit controller interface, retain Birdcage bodies/worlds, and route birth/death through the organizer. This interface does not exist yet. Both a stack machine and a register machine could eventually use it.
 
 A first interpreter experiment could use integer/Boolean values, sensing, turning, movement, eating and reproduction requests. Persistent execution state, instruction budgets, stack/code limits and defined exceptional behavior would need explicit semantics. Python could serve as a reference implementation before measured hotspots move to Cython; neither speed nor population capacity is established in advance.
 
@@ -193,4 +191,4 @@ Before implementation, decide:
 4. **Variation and measurement:** mutation alphabet/operators, maximum genome size, parent/strain identity, behavioral diversity, survival across seeds and throughput.
 5. **Compatibility:** preserve the existing presets as a baseline, or deliberately change their reproduction and energy semantics under a separate experimental configuration?
 
-The suggested first checkpoint was a hand-authored viable forager in a bounded interpreter, followed by mutation and lineage tracking. That is a future experiment, not functionality present in this snapshot. No new language, reproduction policy or ecological rule was implemented while writing this document.
+The first behavioral checkpoint is a hand-authored compiled forager; the later interpreter must run the same organism. Mutation and lineage tracking follow validation of both execution methods. These are future experiments, not functionality present in this snapshot. No new language, reproduction policy or ecological rule was implemented while writing this document.

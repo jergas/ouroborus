@@ -35,4 +35,8 @@ Recorded 2026-09-13 from the port and its confirmed validation.
 - Master audio control uses a `worldish_attenuation` channel (0 means full gain) so standalone CSD rendering without a Python SoundServer keeps its previous default output. Both stereo channels apply a smoothed gain; desktop pause mutes output but deliberately leaves the musical clock running.
 - Keep desktop transport controls outside the scrolling settings region; screenshot inspection caught them disappearing below the initial 740-pixel window once real settings were added. A QML check now verifies visibility at the 800×560 minimum size.
 
-- User report on 2026-09-13: all apps have lacked audible output since the previous day despite active system meters. They plan to try rebooting. Desktop and standalone Csound probes stalled opening the device even though pactl info responded; do not infer a desktop regression from this machine-wide outage. Stop live-device probes until the system issue is resolved. No audio-service restart or reboot was performed.
+- Resolved 2026-09-14: the user reports that rebooting fixed the machine-wide audio outage and that the new windowed application runs correctly with sound. The outage was external to the project; desktop audio is user-confirmed working. The earlier restriction on live-device probes pending resolution is no longer applicable. Historical diagnostic details remain in log.md.
+
+## Public documentation audience
+
+- User preference, 2026-09-14: write public documentation for a general audience and avoid details specific to the user's hardware or local incidents unless necessary. Such context can remain in project memory. Relevant platform requirements and reproducibility details are still appropriate when needed.

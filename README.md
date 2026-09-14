@@ -2,7 +2,7 @@
 
 An artificial life project: agents live, feed, reproduce, and die on a cellular automaton. Worldish exposes the simulation through a terminal view, a Pygame view, and Csound voices.
 
-The windowed **worldish-desktop** app is the main interface: it hosts the real curses terminal view and a graphical **Living grid** view, with start, pause, single-step and stop transport alongside preset, seed, iteration limit, tick pacing, audio and JSON save/load settings. The same simulation also runs entirely from the command line, in Pygame, or with Csound voices.
+The windowed **worldish-desktop** app is the main interface: it hosts the real curses terminal view and a graphical **Living grid** view, with start, pause, single-step and stop transport alongside specificity, seed, iteration limit, tick pacing, audio and JSON save/load settings. The same simulation also runs entirely from the command line, in Pygame, or with Csound voices.
 
 - **birdcage/** — compiled cellular automata, neighborhoods, rules, agents, and genomes.
 - **worldish/** — the agent framework, configurations, execution sequences, and audiovisual views.
@@ -79,11 +79,11 @@ or, equivalently:
 .venv/bin/python -m worldish.desktop.app
 ```
 
-The Qt desktop hosts the real curses view and a graphical **Living grid** view. Switching views preserves the running world. The sidebar provides the four existing presets, iteration limit, random seed, tick pacing, audio output, volume/mute, and JSON save/load settings. Start, pause, single-step and stop controls remain visible while the settings scroll.
+The Qt desktop hosts the real curses view and a graphical **Living grid** view. Switching views preserves the running world. The sidebar provides the four existing specificities, iteration limit, random seed, tick pacing, audio output, volume/mute, and JSON save/load settings. Start, pause, single-step and stop controls remain visible while the settings scroll.
 
 Native Csound 6 is required for audio; the launcher automatically uses the repository's `.deps/native` libraries when present. The desktop prefers PulseAudio when its runtime socket exists and otherwise uses PortAudio; `WORLDISH_AUDIO_BACKEND` can select `pulse`, `pa`, `alsa`, or `jack`. A device-open stall is stopped after 20 seconds and reported in the window. Select **Off** to run without Csound, or **Silent test** to exercise Csound without opening an audio device.
 
-Preset, seed, iteration limit and output changes apply on the next run. Pace, volume and mute apply live. Pause stops simulation ticks and fades audio to silence; Csound's musical clock continues, so resume does not rewind or preserve sample-exact audio timing. Single-step advances one automaton tick and its agent updates while keeping audio muted. Stop followed by Start applies draft settings to a new world. World sizes/rules and initial agent counts currently come from the selected legacy preset.
+Specificity, seed, iteration limit and output changes apply on the next run. Pace, volume and mute apply live. Pause stops simulation ticks and fades audio to silence; Csound's musical clock continues, so resume does not rewind or preserve sample-exact audio timing. Single-step advances one automaton tick and its agent updates while keeping audio muted. Stop followed by Start applies draft settings to a new world. World sizes/rules and initial agent counts currently come from the selected legacy specificity.
 
 Each run has a separate `.worldish/desktop/<run-id>/` directory containing its configuration, genomes, logs and result. **Run logs** opens that folder. Startup can take time while genomes compile. Stop and window close request cleanup and terminate the owned worker/compiler process group if necessary. Runtime failures appear in the window; diagnostic details remain in the run logs.
 

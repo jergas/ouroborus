@@ -7,14 +7,14 @@ Status: accepted by the user on 2026-09-13. The initial working desktop implemen
 - PySide6 6.11.2 / Qt Quick shell, purple/green styling, scrollable settings and fixed transport controls.
 - Linux PTY-hosted curses via pyte 0.8.2, plus a snapshot-driven Living grid renderer; switching views preserves the world.
 - Separate managed worker and versioned socket-pair protocol; startup phases, metrics, failures and isolated run directories.
-- Validated launch settings, JSON save/load, start/stop, pause/resume, single tick, live pacing, volume and mute. Preset/seed/iteration/output edits apply on the next run; Stop then Start applies them.
+- Validated launch settings, JSON save/load, start/stop, pause/resume, single tick, live pacing, volume and mute. Specificity/seed/iteration/output edits apply on the next run; Stop then Start applies them.
 - Shared `session` CLI execution mode reuses legacy initialization and lifecycle helpers. It runs ticks and curses on the worker's main thread, with Csound/background threads owned by that process. The old CLI modes remain intact.
 - Pause freezes simulation ticks and smoothly mutes audio while the musical clock continues. It does not promise sample-exact audio pause/resume. The master attenuation channel defaults to full gain for standalone CSD users.
 - A 20-second audio-device startup timeout and bounded process-group shutdown prevent a stalled backend or compilation from stranding the UI. Desktop audio prefers PulseAudio when its socket exists, otherwise PortAudio; WORLDISH_AUDIO_BACKEND can explicitly select pulse, pa, alsa or jack.
 
-World dimensions, rules and initial populations still come from the existing presets. Arbitrary world/genome editing, device enumeration, graphical zoom/panning and full removal of legacy module globals remain future work. The current grid fits the complete world into its pane. The terminal is a Worldish-compatible view, not a general-purpose terminal application.
+World dimensions, rules and initial populations still come from the existing specificities. Arbitrary world/genome editing, device enumeration, graphical zoom/panning and full removal of legacy module globals remain future work. The current grid fits the complete world into its pane. The terminal is a Worldish-compatible view, not a general-purpose terminal application.
 
-Validation on 2026-09-13: 88 tests passed without skips. Headless integration checks cover real genomes, terminal resizing, paused tick stability, single-step, worker stop/crash/restart, alternate-screen colors/Unicode, settings and minimum-window layout. Screenshots of both renderers were inspected. Silent Csound runs and stereo WAV gain/mute checks pass. The user confirmed the initial shell runs and that Csound was audible in the original Python 3 terminal test. Current speaker validation is blocked by a user-reported machine-wide audio outage since the previous day; no audio service or desktop configuration was changed.
+Validation on 2026-09-13: 88 tests passed without skips. Headless integration checks cover real genomes, terminal resizing, paused tick stability, single-step, worker stop/crash/restart, alternate-screen colors/Unicode, settings and minimum-window layout. Screenshots of both renderers were inspected. Silent Csound runs and stereo WAV gain/mute checks pass. Manual validation reported on 2026-09-14 confirms that the windowed application runs with audible sound.
 
 ## Experience
 
@@ -23,7 +23,7 @@ A single desktop window contains a fixed left configuration sidebar, a large sim
 ```text
 ┌─ OUROBORUS                         ● Running       ─ □ × ┐
 │ Configuration       │ Terminal ▾                       │
-│ Preset: Alpha ▾     │                                  │
+│ Specificity: Alpha ▾│                                  │
 │                    │                                  │
 │ ▸ World            │          simulation view         │
 │ ▸ Agents           │                                  │
@@ -36,7 +36,7 @@ A single desktop window contains a fixed left configuration sidebar, a large sim
 └────────────────────┴──────────────────────────────────┘
 ```
 
-The sidebar is approximately 280 logical pixels wide, with collapsible groups and a persistent transport section. Presets start with the existing specificities. Show the current run's seed, configuration, and state explicitly. Configuration edits form a draft; changes requiring a restart should offer an explicit apply-and-restart action. Save/load presets can use versioned JSON rather than executable Python configuration files.
+The sidebar is approximately 280 logical pixels wide, with collapsible groups and a persistent transport section. The Specificity selector chooses the existing world configurations. Show the current run's seed, configuration, and state explicitly. Configuration edits form a draft; changes requiring a restart should offer an explicit apply-and-restart action. Save/load settings can use versioned JSON rather than executable Python configuration files.
 
 Use an aubergine background (#140D21), raised panels (#241536), bright purple (#B04CFF) for the application header, selections and focus outlines, acid green (#B6FF3B) for play and activity, and pale text (#F1EAFE). Put dark text on bright accent buttons. Keep the simulation canvas dark and visually quiet. Rounded controls, a seed dice button, and restrained activity pulses provide playfulness. Labels and icons accompany status colors; respect reduced motion and keyboard navigation.
 
@@ -120,8 +120,8 @@ These are proposed additions, not a requirement to reorganize all existing modul
 ## Delivery order and validation
 
 1. **Compatibility spike:** launch a real curses example with audio inside a minimal Qt terminal pane. Verify dependency installation on the current Python version, resizing, keyboard focus, Wayland behavior and complete shutdown.
-2. **Usable shell:** add the purple/green layout, preset selection, validated launch settings, start/stop/restart, logs and accurate state reporting. Preserve the current CLI.
-3. **Session controls:** extract the shared session interface; implement pause, step, pacing, volume, presets and metrics with explicit semantics.
+2. **Usable shell:** add the purple/green layout, specificity selection, validated launch settings, start/stop/restart, logs and accurate state reporting. Preserve the current CLI.
+3. **Session controls:** extract the shared session interface; implement pause, step, pacing, volume, settings and metrics with explicit semantics.
 4. **Modern renderer:** add a 2D grid view using snapshots and verify renderer switching preserves session state and audio.
 
-Retain the existing regression suite. Add focused coverage for protocol/state transitions, compilation delays before audio playback, stop during initialization, worker failure, child-process cleanup and tick behavior while paused. Exercise real terminal resizing and actual audio playback manually. A passing headless suite does not establish speaker output or desktop behavior. See the implementation status above for completed checks and the current machine-wide speaker-output limitation.
+Retain the existing regression suite. Add focused coverage for protocol/state transitions, compilation delays before audio playback, stop during initialization, worker failure, child-process cleanup and tick behavior while paused. Exercise real terminal resizing and actual audio playback manually. A passing headless suite does not establish speaker output or desktop behavior. See the implementation status above for completed checks.

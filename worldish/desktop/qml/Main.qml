@@ -115,12 +115,14 @@ ApplicationWindow {
                         ActionButton { text: "Load settings"; onClicked: loadDialog.open() }
                         ActionButton { text: "Save"; onClicked: saveDialog.open() }
                     }
-                    Label { text: "Preset" }
+                    Label { text: "Specificity" }
                     ComboBox {
                         id: preset
                         Layout.fillWidth: true
                         model: ["Alpha", "Beta", "Delta", "Epsilon"]
-                        Accessible.name: "Simulation preset"
+                        Accessible.name: "Simulation specificity"
+                        ToolTip.visible: hovered
+                        ToolTip.text: "World rules, initial population, and seed genome"
                     }
                     Label {
                         text: preset.currentIndex === 0 ? "World: 80 × 20 · 3 initial agents" : preset.currentIndex === 3 ? "World: 80 × 40 · no initial agents" : "World: 80 × 40 · 3 initial agents"

@@ -10,6 +10,9 @@ Durable project knowledge consolidated on 2026-09-13 from the migration/port con
 
 - [Current system and evolutionary-language baseline](../../docs/current-evolution-system.md) (source snapshot, 2026-09-14; proposed language directions remain undecided)
 
+- [Evolutionary language roadmap](../../docs/evolution-roadmap.md) (compiled forager first, execution-method selection, then bounded interpretation)
+- [Ordered evolutionary task list](../../docs/evolution-tasklist.md) (cross-referenced implementation phases and validation)
+
 ## Execution knowledge
 
 - [Environment and library gotchas](gotchas.md)
