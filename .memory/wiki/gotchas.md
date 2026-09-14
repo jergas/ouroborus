@@ -16,7 +16,7 @@ Recorded 2026-09-13 from the port and its confirmed validation.
 - Without native Csound, audio tests skip; a green suite with skips is not full audio validation. With the local libraries, 76 tests passed without skips on 2026-09-10.
 - Csound performance must stay paused until genome compilation finishes. Silent output is unpaced and can exhaust the score during slow compilation, causing early termination despite a zero exit code. Check result.json iterations, not just process success.
 - Stop/join audio producer threads before cleaning up the native Csound server.
-- Pygame loads only when requested. SDL_VIDEODRIVER=dummy exercises rendering without opening a desktop window. Curses was exercised in a pseudo-terminal. Physical speaker playback and a visible Pygame window have not been verified.
+- Pygame loads only when requested. SDL_VIDEODRIVER=dummy exercises rendering without opening a desktop window. Curses was exercised in a pseudo-terminal. The user later confirmed physical Csound playback in the initial Python 3 terminal test; a visible Pygame window remains unverified.
 
 ## Semantics and concurrency
 
@@ -25,3 +25,14 @@ Recorded 2026-09-13 from the port and its confirmed validation.
 - Keep curses/Pygame updates on the main thread and propagate worker failures. Experimental workers share a locked automaton/registry and must be joined on shutdown.
 - --seed is useful for sequential repeatability; independent experimental thread timing is not deterministic.
 - /tmp Python 2 experiments and logs are temporary, not durable backups. System installation originally required a sudo password; the migration and port used local tools/environments instead.
+
+## Qt desktop shell
+
+- For sandboxed headless checks set QT_QPA_PLATFORM=offscreen, QT_QUICK_BACKEND=software and QT_QPA_PLATFORMTHEME=basic. The inherited desktop theme otherwise loads GTK and attempts to open the display even with the offscreen platform.
+- Package the QML resource directory explicitly; setuptools otherwise warns it is an undeclared importable namespace.
+- Desktop tests must override (not setdefault) QT_QPA_PLATFORM and QT_QPA_PLATFORMTHEME: this shell inherits wayland;xcb and gtk3. Leaving these values in place caused a Qt platform-integration SIGABRT during QGuiApplication construction; coredump confirmed the startup stack. Explicit offscreen/basic resolved it.
+- The sandbox permits creating a socketpair but rejects the child's socket wrapper around the inherited descriptor (PermissionError). Real desktop worker integration tests need execution outside that sandbox; this is not a remote network connection.
+- Master audio control uses a `worldish_attenuation` channel (0 means full gain) so standalone CSD rendering without a Python SoundServer keeps its previous default output. Both stereo channels apply a smoothed gain; desktop pause mutes output but deliberately leaves the musical clock running.
+- Keep desktop transport controls outside the scrolling settings region; screenshot inspection caught them disappearing below the initial 740-pixel window once real settings were added. A QML check now verifies visibility at the 800×560 minimum size.
+
+- User report on 2026-09-13: all apps have lacked audible output since the previous day despite active system meters. They plan to try rebooting. Desktop and standalone Csound probes stalled opening the device even though pactl info responded; do not infer a desktop regression from this machine-wide outage. Stop live-device probes until the system issue is resolved. No audio-service restart or reboot was performed.

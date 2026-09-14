@@ -15,7 +15,7 @@ Snapshot recorded 2026-09-13 from the completed 2026-09-10 validation and curren
 
 ## Limits and future work
 
-No physical speaker playback or visible desktop Pygame window has been verified. Other Python 3 versions/platforms have not been tested. A complete unmodified Python 2 Worldish run was not established, so exact historical trajectory equivalence is not claimed.
+On 2026-09-13 the user confirmed they heard Csound during the initial Python 3 terminal test. A visible desktop Pygame window has not been verified. Other Python 3 versions/platforms have not been tested. A complete unmodified Python 2 Worldish run was not established, so exact historical trajectory equivalence is not claimed.
 
 Circadian is retained as a possible future revival, not already ported. The user intends further improvement before publishing on GitHub or a similar host; no exact next feature or hosting destination is selected.
 

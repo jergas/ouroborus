@@ -6,6 +6,7 @@ Durable project knowledge consolidated on 2026-09-13 from the migration/port con
 
 - [Stack and build](adrs/0001-initial-stack.md)
 - [Repository boundaries and historical components](adrs/0002-repository-boundaries.md)
+- [Accepted desktop architecture](adrs/0003-desktop-app-proposal.md)
 
 ## Execution knowledge
 

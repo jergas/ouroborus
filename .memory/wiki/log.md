@@ -1,5 +1,9 @@
 # Memory Update Log
 
+## [2026-09-13] PROPOSE | Desktop shell with curses, audio and future graphical views
+
+Documented a proposed Qt Quick desktop shell, managed simulation/audio worker, PTY-hosted curses view and staged extraction of a session/snapshot API. Recorded the user's left-toolbar and bright purple/green design requirements. See adrs/0003-desktop-app-proposal.md and docs/desktop-architecture.md. This is a proposal, not an accepted architecture or implemented feature.
+
 ## [2026-09-13] INIT | Created project memory vault
 
 ## [2026-09-13] DOCUMENT | Recorded SVN migration completed in the earlier session
@@ -21,3 +25,19 @@ Updated AGENTS.md Build/Test/Lint entries for the existing Cython build, pytest 
 ## [2026-09-13] PUBLISH | Commit the port and Mnemosyne for public GitHub publication
 
 The user explicitly selected public visibility for https://github.com/jergas/ouroborus. The repository was created and configured as origin. The Python 3 port is committed separately as 3c9b297, followed by the Mnemosyne integration (AGENTS.md, repository wiki, handoff guidance, and memory ignore entries). Existing SVN-derived history is retained on main. The README now reflects the C++ removal and Circadian's possible revival.
+
+## [2026-09-13] IMPLEMENT | Accepted desktop architecture and completed shell checkpoint
+
+The user accepted the proposal and requested small initial steps due to remaining usage allowance. Added an optional PySide6 desktop package, QML sidebar/canvas with purple/green styling, honest inactive simulation controls, a module launcher and worldish-desktop entry point. Installed PySide6 6.11.2. Updated README with launch and headless smoke commands. Fixed explicit QML packaging and documented the headless platform-theme quirk.
+
+Validation: Cython build, Python/QML packaging build, headless window load/exit, syntax and whitespace checks passed. Full regression suite: 76 passed, no skips, in 151.28 seconds. Visible desktop behavior has not been inspected. No simulation worker, curses embedding or desktop audio integration yet. Next bounded checkpoint: PTY terminal compatibility spike. Changes remain uncommitted.
+
+## [2026-09-13] IMPLEMENT | Working desktop simulation, terminal/grid views and transport
+
+Connected the Qt shell to a managed Linux PTY worker with a separate versioned local control socket. Added the shared CLI session mode, real curses rendering, snapshot Living grid view, validated preset/seed/iteration settings, JSON save/load, live pacing/volume/mute, pause/resume/single-step, isolated run logs and bounded stop/close cleanup. Preset-derived world dimensions/rules remain fixed. Fixed transport placement after screenshot inspection and QML shutdown ordering after observing teardown warnings.
+
+Validation: 88 tests passed without skips in 93.29 seconds. Coverage includes original regression tests, real desktop-worker genomes, pause/step, terminal resizing/Unicode/colors, stop during compilation, worker crash/restart, settings/QML layout, silent Csound and stereo WAV gain/mute. Headless window smoke, Python syntax/whitespace and build/package checks passed. The new session CLI completed three requested ticks. Inspected terminal and grid screenshots under .worldish/. Changes remain uncommitted.
+
+## [2026-09-13] CONTEXT | User confirms prior audible Csound and current machine-wide audio outage
+
+The user heard Csound during the initial Python 3 terminal test. Since the previous day all apps have lacked audible sound despite system meters showing activity; the user intends to try rebooting. Standalone and desktop Csound device-open probes stalled, while the PulseAudio-on-PipeWire service answered a read-only info request. Added a 20-second device-open timeout with an actionable desktop error, and stopped live-device testing. No audio service, desktop configuration or reboot was performed. Audible playback should be rechecked after the system audio issue is resolved; this is not evidence of a desktop regression.
