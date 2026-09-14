@@ -1,5 +1,9 @@
 # Memory Update Log
 
+## [2026-09-14] DOCUMENT | Ingested Gemini survey on in silico evolution languages
+
+Extracted a Gemini report ("Architectures of Digital Life: A Comprehensive Survey of Languages for In Silico Code Evolution") from a share link via a logged-in Chromium/CDP dump. Reconstructed tables and headings into Markdown at notes/digital-life-languages-survey.md, added it to the index under Research and surveys, and mirrored it (pinned) in the ai-memory wiki. The report surveys Redcode/Coreworld, Tierra, Avida, Push/Plush, CGP, Fraglets/String, COSMOS/REPLiCa, Aevol, and compares them for the unfinished Ouroborus agent language. Later the same day, recovered the two source-lists ("Sources used in the report", 53 entries; "Sources read but not used in the report", 92 entries) from the live Gemini conversation (the share link omits them) via CDP DOM extraction of the source chips, and appended them with their original hrefs to both the repo-local and ai-memory copies.
+
 ## [2026-09-13] PROPOSE | Desktop shell with curses, audio and future graphical views
 
 Documented a proposed Qt Quick desktop shell, managed simulation/audio worker, PTY-hosted curses view and staged extraction of a session/snapshot API. Recorded the user's left-toolbar and bright purple/green design requirements. See adrs/0003-desktop-app-proposal.md and docs/desktop-architecture.md. This is a proposal, not an accepted architecture or implemented feature.

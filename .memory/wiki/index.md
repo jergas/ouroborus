@@ -16,6 +16,10 @@ Durable project knowledge consolidated on 2026-09-13 from the migration/port con
 - [Python 3 port status and validation](port-status.md)
 - [Significant changes](log.md)
 
+## Research and surveys
+
+- [Languages for in silico code evolution](notes/digital-life-languages-survey.md) (Gemini report + source lists, 2026-09-14)
+
 ## Source-of-truth links
 
 - [Repository instructions](../../AGENTS.md)
