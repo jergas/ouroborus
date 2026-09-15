@@ -1,5 +1,9 @@
 # Memory Update Log
 
+## [2026-09-15] DOCUMENT | Ingested Gemini follow-up on DNA codon mutation robustness
+
+Extracted a new Gemini answer ("DNA Codon Structure and Mutation Robustness") from the live conversation (https://gemini.google.com/app/a35957a414e98087), a follow-up to the Digital Life Languages Survey. The answer explains codon redundancy, silent and conservative point mutations, and maps the lessons to digital evolution: redundant binary-to-opcode mapping, semantic proximity between similar instructions, and neutral networks / junk instructions. Reproduced it faithfully in Markdown at notes/dna-codon-mutation-robustness.md, complete with the prompt it answers, and added it to the index under Research and surveys. The answer's source chips could not be expanded to their source list (empty Angular placeholders; "View sources" does not open on trusted CDP input, matching the user's Chromium experience); the user later pasted the dialogue's chip labels and the deduplicated source appendix was appended to both copies of the note.
+
 ## [2026-09-14] VALIDATE | Execution-method and forager VM checkpoint confirmed
 
 Ran the execution validation for the compiled/interpreted forager VM checkpoint on branch forager. Build and Lint passed. Focused suite (test_execution, test_forager): 20 passed. Full suite with local Csound runtime: 108 passed, no skips (94 baseline plus new execution tests), including real-session compiled/interpreted result comparison. Exploratory matrix of 36 runs (seeds 7/42/99, allowances 1/2/6, maintenance/compute, compiled and interpreted at 80 ticks, separate output dirs): all succeeded, compiled and interpreted reported identical population/births/deaths/prana-transferred for every combination; no extinction observed; interpreted runs compiled no genomes and produced no native artifacts. No fixes needed. Committed as part of this checkpoint.

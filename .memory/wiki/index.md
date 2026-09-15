@@ -29,6 +29,7 @@ Durable project knowledge consolidated on 2026-09-13 from the migration/port con
 ## Research and surveys
 
 - [Languages for in silico code evolution](notes/digital-life-languages-survey.md) (Gemini report + source lists, 2026-09-14)
+- [DNA codon structure and mutation robustness](notes/dna-codon-mutation-robustness.md) (Gemini follow-up on mutational robustness of genetic "semantics", 2026-09-15)
 
 ## Source-of-truth links
 
