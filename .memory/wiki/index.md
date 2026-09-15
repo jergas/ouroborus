@@ -31,7 +31,9 @@ Durable project knowledge consolidated on 2026-09-13 from the migration/port con
 
 - [Atomic codon design and analysis](notes/codon-design-validation.md) (geometry measured; 149 tests passed; language remains provisional)
 
-- [Authored atomic forager review](notes/authored-codon-validation.md) (17-codon draft and static reviewer; validation pending)
+- [Authored atomic forager review](notes/authored-codon-validation.md) (17-codon draft and static reviewer; 153 tests passed)
+
+- [Atomic decoder and state foundation](notes/atomic-state-validation.md) (experimental data boundaries; 177 tests passed)
 
 ## Execution knowledge
 

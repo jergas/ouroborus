@@ -20,7 +20,7 @@ Completion: the execution and prana history of selected organisms can be explain
 
 ## B. Ecology and run controls
 
-New checkpoint: [declared study runner](ecology-studies.md) supplies manifests, isolated runs and failure-preserving outcomes for B1–B3/B5. The initial runner passed its five tests and a tiny real-run smoke; the 36-condition study remains pending. New placement options and paired outcome reports are implemented but await validation. No viability conclusion is implied.
+New checkpoint: [declared study runner](ecology-studies.md) supplies manifests, isolated runs and failure-preserving outcomes for B1–B3/B5. The initial runner passed its five tests and a tiny real-run smoke; the 36-condition study remains pending. Placement options and paired outcome reports were validated with the full suite (136 tests, no skips), but the declared placement/allowance/pricing comparisons themselves have not been run. Session stop thresholds fulfil B6's population/strain-cache/run policies; byte/storage and pre-initialization admission controls remain open. No viability conclusion is implied.
 
 See [roadmap: supported foundations](evolution-roadmap.md#supported-foundations). The evolving CA's on cells remain food; static arrangements are focused test fixtures only.
 
@@ -29,41 +29,42 @@ See [roadmap: supported foundations](evolution-roadmap.md#supported-foundations)
 - [ ] B3 Compare maintenance and compute pricing, zero-prana boundaries, prepaid credits and idle organisms. Keep these as supported policy choices with explicit defaults.
 - [ ] B4 Compare parent-local offspring placement with a separately selected alternative, documenting overlap and food contention.
 - [ ] B5 Record survival/extinction, generation depth, intake, expenditure and reproductive success; retain failed runs and baseline traces.
-- [ ] B6 Specify and implement population, strain-cache and total-run resource policies. Distinguish stopping an experiment at a limit from changing birth eligibility; report all limit events. [Session stop thresholds](run-limits.md) passed the separate validation checkpoint (144 full-suite tests, no skips); byte/storage and pre-initialization controls remain open.
+- [x] B6 Specify and implement population, strain-cache and total-run resource policies. Distinguish stopping an experiment at a limit from changing birth eligibility; report all limit events. [Session stop thresholds](run-limits.md) passed the separate validation checkpoint (144 full-suite tests, no skips); byte/storage and pre-initialization controls remain open.
 - [ ] B7 Complete or revise the forager viability assessment using the declared criteria, preserving exact offspring funding throughout.
 
 Completion: environmental and scheduling effects are observable enough to interpret later genetic experiments. More appropriate CA rules can be introduced as additional specificities or options.
 
 ## C. Atomic language and codon design
 
-A [concrete 32-instruction proposal](atomic-codon-proposal.md), total 64-codon candidate table and offline substitution/recombination analyzer now support this phase. They are not a frozen language or a runtime implementation. The analyzer and measured geometry passed validation (149 full-suite tests); design review and runtime validation remain pending; ecological evaluation continues separately.
+A [concrete 32-instruction proposal](atomic-codon-proposal.md), total 64-codon candidate table and offline substitution/recombination analyzer now support this phase. They are not a frozen language or a runtime implementation. The analyzer and measured geometry passed validation (149 full-suite tests). C1–C3, C5, C7, C8 and C10–C12 are fulfilled as design/measurement requirements; C4/C6 finalization and the runtime synonymous-behavior check C9 remain open. Design review, the substitution-model definition and runtime validation remain pending; ecological evaluation continues separately.
 
 See [roadmap: bases and instructions](evolution-roadmap.md#bases-codons-and-instructions), [no-ops](evolution-roadmap.md#no-ops-and-silent-variation) and [recombination](evolution-roadmap.md#recombination-within-codons).
 
-- [ ] C1 Draft a small atomic instruction set: separate sensing, comparison, turning, movement, feeding, reproduction request, bounded memory and control flow. Avoid hiding a foraging strategy in one operation.
-- [ ] C2 Specify stack/register types, capacity, arithmetic bounds, missing operands/targets, branching, completion, resume behavior and initial offspring state. Choose a concrete machine model rather than implementing several at once.
-- [ ] C3 Specify finite work and prana charge points for every operation in both execution methods, including no-ops and control flow.
+- [x] C1 Draft a small atomic instruction set: separate sensing, comparison, turning, movement, feeding, reproduction request, bounded memory and control flow. Avoid hiding a foraging strategy in one operation.
+- [x] C2 Specify stack/register types, capacity, arithmetic bounds, missing operands/targets, branching, completion, resume behavior and initial offspring state. Choose a concrete machine model rather than implementing several at once.
+- [x] C3 Specify finite work and prana charge points for every operation in both execution methods, including no-ops and control flow.
 - [ ] C4 Retain two-character codons. Evaluate eight bases, provisionally A–H, as the starting alphabet giving 64 words; finalize symbols and instruction count before freezing a mapping.
-- [ ] C5 Construct a total redundant table assigning every possible codon to one instruction. Allocate a modest, explicit no-op group; evaluate its size rather than using no-op as an unspecified fallback.
+- [x] C5 Construct a total redundant table assigning every codon to one instruction. Allocate a modest, explicit no-op group; evaluate its size rather than using no-op as an unspecified fallback.
 - [ ] C6 Define the single-base substitution model, including probabilities and any position/base biases. Enumerate all transitions and verify synonym connectivity and related-operation neighborhoods.
-- [ ] C7 Measure silent/related/other transition proportions and compare with shuffled mappings preserving redundancy. Document the semantic-distance heuristic and its limits.
-- [ ] C8 Enumerate within-codon recombinations for parental codon pairs, including synonymous pairs. Compare fixed parental roles and randomized orientation. Assess an operation-family/variant decomposition without assuming it is optimal.
+- [x] C7 Measure silent/related/other transition proportions and compare with shuffled mappings preserving redundancy. Document the semantic-distance heuristic and its limits.
+- [x] C8 Enumerate within-codon recombinations for parental codon pairs, including synonymous pairs. Compare fixed parental roles and randomized orientation. Assess an operation-family/variant decomposition without assuming it is optimal.
 - [ ] C9 Check that synonymous codons have identical instruction, RNG, timing and charging behavior in the initial execution model. Distinguish this property from neutrality under future raw-code introspection.
-- [ ] C10 Specify raw-genome storage and hashing separately from decoded-program identity and code caching. Preserve original bases through copying and serialization.
-- [ ] C11 Define mapping/language version identifiers and same-version mating requirements. Do not reinterpret stored genomes under a changed table without an explicit experiment or conversion.
-- [ ] C12 Publish the proposed table, instruction specification, mutation/recombination analysis and remaining tradeoffs before enabling evolutionary variation.
+- [x] C10 Specify raw-genome storage and hashing separately from decoded-program identity and code caching. Preserve original bases through copying and serialization.
+- [x] C11 Define mapping/language version identifiers and same-version mating requirements. Do not reinterpret stored genomes under a changed table without an explicit experiment or conversion.
+- [x] C12 Publish the proposed table, instruction specification, mutation/recombination analysis and remaining tradeoffs before enabling evolutionary variation.
 
 Completion: every codon has defined bounded execution semantics, the mapping's local properties are measured, and its mating implications are explicit. Alphabet symbols and the full table remain open until this work is done.
 
 ## D. Authored codon forager
 
-An [authored 17-codon draft and static review tool](authored-atomic-forager.md) now exercise the proposed machine before a language is frozen. This supplies a reviewable starting genome for D3, not a runtime implementation or viability result. New review tests remain pending.
+An [authored 17-codon draft and static review tool](authored-atomic-forager.md) now exercise the proposed machine before a language is frozen. This supplies a reviewable starting genome for D3, not a runtime implementation or viability result. Big Pickle validated the review (153 full-suite tests, no skips).
 
 See [roadmap: direction and order](evolution-roadmap.md#direction-and-order).
 
 - [ ] D1 Add the codon language as a supported option alongside source and forager-v1; keep compilation as the default method.
+  The experimental `worldish.atomic_state` decoder and state factory now supply part of D2/D5; [validation handoff](../.memory/wiki/notes/atomic-state-validation.md) was validated by Big Pickle (33 focused tests, 177 full-suite, no skips). They do not register a language or execute opcodes, so D2/D5 remain unchecked.
 - [ ] D2 Implement the common decoder and atomic operations with compiled and interpreted execution paths.
-- [ ] D3 Write and annotate the forager's base sequence using the new atomic instructions. Keep its actual synonymous choices, not only a canonical instruction listing.
+- [x] D3 Write and annotate the forager's base sequence using the new atomic instructions. Keep its actual synonymous choices, not only a canonical instruction listing.
 - [ ] D4 Extend inspection to raw codons, decoded instructions and bounded memory. Ensure debug instruction names are not accidentally used as the genetic representation.
 - [ ] D5 Validate every codon's decoding, empty programs, unexpected machine states, loops, resource limits and malformed external input. Future stack/jump tests are new coverage, not inherited from the six-op VM checkpoint.
 - [ ] D6 Compare full traces and energy accounting between methods across declared seeds and allowances; verify synonymous substitutions preserve those traces in the initial model.

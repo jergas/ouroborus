@@ -1,5 +1,13 @@
 # Memory Update Log
 
+## [2026-09-15] VALIDATE | Atomic decoder and state foundation validated
+
+Build clean, lint clean, 177 passed in 81.98s (0 skips, 0 failures) on the atomic-state checkpoint basis. Focused tests 33/33 (atomic_state + codon_program + codon_analysis): all 64 codons decode, raw synonyms keep distinct raw hashes/equal decoded hashes, immutable decoding survives candidate edits, empty/max-length/malformed/pin-mismatch/unsupported-table rejection, fresh vs restored slot ownership, signed/type/pointer/credit/shape/context rejection. No executor, language registration, mapping freeze or simulation change. Also checkmarked every task in docs/evolution-tasklist.md that is fulfilled per validated checkpoints: B6 (run-limit policies), C1–C3/C5/C7/C8/C10–C12 (design/measurement), D3 (authored genome); refreshed B/C/D preludes; C4/C6/C9 and runtime-bound D1/D2/D4–D7 left open. Updated notes/atomic-state-validation.md. Committed pending.
+
+## [2026-09-15] IMPLEMENT | Strict atomic decoding and independent machine state
+
+Acknowledged authored-review validation (153 tests, no skips). Added experimental explicitly pinned raw-genome decoder with immutable codon/operation tuples and separate raw/candidate-scoped decoded hashes. Added fresh eight-slot state and defensive validation of suspended instruction pointers, signed registers/slots, pending requests and prepaid credits. Centralized draft vocabulary for static review. Wrote boundary tests and notes/atomic-state-validation.md; updated public proposal/tasklist. No mapping freeze, runtime registration, opcode execution or framework behavior changes. No builds/tests/simulation/VC mutations; validation belongs to Big Pickle.
+
 ## [2026-09-15] VALIDATE | Authored atomic forager and static review validated
 
 Build clean, lint clean, 153 passed in 82.94s (0 skips, 0 failures) on the authored-codon commit basis. Focused tests 9/9 (codon_program 4 + analysis 5): 17 words/34 bases, 8 paths, 14–17 instructions, MOVE/MAINTAIN×1 and EAT×2 per path all ending YIELD, 3 live visits and zero-credit prana 3 at price6, price1 above food bound, candidate/annotation drift rejection, synonym-preserved decoding, end-skip/empty/path-cap/unsupported rejection. Review CLI at allowance6: price6 report and price1 report saved under experiments/codons/authored-forager-review-{price6,price1}.json; all expectations matched (genome sha a105d9b8c418e308, price1 zero-credit prana 14–17 > food 10). Static bounds only; no VM evaluation. Updated notes/authored-codon-validation.md. Committed pending.
