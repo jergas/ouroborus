@@ -270,3 +270,20 @@ def test_paused_agent_inspection_and_trace_settings(qtapp, tmp_path):
         assert (Path(controller.runPath) / "events.jsonl").exists()
     finally:
         controller.shutdown()
+
+
+def test_worker_reports_configured_resource_stop(qtapp, tmp_path):
+    from worldish.desktop.controller import Controller
+    controller = Controller(output_root=tmp_path)
+    try:
+        config = SimulationConfig(preset="forager", steps=100, audio="off", interval=0.01,
+                                  execution_method="interpreted", max_population=4)
+        controller.startConfigured(config.to_dict())
+        wait_for(qtapp, lambda: controller.process is None)
+        assert controller.state == "limited", controller.message
+        assert "resource limit" in controller.message
+        result = json.loads((Path(controller.runPath) / "result.json").read_text())
+        assert result["termination"]["limits"]["max_population"] == 4
+        assert result["observation"]["ledger"]["balance_error"] == 0
+    finally:
+        controller.shutdown()

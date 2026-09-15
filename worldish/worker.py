@@ -193,14 +193,18 @@ def main():
                        "--energy-policy", config.energy_policy,
                        "--instructions-per-prana", str(config.instructions_per_prana),
                        "--trace-mode", config.trace_mode, "--trace-limit", str(config.trace_limit),
-                       "--offspring-placement", config.offspring_placement]
+                       "--offspring-placement", config.offspring_placement,
+                       "--max-population", str(config.max_population),
+                       "--max-genotypes", str(config.max_genotypes),
+                       "--max-lifecycle-visits", str(config.max_lifecycle_visits)]
         if config.audio == "off":
             launch_args.append("--no-sound")
         elif config.audio == "silent":
             launch_args.append("--silent-audio")
         launch(launch_args)
         result = json.loads((args.config.parent / "result.json").read_text())
-        control.send("finished", state="stopped" if control.stopped else "finished", result=result)
+        state = "limited" if result.get("termination", {}).get("reason") == "resource_limit" else "stopped" if control.stopped else "finished"
+        control.send("finished", state=state, result=result)
         return 0
     except BaseException as error:
         traceback.print_exc()

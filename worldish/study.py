@@ -11,6 +11,7 @@ import sys
 import time
 
 from .config import SimulationConfig
+from .run_limits import RunLimits
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -18,11 +19,15 @@ ROOT = Path(__file__).resolve().parents[1]
 def expand_plan(plan):
     allowed = {"seeds", "methods", "allowances", "policies", "prices", "steps",
                "timeout_seconds", "minimum_population", "minimum_generation"}
-    if not isinstance(plan, dict) or not allowed <= set(plan) or set(plan) - allowed - {"placements"}:
-        raise ValueError("Plan requires these keys, plus optional placements: " + ", ".join(sorted(allowed)))
+    if not isinstance(plan, dict) or not allowed <= set(plan) or set(plan) - allowed - {"placements", "limits"}:
+        raise ValueError("Plan requires these keys, plus optional placements/limits: " + ", ".join(sorted(allowed)))
     for key in ("steps", "timeout_seconds", "minimum_population", "minimum_generation"):
         if type(plan[key]) is not int or not 1 <= plan[key] <= 1_000_000:
             raise ValueError(f"{key} must be an integer from 1 to 1,000,000")
+    limits = plan.get("limits", {})
+    if not isinstance(limits, dict) or set(limits) - RunLimits.__dataclass_fields__.keys():
+        raise ValueError("Unknown study run limit")
+    limits = vars(RunLimits(**limits))
     axes = [plan[key] for key in ("seeds", "methods", "allowances", "policies", "prices")]
     axes.append(plan.get("placements", ["policy"]))
     count = 1
@@ -37,7 +42,7 @@ def expand_plan(plan):
     return [SimulationConfig(preset="forager", steps=plan["steps"], seed=seed,
                              audio="off", execution_method=method,
                              instructions_per_tick=allowance, energy_policy=policy,
-                             instructions_per_prana=price, trace_mode="events", offspring_placement=placement)
+                             instructions_per_prana=price, trace_mode="events", offspring_placement=placement, **limits)
             for seed, method, allowance, policy, price, placement in itertools.product(*axes)]
 
 
@@ -53,6 +58,13 @@ def source_digest():
 
 def classify(result, config, plan):
     """A finite-horizon screen, never evidence of indefinite viability."""
+    termination = result.get("termination", {})
+    if not isinstance(termination, dict):
+        raise ValueError("Invalid termination metadata")
+    if termination.get("reason", "horizon") != "horizon":
+        raise ValueError("Run ended before an unrestricted horizon outcome")
+    if not termination.get("last_tick_complete", True):
+        raise ValueError("Run ended during a partial tick")
     for key in ("iterations", "population", "births", "deaths", "max_generation"):
         if type(result[key]) is not int or result[key] < 0:
             raise ValueError(f"Invalid result field: {key}")
@@ -76,7 +88,10 @@ def command_for(config, output):
             "--energy-policy", config.energy_policy,
             "--instructions-per-prana", str(config.instructions_per_prana),
             "--trace-mode", config.trace_mode, "--trace-limit", str(config.trace_limit),
-            "--offspring-placement", config.offspring_placement]
+            "--offspring-placement", config.offspring_placement,
+            "--max-population", str(config.max_population),
+            "--max-genotypes", str(config.max_genotypes),
+            "--max-lifecycle-visits", str(config.max_lifecycle_visits)]
 
 
 def run_condition(config, output, plan):
@@ -94,10 +109,13 @@ def run_condition(config, output, plan):
         else:
             result = json.loads((output / "result.json").read_text())
             record["result"] = result
-            record.update(classify(result, config, plan), status="completed")
+            if result.get("termination", {}).get("reason") == "resource_limit":
+                record.update(status="limited", error="Configured stop threshold; ecological outcome unknown")
+            else:
+                record.update(classify(result, config, plan), status="completed")
     except subprocess.TimeoutExpired:
         record.update(status="timeout", error="Wall-clock limit; ecological outcome unknown")
-    except (OSError, ValueError, KeyError, TypeError) as error:
+    except (OSError, ValueError, KeyError, TypeError, AttributeError) as error:
         record["error"] = str(error)
     finally:
         if process is not None:

@@ -25,7 +25,9 @@ Durable project knowledge consolidated on 2026-09-13 from the migration/port con
 
 - [Ecology study validation](notes/study-validation.md) (initial runner validated; full ecology matrix pending)
 
-- [Placement and study report validation](notes/placement-report-validation.md) (new checkpoint, validation pending)
+- [Placement and study report validation](notes/placement-report-validation.md) (validated: 136 full-suite tests passed; ecological matrices pending)
+
+- [Session run limits](notes/run-limits-validation.md) (new checkpoint; validation pending)
 
 ## Execution knowledge
 

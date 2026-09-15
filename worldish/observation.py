@@ -114,7 +114,8 @@ class Observation:
         self.trace = TraceWriter(getattr(specific, "trace_mode", "off"),
                                  getattr(specific, "trace_limit", 100_000))
         from .placement import placement_settings
-        self.emit("run", offspring_placement=placement_settings(specific), schema=1, specificity=getattr(specific, "__name__", "unknown"),
+        from .run_limits import RunLimits
+        self.emit("run", run_limits=asdict(RunLimits.from_specificity(specific)), offspring_placement=placement_settings(specific), schema=1, specificity=getattr(specific, "__name__", "unknown"),
                   language=language, execution=asdict(options),
                   launch=launch or {}, random_state=random.getstate(),
                   world={key: stable_value(getattr(specific, key, None)) for key in (

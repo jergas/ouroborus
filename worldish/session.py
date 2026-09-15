@@ -14,6 +14,9 @@ def run(stdscr):
 
     control = getattr(runtime, "session_control", None)
     sequence = ThreadedSequence(stdscr)
+    from .run_limits import RunLimits, RunMonitor
+    monitor = RunMonitor(sequence.bast, RunLimits.from_specificity(specific))
+    sequence.bast.run_monitor = monitor
     if stdscr is not None:
         stdscr.nodelay(True)
         curses.curs_set(0)
@@ -26,22 +29,36 @@ def run(stdscr):
             started.append(voice)
         if control:
             control.ready(sequence)
-        while sequence.bast.annum < sequence.doomsday:
+        monitor.check()
+        while sequence.bast.annum < sequence.doomsday and not monitor.reached:
             if control and not control.before_tick(sequence):
+                monitor.reason = "stopped"
                 break
             sequence.bast.iterateAutomaton()
             render = sequence.bast.annum % sequence.simulationToAudiovisual == 0
-            for entry in list(sequence.taw.values()):
+            entries = list(sequence.taw.values())
+            for index, entry in enumerate(entries):
                 prayer = entry.fatum["prayer"]
                 sequence.bast.readBookOfLife(entry)
+                monitor.visits += 1
+                monitor.tick_complete = index == len(entries) - 1
                 if render:
                     sequence.showAgent(entry, prayer)
+                if monitor.check():
+                    break
+            if not entries:
+                monitor.tick_complete = True
             if render:
                 sequence.showBackground()
             if control:
-                control.after_tick(sequence)
+                if monitor.reached:
+                    control.snapshot(sequence)
+                else:
+                    control.after_tick(sequence)
             else:
                 time.sleep(specific.annumDelay)
+            if monitor.reached:
+                break
             if sound.SoundServer.perf.status():
                 raise RuntimeError("Audio performance ended before the simulation completed")
     finally:

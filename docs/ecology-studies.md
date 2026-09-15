@@ -48,3 +48,7 @@ Within each seed/configuration, the report compares compiled and interpreted fin
 Missing outcomes, failed runs, timeouts and invalid completed results remain unknown. Duplicate/undeclared outcomes or configurations inconsistent with the manifest are rejected. An interrupted last JSONL record without a terminating newline is reported as an incomplete tail; malformed earlier records are errors. Prepare-only studies report every condition missing. Exit status is nonzero for unknown outcomes or method differences; a completed biological screen failure alone does not make report generation fail.
 
 The report does not provide statistical significance or claim adaptation. Further work includes declared longer-horizon studies, aggregate simulation resource policies (B6), and validation of the authored forager against those criteria (B7). These tools do not enable mutations or freeze a codon mapping.
+
+## Operational stop thresholds
+
+An optional shared `limits` object now sets session population, prepared raw-genome and lifecycle-visit thresholds. A threshold stop retains a partial result with status `limited`; reports count it as unknown, not extinction. All limits default to zero/unlimited. See [session stop thresholds](run-limits.md) for boundaries, partial ticks and remaining resource-policy work. This addition awaits validation independently of the preceding study/placement checkpoints.

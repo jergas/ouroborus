@@ -9,6 +9,7 @@ from pathlib import Path
 from .config import SimulationConfig
 from .study import classify, expand_plan
 from .placement import resolve_placement
+from .run_limits import RunLimits
 
 
 def comparable_result(result):
@@ -42,7 +43,7 @@ def build_report(manifest, outcomes):
             raise ValueError("Unknown or duplicate outcome directory")
         if SimulationConfig(**outcome["config"]) != expected[directory]:
             raise ValueError("Outcome configuration differs from the declared condition")
-        if outcome["status"] not in ("completed", "failed", "timeout"):
+        if outcome["status"] not in ("completed", "failed", "timeout", "limited"):
             raise ValueError("Unknown outcome status")
         records[directory] = outcome
 
@@ -53,6 +54,8 @@ def build_report(manifest, outcomes):
                "status": outcome["status"] if outcome else "missing"}
         if outcome:
             row["error"] = outcome.get("error")
+            if "result" in outcome:
+                row["result"] = outcome["result"]
         if row["status"] == "completed":
             try:
                 result = outcome["result"]
@@ -66,6 +69,10 @@ def build_report(manifest, outcomes):
                                       "effective": resolve_placement(config.offspring_placement, "transfer")}
                 if placement != expected_placement and (placement is not None or config.offspring_placement != "policy"):
                     raise ValueError("Result placement differs from the declared condition")
+                limits = {key: getattr(config, key) for key in RunLimits.__dataclass_fields__}
+                recorded_limits = result.get("termination", {}).get("limits")
+                if recorded_limits != limits and (recorded_limits is not None or any(limits.values())):
+                    raise ValueError("Result stop thresholds differ from the declared condition")
                 screen = classify(result, config, manifest["plan"])
                 # Recompute classifications, never trust previously cached booleans.
                 row.update(screen, result=result)

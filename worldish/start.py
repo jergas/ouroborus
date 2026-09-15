@@ -51,6 +51,10 @@ def main(argv=None):
                         help="maximum recorded events (1–1,000,000); tracing defaults to off")
     parser.add_argument("--offspring-placement", choices=["policy", "local", "random"],
                         help="offspring position; policy retains the funding policy default")
+    from .run_limits import RunLimits
+    for field in RunLimits.__dataclass_fields__:
+        parser.add_argument("--" + field.replace("_", "-"), type=int,
+                            help="session stop threshold; 0 disables the limit")
     args = parser.parse_args(argv)
     from .observation import validate_trace
     try:
@@ -77,6 +81,15 @@ def main(argv=None):
         specific.trace_mode, specific.trace_limit = args.trace_mode, args.trace_limit
         if args.offspring_placement is not None:
             specific.offspring_placement = args.offspring_placement
+        for field in RunLimits.__dataclass_fields__:
+            if getattr(args, field) is not None:
+                setattr(specific, field, getattr(args, field))
+        try:
+            limits = RunLimits.from_specificity(specific)
+            if args.mode != "session" and any(vars(limits).values()):
+                raise ValueError("Run stop thresholds require --mode session")
+        except ValueError as error:
+            parser.error(str(error))
         from .execution import ExecutionOptions
         for field in ExecutionOptions.__dataclass_fields__:
             value = getattr(args, field)

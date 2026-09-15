@@ -21,7 +21,13 @@ class SimulationConfig:
     trace_limit: int = 100_000
     offspring_placement: str = "policy"
 
+    max_population: int = 0
+    max_genotypes: int = 0
+    max_lifecycle_visits: int = 0
+
     def __post_init__(self):
+        from .run_limits import RunLimits
+        RunLimits(self.max_population, self.max_genotypes, self.max_lifecycle_visits)
         from .placement import resolve_placement
         resolve_placement(self.offspring_placement, "transfer" if self.preset == "forager" else "preset")
         from .observation import validate_trace

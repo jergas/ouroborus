@@ -1,5 +1,13 @@
 # Memory Update Log
 
+## [2026-09-15] VALIDATE | Session run-limit thresholds validated
+
+Build clean, lint clean, 144 passed in 83.42s (0 skips, 0 failures) on the run-limits commit basis. Focused tests 46/46: disabled limits, equality/simultaneous firing, one-time resource_limit event, visit partial-tick metadata, invalid settings round-trip, exact-funded fourth-body stop under both methods (pop4, transfer12, residual0), partial-tick non-horizon rejection, limited outcomes stay unknown with preserved result payloads, desktop limited-completion message/state. Manual checks: non-session modes reject nonzero limits; max-genotypes1 stops after seed preparation with zero iterations/visits and reason resource_limit. Updated notes/run-limits-validation.md. Committed pending.
+
+## [2026-09-15] IMPLEMENT | Optional session resource stops and limited study outcomes
+
+Read Big Pickle placement/report validation: focused42/full136 passed without skips, Build/Lint clean. Added zero-default population, prepared raw-genome and lifecycle-visit stop thresholds for session mode, checked after initialization/complete dispatches. Births remain atomic, no changed biological eligibility; partial ticks and reached counts reported explicitly in termination metadata and trace events. Wired CLI/config/QML/worker/study/report, including limited desktop state and unknown study outcomes with retained partial results. Wrote tests and notes/run-limits-validation.md; no execution/builds/tests/VC mutations in this implementation session. B6 byte/storage/admission controls and ecological evaluation remain pending.
+
 ## [2026-09-15] VALIDATE | Placement choices and study-report validated
 
 Build clean, lint clean, 136 passed in 79.65s (0 skips, 0 failures) on the placement/report commit basis. Focused tests 42/42: placement RNG preservation, local/random exact transfer funding, insufficient-funds rejection, 72-condition placement axis, study-report equality/difference, failed/missing/invalid outcomes stay unknown, recomputed screen, interrupted tail detection, config mismatch rejection, native/interpreted agreement at both placements, desktop random-placement save/load. Full regression includes all prior suites. Updated notes/placement-report-validation.md. Committed pending.

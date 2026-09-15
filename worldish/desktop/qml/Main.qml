@@ -66,7 +66,9 @@ ApplicationWindow {
                 energy_policy: preset.currentIndex === 4 ? metabolism.currentText.toLowerCase() : "maintenance",
                 instructions_per_prana: preset.currentIndex === 4 ? computeBatch.value : 6,
                 trace_mode: traceMode.currentText.toLowerCase(), trace_limit: traceLimit.value,
-                offspring_placement: ["policy", "local", "random"][placement.currentIndex]}
+                offspring_placement: ["policy", "local", "random"][placement.currentIndex],
+                max_population: populationLimit.value, max_genotypes: genotypeLimit.value,
+                max_lifecycle_visits: visitLimit.value}
     }
     FileDialog {
         id: saveDialog
@@ -95,6 +97,9 @@ ApplicationWindow {
             computeBatch.value = settings.instructions_per_prana
             traceMode.currentIndex = ["off", "events", "instructions"].indexOf(settings.trace_mode)
             traceLimit.value = settings.trace_limit
+            populationLimit.value = settings.max_population
+            genotypeLimit.value = settings.max_genotypes
+            visitLimit.value = settings.max_lifecycle_visits
             placement.currentIndex = ["policy", "local", "random"].indexOf(settings.offspring_placement)
         }
     }
@@ -174,6 +179,13 @@ ApplicationWindow {
                     ComboBox { id: traceMode; model: ["Off", "Events", "Instructions"]; Layout.fillWidth: true }
                     Label { text: "Maximum trace events"; visible: traceMode.currentIndex !== 0 }
                     SpinBox { id: traceLimit; from: 1; to: 1000000; value: 100000; editable: true; Layout.fillWidth: true; visible: traceMode.currentIndex !== 0 }
+                    Label { text: "Run stop thresholds · 0 = unlimited"; wrapMode: Text.WordWrap; Layout.fillWidth: true }
+                    Label { text: "Population" }
+                    SpinBox { id: populationLimit; from: 0; to: 1000000000; value: 0; editable: true; Layout.fillWidth: true }
+                    Label { text: "Distinct genomes prepared" }
+                    SpinBox { id: genotypeLimit; from: 0; to: 1000000000; value: 0; editable: true; Layout.fillWidth: true }
+                    Label { text: "Lifecycle visits" }
+                    SpinBox { id: visitLimit; from: 0; to: 1000000000; value: 0; editable: true; Layout.fillWidth: true }
                     Label { text: "Iterations" }
                     SpinBox { id: steps; from: 1; to: 1000000; value: 4000; editable: true; Layout.fillWidth: true }
                     Label { text: "Random seed" }

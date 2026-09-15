@@ -29,7 +29,7 @@ See [roadmap: supported foundations](evolution-roadmap.md#supported-foundations)
 - [ ] B3 Compare maintenance and compute pricing, zero-prana boundaries, prepaid credits and idle organisms. Keep these as supported policy choices with explicit defaults.
 - [ ] B4 Compare parent-local offspring placement with a separately selected alternative, documenting overlap and food contention.
 - [ ] B5 Record survival/extinction, generation depth, intake, expenditure and reproductive success; retain failed runs and baseline traces.
-- [ ] B6 Specify and implement population, strain-cache and total-run resource policies. Distinguish stopping an experiment at a limit from changing birth eligibility; report all limit events.
+- [ ] B6 Specify and implement population, strain-cache and total-run resource policies. Distinguish stopping an experiment at a limit from changing birth eligibility; report all limit events. [Session stop thresholds](run-limits.md) are now implemented, pending validation; byte/storage and pre-initialization controls remain open.
 - [ ] B7 Complete or revise the forager viability assessment using the declared criteria, preserving exact offspring funding throughout.
 
 Completion: environmental and scheduling effects are observable enough to interpret later genetic experiments. More appropriate CA rules can be introduced as additional specificities or options.

@@ -96,13 +96,15 @@ class Controller(QObject):
     def start(self, preset, steps, seed, interval, audio, volume,
               execution_method="compiled", instructions_per_tick=6,
               energy_policy="maintenance", instructions_per_prana=6,
-              trace_mode="off", trace_limit=100_000, offspring_placement="policy"):
+              trace_mode="off", trace_limit=100_000, offspring_placement="policy",
+              max_population=0, max_genotypes=0, max_lifecycle_visits=0):
         if self.process:
             return
         try:
             self.config = SimulationConfig(preset.lower(), steps, seed, interval, audio, volume,
                                            execution_method, instructions_per_tick,
-                                           energy_policy, instructions_per_prana, trace_mode, trace_limit, offspring_placement)
+                                           energy_policy, instructions_per_prana, trace_mode, trace_limit, offspring_placement,
+                                           max_population, max_genotypes, max_lifecycle_visits)
             self.output_root.mkdir(parents=True, exist_ok=True)
             self.run_id = uuid.uuid4().hex
             output = self.output_root / self.run_id
@@ -316,7 +318,7 @@ class Controller(QObject):
             self._kill_group(signal.SIGKILL)
             self._state = "failed" if self.failure_reason else "stopped" if self.stop_at is not None else self.final_state or "failed"
             if self._state != "failed":
-                self._message = "Run finished." if self._state == "finished" else "Run stopped."
+                self._message = "Run finished." if self._state == "finished" else "Run stopped at a configured resource limit." if self._state == "limited" else "Run stopped."
             elif self.failure_reason:
                 self._message = self.failure_reason
             elif not self.final_state:

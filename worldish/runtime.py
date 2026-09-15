@@ -29,6 +29,8 @@ def report_result(organizer, generator):
         "execution_metrics": dict(generator.execution_metrics),
         "genotypes_interpreted": len(generator.interpreted_programs),
     }
+    if hasattr(organizer, "run_monitor"):
+        result["termination"] = organizer.run_monitor.summary()
     if getattr(organizer, "reproduction_policy", "preset") == "transfer":
         result["prana_transferred"] = organizer.prana_transferred
         result["max_generation"] = organizer.max_generation
