@@ -28,7 +28,7 @@ Automated implementation validation: clean Build/Lint and 177 tests passed witho
 Final reviewed branch revision: `28d1008` (validated implementation basis; closing documentation committed separately).
 Target main revision: `1e553fb` (`main` tip at review time, 2026-09-15).
 Live review result: pending (M2/A7, user hands-on).
-Merge result: not performed by the implementation session.
+Merge result: fast-forward `1e553fb..4948228` on `main`, pushed 2026-09-15. 76 files, all documented scope.
 
 ## Resumption
 

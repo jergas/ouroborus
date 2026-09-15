@@ -1,5 +1,9 @@
 # Memory Update Log
 
+## [2026-09-15] MERGE | Forager foundations merged to main
+
+Big Pickle committed closing documentation/HISTORY.md as `4948228` on `forager` and fast-forward merged `forager` → `main` (`1e553fb..4948228`, pushed, 76 files, no conflicts). Reviewed branch `28d1008` (validated, 177 tests) and target `1e553fb` were recorded in notes/forager-merge-handoff.md; closing edits are documentation/memory only, no runtime change, so the 177-test result was reused per M3. Lint clean, all touched-doc relative links resolve, no generated builds or run outputs in the diff. M1 complete, M3 review complete; **M2/A7 live desktop review remains pending (user hands-on)** — checklist appended to notes/observability-validation.md. HISTORY.md added at repo root: preserves the Phase 1–5/optional task text erased in the `89661f3` A–G restructure (verbatim, with a remap table) and documents the project's informal version history (SVN r0–r395, tarball versions 0.0.1–0.2, Birdcage 0.5.5→1.0.0, no changelog/tags ever).
+
 ## [2026-09-15] DOCUMENT | Close implementation with status and merge handoff
 
 Completed M1 public status with runtime defaults, implementation links, experimental atomic boundaries and evidence limits; linked README/historical snapshot and refreshed stale placement/resource/validation prose. Prepared notes/forager-merge-handoff.md and a short live M2/A7 checklist in the existing observation note. Preserved all A–G tasks/checkmarks; M2 and M3 remain pending their actual live and Git reviews. Checked relative file-link existence in touched documents. No runtime edits, tests/builds/simulations, commits or merge; Big Pickle owns validation and Git. Latest implementation evidence remains the user-reported 28d1008 checkpoint with focused33/full177 passed, zero skips.
