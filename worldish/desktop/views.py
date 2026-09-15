@@ -139,11 +139,48 @@ class TerminalView(QQuickPaintedItem):
 
 
 class GridView(QQuickPaintedItem):
-    """Read-only world snapshots; switching views never mutates the engine."""
+    """Read-only world snapshots with selection of organism centers."""
+    agentSelected = Signal(str)
+    selectedAgentIdChanged = Signal()
     def __init__(self, parent=None):
         super().__init__(parent)
         self.frame = None
+        self._selected_agent = ""
+        self.setAcceptedMouseButtons(Qt.MouseButton.LeftButton)
         self.setClip(True)
+
+    def setSelectedAgentId(self, value):
+        if value != self._selected_agent:
+            self._selected_agent = value
+            self.selectedAgentIdChanged.emit()
+            self.update()
+
+    selectedAgentId = Property(str, lambda self: self._selected_agent,
+                               setSelectedAgentId, notify=selectedAgentIdChanged)
+
+    @Slot(float, float, result=str)
+    def agentAt(self, x, y):
+        if not self.frame:
+            return ""
+        width, height = self.frame["width"], self.frame["height"]
+        scale = min(self.width() / width, self.height() / height)
+        if scale <= 0:
+            return ""
+        dx, dy = (self.width() - width * scale) / 2, (self.height() - height * scale) / 2
+        cell = [math.floor((x - dx) / scale), math.floor((y - dy) / scale)]
+        candidates = [item["id"] for item in self.frame.get("organisms", [])
+                      if item["position"] == cell]
+        if not candidates:
+            return ""
+        # Repeated clicks cycle overlapping centers in snapshot order.
+        index = candidates.index(self._selected_agent) + 1 if self._selected_agent in candidates else 0
+        return candidates[index % len(candidates)]
+
+    def mousePressEvent(self, event):
+        agent_id = self.agentAt(event.position().x(), event.position().y())
+        if agent_id:
+            self.agentSelected.emit(agent_id)
+        event.accept()
 
     @Slot(dict)
     def snapshot(self, frame):
@@ -172,3 +209,15 @@ class GridView(QQuickPaintedItem):
         for x, y in frame["agents"]:
             if 0 <= x < width and 0 <= y < height:
                 painter.drawRect(QRectF(dx + x * scale, dy + y * scale, scale, scale))
+
+        painter.setBrush(QColor("#F1EAFE"))
+        for item in frame.get("organisms", []):
+            x, y = item["position"]
+            painter.drawEllipse(QRectF(dx + (x + 0.35) * scale, dy + (y + 0.35) * scale,
+                                      scale * 0.3, scale * 0.3))
+        selected = frame.get("inspection", {})
+        if selected.get("id") == self._selected_agent and selected.get("status") == "alive":
+            x, y = selected["address"]
+            painter.setBrush(Qt.BrushStyle.NoBrush)
+            painter.setPen(QColor("#FFE078"))
+            painter.drawRect(QRectF(dx + x * scale, dy + y * scale, scale, scale))

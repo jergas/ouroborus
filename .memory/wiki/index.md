@@ -20,6 +20,9 @@ Durable project knowledge consolidated on 2026-09-13 from the migration/port con
 - [Executor and energy settings and semantics](../../docs/agent-execution.md)
 - [Execution validation notes](notes/execution-validation.md) (validated by Big Pickle; no fixes needed)
 
+- [Agent observation and prana ledger](adrs/0005-observation-and-prana-ledger.md) (implementation checkpoint; validation pending)
+- [Observation validation handoff](notes/observability-validation.md) (builds/tests/live desktop review for Big Pickle)
+
 ## Execution knowledge
 
 - [Environment and library gotchas](gotchas.md)

@@ -2,6 +2,8 @@
 
 Agreed direction, 2026-09-15. This document describes the concepts and choices; the [active task list](evolution-tasklist.md) gives ordered implementation work. Completed foundations and dated validation are in [implementation history](evolution-implementation-history.md). Current behavior is described in [Forager](forager.md) and [agent execution](agent-execution.md).
 
+The [observation checkpoint](observability.md) now implements agent inspection, bounded traces and a prana ledger; independent validation remains pending in phase A.
+
 ## Supported foundations
 
 The forager already runs compiled and interpreted, with configurable instruction allowances, maintenance or compute charging, and exact parent-to-offspring prana transfer. Compilation remains the default. CA on cells are the food source; the initial XOR environment evolves. The current six-operation language bundles food sensing, direction choice and movement into `Sf`, so it establishes a working organism but leaves much of its behavior fixed by the host.

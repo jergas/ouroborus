@@ -50,6 +50,10 @@ class Controller(QObject):
         self.audio_started_at = None
         self.failure_reason = None
         self.config = None
+        self._agent_choices = []
+        self._agent_details = {}
+        self._selected_agent = ""
+        self._observation_details = {}
         self.output_root = Path(output_root or Path.cwd() / ".worldish" / "desktop")
         self.timer = QTimer(self)
         self.timer.setInterval(20)
@@ -63,17 +67,42 @@ class Controller(QObject):
     runSummary = Property(str, lambda self: f"{self.config.preset.title()} · seed {self.config.seed} · {self.config.steps} iterations" if self.config else "", notify=changed)
     busy = Property(bool, lambda self: self.process is not None, notify=changed)
 
+    agentChoices = Property("QStringList", lambda self: self._agent_choices, notify=changed)
+    agentDetails = Property("QVariantMap", lambda self: self._agent_details, notify=changed)
+    selectedAgentId = Property(str, lambda self: self._selected_agent, notify=changed)
+    observationDetails = Property("QVariantMap", lambda self: self._observation_details, notify=changed)
+
+    @Slot(str)
+    def selectAgent(self, agent_id):
+        if not self.process:
+            return
+        self._selected_agent = agent_id
+        self._agent_details = {}
+        self.send_command("inspect", agent_id=agent_id)
+        self.changed.emit()
+
+    @Slot("QVariantMap")
+    def startConfigured(self, values):
+        try:
+            config = SimulationConfig(**values)
+        except (TypeError, ValueError) as error:
+            self._message = str(error)
+            self.changed.emit()
+            return
+        self.start(**config.to_dict())
+
     @Slot(str, int, int, float, str, float)
     @Slot(str, int, int, float, str, float, str, int, str, int)
     def start(self, preset, steps, seed, interval, audio, volume,
               execution_method="compiled", instructions_per_tick=6,
-              energy_policy="maintenance", instructions_per_prana=6):
+              energy_policy="maintenance", instructions_per_prana=6,
+              trace_mode="off", trace_limit=100_000):
         if self.process:
             return
         try:
             self.config = SimulationConfig(preset.lower(), steps, seed, interval, audio, volume,
                                            execution_method, instructions_per_tick,
-                                           energy_policy, instructions_per_prana)
+                                           energy_policy, instructions_per_prana, trace_mode, trace_limit)
             self.output_root.mkdir(parents=True, exist_ok=True)
             self.run_id = uuid.uuid4().hex
             output = self.output_root / self.run_id
@@ -118,6 +147,10 @@ class Controller(QObject):
             self._message = f"Preparing {preset.title()} · seed {seed}. {action}"
             self._metrics = "Initializing world"
             self._audio = "Audio preparing" if audio != "off" else "Audio off"
+            self._agent_choices = []
+            self._agent_details = {}
+            self._selected_agent = ""
+            self._observation_details = {}
             self.terminalReset.emit()
             self.timer.start()
         except (OSError, ValueError) as error:
@@ -196,10 +229,17 @@ class Controller(QObject):
                 self._audio = "Audio off" if self.config.audio == "off" else "Audio muted (paused)" if self._state == "paused" else "Audio active" if self.config.audio == "speakers" else "Audio running without output"
         elif kind == "snapshot":
             self._metrics = f"Tick {event['tick']} · Agents {event['population']} · Births {event['births']} · Deaths {event['deaths']}"
+            self._agent_choices = [item["id"] for item in event.get("organisms", [])]
+            detail = event.get("inspection", {})
+            if detail.get("id", "") == self._selected_agent:
+                self._agent_details = detail
+            self._observation_details = {key: event.get(key) for key in
+                                         ("ledger", "trace", "organisms_truncated")}
             self.snapshotChanged.emit(event)
         elif kind == "finished":
             self.final_state = event["state"]
             result = event["result"]
+            self._observation_details.update(result.get("observation", {}))
             self._metrics = f"Tick {result['iterations']} · Agents {result['population']} · Births {result['births']} · Deaths {result['deaths']}"
         elif kind == "failed":
             self.final_state = "failed"

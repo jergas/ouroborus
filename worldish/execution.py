@@ -56,11 +56,16 @@ def advance(step, length, creature, state, options, threshold, metrics):
     if not length:
         metrics["program_completions"] += 1
         return "Live"  # Empty programs idle; no implicit maintenance is imposed.
+    before_instruction = getattr(metrics, "before_instruction", None)
+    after_instruction = getattr(metrics, "after_instruction", None)
     for _ in range(options.instructions_per_tick):
         if options.energy_policy == "compute":
             if creature.tellPrana() <= 0:
                 state.update(ip=0, prayer="Live")
                 return "KillMe"
+        if before_instruction is not None:
+            before_instruction(creature, state)
+        if options.energy_policy == "compute":
             if not state["credit"]:
                 creature.losePrana(1)
                 metrics["compute_prana"] += 1
@@ -69,6 +74,8 @@ def advance(step, length, creature, state, options, threshold, metrics):
         complete = step(creature, state, options, threshold, metrics)
         metrics["instructions"] += 1
         state["ip"] += 1
+        if after_instruction is not None:
+            after_instruction(creature, state)
         if options.energy_policy == "compute" and creature.tellPrana() <= 0:
             state.update(ip=0, prayer="Live")
             return "KillMe"

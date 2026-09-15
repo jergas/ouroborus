@@ -55,6 +55,8 @@ ApplicationWindow {
         }
     }
 
+    AgentInspector { id: inspector; objectName: "agentInspector"; controller: simulation; width: Math.min(440, window.width); height: window.height }
+
     property bool closeWhenStopped: false
     function draft() {
         return {preset: preset.currentText.toLowerCase(), steps: steps.value, seed: seed.value,
@@ -62,7 +64,8 @@ ApplicationWindow {
                 execution_method: preset.currentIndex === 4 ? method.currentText.toLowerCase() : "compiled",
                 instructions_per_tick: preset.currentIndex === 4 ? allowance.value : 6,
                 energy_policy: preset.currentIndex === 4 ? metabolism.currentText.toLowerCase() : "maintenance",
-                instructions_per_prana: preset.currentIndex === 4 ? computeBatch.value : 6}
+                instructions_per_prana: preset.currentIndex === 4 ? computeBatch.value : 6,
+                trace_mode: traceMode.currentText.toLowerCase(), trace_limit: traceLimit.value}
     }
     FileDialog {
         id: saveDialog
@@ -89,6 +92,8 @@ ApplicationWindow {
             allowance.value = settings.instructions_per_tick
             metabolism.currentIndex = ["maintenance", "compute"].indexOf(settings.energy_policy)
             computeBatch.value = settings.instructions_per_prana
+            traceMode.currentIndex = ["off", "events", "instructions"].indexOf(settings.trace_mode)
+            traceLimit.value = settings.trace_limit
         }
     }
     onClosing: function(close) {
@@ -153,6 +158,10 @@ ApplicationWindow {
                         Label { text: "Instructions per prana"; visible: metabolism.currentIndex === 1 }
                         SpinBox { id: computeBatch; from: 1; to: 4096; value: 6; editable: true; Layout.fillWidth: true; visible: metabolism.currentIndex === 1 }
                     }
+                    Label { text: "Event trace" }
+                    ComboBox { id: traceMode; model: ["Off", "Events", "Instructions"]; Layout.fillWidth: true }
+                    Label { text: "Maximum trace events"; visible: traceMode.currentIndex !== 0 }
+                    SpinBox { id: traceLimit; from: 1; to: 1000000; value: 100000; editable: true; Layout.fillWidth: true; visible: traceMode.currentIndex !== 0 }
                     Label { text: "Iterations" }
                     SpinBox { id: steps; from: 1; to: 1000000; value: 4000; editable: true; Layout.fillWidth: true }
                     Label { text: "Random seed" }
@@ -198,9 +207,7 @@ ApplicationWindow {
                         onClicked: {
                             mute.checked = false
                             const settings = window.draft()
-                            simulation.start(preset.currentText, steps.value, seed.value, pace.value, audio.output, volume.value,
-                                             settings.execution_method, settings.instructions_per_tick,
-                                             settings.energy_policy, settings.instructions_per_prana)
+                            simulation.startConfigured(settings)
                         }
                     }
                     RowLayout {
@@ -229,6 +236,7 @@ ApplicationWindow {
                 Label { text: "Text size"; visible: view.currentIndex === 0 }
                 SpinBox { from: 8; to: 24; value: 14; visible: view.currentIndex === 0; onValueModified: terminal.fontSize = value }
                 Item { Layout.fillWidth: true }
+                ActionButton { text: "Inspect"; onClicked: inspector.open() }
                 Label { text: simulation.state; color: window.green; font.bold: true }
             }
             Rectangle {
@@ -242,7 +250,11 @@ ApplicationWindow {
                     anchors.fill: parent; anchors.margins: 10
                     visible: view.currentIndex === 0
                 }
-                GridView { objectName: "grid"; anchors.fill: parent; anchors.margins: 10; visible: view.currentIndex === 1 }
+                GridView {
+                    objectName: "grid"; anchors.fill: parent; anchors.margins: 10; visible: view.currentIndex === 1
+                    selectedAgentId: simulation.selectedAgentId
+                    onAgentSelected: function(agentId) { simulation.selectAgent(agentId); inspector.open() }
+                }
                 Label {
                     anchors.centerIn: parent; text: "A world is waiting."; color: window.green; font.pixelSize: 28
                     visible: simulation.state === "idle"

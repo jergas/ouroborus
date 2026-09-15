@@ -45,6 +45,9 @@ class BookEntry:
                 from .execution import new_state
                 self.execution_state = new_state()
                 self.reproduction_threshold = 30
+                self.local_metrics = {}
+                self.genome_info = None
+                self.observation = None
 
 
         def __str__(self):

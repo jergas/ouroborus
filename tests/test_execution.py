@@ -109,18 +109,25 @@ def test_settings_defaults_and_invalid_combinations():
 
 def test_real_session_methods_agree(tmp_path):
     from test_worldish import run_example
-    results = []
+    results, events = [], []
     for method in ("compiled", "interpreted"):
         result, output = run_example(tmp_path / method, '--specificity', 'forager',
                                      '--mode', 'session', '--display', 'debug', '--no-sound',
                                      '--execution-method', method, '--instructions-per-tick', '2',
-                                     '--energy-policy', 'compute')
+                                     '--energy-policy', 'compute', '--trace-mode', 'instructions')
         if method == 'interpreted':
             assert result['genotypes_compiled'] == 0
             assert result['genotypes_interpreted'] == 1
             assert not list(output.glob('*.so'))
             assert not list((output / 'creatures').glob('*.pyx'))
+        import json
+        events.append([record for line in (output / 'events.jsonl').read_text().splitlines()
+                       if (record := json.loads(line))['event'] != 'run'])
+        assert result['observation']['ledger']['balance_error'] == 0
+        assert not result['observation']['trace']['truncated']
+        result['observation'].pop('trace')  # Header method names change byte counts.
         for field in ('genotypes_compiled', 'genotypes_interpreted', 'execution'):
             result.pop(field)
         results.append(result)
     assert results[0] == results[1]
+    assert events[0] == events[1]

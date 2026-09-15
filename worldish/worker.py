@@ -49,11 +49,22 @@ class SessionControl:
 
     def snapshot(self, sequence):
         width, height = sequence.size
+        from .observation import MAX_AGENT_CHOICES
+        observer = sequence.bast.generator.observation
+        living = (entry for entry in sequence.taw.values()
+                  if getattr(entry, "agent", None) is not None)
+        from itertools import islice
+        organisms = [{"id": entry.name, "position": list(entry.agent.tellAddress())}
+                     for entry in islice(living, MAX_AGENT_CHOICES)]
         self.send("snapshot", tick=sequence.bast.annum,
+                  organisms=organisms, organisms_truncated=sequence.kemet.tellPopulation() > len(organisms),
+                  inspection=observer.inspection(sequence.taw),
+                  ledger=observer.ledger(sequence.kemet.tellAgents()), trace=observer.trace.summary(),
                   population=sequence.kemet.tellPopulation(), births=sequence.bast.births,
                   deaths=sequence.bast.deaths, width=width, height=height,
                   cells=[int(bool(sequence.kemet.get((x, y)))) for y in range(height) for x in range(width)],
-                  agents=[list(p) for a in sequence.kemet.tellAgents() for p in a.tellCorporality()])
+                  agents=[list(p) for p in sorted({tuple(p) for a in sequence.kemet.tellAgents()
+                                                    for p in a.tellCorporality()})])
         self.last_frame = time.monotonic()
 
     def commands(self, timeout):
@@ -81,6 +92,12 @@ class SessionControl:
                     self.gain()
                 elif action == "step" and self.paused:
                     self.step_pending += 1
+                elif action == "inspect":
+                    agent_id = command["agent_id"]
+                    if not isinstance(agent_id, str) or len(agent_id) > 256:
+                        raise ValueError("Invalid agent ID")
+                    self.sequence.bast.generator.observation.select(agent_id, self.sequence.taw)
+                    self.snapshot(self.sequence)
                 elif action == "pace":
                     value = float(command["value"])
                     if not 0.01 <= value <= 5:
@@ -174,7 +191,8 @@ def main():
                        "--execution-method", config.execution_method,
                        "--instructions-per-tick", str(config.instructions_per_tick),
                        "--energy-policy", config.energy_policy,
-                       "--instructions-per-prana", str(config.instructions_per_prana)]
+                       "--instructions-per-prana", str(config.instructions_per_prana),
+                       "--trace-mode", config.trace_mode, "--trace-limit", str(config.trace_limit)]
         if config.audio == "off":
             launch_args.append("--no-sound")
         elif config.audio == "silent":

@@ -17,7 +17,12 @@ class SimulationConfig:
     energy_policy: str = "maintenance"
     instructions_per_prana: int = 6
 
+    trace_mode: str = "off"
+    trace_limit: int = 100_000
+
     def __post_init__(self):
+        from .observation import validate_trace
+        validate_trace(self.trace_mode, self.trace_limit)
         if self.preset not in ("alpha", "beta", "delta", "epsilon", "forager"):
             raise ValueError("Unknown simulation specificity")
         self.execution_options().validate_language(

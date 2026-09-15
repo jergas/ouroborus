@@ -30,5 +30,11 @@ def report_result(organizer, generator):
     if getattr(organizer, "reproduction_policy", "preset") == "transfer":
         result["prana_transferred"] = organizer.prana_transferred
         result["max_generation"] = organizer.max_generation
+    if hasattr(generator, "observation"):
+        observer = generator.observation
+        ledger = observer.ledger(organizer.earth.tellAgents())
+        observer.emit("result", ledger=ledger, iterations=organizer.annum)
+        observer.close()
+        result["observation"] = {"ledger": ledger, "trace": observer.trace.summary()}
     Path("result.json").write_text(json.dumps(result, indent=2) + "\n")
     return result

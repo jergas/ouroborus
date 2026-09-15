@@ -16,6 +16,8 @@ World dimensions, rules and initial populations still come from the existing spe
 
 Validation on 2026-09-13: 88 tests passed without skips. Headless integration checks cover real genomes, terminal resizing, paused tick stability, single-step, worker stop/crash/restart, alternate-screen colors/Unicode, settings and minimum-window layout. Screenshots of both renderers were inspected. Silent Csound runs and stereo WAV gain/mute checks pass. Manual validation reported on 2026-09-14 confirms that the windowed application runs with audible sound.
 
+2026-09-15 addition, validation pending: agent selection/inspection, a prana ledger, and optional bounded event/instruction traces. See [observation controls, implementation and limits](observability.md). The earlier validation results above describe the preceding desktop checkpoint.
+
 ## Experience
 
 A single desktop window contains a fixed left configuration sidebar, a large simulation view, and a compact status strip. The first view hosts the actual curses renderer. Audio runs with the simulation, independently of the selected visual renderer.

@@ -121,6 +121,11 @@ class Generator:
                 self.execution_options.validate_language(self.genome_language, self.specific.compiling == "Void")
                 self.execution_metrics = new_metrics()
                 self.interpreted_programs = {}
+                from .observation import Observation
+                self.observation = Observation(self.specific, self.genome_language,
+                                               self.execution_options, self.execution_metrics,
+                                               self.genome_table, getattr(runtime, "launch_metadata", None))
+                runtime.observation = self.observation
 
                 # Set the compile mode using getattr
                 self.generateGenotype = getattr(self, "generateGenotype"+self.specific.compiling, self.generateGenotypeIndividualCompile)
@@ -184,13 +189,14 @@ class Generator:
                 return getattr(self, "generateGenotype"+self.specific.compiling, self.generateGenotypeIndividualCompile)(poeio, ode)
 
 
-        def makeEntry(self, name, module_name, program=None):
+        def makeEntry(self, name, module_name, code, program=None):
                 entry = BookEntry(name, module_name)
                 entry.program = program
                 if self.genome_language == "forager-v1":
                         entry.execution_options = self.execution_options
                         entry.execution_metrics = self.execution_metrics
                         entry.reproduction_threshold = self.specific.reproduction_threshold
+                self.observation.attach(entry, code)
                 return entry
 
 
@@ -207,7 +213,7 @@ class Generator:
                 if code not in self.interpreted_programs:
                         self.interpreted_programs[code] = InterpretedProgram(code)
                 name = self.obstetrix + "clone" + str(self.obstetrics)
-                book[name] = self.makeEntry(name, "interpreted:forager-v1", self.interpreted_programs[code])
+                book[name] = self.makeEntry(name, "interpreted:forager-v1", code, self.interpreted_programs[code])
                 self.obstetrics += 1
                 return name
 
@@ -244,10 +250,10 @@ class Generator:
                 compile_genome(onoma, corpus)
 
 #               # finally, append the module's name to the list of names,
-#               #ode.append(self.makeEntry(onoma, onoma))
+#               #ode.append(self.makeEntry(onoma, onoma, poeio))
                 # finally, add the module's BookEntry to the Book of Life
                 # (dictionary of names) using its name as a key
-                ode[onoma] = self.makeEntry(onoma, onoma)
+                ode[onoma] = self.makeEntry(onoma, onoma, poeio)
                 self.obstetrics += 1
                 return onoma
 
@@ -268,7 +274,7 @@ class Generator:
 
                         # identify the genome in the dictionary of compiled strains
                         strain = self.obstetrix+str(self.scions.index(poeio))
-                        ode[onoma]=(self.makeEntry(onoma, strain))
+                        ode[onoma]=(self.makeEntry(onoma, strain, poeio))
 
                 else:
                         # if it hasn't, proceed to compile the new genome
@@ -286,7 +292,7 @@ class Generator:
 
                         # finally, add the module's BookEntry to the Book of Life
                         # (dictionary of names) using its name as a key
-                        ode[onoma] = self.makeEntry(onoma, strain)
+                        ode[onoma] = self.makeEntry(onoma, strain, poeio)
 
                 self.obstetrics += 1
                 return onoma
@@ -424,6 +430,8 @@ class Organizer:
                 return -->> population"""
 
                 self.annum = self.annum + 1
+                if self.generator is not None:
+                        self.generator.observation.tick = self.annum
                 return self.earth.update()
 
 
@@ -482,6 +490,7 @@ class Organizer:
                 # add the agent to the c.a.'s list of agents
                 self.earth.addAgent(bookentry.agent)
                 self.births += 1
+                self.generator.observation.born(bookentry)
                 # set the agent's prayer back to its default state
                 bookentry.fatum["prayer"] = "Live"
                 return 1
@@ -492,7 +501,13 @@ class Organizer:
 
                 return -->> 1"""
 
-                bookentry.agentLive()
+                before = bookentry.agent.tellPrana()
+                try:
+                        bookentry.agentLive()
+                except BaseException:
+                        self.generator.observation.live_finished(bookentry, before, failed=True)
+                        raise
+                self.generator.observation.live_finished(bookentry, before)
                 return 1
 
 
@@ -509,6 +524,8 @@ class Organizer:
                 code = bookentry.fatum["code"]
                 child = self.book[self.generator.generateGenotype(code, self.book)]
                 # add some necessary data to the new entry
+                child.fatum["parent"] = bookentry.name
+                child.fatum["generation"] = bookentry.fatum.get("generation", 0) + 1
                 child.fatum["code"] = bookentry.fatum["code"]
                 child.fatum["prana"] = self.specific.prana
                 child.fatum["mana"] = self.specific.mana
@@ -530,6 +547,7 @@ class Organizer:
 
                 return -->> 1"""
 
+                self.generator.observation.died(bookentry)
                 self.earth.removeAgent(bookentry.agent)
                 self.deaths += 1
                 bookentry.terminateAgent()

@@ -46,10 +46,21 @@ def main(argv=None):
     parser.add_argument("--agent-workers", type=positive, help="worker count for custom experimental scheduling")
     parser.add_argument("--output-dir", type=Path, default=Path(".worldish"),
                         help="directory for generated genomes and logs (default: .worldish)")
+    parser.add_argument("--trace-mode", choices=["off", "events", "instructions"], default="off")
+    parser.add_argument("--trace-limit", type=positive, default=100_000,
+                        help="maximum recorded events (1–1,000,000); tracing defaults to off")
     args = parser.parse_args(argv)
+    from .observation import validate_trace
+    try:
+        validate_trace(args.trace_mode, args.trace_limit)
+    except ValueError as error:
+        parser.error(str(error))
+    runtime.observation = None
     # Preserve the old debug/Beta shorthand while configuring every module consistently.
     if args.mode == "debug" and args.submode == "Beta":
         args.specificity, args.submode = "beta", "Normal"
+    runtime.launch_metadata = {key: value for key, value in vars(args).items()
+                               if key != "output_dir"}
     output = args.output_dir.resolve()
     output.mkdir(parents=True, exist_ok=True)
     (output / "creatures").mkdir(exist_ok=True)
@@ -61,6 +72,7 @@ def main(argv=None):
     try:
         runtime.specificity = args.specificity.capitalize()
         specific = runtime.get_specific()
+        specific.trace_mode, specific.trace_limit = args.trace_mode, args.trace_limit
         from .execution import ExecutionOptions
         for field in ExecutionOptions.__dataclass_fields__:
             value = getattr(args, field)
@@ -100,6 +112,8 @@ def main(argv=None):
         print(f"Worldish: {args.specificity}, {args.mode}, {specific.doomsday} iterations")
         function()
     finally:
+        if runtime.observation is not None:
+            runtime.observation.close()
         sys.stdout, sys.stderr = previous_stdout, previous_stderr
         visual = sys.modules.get("worldish.visual")
         if visual is not None and hasattr(visual, "pygame"):

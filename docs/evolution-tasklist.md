@@ -6,6 +6,8 @@ Agreed plan, 2026-09-15. All unchecked tasks are pending. Follow A–E as the co
 
 See [roadmap: direction and order](evolution-roadmap.md#direction-and-order).
 
+2026-09-15 checkpoint: A1–A5 are implemented, with A6 regression coverage written. Build/test execution and A7 live validation are pending; checkboxes intentionally remain open. See [observation implementation and limits](observability.md) and the [validation handoff](../.memory/wiki/notes/observability-validation.md).
+
 - [ ] A1 Add stable agent IDs to snapshots and selection without transmitting every genome every frame.
 - [ ] A2 Add an inspector showing raw genome, decoded words/instructions, execution position, pending request, prana, compute credits, parent and generation. Later extend it to two parents and bounded VM memory.
 - [ ] A3 Add optional bounded or streamed event traces for food consumption, motion, executed instructions, energy charges, lifecycle requests, rejected births and completed offspring transfers.

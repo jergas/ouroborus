@@ -187,6 +187,12 @@ def test_qml_transport_visible_and_settings_bridge(qtapp, tmp_path):
         url = QUrl.fromLocalFile(str(tmp_path / "qml-settings.json"))
         controller.savePreset(url, values)
         assert controller.loadPreset(url)["preset"] == "alpha", controller.message
+        from PySide6.QtCore import QObject
+        inspector = window.findChild(QObject, "agentInspector")
+        assert inspector is not None
+        inspector.open()
+        qtapp.processEvents()
+        inspector.close()
         assert not warnings, warnings
     finally:
         window.close()
@@ -210,5 +216,56 @@ def test_worker_crash_is_reported_and_can_restart(qtapp, tmp_path):
         wait_for(qtapp, lambda: controller.process is None)
         assert controller.state == "finished", controller.message
         assert controller.runPath != first_path
+    finally:
+        controller.shutdown()
+
+
+def test_grid_selection_uses_centered_coordinates_and_cycles_overlap(qtapp):
+    from worldish.desktop.views import GridView
+    grid = GridView()
+    grid.setWidth(200)
+    grid.setHeight(200)
+    grid.snapshot({"width": 10, "height": 5, "cells": [0] * 50, "agents": [],
+                   "organisms": [{"id": "one", "position": [2, 1]},
+                                 {"id": "two", "position": [2, 1]}]})
+    assert grid.agentAt(50, 80) == "one"
+    grid.setSelectedAgentId("one")
+    assert grid.agentAt(50, 80) == "two"
+    assert grid.agentAt(50, 20) == ""
+    grid.reset()
+    assert grid.agentAt(50, 80) == ""
+
+
+def test_paused_agent_inspection_and_trace_settings(qtapp, tmp_path):
+    from worldish.desktop.controller import Controller
+    from PySide6.QtCore import QUrl
+    controller = Controller(output_root=tmp_path)
+    frames = []
+    controller.snapshotChanged.connect(frames.append)
+    settings = SimulationConfig(preset="forager", steps=100, interval=0.1, audio="off",
+                                execution_method="interpreted", trace_mode="instructions",
+                                trace_limit=1000).to_dict()
+    url = QUrl.fromLocalFile(str(tmp_path / "settings.json"))
+    controller.savePreset(url, settings)
+    assert controller.loadPreset(url) == settings
+    try:
+        controller.startConfigured(settings)
+        wait_for(qtapp, lambda: bool(controller.agentChoices) or controller.process is None)
+        assert controller.process is not None, controller.message
+        controller.command("pause")
+        wait_for(qtapp, lambda: controller.state == "paused")
+        tick, cells, ledger = frames[-1]["tick"], frames[-1]["cells"], frames[-1]["ledger"]
+        agent_id = controller.agentChoices[0]
+        controller.selectAgent(agent_id)
+        wait_for(qtapp, lambda: controller.agentDetails.get("id") == agent_id)
+        assert frames[-1]["tick"] == tick and frames[-1]["cells"] == cells
+        assert frames[-1]["ledger"] == ledger and ledger["balance_error"] == 0
+        assert controller.agentDetails["raw_genome"]
+        assert controller.agentDetails["execution_method"] == "interpreted"
+        controller.stop()
+        wait_for(qtapp, lambda: controller.process is None)
+        result = json.loads((Path(controller.runPath) / "result.json").read_text())
+        assert result["observation"]["ledger"]["balance_error"] == 0
+        assert (Path(controller.runPath) / "events.jsonl").exists()
     finally:
         controller.shutdown()
