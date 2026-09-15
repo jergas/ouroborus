@@ -2,7 +2,7 @@
 
 Status: planned, 2026-09-14. All tasks are pending unless checked. Follow phases 1–4 in order. Optional later branches can proceed independently once their dependencies are met. The [roadmap](evolution-roadmap.md) explains the concepts and open choices; the [current baseline](current-evolution-system.md) documents existing behavior. The compiled forager checkpoint is documented in [forager.md](forager.md); execution selection and initial interpretation are implemented and validated.
 
-Checkpoint: phases 1 and the core compiled behavior/transfer in phase 2 are implemented. Session runs pass; full desktop live validation, declared ecological studies and complete trace capture remain unchecked. The initial condition is an evolving XOR CA; static cells are used only in focused tests.
+Checkpoint: phases 1, the core compiled behavior/transfer in phase 2, phase 3 execution-method selection, and the phase 4 bounded forager machine are implemented and validated. Session runs pass; declared ecological studies, population/run caps, desktop live validation of both methods and complete trace capture remain unchecked. The initial condition is an evolving XOR CA; static cells are used only in focused tests.
 
 ## Phase 1: Create the forager specificity
 
@@ -13,7 +13,7 @@ Purpose: establish the new organism's configuration before writing its behavior.
 - [x] 1.3 Reserve the forager genome entry point; do not expose a placeholder as a working forager.
 - [x] 1.4 Add specificity discovery/validation and selection support to CLI, shared settings and desktop. Remove fixed four-choice assumptions where necessary, including world/population summaries.
 - [x] 1.5 Use the existing compiled path and compilation strategy; introduce no interpreter dependency yet.
-- [ ] 1.6 Validate configuration and no-agent world setup independently of the unfinished genome. Document which behavior becomes available in phase 2.
+- [x] 1.6 Validate configuration and no-agent world setup independently of the unfinished genome. Document which behavior becomes available in phase 2.
 
 Completion: the specificity can construct its intended world and its pending organism is clearly identified. Phase 2 supplies the working seed program.
 
@@ -28,7 +28,7 @@ Purpose: obtain a viable organism with correct energy transfer using today's exe
 - [x] 2.5 Implement the reproduction transfer so the parent's debit is exactly the child's initial prana. Prevent a second allocation from specificity defaults and prevent duplicate processing from duplicating energy.
 - [x] 2.6 Implement and annotate the compiled forager using those operations. Route energy transfer through shared world policy; avoid a second private reproduction debit in its genome.
 - [x] 2.7 Document the phase-2 maintenance/action-cost policy as a baseline, explicitly subject to compute-cost alignment in phase 4. Keep existing specificities on their supported policies.
-- [ ] 2.8 Connect the genome to the new specificity and run a complete birth/live/reproduction/death lifecycle through CLI and desktop session paths.
+- [x] 2.8 Connect the genome to the new specificity and run a complete birth/live/reproduction/death lifecycle through CLI and desktop session paths.
 - [x] 2.9 Test exact prana balances on successful reproduction and all failure paths, including repeated requests and delayed births. Separate transfer from any additional cost in assertions.
 - [x] 2.10 Test sensing, movement, consumption and sequential contention with known cell states.
 - [ ] 2.11 Select seed set, duration and viability thresholds before evaluation. Demonstrate multiple generations in controlled food conditions and report survival/extinction in changing CA conditions.
@@ -36,21 +36,21 @@ Purpose: obtain a viable organism with correct energy transfer using today's exe
 
 Completion: the compiled forager feeds and reproduces with exact offspring funding. No interpreted run is required yet, but the behavior's representation and semantics support the later second execution method.
 
-Implementation status (validated 2026-09-14): phase 3 wiring and phase 4's six-op forager machine, resumable allowance, shared compiled dispatch, compute policy and metrics are coded and checked. `tests/test_execution.py` passes (20 focused tests; full suite 108 passed, no skips). Compiled and interpreted runs agree across the exploratory seed/allowance/policy matrix (36 runs, no extinction, identical counters) and interpreted mode compiles and emits no native artifacts. No new completion boxes are checked for the remaining future work. General stacks/jumps, aggregate resource caps and viability studies remain future work. See [execution semantics](agent-execution.md).
+Implementation status (validated 2026-09-14): phase 3 wiring and phase 4's six-op forager machine, resumable allowance, shared compiled dispatch, compute policy and metrics are coded and checked. `tests/test_execution.py` passes (20 focused tests; full suite 108 passed, no skips). Compiled and interpreted runs agree across the exploratory seed/allowance/policy matrix (36 runs, no extinction, identical counters) and interpreted mode compiles and emits no native artifacts. Remaining unchecked items are the declared viability studies (2.11–2.12, 4.14), population/run caps (4.7), desktop live validation of both methods (4.15), and all phase 5/optional work. General stacks/jumps, aggregate resource caps and viability studies remain future work. See [execution semantics](agent-execution.md).
 
 ## Phase 3: Add framework execution-method selection
 
 Purpose: add the architecture before implementing the new interpreter. See [roadmap: execution methods](evolution-roadmap.md#one-organism-two-execution-methods).
 
-- [ ] 3.1 Specify and version `execution_method` with compiled/interpreted values; default missing settings to compiled. Finalize public setting/CLI names before exposing them.
-- [ ] 3.2 Keep `compiling` strain-cache/build strategies independent. Define no-agent behavior and reject unsupported method/genome combinations clearly.
-- [ ] 3.3 Define a common controller interface for initialization, advance/yield, persistent state, lifecycle requests and cleanup at the `BookEntry` boundary.
-- [ ] 3.4 Keep existing compiled module execution as a directly supported option; add new execution implementations alongside it, with explicit defaults.
-- [ ] 3.5 Add an interpreter factory/registration point. Until phase 4 supplies a backend, report interpreted execution as unavailable; never silently fall back to compilation.
-- [ ] 3.6 Carry execution choice through specificity defaults, CLI overrides, validated desktop settings, worker startup and saved JSON. Define precedence and preserve old settings with no execution field.
-- [ ] 3.7 Adjust startup messages and result fields to distinguish building genomes from preparing interpreted programs. Preserve meaning/compatibility of existing compilation metrics.
-- [ ] 3.8 Ensure resource/energy policy is selected independently of execution method and shared with reproduction accounting.
-- [ ] 3.9 Test default selection, settings round trips, invalid/unavailable methods and compiled baseline behavior. Check that selecting interpretation cannot accidentally start a build.
+- [x] 3.1 Specify and version `execution_method` with compiled/interpreted values; default missing settings to compiled. Finalize public setting/CLI names before exposing them.
+- [x] 3.2 Keep `compiling` strain-cache/build strategies independent. Define no-agent behavior and reject unsupported method/genome combinations clearly.
+- [x] 3.3 Define a common controller interface for initialization, advance/yield, persistent state, lifecycle requests and cleanup at the `BookEntry` boundary.
+- [x] 3.4 Keep existing compiled module execution as a directly supported option; add new execution implementations alongside it, with explicit defaults.
+- [x] 3.5 Add an interpreter factory/registration point. Until phase 4 supplies a backend, report interpreted execution as unavailable; never silently fall back to compilation.
+- [x] 3.6 Carry execution choice through specificity defaults, CLI overrides, validated desktop settings, worker startup and saved JSON. Define precedence and preserve old settings with no execution field.
+- [x] 3.7 Adjust startup messages and result fields to distinguish building genomes from preparing interpreted programs. Preserve meaning/compatibility of existing compilation metrics.
+- [x] 3.8 Ensure resource/energy policy is selected independently of execution method and shared with reproduction accounting.
+- [x] 3.9 Test default selection, settings round trips, invalid/unavailable methods and compiled baseline behavior. Check that selecting interpretation cannot accidentally start a build.
 
 Completion: compiled runs remain the default and work through the new interface. Interpretation has an explicit configuration/dispatch path but remains unavailable until its implementation passes phase 4.
 
@@ -58,22 +58,22 @@ Completion: compiled runs remain the default and work through the new interface.
 
 Purpose: run the same forager under both execution methods. See [roadmap: bounded execution and metabolism](evolution-roadmap.md#bounded-execution-and-computation-as-metabolism).
 
-- [ ] 4.1 Finalize instruction semantics: argument types, state changes, branches, loops, missing operands, empty programs, program completion and restart behavior.
-- [ ] 4.2 Define which execution state persists across ticks and which state is initialized or inherited at birth.
-- [ ] 4.3 Add validated `instructions_per_tick` or equivalent configuration. Choose its default empirically; 64 is not a requirement. Record the value with results.
-- [ ] 4.4 Set stack, genome, buffer and numeric limits. Bound or incrementally meter searches/copies and nested operations. Define limit-hit behavior without partial effects.
-- [ ] 4.5 Design a prana-per-computation policy as a candidate replacement for the flat per-live-call debit. Define chargeable semantic operations, no-op/branch costs, insufficient-funds handling, zero-prana/death timing and action costs without double charging.
-- [ ] 4.6 Choose integer scaling, batch charging or fractional-debt representation if necessary. Preserve exact reproduction transfer and specify rounding/debt inheritance explicitly.
+- [x] 4.1 Finalize instruction semantics: argument types, state changes, branches, loops, missing operands, empty programs, program completion and restart behavior.
+- [x] 4.2 Define which execution state persists across ticks and which state is initialized or inherited at birth.
+- [x] 4.3 Add validated `instructions_per_tick` or equivalent configuration. Choose its default empirically; 64 is not a requirement. Record the value with results.
+- [x] 4.4 Set stack, genome, buffer and numeric limits. Bound or incrementally meter searches/copies and nested operations. Define limit-hit behavior without partial effects.
+- [x] 4.5 Design a prana-per-computation policy as a candidate replacement for the flat per-live-call debit. Define chargeable semantic operations, no-op/branch costs, insufficient-funds handling, zero-prana/death timing and action costs without double charging.
+- [x] 4.6 Choose integer scaling, batch charging or fractional-debt representation if necessary. Preserve exact reproduction transfer and specify rounding/debt inheritance explicitly.
 - [ ] 4.7 Define halted/idle-agent policy and population/run limits. Keep a hard scheduling bound independent of energy prices, including zero-price configurations.
-- [ ] 4.8 Implement the Python reference interpreter and its per-agent resumable state. Route sensing/actions through the common world interface; do not execute arbitrary generated source as interpretation.
-- [ ] 4.9 Adapt the compiled forager's generation/execution path to the same semantic charge points and, where required, resumable scheduling. Native instruction counts and wall-clock time are not equivalent billing units.
-- [ ] 4.10 Remove/disable the old routine energy debit for both forager paths when evaluating the replacement policy. Keep a clearly selected historical control policy rather than applying both unintentionally.
-- [ ] 4.11 Implement shared metrics for semantic operations, charges, yields, limit hits, food intake and offspring transfers.
-- [ ] 4.12 Test infinite loops, stack growth, invalid operations, numeric edges and expensive instructions; confirm bounded work and continued world progress. Report implementation defects separately from defined genome outcomes.
-- [ ] 4.13 Compare compiled/interpreted action traces, RNG evolution, prana, lifecycle events and grid states for the same forager across a declared seed set and multiple instruction allowances.
+- [x] 4.8 Implement the Python reference interpreter and its per-agent resumable state. Route sensing/actions through the common world interface; do not execute arbitrary generated source as interpretation.
+- [x] 4.9 Adapt the compiled forager's generation/execution path to the same semantic charge points and, where required, resumable scheduling. Native instruction counts and wall-clock time are not equivalent billing units.
+- [x] 4.10 Remove/disable the old routine energy debit for both forager paths when evaluating the replacement policy. Keep a clearly selected historical control policy rather than applying both unintentionally.
+- [x] 4.11 Implement shared metrics for semantic operations, charges, yields, limit hits, food intake and offspring transfers.
+- [x] 4.12 Test infinite loops, stack growth, invalid operations, numeric edges and expensive instructions; confirm bounded work and continued world progress. Report implementation defects separately from defined genome outcomes.
+- [x] 4.13 Compare compiled/interpreted action traces, RNG evolution, prana, lifecycle events and grid states for the same forager across a declared seed set and multiple instruction allowances.
 - [ ] 4.14 Repeat the viability study under compute charging. Compare with phase-2 results and resolve food-income/computation-cost balance without silently relaxing reproduction conservation.
 - [ ] 4.15 Enable interpreted selection once available; verify desktop pause/step/stop, snapshots and audio integration in both methods. Single-step remains a world tick.
-- [ ] 4.16 Document supported genomes, settings and resource policy. Record the selected interpreter/energy decisions and experimental results in memory.
+- [x] 4.16 Document supported genomes, settings and resource policy. Record the selected interpreter/energy decisions and experimental results in memory.
 
 Completion: one authored forager runs both compiled and interpreted with reproducible, equivalent specified semantics. Compilation is still the default. Instruction allowances are configurable; computation charging is evaluated and its selected policy documented.
 
