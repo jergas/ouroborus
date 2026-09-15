@@ -4,6 +4,8 @@ Status: descriptive snapshot of the source on 2026-09-14, before implementing a 
 
 Subsequent implementation: [Forager and transfer reproduction](forager.md), [compiled/interpreted execution](agent-execution.md), and the [observation checkpoint](observability.md) extend this baseline. The original observation checkpoint passed automated validation; manual desktop review and later changes require separate validation. The descriptions below of unchanged genome copying and preset-funded offspring describe the original supported option, not the newly added transfer policy.
 
+For the later implemented capabilities and their validation limits, see [Forager foundations: current status](forager-branch-status.md). The dated descriptions below remain the historical baseline.
+
 ## 1. What the system does today
 
 Ouroborus runs mobile agents over a changing two-dimensional cellular automaton. The background evolves through a configured neighborhood and transition rule. Agents occupy separate objects, move over that grid, consume eligible cells, accumulate or lose energy, reproduce, and die according to executable behavior generated from a seed genome.

@@ -4,6 +4,12 @@ Agreed direction, 2026-09-15. This document describes the concepts and choices; 
 
 The [observation checkpoint](observability.md) now implements agent inspection, bounded traces and a prana ledger; automated validation is recorded for A1–A6, with manual desktop review still pending.
 
+## Merge checkpoint
+
+The current branch can pause with the runnable six-operation Forager and its observation, study and resource-control tools, alongside the separately labeled atomic-language research artifacts. The strict atomic decoder/state foundation is validated, but atomic instructions are not yet executable or selectable as a runtime language. Merging these foundations need not wait for mutation, mating, language finalization or ecological conclusions.
+
+The [minimal closing tasks M1–M3](evolution-tasklist.md#m-minimal-merge-checkpoint) are a public status document, the remaining live desktop validation, and a concrete merge handoff. All A–G plans remain intact for later development. Compilation remains the default; existing supported options retain their status. This checkpoint is a proposed stopping point, not a claim that the evolutionary roadmap is complete.
+
 ## Supported foundations
 
 The forager already runs compiled and interpreted, with configurable instruction allowances, maintenance or compute charging, and exact parent-to-offspring prana transfer. Compilation remains the default. CA on cells are the food source; the initial XOR environment evolves. The current six-operation language bundles food sensing, direction choice and movement into `Sf`, so it establishes a working organism but leaves much of its behavior fixed by the host.

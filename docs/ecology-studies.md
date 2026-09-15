@@ -1,6 +1,6 @@
 # Declared ecology studies
 
-The initial runner passed five tests and a tiny real-run smoke in the separate validation session (124 full-suite tests, no skips). The baseline study remains unrun. Placement options and outcome reporting are a new checkpoint awaiting validation. This supplies tooling for [tasks B1–B3 and B5](evolution-tasklist.md#b-ecology-and-run-controls), not completed ecological findings.
+The initial runner passed five tests and a tiny real-run smoke in the separate validation session (124 full-suite tests, no skips). The baseline study remains unrun. Placement options and outcome reporting passed their validation checkpoint (136 full-suite tests, no skips). This supplies tooling for [tasks B1–B3 and B5](evolution-tasklist.md#b-ecology-and-run-controls), not completed ecological findings.
 
 Run from the repository root with the usual native Csound environment from AGENTS.md, even when audio output is disabled:
 
@@ -21,7 +21,7 @@ The finite-horizon screen requires completion, consistent population accounting,
 
 Each run has its own numbered directory, subprocess and event trace. `outcomes.jsonl` streams full result records, configs, status, elapsed time and screen outcome. Results retain population, births/deaths, generation depth, food intake, energy expenditure, transfers and trace truncation/error status. A failed run, invalid result or wall-clock timeout has an unknown ecological outcome and is never classified as extinction. The runner continues after those failures and exits nonzero if any condition failed. Completed runs that fail the biological screen still count as completed experiments.
 
-The wall-clock timeout includes initialization and compilation, so it is an operational limit, not an ecological death rule or a fair speed benchmark. The Linux runner owns a process group per condition and kills/reaps it on timeout or interruption, including compiler descendants. Interruption may leave a manifest condition without an outcome; treat missing outcomes as unknown. Logs/results already written remain available. Event traces retain their existing limits; launcher/debug logs and simulation population/cache sizes are not bounded by this runner. Resource-policy task B6 remains open.
+The wall-clock timeout includes initialization and compilation, so it is an operational limit, not an ecological death rule or a fair speed benchmark. The Linux runner owns a process group per condition and kills/reaps it on timeout or interruption, including compiler descendants. Interruption may leave a manifest condition without an outcome; treat missing outcomes as unknown. Logs/results already written remain available. Event traces retain their existing limits; launcher/debug logs and simulation population/cache sizes are not bounded by this runner. Optional [session thresholds](run-limits.md) now bound runs at lifecycle boundaries; byte/storage and admission controls remain open under B6.
 
 Compare paired seeds across methods and examine failures before aggregating successful runs. The tool preserves raw results rather than automatically asserting equivalence or discarding failed conditions. Keep the initial 80-tick study as a baseline, then declare longer horizons and additional seed sets before assessing sustained viability. No study has been run as part of this implementation checkpoint.
 
@@ -51,4 +51,4 @@ The report does not provide statistical significance or claim adaptation. Furthe
 
 ## Operational stop thresholds
 
-An optional shared `limits` object now sets session population, prepared raw-genome and lifecycle-visit thresholds. A threshold stop retains a partial result with status `limited`; reports count it as unknown, not extinction. All limits default to zero/unlimited. See [session stop thresholds](run-limits.md) for boundaries, partial ticks and remaining resource-policy work. This addition awaits validation independently of the preceding study/placement checkpoints.
+An optional shared `limits` object now sets session population, prepared raw-genome and lifecycle-visit thresholds. A threshold stop retains a partial result with status `limited`; reports count it as unknown, not extinction. All limits default to zero/unlimited. See [session stop thresholds](run-limits.md) for boundaries, partial ticks and remaining resource-policy work. This addition passed its separate validation checkpoint (144 full-suite tests, no skips).

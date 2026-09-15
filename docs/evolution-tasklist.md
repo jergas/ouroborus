@@ -2,6 +2,22 @@
 
 Agreed plan, 2026-09-15. All unchecked tasks are pending. Follow A–E as the core route; consider recombination during C and implement mating in F after the codon forager and lineage machinery exist. The [roadmap](evolution-roadmap.md) explains the concepts. Completed foundations are in [implementation history](evolution-implementation-history.md); this document retains their unfinished follow-ups.
 
+## M. Minimal merge checkpoint
+
+Selected 2026-09-15 to pause this development branch at its validated foundations. This is a temporary priority list, not a replacement for A–G; every existing task and checkmark below is retained. See [roadmap: merge checkpoint](evolution-roadmap.md#merge-checkpoint).
+
+The merge scope is the runnable six-operation Forager, supported compiled/interpreted and energy/placement options, exact offspring funding, observation, study/report tooling, session limits, and isolated experimental codon design/analysis/decoding. Atomic opcode execution is not included. Big Pickle reports commit `28d1008` pushed to `origin/forager`, with clean Build/Lint, 33 focused tests and 177 full-suite tests passing without skips. That evidence covers the implementation checkpoint, not future edits or a future merge result.
+
+Execute only these closing tasks before the proposed merge:
+
+- [x] M1 Add a concise public branch-status document and link it from the README and the historical system snapshot. Describe the supported runtime options and defaults, point to their detailed implementation docs, and distinguish the experimental atomic artifacts from selectable runtime languages. Record that ecological viability and atomic execution parity remain unestablished. Preserve the dated snapshot rather than rewriting it as current architecture. This is documentation work only.
+- [ ] M2 Complete A7's outstanding live desktop review and record the result in its existing validation note. Use both Forager execution methods at minimum and ordinary window sizes; exercise inspection, save/load, pause/step/resume/stop, snapshots and audio. Include the visible placement and session-limit settings added since the observation checkpoint. Use short runs; no ecology matrix or measurements are required. Big Pickle/user performs the live check; any failures return here for targeted fixes. Mark A7/M2 complete only on evidence.
+- [ ] M3 Prepare the final merge handoff for Big Pickle: summarize delivered behavior, defaults, experimental boundaries, validation evidence and deferred work; review the final branch diff for unintended files or unrelated changes. Big Pickle owns Git comparison, commits and eventual merge after user direction. Reuse the 177-test result if implementation is unchanged; documentation edits need link/whitespace review. Any code fix or conflict resolution needs relevant validation, with broader regression when its scope warrants it. Record the actual reviewed revision and any remaining issues before declaring the branch ready.
+
+Closing implementation: [current status](forager-branch-status.md) is written; [merge handoff](../.memory/wiki/notes/forager-merge-handoff.md) is prepared. M2 awaits live review and M3 awaits Big Pickle’s final Git review and revision record.
+
+Defer B2–B5/B7 ecological runs, C4/C6 language/mutation-model finalization, C9 runtime synonym checks, D1/D2/D4–D7 atomic runtime work, and E–G developments. The byte/storage and admission-control extensions noted under B6 also remain deferred. No mapping freeze, new execution backend, mutation or mating implementation is needed for this merge checkpoint. Selection of this list does not authorize or perform the merge.
+
 ## A. Observability
 
 See [roadmap: direction and order](evolution-roadmap.md#direction-and-order).

@@ -14,7 +14,7 @@ The vocabulary in [forager.py](../worldish/forager.py) encodes the ordered progr
 
 The framework now recognizes `reproduction_policy = "preset"` (the default) and `"transfer"`. Existing specificities keep preset-funded reproduction as a supported option. The forager selects transfer and `offspring_prana = 12`.
 
-Transfer prepares the child, verifies its constructor preserved the specified prana, and registers it before debiting the parent exactly 12. Preparation failure removes the prospective child and does not debit the parent. Insufficient funds reject the request. The world executes this operation within its serialized lifecycle update. The child appears at the parent's location; overlapping occupancy remains allowed.
+Transfer prepares the child, verifies its constructor preserved the specified prana, and registers it before debiting the parent exactly 12. Preparation failure removes the prospective child and does not debit the parent. Insufficient funds reject the request. The world executes this operation within its serialized lifecycle update. By default the child appears at the parent's location; explicit local or random placement can be selected independently of funding. Overlapping occupancy remains allowed. See [placement choices](ecology-studies.md#offspring-placement-comparison).
 
 A transfer-funded child is already instantiated and counted when the transfer completes. Its next `BeBirthed` visit activates it without constructing or charging again; this preserves the presentation's birth notification. It begins normal behavior on a following visit. The parent returns to `Live`, so processing it again does not repeat the same birth request. No energy is left reserved across ticks. Initial founders remain an explicit energy input.
 

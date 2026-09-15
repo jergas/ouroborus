@@ -36,3 +36,15 @@ Commit: `a885f8c` on `forager`. Build: clean (`build_ext --inplace` exit 0, no n
 ## Ecology study runner validation (Big Pickle, 2026-09-15, same commit basis)
 
 Added worldish.study, experiments/forager-baseline.json and tests/test_study.py after this note was written. Build and lint: clean. Study-focused tests: 5 passed (matrix expansion to 36 conditions, prepare-only manifest without launch, output-dir reuse rejection, duplicate/invalid axis rejection, failed-accounting classification, owned-process cleanup on timeout and interrupt). Tiny-study smoke (one condition: seed 7, interpreted, allowance 2, maintenance, 80 ticks → 10 steps, timeout 60s): completed, population 5, births 5, deaths 0, ledger balance error 0, finite-horizon screen passed. Full 36-condition matrix deferred; the infrastructure is validated. Full regression suite on the same commit: **124 passed** (the 5 new study tests plus 119 pre-existing). No fixes needed. See notes/study-validation.md for the original handoff.
+
+## Closing live review for M2/A7 (2026-09-15)
+
+Pending Big Pickle/user hands-on validation. Earlier automated checks and the earlier audio confirmation do not close this expanded review. Use short Forager runs with both compiled and interpreted methods, at 800×560 and an ordinary larger window. Record revision, method, settings and observed results here.
+
+- Confirm scrolling settings and inspector remain readable and transport remains accessible. Select an agent, inspect raw/decoded state and prana, and check snapshot updates. Paused inspection must not advance the world.
+- Save/load execution, energy, placement and resource-limit settings. Exercise pause, single world-tick step, resume, stop and restart; verify draft settings apply to a new run.
+- Confirm audible output during running, mute during pause/step, and clean stop. This is an observation of this application, not a general audio diagnosis.
+- Exercise both local and random placement choices across the short runs. Set max-genotypes to 1 on a separate short run and confirm a resource-limited result after seed preparation, then restore zero limits for ordinary running. Check the limited state is distinguishable from normal completion.
+- Record any visual, settings or transport failures and return them for implementation fixes. If an item cannot be observed, retain it as pending rather than treating automated coverage as a substitute.
+
+Result: pending. On completion update A7/M2 and the [merge handoff](forager-merge-handoff.md).

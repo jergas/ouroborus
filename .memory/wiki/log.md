@@ -1,5 +1,13 @@
 # Memory Update Log
 
+## [2026-09-15] DOCUMENT | Close implementation with status and merge handoff
+
+Completed M1 public status with runtime defaults, implementation links, experimental atomic boundaries and evidence limits; linked README/historical snapshot and refreshed stale placement/resource/validation prose. Prepared notes/forager-merge-handoff.md and a short live M2/A7 checklist in the existing observation note. Preserved all A–G tasks/checkmarks; M2 and M3 remain pending their actual live and Git reviews. Checked relative file-link existence in touched documents. No runtime edits, tests/builds/simulations, commits or merge; Big Pickle owns validation and Git. Latest implementation evidence remains the user-reported 28d1008 checkpoint with focused33/full177 passed, zero skips.
+
+## [2026-09-15] PLAN | Minimal closing scope for the forager branch
+
+User reports Big Pickle committed/pushed 28d1008, updated evidence-based task checkmarks, and validated the atomic data checkpoint: clean Build/Lint, focused33/full177 passed with no skips. User requested a minimal selection to reach a mergeable stopping point while preserving all plans. Added tasklist M1–M3 and a roadmap cross-reference: public branch-status documentation, outstanding A7 live desktop review including newer settings, and a final evidence/revision-specific handoff owned by Big Pickle for Git/validation. Deferred ecology matrices, atomic runtime, language finalization, mutation, mating and optional work without removing or changing A–G tasks/checkmarks. No implementation changes, test execution or Git mutations; no merge performed or authorized by this planning request.
+
 ## [2026-09-15] VALIDATE | Atomic decoder and state foundation validated
 
 Build clean, lint clean, 177 passed in 81.98s (0 skips, 0 failures) on the atomic-state checkpoint basis. Focused tests 33/33 (atomic_state + codon_program + codon_analysis): all 64 codons decode, raw synonyms keep distinct raw hashes/equal decoded hashes, immutable decoding survives candidate edits, empty/max-length/malformed/pin-mismatch/unsupported-table rejection, fresh vs restored slot ownership, signed/type/pointer/credit/shape/context rejection. No executor, language registration, mapping freeze or simulation change. Also checkmarked every task in docs/evolution-tasklist.md that is fulfilled per validated checkpoints: B6 (run-limit policies), C1–C3/C5/C7/C8/C10–C12 (design/measurement), D3 (authored genome); refreshed B/C/D preludes; C4/C6/C9 and runtime-bound D1/D2/D4–D7 left open. Updated notes/atomic-state-validation.md. Committed pending.

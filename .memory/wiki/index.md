@@ -35,6 +35,9 @@ Durable project knowledge consolidated on 2026-09-13 from the migration/port con
 
 - [Atomic decoder and state foundation](notes/atomic-state-validation.md) (experimental data boundaries; 177 tests passed)
 
+- [Forager current capabilities](../../docs/forager-branch-status.md) (public closing snapshot)
+- [Forager merge handoff](notes/forager-merge-handoff.md) (M1 complete; live review and final Git review pending)
+
 ## Execution knowledge
 
 - [Environment and library gotchas](gotchas.md)

@@ -13,6 +13,8 @@ The historical **ouroborus-cpp/** component was removed from the working tree; i
 
 The original SVN history is retained in Git. See [the port notes](docs/python3-port.md) for the baseline, changes, and validation.
 
+For the current evolutionary framework, supported defaults and experimental boundaries, see [Forager foundations: current status](docs/forager-branch-status.md).
+
 ## Requirements
 
 Use Python 3.11 or newer, a C compiler, and the Python development headers. The tested interpreter is CPython 3.14.7 on Linux; older Python 3 versions and other operating systems have not been tested. Curses is supplied by Python on supported Unix platforms.
@@ -83,7 +85,7 @@ The Qt desktop hosts the real curses view and a graphical **Living grid** view. 
 
 Native Csound 6 is required for audio; the launcher automatically uses the repository's `.deps/native` libraries when present. The desktop prefers PulseAudio when its runtime socket exists and otherwise uses PortAudio; `WORLDISH_AUDIO_BACKEND` can select `pulse`, `pa`, `alsa`, or `jack`. A device-open stall is stopped after 20 seconds and reported in the window. Select **Off** to run without Csound, or **Silent test** to exercise Csound without opening an audio device.
 
-Specificity, seed, iteration limit and output changes apply on the next run. Pace, volume and mute apply live. Pause stops simulation ticks and fades audio to silence; Csound's musical clock continues, so resume does not rewind or preserve sample-exact audio timing. Single-step advances one automaton tick and its agent updates while keeping audio muted. Stop followed by Start applies draft settings to a new world. World sizes/rules and initial agent counts currently come from the selected legacy specificity.
+Specificity, seed, iteration limit and output changes apply on the next run. Pace, volume and mute apply live. Pause stops simulation ticks and fades audio to silence; Csound's musical clock continues, so resume does not rewind or preserve sample-exact audio timing. Single-step advances one automaton tick and its agent updates while keeping audio muted. Stop followed by Start applies draft settings to a new world. World sizes/rules and initial agent counts currently come from the selected specificity.
 
 **Inspect** opens agent state, genomes, lineage and the prana ledger; Living grid centers are selectable. Optional **Event trace** settings write bounded `events.jsonl` recordings. See [observation controls and limits](docs/observability.md) (automated observation checks passed; later additions have separate validation).
 

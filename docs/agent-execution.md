@@ -53,7 +53,7 @@ Budget exhaustion preserves instruction position and pending request and returns
 
 Each live visit executes at most the allowance; lifecycle-only visits execute no instructions. The session normally has one lifecycle visit per organism per world tick. The experimental independently clocked scheduling mode remains distinct: there the allowance is per live visit rather than a global-world-tick quota.
 
-Bodies use Moore neighborhoods, bounding `Sf` to nine sensed positions. There are no growing stacks or unbounded search operands. The program length and per-visit allowance bound work; these are not wall-clock deadlines or aggregate population limits. Population/strain counts and overall run resources are not bounded by this VM, and broader resource controls remain future work.
+Bodies use Moore neighborhoods, bounding `Sf` to nine sensed positions. There are no growing stacks or unbounded search operands. The program length and per-visit allowance bound work; these are not wall-clock deadlines or aggregate population limits. Population/strain counts and overall run resources are not bounded by this VM. Separate optional [session stop thresholds](run-limits.md) now monitor population, prepared genotypes and lifecycle visits; byte/storage and admission controls remain future work.
 
 ## Prana charging and offspring
 
