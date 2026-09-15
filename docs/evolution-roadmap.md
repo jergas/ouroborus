@@ -1,83 +1,78 @@
 # Evolutionary language roadmap
 
-Status: planned direction, 2026-09-14. This roadmap describes the conceptual architecture and choices. The [implementation task list](evolution-tasklist.md) gives the ordered, fine-grained work and completion criteria. The [current system baseline](current-evolution-system.md) describes what exists today. The compiled forager and transfer reproduction option are implemented as an initial checkpoint; execution selection and initial forager interpretation are implemented and validated. See [current forager](forager.md) for behavior and validation.
+Agreed direction, 2026-09-15. This document describes the concepts and choices; the [active task list](evolution-tasklist.md) gives ordered implementation work. Completed foundations and dated validation are in [implementation history](evolution-implementation-history.md). Current behavior is described in [Forager](forager.md) and [agent execution](agent-execution.md).
 
-## Extension policy
+## Supported foundations
 
-Favor adding supported options and selecting preferred defaults over replacing behavior and adding compatibility layers. Existing source-genome compilation and preset-funded reproduction remain first-class choices; the forager selects the new transfer option.
+The forager already runs compiled and interpreted, with configurable instruction allowances, maintenance or compute charging, and exact parent-to-offspring prana transfer. Compilation remains the default. CA on cells are the food source; the initial XOR environment evolves. The current six-operation language bundles food sensing, direction choice and movement into `Sf`, so it establishes a working organism but leaves much of its behavior fixed by the host.
+
+Add supported options and select preferred defaults rather than replacing existing behavior with a compatibility path. Source-fragment compilation, forager-v1, preset-funded reproduction and transfer reproduction remain valid choices as new languages and reproductive mechanisms are added.
 
 ## Direction and order
 
-The first organism will be a hand-authored viable forager that can eventually run both compiled and interpreted. Establish it in the existing compiled framework before adding interpretation. Preserve compilation as the default execution method.
+1. **Observe execution and energy flows.** Inspect agents and record optional traces that explain feeding, computation, lifecycle requests and offspring transfers. [Tasks A](evolution-tasklist.md#a-observability).
+2. **Characterize the ecology.** Study instruction allowance, compute pricing and offspring placement before confusing their effects with genetic variation. Complete remaining desktop and aggregate-resource work. [Tasks B](evolution-tasklist.md#b-ecology-and-run-controls).
+3. **Design atomic instructions and codons together.** Replace bundled behavior in a new language with composable sensing, comparisons, turning, movement, feeding, control flow and bounded memory; design its redundant codon mapping at the same time. Existing languages remain supported. [Tasks C](evolution-tasklist.md#c-atomic-language-and-codon-design).
+4. **Rewrite the authored forager.** Express the strategy in the new language, with identical specified semantics under compiled and interpreted execution, before mutation is enabled. [Tasks D](evolution-tasklist.md#d-authored-codon-forager).
+5. **Introduce base-level mutation.** Begin with substitutions, preserve synonymous genomes and measure their consequences. Add length-changing operators in stages. [Tasks E](evolution-tasklist.md#e-mutation-and-lineages).
+6. **Explore sexual reproduction.** Combine one base from each parent's corresponding codon, initially using equal-length genomes, and compare it with inheriting whole codons. Design the encoding with this mechanism in mind from stage C, even though population-level mating comes later. [Tasks F](evolution-tasklist.md#f-sexual-reproduction).
 
-The work proceeds in this order:
+Observability can grow throughout these stages; complete checkpoints are an optional extension rather than a prerequisite for the first mutation experiment.
 
-1. **Create a forager specificity** defining its environment and initial population. See [task list, phase 1](evolution-tasklist.md#phase-1-create-the-forager-specificity).
-2. **Design and implement the compiled forager**, including exact parent-to-offspring prana transfer. See [phase 2](evolution-tasklist.md#phase-2-design-and-code-the-compiled-forager).
-3. **Add execution-method selection to the framework**, retaining compilation and introducing an interpretation option. See [phase 3](evolution-tasklist.md#phase-3-add-framework-execution-method-selection).
-4. **Implement the bounded interpreter** and run the same forager under both methods, with configurable computation limits and a considered prana cost model. See [phase 4](evolution-tasklist.md#phase-4-implement-the-bounded-interpreter-and-align-compute-accounting).
+## Bases, codons and instructions
 
-Mutation and more ambitious evolutionary experiments follow this foundation. The implementation order does not require settling every future opcode or ecological feature before establishing the compiled forager.
+Keep three explicit layers: the raw sequence of bases, a versioned codon-to-instruction mapping, and the instructions' execution semantics. Both execution methods consume the same decoded program and apply the same resource and energy rules.
 
-## One organism, two execution methods
+**Two-character codons are retained.** Their original purpose included sexual recombination within a codon, not merely compact notation. The starting design candidate is eight bases, provisionally `A`–`H`, giving 64 possible codons. The exact symbols, instruction set and mapping remain to be designed and evaluated; eight bases is a candidate, not a published language contract.
 
-A specificity defines a world and its initial organisms. Execution method determines how an organism's program runs. These should be independent: switching execution method should not implicitly select a different world, genome or energy policy.
+Every possible codon over the chosen alphabet must map to a defined atomic instruction, with redundancy. Unknown external characters or incomplete input are representation errors to handle explicitly; they are not additional codons. An instruction is atomic at the VM level and must have bounded work and defined behavior for every permitted machine state. It must not secretly implement an entire foraging strategy.
 
-Proposed configuration names are `execution_method = "compiled" | "interpreted"`, with `compiled` as the default when absent. These names are now implemented; see [execution settings and semantics](agent-execution.md). The current `compiling` setting selects `IndividualCompile`, `MassCompile` or `Void`; it is not the new execution-method selector. Keep strain reuse/build strategy separate from execution method, and preserve no-agent configurations explicitly.
+Several codons should encode each operation where the table permits. Place synonymous codons in connected single-base-mutation neighborhoods and favor related operations at other nearby codons. Examples of related functionality include sensing different directions or different turning actions. An operation-family role for the first base and a variant role for the second is a hypothesis to evaluate, not a constraint that overrides measured robustness.
 
-The framework should dispatch through a common agent-controller interface. Compiled controllers use the existing build/import path; interpreted controllers use a shared runtime and per-agent execution state. The body, world, lifecycle and energy accounting remain common. The existing generated `birth()`/`live()` execution remains a directly supported option. New execution mechanisms are added alongside it; arbitrary Python/Cython source is not assumed to be interpretable by the new genome interpreter.
+Alphabetical adjacency is not mutational adjacency. Define which base substitutions are possible and their probabilities, then enumerate the resulting codon neighbors. Under uniform substitution, each two-base codon in an eight-base alphabet has 14 distinct single-substitution neighbors. Measure silent, related-operation and other-operation transitions, including directionality and position-specific effects if mutations are biased. Compare structured tables against shuffled tables with the same instruction multiplicities.
 
-For the forager, prefer one authoritative program representation with compiled and interpreted realizations. Establish a small, explicit set of operations while writing the compiled version; the interpreter can later implement their semantics. This need not mean building a general compiler before the forager works. Avoid two independently maintained behavioral implementations that merely happen to produce similar results.
+Semantic proximity is a design bias, not a guarantee of small behavioral consequences. A nearby turning operation can be fatal in a particular world state. Evaluate instruction-level similarity and observed organism behavior separately.
 
-An execution method and an energy policy must not be conflated. Existing compiled agents retain their supported policy while the forager's two execution methods share the new policy. If computational charging or resumable budgets change the compiled implementation, adapt it rather than allowing method choice to change the experimental rules.
+## No-ops and silent variation
 
-## Foraging and reproduction energy
+Include a modest allocation of explicit no-op codons as an initial design choice. A no-op can disable an operation without deleting its position or shifting later code; later mutations can reactivate that position. It is not required to make a mapping complete, and its allocation should be assessed rather than used to absorb most codons.
 
-The agent's energy is **prana**. The stored **mana** value is food-related configuration; currently `eatMana()` checks cell state 1 and adds five prana. The current Alpha genome deducts 14 on reproduction while its offspring receives preset prana of 22. The historical reason for that difference has not been established.
+A no-op consumes instruction allowance and may cost prana, so insertion or substitution involving one is not necessarily neutral. Synonymous substitutions are a cleaner source of silent variation: equal decoded instructions must have identical control, timing, RNG and charging semantics under the same initial state.
 
-For the new forager, successful reproduction transfers exactly an amount E:
+Preserve raw genomes through birth, storage and observation. Do not canonicalize synonymous codons when reproducing. Distinct raw genomes can share decoded instructions and potentially compiled artifacts, while retaining separate genetic identities. If future organisms can inspect their raw code or construct offspring, synonymous encodings may acquire effects through those additional mechanisms; neutrality is scoped to the selected language and reproduction model.
+
+## Mutations and reading frames
+
+Start with per-base substitutions within the chosen alphabet. A total codon mapping guarantees valid decoding of complete words, not survival or reproduction. Bounded control flow and memory semantics remain necessary after decoding.
+
+Whole-codon insertion/deletion follows as a separately configurable operator. Single-base insertion/deletion is a later frameshift experiment: it changes downstream pairing and can leave an incomplete final word. Specify reading origin, framing, incomplete-tail behavior and length limits before enabling it. Do not quietly repair genomes in ways that introduce an undocumented evolutionary bias.
+
+Record exact genetic changes, ancestry and outcomes. Compare with no-mutation controls and re-evaluate descendants in comparable conditions. Genome diversity, successful execution and adaptive improvement are distinct measurements.
+
+## Recombination within codons
+
+The original proposed mating operation pairs corresponding codons of two equal-length genomes and takes one character from each parent:
 
 ```text
-parent_after = parent_before - E
-child_initial = E
-parent_after + child_initial = parent_before
+Parent 1:  AB  EF  GH
+Parent 2:  CD  GH  AB
+Offspring: AD  EH  GB
 ```
 
-No second default-energy allocation may be applied to that child. Initial founders are a separate, explicit initialization input. Any reproduction-computation cost is an additional, separately recorded expenditure, not part of E or an unexplained mismatch in the transfer.
+A complete codon table makes every resulting word decodable. It can create instructions present in neither parent; this is a feature to investigate rather than a guarantee of useful offspring. Evaluate recombination outcomes while designing the table, including crosses between synonymous parental codons that produce a different instruction.
 
-The transfer must remain correct across delayed births, failure, cancellation and parent death. Choose an atomic transfer at successful birth or an explicit reservation held until completion. Define the handling of rejected births and insufficient prana. World-owned accounting prevents an organism from requesting offspring without funding them.
+Support and compare explicit parental-orientation policies: fixed parent roles, a random orientation for the entire offspring, or independently chosen orientation at each codon. Whole-codon crossover provides a useful control that inherits intact instructions. Equal lengths make positional pairing simple but do not establish functional correspondence; unequal-length alignment and inherited insertions/deletions require a later explicit policy.
 
-This guarantees conservation at reproduction. Full-world conservation would additionally require accounting for food creation, consumption, computation, dissipation and death. The cellular automaton currently creates/removes edible states; a closed energetic universe is a separate ecological choice. Record sources and sinks rather than claiming global conservation from the reproduction invariant alone.
+Mating also requires world rules for proximity, partner selection, eligibility, scheduling and failure. For transfer-funded sexual reproduction, parent contributions must sum exactly to the child's initial prana:
 
-## Bounded execution and computation as metabolism
+```text
+parent_1_debit + parent_2_debit = child_initial_prana
+```
 
-A bounded interpreter reads genome instructions as data and returns control after a configurable amount of work. An organism can retain its instruction pointer and stacks between world ticks. Budget exhaustion yields to the scheduler; it is distinct from program completion and prana exhaustion.
+Specify how contributions are split; do not assume they must be equal. Computation and any reproductive overhead remain separate expenditures. Failed or duplicate mating transactions must not mint prana, charge only one parent, or allocate offspring twice. Initial founders and CA-driven food changes remain explicit energy sources; reproduction conservation alone does not imply a closed energetic universe.
 
-The instruction allowance should be a validated variable, provisionally named `instructions_per_tick`, recorded in experiment configuration. There is no selected value of 64. Choose defaults from forager viability and measured runtime. Population-wide work still scales with the number of agents and their allowances; individual limits do not guarantee real-time performance.
+## Later branches
 
-Bounds must also cover stacks, genome/offspring buffers, numeric sizes, and work performed inside an instruction. A search or copy cannot evade the allowance by doing unbounded work inside one opcode. Empty stacks, invalid branches and arithmetic edge cases need defined outcomes. Interpreter defects should surface as errors rather than being silently treated as ordinary mutant behavior.
+Full checkpoints and replay, organism-controlled offspring construction, richer resources/communication, alternative machines, and performance work remain optional developments in the [task list](evolution-tasklist.md#g-optional-developments). Organism-controlled construction is distinct from world-managed sexual recombination and need not precede it. Parallel/distributed populations require explicit conflict resolution, versioning and migration semantics.
 
-Explore charging **prana for computation instead of routinely subtracting a fixed amount every live call**. Count shared semantic operations, not Python bytecodes, native machine instructions or wall-clock duration: those differ with execution method and hardware. If this policy is adopted, the compiled forager must execute the same charge points and suspension rules as the interpreted one, including branches, no-ops and repeated actions.
-
-The hard scheduling allowance and prana price solve different problems. Retain a hard bound even if computation costs prana; otherwise zero-cost settings, cheap loops or energy gained during execution could let an organism monopolize the world. Define whether an unaffordable instruction is suspended or results in death, and whether feeding may rescue an agent at zero energy. Avoid accidentally retaining the old flat debit in addition to the new computation charge.
-
-Prana is currently an integer. Small computation costs may require rescaling energy units, charging batches, or tracking fractional debt. Choose a representation that preserves exact offspring transfer and consistent charging. Also decide what halted organisms pay: removing routine maintenance allows inactive organisms to persist unless another world rule removes them. Such persistence is an ecological consequence to evaluate, not automatically an error.
-
-## Evidence of success
-
-The compiled forager should first demonstrate sensing, feeding and funded reproduction in a controlled food environment. Then run it under changing CA conditions. Define seed sets, duration and viability criteria before evaluation, and retain extinction results.
-
-After interpretation exists, compare both methods with identical program, specificity, RNG state and resource policy. Compare action traces, prana balances, births/deaths and world state at equivalent scheduling boundaries. Equal aggregate population counts alone are not evidence of semantic equivalence. Observe responsiveness and resource bounds under looping and malformed genomes as well as under the viable seed organism.
-
-## Subsequent and optional directions
-
-The [later-work tasks](evolution-tasklist.md#phase-5-heritable-variation) turn these directions into concrete experiments.
-
-- **Heritable variation:** introduce substitution, insertion and deletion after both forager execution methods are validated. Track ancestry, mutant viability and behavioral outcomes against no-mutation controls.
-- **Inspection and replay:** inspect instructions, energy and lineage; checkpoint complete world, lifecycle, RNG and execution state. Settings files alone are not checkpoints.
-- **Ecology:** compare local/global reproduction, food regeneration, action costs and computation prices. Investigate communication or cooperation when their mechanisms can be observed.
-- **Offspring construction:** later let organisms copy and edit offspring code themselves; world validation still enforces energy/resource rules.
-- **Alternative machines:** compare stack, register or regulatory execution behind the same world interface where useful. Equal instruction counts across different languages need not imply equal work.
-- **Performance and scale:** profile before optimizing; compare Cython paths against reference semantics. Parallel and distributed populations depend on explicit conflict, checkpoint and migration semantics.
-
-Public documentation is intended for a general audience. Keep individual hardware and local troubleshooting history in memory unless needed for requirements or reproducibility.
+The [ingested Gemini answer](../.memory/wiki/notes/dna-codon-mutation-robustness.md) inspired the codon discussion. Its quoted text is preserved; project qualifications are recorded separately in that note. The architecture uses redundancy and semantic proximity as testable engineering choices, not as a claim that a biological analogy guarantees evolutionary success.

@@ -52,3 +52,17 @@ The answer's source chips ("View source details" citation markers in the live co
 - [Design of evolvable computer languages - ResearchGate](https://www.researchgate.net/publication/3418708_Design_of_Evolvable_Computer_Languages)
 - [Neutral genetic drift: an investigation using Cartesian Genetic Programming - ResearchGate](https://www.researchgate.net/publication/276509430_Neutral_genetic_drift_an_investigation_using_Cartesian_Genetic_Programming)
 - [The genotype-phenotype map of an evolving digital organism](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005414)
+
+## Project interpretation — separate from the Gemini answer
+
+Agreed 2026-09-15. The quoted answer and its source appendix above are retained unchanged. The engineering decisions below are project interpretation, not additional Gemini text.
+
+- Preserve the original two-character codon design, including its intended mating operation: combine the first base of one parent's codon with the second base of the other's corresponding codon. Equal-length, same-mapping genomes are the initial mating restriction; parental orientation is an explicit policy to compare.
+- Eight bases (provisionally A–H) and 64 codons are the starting candidate. Exact symbols, instruction set and complete redundant table remain to be evaluated together. Every codon over the selected alphabet must decode to a defined atomic instruction.
+- Arrange synonymous codons into connected single-base-substitution neighborhoods and favor related operations nearby. Evaluate the actual mutation probabilities and recombination outcomes; alphabetical adjacency does not imply mutational proximity, and instruction similarity does not guarantee a small behavioral effect.
+- No-ops can disable an operation while preserving its position, but are not required for a total table. Allocate a modest explicit group initially and evaluate it. Because no-ops consume allowance and potentially prana, they are not automatically neutral. Synonymous substitutions must preserve execution/charging semantics under the initial model.
+- Preserve raw synonymous genomes through reproduction and storage even if decoded instructions or compiled artifacts are shared. Raw-code introspection and mating can give otherwise synonymous sequences different reproductive consequences.
+- Begin with base substitutions, then optional whole-codon insertion/deletion; single-base indels require an explicit frameshift/incomplete-tail policy. Decodability alone does not establish mutant viability.
+- Treat the answer's claim of biologically optimized error minimization as a simplification, not a settled causal explanation. The study [Evolution of the genetic code: partial optimization of a random code](https://pmc.ncbi.nlm.nih.gov/articles/PMC2211284/) discusses partial optimization and historical constraints. Our mapping is a testable engineering design, not a claim to reproduce biological history.
+
+The [roadmap](../../../docs/evolution-roadmap.md) and [active task list](../../../docs/evolution-tasklist.md) contain the agreed sequence. Sexual transfer funding must satisfy combined parent debits = child's initial prana, with compute/overhead charges separately accounted for.
