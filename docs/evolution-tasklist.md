@@ -20,6 +20,8 @@ Completion: the execution and prana history of selected organisms can be explain
 
 ## B. Ecology and run controls
 
+New checkpoint: [declared study runner](ecology-studies.md) supplies manifests, isolated runs and failure-preserving outcomes for B1–B3/B5. Tests and ecological runs are pending; no viability conclusion or task completion is implied.
+
 See [roadmap: supported foundations](evolution-roadmap.md#supported-foundations). The evolving CA's on cells remain food; static arrangements are focused test fixtures only.
 
 - [ ] B1 Declare seed sets, run duration, viability criteria and comparisons before evaluating outcomes. Use the recorded 36-run matrix as prior exploratory evidence, not a substitute for the new study.

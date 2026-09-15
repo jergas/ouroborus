@@ -28,3 +28,11 @@
 - Check final trace status after stop/normal completion. Abrupt kill can leave an incomplete trace and no result, as with existing run outputs.
 
 Public details: [observability](../../../docs/observability.md). Record findings here, in the log, and update task checkboxes only after relevant validation.
+
+## Validation results (Big Pickle, 2026-09-15)
+
+Commit: `a885f8c` on `forager`. Build: clean (`build_ext --inplace` exit 0, no new Cython sources). Lint: clean (`compileall birdcage worldish tests setup.py .memory/tools` + `git diff --check`). Full suite with local Csound native libraries: **119 passed, 0 failures, 0 skips** (75.5 seconds). Includes real-session compiled/interpreted comparisons, observation trace/Ledger/QML coverage, desktop tests, and existing regressions. A1–A5 implementation and A6 test coverage are validated. A7 (live desktop GUI/audio inspection) remains pending and requires the user's unrestricted environment. Task checkboxes may be updated.
+
+## Ecology study runner validation (Big Pickle, 2026-09-15, same commit basis)
+
+Added worldish.study, experiments/forager-baseline.json and tests/test_study.py after this note was written. Build and lint: clean. Study-focused tests: 5 passed (matrix expansion to 36 conditions, prepare-only manifest without launch, output-dir reuse rejection, duplicate/invalid axis rejection, failed-accounting classification, owned-process cleanup on timeout and interrupt). Tiny-study smoke (one condition: seed 7, interpreted, allowance 2, maintenance, 80 ticks → 10 steps, timeout 60s): completed, population 5, births 5, deaths 0, ledger balance error 0, finite-horizon screen passed. Full 36-condition matrix deferred; the infrastructure is validated. Full regression suite on the same commit: **124 passed** (the 5 new study tests plus 119 pre-existing). No fixes needed. See notes/study-validation.md for the original handoff.
