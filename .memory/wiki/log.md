@@ -1,5 +1,13 @@
 # Memory Update Log
 
+## [2026-09-15] VALIDATE | Authored atomic forager and static review validated
+
+Build clean, lint clean, 153 passed in 82.94s (0 skips, 0 failures) on the authored-codon commit basis. Focused tests 9/9 (codon_program 4 + analysis 5): 17 words/34 bases, 8 paths, 14–17 instructions, MOVE/MAINTAIN×1 and EAT×2 per path all ending YIELD, 3 live visits and zero-credit prana 3 at price6, price1 above food bound, candidate/annotation drift rejection, synonym-preserved decoding, end-skip/empty/path-cap/unsupported rejection. Review CLI at allowance6: price6 report and price1 report saved under experiments/codons/authored-forager-review-{price6,price1}.json; all expectations matched (genome sha a105d9b8c418e308, price1 zero-credit prana 14–17 > food 10). Static bounds only; no VM evaluation. Updated notes/authored-codon-validation.md. Committed pending.
+
+## [2026-09-15] IMPLEMENT | Authored atomic forager and bounded static path review
+
+Acknowledged Big Pickle codon measurements and focused5/full149 passing tests. Authored17 codons using13 proposed instructions without changing the candidate table, preserving exact raw synonyms and pinning candidate hash. Added static decode/annotation/path/cost review and tests; no shadow VM or simulation changes. Conservative full-pass bounds14–17 instructions expose compute price1 as net-negative even at two successful feeds, while price6 permits but does not establish positive energy balance. Removed redundant local food probing because direct EAT is cheaper under equal opcode pricing. Wrote docs/authored-atomic-forager.md and notes/authored-codon-validation.md. No tests/builds/reviewer runs/simulations or VC mutations; new validation, runtime language and ecology assessment remain pending.
+
 ## [2026-09-15] VALIDATE | Atomic codon proposal and table-geometry analysis validated
 
 Build clean, lint clean, 149 passed in 83.18s (0 skips, 0 failures) on the codon analysis commit basis. Focused tests 5/5: hand-worked two-base table, candidate combinatorial counts (896 directed: 64 silent/384 same-family/448 other; 32 components; 4096 pairs; 128 synonymous/64 distinct/0 novel; both128/first896/second384/neither2688), isolated RNG and determinism, totality/symbol validation, disconnected-synonym novel children. Measurement run (20 shuffles, seed 42, include-edges) reproduced every expectation; report at experiments/codons/family-variant-analysis-report.json. Candidate/control fractions: candidate silent 0.0714/same 0.4286/other 0.5 vs control means 0.0174/0.0962/0.8864 — geometry bonus only, no fitness claim; recombination neither 0.6562. Offline table analysis only; no VM/codon() implementation or ecological inference. Updated notes/codon-design-validation.md. Committed pending.

@@ -1,0 +1,468 @@
+{
+  "schema": 1,
+  "name": "atomic-forager-draft-1",
+  "candidate_sha256": "1c975a9849aeb90c4a431c11c5545dc67e90259a5cc2ca01e86623c93fc871d7",
+  "raw_genome": "HACDAGDFDGHBHCCFAGHHBGFBCEEFAGHFAC",
+  "raw_genome_sha256": "a105d9b8c418e3080638dcf69a76fdfb456e0ebf0d5bbbfefa0c7e30f02d1fe4",
+  "word_count": 17,
+  "decoded": [
+    "EAT",
+    "FOOD_AHEAD",
+    "SKIP_POSITIVE",
+    "RANDOM_TURN",
+    "MOVE",
+    "EAT",
+    "MAINTAIN",
+    "PRANA",
+    "SKIP_POSITIVE",
+    "REQUEST_DEATH",
+    "REPRO_THRESHOLD",
+    "STORE_R",
+    "PRANA",
+    "LESS",
+    "SKIP_POSITIVE",
+    "REQUEST_CHILD",
+    "YIELD"
+  ],
+  "instructions_per_live_visit": 6,
+  "instructions_per_prana": 6,
+  "food_prana_per_success": 5,
+  "path_count": 8,
+  "minimum_instructions": 14,
+  "maximum_instructions": 17,
+  "paths": [
+    {
+      "positions": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "branches": [
+        {
+          "position": 2,
+          "skip": false
+        },
+        {
+          "position": 8,
+          "skip": false
+        },
+        {
+          "position": 14,
+          "skip": false
+        }
+      ],
+      "completion": "yield",
+      "instructions": 17,
+      "operations": {
+        "EAT": 2,
+        "FOOD_AHEAD": 1,
+        "SKIP_POSITIVE": 3,
+        "RANDOM_TURN": 1,
+        "MOVE": 1,
+        "MAINTAIN": 1,
+        "PRANA": 2,
+        "REQUEST_DEATH": 1,
+        "REPRO_THRESHOLD": 1,
+        "STORE_R": 1,
+        "LESS": 1,
+        "REQUEST_CHILD": 1,
+        "YIELD": 1
+      },
+      "live_visits_from_start": 3,
+      "compute_prana_zero_credit": 3,
+      "compute_prana_max_credit": 2,
+      "maintenance_debit_upper_bound": 1,
+      "food_prana_upper_bound": 10
+    },
+    {
+      "positions": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        16
+      ],
+      "branches": [
+        {
+          "position": 2,
+          "skip": false
+        },
+        {
+          "position": 8,
+          "skip": false
+        },
+        {
+          "position": 14,
+          "skip": true
+        }
+      ],
+      "completion": "yield",
+      "instructions": 16,
+      "operations": {
+        "EAT": 2,
+        "FOOD_AHEAD": 1,
+        "SKIP_POSITIVE": 3,
+        "RANDOM_TURN": 1,
+        "MOVE": 1,
+        "MAINTAIN": 1,
+        "PRANA": 2,
+        "REQUEST_DEATH": 1,
+        "REPRO_THRESHOLD": 1,
+        "STORE_R": 1,
+        "LESS": 1,
+        "YIELD": 1
+      },
+      "live_visits_from_start": 3,
+      "compute_prana_zero_credit": 3,
+      "compute_prana_max_credit": 2,
+      "maintenance_debit_upper_bound": 1,
+      "food_prana_upper_bound": 10
+    },
+    {
+      "positions": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "branches": [
+        {
+          "position": 2,
+          "skip": false
+        },
+        {
+          "position": 8,
+          "skip": true
+        },
+        {
+          "position": 14,
+          "skip": false
+        }
+      ],
+      "completion": "yield",
+      "instructions": 16,
+      "operations": {
+        "EAT": 2,
+        "FOOD_AHEAD": 1,
+        "SKIP_POSITIVE": 3,
+        "RANDOM_TURN": 1,
+        "MOVE": 1,
+        "MAINTAIN": 1,
+        "PRANA": 2,
+        "REPRO_THRESHOLD": 1,
+        "STORE_R": 1,
+        "LESS": 1,
+        "REQUEST_CHILD": 1,
+        "YIELD": 1
+      },
+      "live_visits_from_start": 3,
+      "compute_prana_zero_credit": 3,
+      "compute_prana_max_credit": 2,
+      "maintenance_debit_upper_bound": 1,
+      "food_prana_upper_bound": 10
+    },
+    {
+      "positions": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14,
+        16
+      ],
+      "branches": [
+        {
+          "position": 2,
+          "skip": false
+        },
+        {
+          "position": 8,
+          "skip": true
+        },
+        {
+          "position": 14,
+          "skip": true
+        }
+      ],
+      "completion": "yield",
+      "instructions": 15,
+      "operations": {
+        "EAT": 2,
+        "FOOD_AHEAD": 1,
+        "SKIP_POSITIVE": 3,
+        "RANDOM_TURN": 1,
+        "MOVE": 1,
+        "MAINTAIN": 1,
+        "PRANA": 2,
+        "REPRO_THRESHOLD": 1,
+        "STORE_R": 1,
+        "LESS": 1,
+        "YIELD": 1
+      },
+      "live_visits_from_start": 3,
+      "compute_prana_zero_credit": 3,
+      "compute_prana_max_credit": 2,
+      "maintenance_debit_upper_bound": 1,
+      "food_prana_upper_bound": 10
+    },
+    {
+      "positions": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "branches": [
+        {
+          "position": 2,
+          "skip": true
+        },
+        {
+          "position": 8,
+          "skip": false
+        },
+        {
+          "position": 14,
+          "skip": false
+        }
+      ],
+      "completion": "yield",
+      "instructions": 16,
+      "operations": {
+        "EAT": 2,
+        "FOOD_AHEAD": 1,
+        "SKIP_POSITIVE": 3,
+        "MOVE": 1,
+        "MAINTAIN": 1,
+        "PRANA": 2,
+        "REQUEST_DEATH": 1,
+        "REPRO_THRESHOLD": 1,
+        "STORE_R": 1,
+        "LESS": 1,
+        "REQUEST_CHILD": 1,
+        "YIELD": 1
+      },
+      "live_visits_from_start": 3,
+      "compute_prana_zero_credit": 3,
+      "compute_prana_max_credit": 2,
+      "maintenance_debit_upper_bound": 1,
+      "food_prana_upper_bound": 10
+    },
+    {
+      "positions": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        16
+      ],
+      "branches": [
+        {
+          "position": 2,
+          "skip": true
+        },
+        {
+          "position": 8,
+          "skip": false
+        },
+        {
+          "position": 14,
+          "skip": true
+        }
+      ],
+      "completion": "yield",
+      "instructions": 15,
+      "operations": {
+        "EAT": 2,
+        "FOOD_AHEAD": 1,
+        "SKIP_POSITIVE": 3,
+        "MOVE": 1,
+        "MAINTAIN": 1,
+        "PRANA": 2,
+        "REQUEST_DEATH": 1,
+        "REPRO_THRESHOLD": 1,
+        "STORE_R": 1,
+        "LESS": 1,
+        "YIELD": 1
+      },
+      "live_visits_from_start": 3,
+      "compute_prana_zero_credit": 3,
+      "compute_prana_max_credit": 2,
+      "maintenance_debit_upper_bound": 1,
+      "food_prana_upper_bound": 10
+    },
+    {
+      "positions": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "branches": [
+        {
+          "position": 2,
+          "skip": true
+        },
+        {
+          "position": 8,
+          "skip": true
+        },
+        {
+          "position": 14,
+          "skip": false
+        }
+      ],
+      "completion": "yield",
+      "instructions": 15,
+      "operations": {
+        "EAT": 2,
+        "FOOD_AHEAD": 1,
+        "SKIP_POSITIVE": 3,
+        "MOVE": 1,
+        "MAINTAIN": 1,
+        "PRANA": 2,
+        "REPRO_THRESHOLD": 1,
+        "STORE_R": 1,
+        "LESS": 1,
+        "REQUEST_CHILD": 1,
+        "YIELD": 1
+      },
+      "live_visits_from_start": 3,
+      "compute_prana_zero_credit": 3,
+      "compute_prana_max_credit": 2,
+      "maintenance_debit_upper_bound": 1,
+      "food_prana_upper_bound": 10
+    },
+    {
+      "positions": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14,
+        16
+      ],
+      "branches": [
+        {
+          "position": 2,
+          "skip": true
+        },
+        {
+          "position": 8,
+          "skip": true
+        },
+        {
+          "position": 14,
+          "skip": true
+        }
+      ],
+      "completion": "yield",
+      "instructions": 14,
+      "operations": {
+        "EAT": 2,
+        "FOOD_AHEAD": 1,
+        "SKIP_POSITIVE": 3,
+        "MOVE": 1,
+        "MAINTAIN": 1,
+        "PRANA": 2,
+        "REPRO_THRESHOLD": 1,
+        "STORE_R": 1,
+        "LESS": 1,
+        "YIELD": 1
+      },
+      "live_visits_from_start": 3,
+      "compute_prana_zero_credit": 3,
+      "compute_prana_max_credit": 2,
+      "maintenance_debit_upper_bound": 1,
+      "food_prana_upper_bound": 10
+    }
+  ],
+  "scope": "conservative static control flow and completed-pass cost bounds; no execution or viability claim"
+}

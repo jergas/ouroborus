@@ -29,7 +29,9 @@ Durable project knowledge consolidated on 2026-09-13 from the migration/port con
 
 - [Session run limits](notes/run-limits-validation.md) (validated: 144 full-suite tests passed; no skips)
 
-- [Atomic codon design and analysis](notes/codon-design-validation.md) (proposal/tooling; execution and review pending)
+- [Atomic codon design and analysis](notes/codon-design-validation.md) (geometry measured; 149 tests passed; language remains provisional)
+
+- [Authored atomic forager review](notes/authored-codon-validation.md) (17-codon draft and static reviewer; validation pending)
 
 ## Execution knowledge
 

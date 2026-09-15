@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "name": "atomic-forager-draft-1",
+  "status": "authored design, not a runtime specificity",
+  "candidate_sha256": "1c975a9849aeb90c4a431c11c5545dc67e90259a5cc2ca01e86623c93fc871d7",
+  "genome": "HACDAGDFDGHBHCCFAGHHBGFBCEEFAGHFAC",
+  "listing": [
+    {
+      "codon": "HA",
+      "instruction": "EAT",
+      "purpose": "Try to consume the local ON cell."
+    },
+    {
+      "codon": "CD",
+      "instruction": "FOOD_AHEAD",
+      "purpose": "Inspect one cell in the current heading."
+    },
+    {
+      "codon": "AG",
+      "instruction": "SKIP_POSITIVE",
+      "purpose": "If food was sensed ahead, retain the current heading."
+    },
+    {
+      "codon": "DF",
+      "instruction": "RANDOM_TURN",
+      "purpose": "Otherwise choose one heading; do not scan all neighbors."
+    },
+    {
+      "codon": "DG",
+      "instruction": "MOVE",
+      "purpose": "Move exactly once."
+    },
+    {
+      "codon": "HB",
+      "instruction": "EAT",
+      "purpose": "Try to consume the destination cell, regardless of the earlier sensor result."
+    },
+    {
+      "codon": "HC",
+      "instruction": "MAINTAIN",
+      "purpose": "Pay the explicit maintenance-policy debit."
+    },
+    {
+      "codon": "CF",
+      "instruction": "PRANA",
+      "purpose": "Read energy after feeding and maintenance."
+    },
+    {
+      "codon": "AG",
+      "instruction": "SKIP_POSITIVE",
+      "purpose": "If energy is positive, skip the death request."
+    },
+    {
+      "codon": "HH",
+      "instruction": "REQUEST_DEATH",
+      "purpose": "Mark death pending; later child requests cannot override it."
+    },
+    {
+      "codon": "BG",
+      "instruction": "REPRO_THRESHOLD",
+      "purpose": "Load the configured authored reproduction threshold."
+    },
+    {
+      "codon": "FB",
+      "instruction": "STORE_R",
+      "purpose": "Keep that threshold in the scratch register."
+    },
+    {
+      "codon": "CE",
+      "instruction": "PRANA",
+      "purpose": "Read current energy for the reproduction comparison."
+    },
+    {
+      "codon": "EF",
+      "instruction": "LESS",
+      "purpose": "Set A to whether energy is below the saved threshold."
+    },
+    {
+      "codon": "AG",
+      "instruction": "SKIP_POSITIVE",
+      "purpose": "If below threshold, skip the child request."
+    },
+    {
+      "codon": "HF",
+      "instruction": "REQUEST_CHILD",
+      "purpose": "Request reproduction; actual funding is checked by the world later."
+    },
+    {
+      "codon": "AC",
+      "instruction": "YIELD",
+      "purpose": "Publish the pending request and start the next pass at position zero."
+    }
+  ],
+  "assumptions": {
+    "offspring_prana": 12,
+    "reproduction_threshold": 30,
+    "food_prana_per_success": 5
+  }
+}

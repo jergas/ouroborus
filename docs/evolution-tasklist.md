@@ -36,7 +36,7 @@ Completion: environmental and scheduling effects are observable enough to interp
 
 ## C. Atomic language and codon design
 
-A [concrete 32-instruction proposal](atomic-codon-proposal.md), total 64-codon candidate table and offline substitution/recombination analyzer now support this phase. They are not a frozen language or a runtime implementation. Analysis execution, validation and design review remain pending; ecological evaluation continues separately.
+A [concrete 32-instruction proposal](atomic-codon-proposal.md), total 64-codon candidate table and offline substitution/recombination analyzer now support this phase. They are not a frozen language or a runtime implementation. The analyzer and measured geometry passed validation (149 full-suite tests); design review and runtime validation remain pending; ecological evaluation continues separately.
 
 See [roadmap: bases and instructions](evolution-roadmap.md#bases-codons-and-instructions), [no-ops](evolution-roadmap.md#no-ops-and-silent-variation) and [recombination](evolution-roadmap.md#recombination-within-codons).
 
@@ -56,6 +56,8 @@ See [roadmap: bases and instructions](evolution-roadmap.md#bases-codons-and-inst
 Completion: every codon has defined bounded execution semantics, the mapping's local properties are measured, and its mating implications are explicit. Alphabet symbols and the full table remain open until this work is done.
 
 ## D. Authored codon forager
+
+An [authored 17-codon draft and static review tool](authored-atomic-forager.md) now exercise the proposed machine before a language is frozen. This supplies a reviewable starting genome for D3, not a runtime implementation or viability result. New review tests remain pending.
 
 See [roadmap: direction and order](evolution-roadmap.md#direction-and-order).
 
