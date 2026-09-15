@@ -11,7 +11,8 @@ def startExecutionNormal():
         control.send("phase", phase="audio", message="Opening audio output…")
     sound.startSoundServer()
     if control:
-        control.send("phase", phase="genomes", message="Preparing the world and compiling genomes…")
+        action = "preparing interpreted programs" if getattr(specific, "execution_method", "compiled") == "interpreted" else "compiling genomes"
+        control.send("phase", phase="genomes", message=f"Preparing the world and {action}…")
     try:
         return curses.wrapper(run) if specific.displayType == "curses" else run(None)
     finally:

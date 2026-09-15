@@ -13,3 +13,11 @@ reproduction_policy = "transfer"
 offspring_prana = 12
 reproduction_threshold = 30
 genome_table = vocabulary(reproduction_threshold)
+
+# Both execution methods support this finite opcode language. The source-table
+# option above remains usable by selecting genome_language = "source".
+genome_language = "forager-v1"
+execution_method = "compiled"
+instructions_per_tick = 6
+energy_policy = "maintenance"
+instructions_per_prana = 6

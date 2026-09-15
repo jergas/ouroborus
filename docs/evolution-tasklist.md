@@ -1,6 +1,6 @@
 # Evolutionary implementation task list
 
-Status: planned, 2026-09-14. All tasks are pending unless checked. Follow phases 1–4 in order. Optional later branches can proceed independently once their dependencies are met. The [roadmap](evolution-roadmap.md) explains the concepts and open choices; the [current baseline](current-evolution-system.md) documents existing behavior. The compiled forager checkpoint is documented in [forager.md](forager.md); interpretation remains pending.
+Status: planned, 2026-09-14. All tasks are pending unless checked. Follow phases 1–4 in order. Optional later branches can proceed independently once their dependencies are met. The [roadmap](evolution-roadmap.md) explains the concepts and open choices; the [current baseline](current-evolution-system.md) documents existing behavior. The compiled forager checkpoint is documented in [forager.md](forager.md); execution selection and initial interpretation are implemented and validated.
 
 Checkpoint: phases 1 and the core compiled behavior/transfer in phase 2 are implemented. Session runs pass; full desktop live validation, declared ecological studies and complete trace capture remain unchecked. The initial condition is an evolving XOR CA; static cells are used only in focused tests.
 
@@ -35,6 +35,8 @@ Purpose: obtain a viable organism with correct energy transfer using today's exe
 - [ ] 2.12 Record baseline genome, configuration, action trace, energy balances and birth/death results for comparison after interpretation is implemented.
 
 Completion: the compiled forager feeds and reproduces with exact offspring funding. No interpreted run is required yet, but the behavior's representation and semantics support the later second execution method.
+
+Implementation status (validated 2026-09-14): phase 3 wiring and phase 4's six-op forager machine, resumable allowance, shared compiled dispatch, compute policy and metrics are coded and checked. `tests/test_execution.py` passes (20 focused tests; full suite 108 passed, no skips). Compiled and interpreted runs agree across the exploratory seed/allowance/policy matrix (36 runs, no extinction, identical counters) and interpreted mode compiles and emits no native artifacts. No new completion boxes are checked for the remaining future work. General stacks/jumps, aggregate resource caps and viability studies remain future work. See [execution semantics](agent-execution.md).
 
 ## Phase 3: Add framework execution-method selection
 

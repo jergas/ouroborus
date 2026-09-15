@@ -64,11 +64,16 @@ class Controller(QObject):
     busy = Property(bool, lambda self: self.process is not None, notify=changed)
 
     @Slot(str, int, int, float, str, float)
-    def start(self, preset, steps, seed, interval, audio, volume):
+    @Slot(str, int, int, float, str, float, str, int, str, int)
+    def start(self, preset, steps, seed, interval, audio, volume,
+              execution_method="compiled", instructions_per_tick=6,
+              energy_policy="maintenance", instructions_per_prana=6):
         if self.process:
             return
         try:
-            self.config = SimulationConfig(preset.lower(), steps, seed, interval, audio, volume)
+            self.config = SimulationConfig(preset.lower(), steps, seed, interval, audio, volume,
+                                           execution_method, instructions_per_tick,
+                                           energy_policy, instructions_per_prana)
             self.output_root.mkdir(parents=True, exist_ok=True)
             self.run_id = uuid.uuid4().hex
             output = self.output_root / self.run_id
@@ -109,7 +114,8 @@ class Controller(QObject):
             self.failure_reason = None
             self.audio_started_at = None
             self._state = "preparing"
-            self._message = f"Preparing {preset.title()} · seed {seed}. Compiling genomes may take a moment."
+            action = "Preparing interpreted programs." if execution_method == "interpreted" else "Compiling genomes may take a moment."
+            self._message = f"Preparing {preset.title()} · seed {seed}. {action}"
             self._metrics = "Initializing world"
             self._audio = "Audio preparing" if audio != "off" else "Audio off"
             self.terminalReset.emit()

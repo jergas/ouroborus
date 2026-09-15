@@ -28,6 +28,13 @@ def main(argv=None):
     parser.add_argument("-m", "--mode", default="threaded", type=str.lower,
                         choices=["debug", "visual", "audiovisual", "threaded", "experimental", "session"])
     parser.add_argument("-n", "--submode", default="normal", type=str.capitalize)
+    parser.add_argument("--execution-method", choices=["compiled", "interpreted"],
+                        help="agent execution method (specificity default, otherwise compiled)")
+    parser.add_argument("--instructions-per-tick", type=positive,
+                        help="forager-v1 instruction allowance per live visit (1–4096)")
+    parser.add_argument("--energy-policy", choices=["maintenance", "compute"])
+    parser.add_argument("--instructions-per-prana", type=positive,
+                        help="instructions prepaid by one prana under compute charging (1–4096)")
     parser.add_argument("--steps", type=positive, help="override the number of automaton iterations")
     parser.add_argument("--seed", type=int, help="seed Python's random generator for repeatable runs")
     parser.add_argument("--display", choices=["curses", "pygame", "debug"])
@@ -54,6 +61,16 @@ def main(argv=None):
     try:
         runtime.specificity = args.specificity.capitalize()
         specific = runtime.get_specific()
+        from .execution import ExecutionOptions
+        for field in ExecutionOptions.__dataclass_fields__:
+            value = getattr(args, field)
+            if value is not None:
+                setattr(specific, field, value)
+        try:
+            ExecutionOptions.from_specificity(specific).validate_language(
+                getattr(specific, "genome_language", "source"), specific.compiling == "Void")
+        except ValueError as error:
+            parser.error(str(error))
         if args.agent_threads:
             specific.agentThreads = args.agent_threads
         if args.agent_workers is not None:

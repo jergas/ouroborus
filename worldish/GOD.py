@@ -115,8 +115,19 @@ class Generator:
                 self.scions = [] # this is a list of strains used for MassCompiling
                 self.genome_table = dict(getattr(self.specific, "genome_table", tabula))
 
+                from .execution import ExecutionOptions, new_metrics
+                self.execution_options = ExecutionOptions.from_specificity(self.specific)
+                self.genome_language = getattr(self.specific, "genome_language", "source")
+                self.execution_options.validate_language(self.genome_language, self.specific.compiling == "Void")
+                self.execution_metrics = new_metrics()
+                self.interpreted_programs = {}
+
                 # Set the compile mode using getattr
                 self.generateGenotype = getattr(self, "generateGenotype"+self.specific.compiling, self.generateGenotypeIndividualCompile)
+
+                if (self.execution_options.execution_method == "interpreted"
+                        and self.specific.compiling != "Void"):
+                        self.generateGenotype = self.generateGenotypeInterpreted
 
                 # set the display functions using getattr
                 self.displayType = self.specific.displayType.capitalize()
@@ -173,6 +184,34 @@ class Generator:
                 return getattr(self, "generateGenotype"+self.specific.compiling, self.generateGenotypeIndividualCompile)(poeio, ode)
 
 
+        def makeEntry(self, name, module_name, program=None):
+                entry = BookEntry(name, module_name)
+                entry.program = program
+                if self.genome_language == "forager-v1":
+                        entry.execution_options = self.execution_options
+                        entry.execution_metrics = self.execution_metrics
+                        entry.reproduction_threshold = self.specific.reproduction_threshold
+                return entry
+
+
+        def writeGenome(self, code, path):
+                if self.genome_language == "forager-v1":
+                        from .forager_vm import compiled_source
+                        Path(path).write_text(compiled_source(code))
+                else:
+                        g.Genome(code, self.genome_table, 2).incorporate(path)
+
+
+        def generateGenotypeInterpreted(self, code, book):
+                from .forager_vm import InterpretedProgram
+                if code not in self.interpreted_programs:
+                        self.interpreted_programs[code] = InterpretedProgram(code)
+                name = self.obstetrix + "clone" + str(self.obstetrics)
+                book[name] = self.makeEntry(name, "interpreted:forager-v1", self.interpreted_programs[code])
+                self.obstetrics += 1
+                return name
+
+
         def generateGenotypeVoid(self, poeio, ode):
                 """Compile nothing, no agents
 
@@ -194,22 +233,21 @@ class Generator:
                 New version compatible with the new BookEntry class"""
 
                 # samskara is a genome binding poeio to tabula
-                samskara = g.Genome(poeio, self.genome_table, 2)
                 # create a name for the module object
                 onoma = self.obstetrix+str(self.obstetrics)
                 # corpus is the relative filepath where the Pyrex genome code will be saved
                 Path('creatures').mkdir(exist_ok=True)
                 corpus = 'creatures/'+onoma+'.pyx'
                 # this incantation actually writes the .pyx file with the translated poeio code
-                samskara.incorporate(corpus)
+                self.writeGenome(poeio, corpus)
 
                 compile_genome(onoma, corpus)
 
 #               # finally, append the module's name to the list of names,
-#               #ode.append(BookEntry(onoma, onoma))
+#               #ode.append(self.makeEntry(onoma, onoma))
                 # finally, add the module's BookEntry to the Book of Life
                 # (dictionary of names) using its name as a key
-                ode[onoma] = BookEntry(onoma, onoma)
+                ode[onoma] = self.makeEntry(onoma, onoma)
                 self.obstetrics += 1
                 return onoma
 
@@ -230,26 +268,25 @@ class Generator:
 
                         # identify the genome in the dictionary of compiled strains
                         strain = self.obstetrix+str(self.scions.index(poeio))
-                        ode[onoma]=(BookEntry(onoma, strain))
+                        ode[onoma]=(self.makeEntry(onoma, strain))
 
                 else:
                         # if it hasn't, proceed to compile the new genome
                         # samskara is a genome binding poeio to tabula
-                        samskara = g.Genome(poeio, self.genome_table, 2)
                         # create a name for the module object
                         strain = self.obstetrix+str(len(self.scions))
                         # corpus is the relative filepath where the Pyrex genome code will be saved
                         Path('creatures').mkdir(exist_ok=True)
                         corpus = 'creatures/'+strain+'.pyx'
                         # this incantation actually writes the .pyx file with the translated poeio code
-                        samskara.incorporate(corpus)
+                        self.writeGenome(poeio, corpus)
 
                         compile_genome(strain, corpus)
                         self.scions.append(poeio)
 
                         # finally, add the module's BookEntry to the Book of Life
                         # (dictionary of names) using its name as a key
-                        ode[onoma] = BookEntry(onoma, strain)
+                        ode[onoma] = self.makeEntry(onoma, strain)
 
                 self.obstetrics += 1
                 return onoma

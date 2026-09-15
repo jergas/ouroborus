@@ -146,3 +146,5 @@ LD_LIBRARY_PATH="$PWD/.deps/native/usr/lib" .venv/bin/python -m pytest -q
 
 Audio tests explicitly skip if native Csound libraries are unavailable. Pygame tests use SDL's dummy display driver. These do not verify physical speakers or a desktop window.
 The **Forager** specificity adds an authored food-seeking organism with exact parent-to-offspring prana transfer. See [Forager](docs/forager.md) for its program and supported reproduction policy.
+
+Forager also provides **Compiled / Interpreted** execution and configurable instruction/energy settings. Compilation remains the default. The new execution paths are validated; see [agent execution](docs/agent-execution.md) for semantics and CLI examples.

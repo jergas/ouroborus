@@ -1,6 +1,6 @@
 # Authored forager
 
-The `forager` specificity runs a compiled, hand-authored organism on an evolving XOR cellular automaton. The CA's on cells are the food: consuming one changes it to the background state and grants five prana. The initial specificity uses Alpha's 80 × 20 toroidal Moore world with 100 random cell placements, three founders with 24 prana each, and a shared compiled strain.
+The `forager` specificity runs a hand-authored organism, with compilation as the default execution method, on an evolving XOR cellular automaton. The CA's on cells are the food: consuming one changes it to the background state and grants five prana. The initial specificity uses Alpha's 80 × 20 toroidal Moore world with 100 random cell placements, three founders with 24 prana each, and a shared compiled strain.
 
 Select **Forager** in the desktop Specificity selector, or run:
 
@@ -8,7 +8,7 @@ Select **Forager** in the desktop Specificity selector, or run:
 .venv/bin/python -m worldish.start --specificity forager --mode session --display debug --no-sound --steps 80 --seed 42 --fast
 ```
 
-The source vocabulary in [forager.py](../worldish/forager.py) encodes the ordered program `Sf Ea Mt Rp Di Rt`: seek nearby food (stay if already on food), eat, pay one prana maintenance, request reproduction at 30 prana, request death at zero, return the lifecycle request. When no nearby food is visible, the organism chooses a random direction. This explicit program is the starting point for future interpretation; no interpreter exists yet.
+The vocabulary in [forager.py](../worldish/forager.py) encodes the ordered program `Sf Ea Mt Rp Di Rt`: seek nearby food (stay if already on food), eat, pay one prana maintenance, request reproduction at 30 prana, request death at zero, return the lifecycle request. When no nearby food is visible, the organism chooses a random direction. This program now also has compiled and interpreted forager-v1 dispatch; see [agent execution](agent-execution.md) for limits, energy options and the supported source-table path.
 
 ## Supported reproduction options
 
@@ -26,4 +26,4 @@ An initial 80-tick debug run with seed 42 reached eight descendant generations, 
 
 Focused checks cover sensing/consumption, exact transfer, insufficient funds, duplicate requests, constructor failure, and a constructor attempting to allocate extra prana. A real compiled run checks descendants and total transfers. Longer evaluation across declared seeds, richer energy ledgers and desktop live inspection remain work in the [task list](evolution-tasklist.md).
 
-The next architectural stage adds an execution-method option with compilation still the default, followed by interpretation of the same forager. Instruction allowance and compute-based prana costs are future options; the current `Mt` operation remains a valid flat-maintenance choice. See the [roadmap](evolution-roadmap.md).
+Execution-method selection and the bounded forager interpreter are implemented and validated. The default allowance is six instructions per live visit; computation charging is optional and maintenance remains supported. Focused trace/session tests plus a 36-run compiled/interpreted matrix confirm matching behavior and energy accounting. See [agent execution](agent-execution.md) and the [roadmap](evolution-roadmap.md).

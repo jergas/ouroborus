@@ -39,6 +39,12 @@ class BookEntry:
                 self.agent = None
                 self.fatum = {"prayer":"BeBirthed"}
                 self.automaton = None
+                self.program = None
+                self.execution_options = None
+                self.execution_metrics = None
+                from .execution import new_state
+                self.execution_state = new_state()
+                self.reproduction_threshold = 30
 
 
         def __str__(self):
@@ -49,6 +55,9 @@ class BookEntry:
 
         def callModule(self):
                 """Dynamically import the module with the agent into the runtime namespace"""
+                if self.program is not None:
+                        self.module = self.program
+                        return
                 importlib.invalidate_caches()
                 self.module = importlib.import_module(self.modulename)
 
@@ -72,7 +81,12 @@ class BookEntry:
 
                 return -->> 1"""
 
-                self.fatum["prayer"] = self.module.live(self.agent) #this is deep magic!
+                if self.execution_options is None:
+                        self.fatum["prayer"] = self.module.live(self.agent)
+                else:
+                        self.fatum["prayer"] = self.module.advance(
+                                self.agent, self.execution_state, self.execution_options,
+                                self.reproduction_threshold, self.execution_metrics)
                 self.fatum["prana"] = self.agent.tellPrana() # simply update some data now
                 self.fatum["address"] = self.agent.tellAddress()
                 # if an agent just ate, record it in VocalTract (when running

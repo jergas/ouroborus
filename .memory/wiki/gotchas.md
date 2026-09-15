@@ -45,3 +45,7 @@ Recorded 2026-09-13 from the port and its confirmed validation.
 
 - User decision, 2026-09-14: favor adding new supported options and choosing preferred defaults. Existing behavior remains a valid first-class option rather than being demoted to legacy behavior requiring compatibility layers.
 - CA on bits ARE food. Forager specificity uses an evolving XOR rule; static cell setups are focused tests only. No separate food layer was introduced.
+
+## Implementation and validation workflow
+
+- User direction, 2026-09-14: Big Pickle in a separate session owns version control and test execution; it should report failures rather than fix them. This agent implements and supplies validation handoffs. User reports the previous forager checkpoint committed on branch forager with tests reporting no errors. Do not infer validation of later edits from that report.

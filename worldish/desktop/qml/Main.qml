@@ -58,7 +58,11 @@ ApplicationWindow {
     property bool closeWhenStopped: false
     function draft() {
         return {preset: preset.currentText.toLowerCase(), steps: steps.value, seed: seed.value,
-                interval: pace.value, audio: audio.output, volume: volume.value}
+                interval: pace.value, audio: audio.output, volume: volume.value,
+                execution_method: preset.currentIndex === 4 ? method.currentText.toLowerCase() : "compiled",
+                instructions_per_tick: preset.currentIndex === 4 ? allowance.value : 6,
+                energy_policy: preset.currentIndex === 4 ? metabolism.currentText.toLowerCase() : "maintenance",
+                instructions_per_prana: preset.currentIndex === 4 ? computeBatch.value : 6}
     }
     FileDialog {
         id: saveDialog
@@ -81,6 +85,10 @@ ApplicationWindow {
             pace.value = settings.interval
             audio.currentIndex = ["speakers", "off", "silent"].indexOf(settings.audio)
             volume.value = settings.volume
+            method.currentIndex = ["compiled", "interpreted"].indexOf(settings.execution_method)
+            allowance.value = settings.instructions_per_tick
+            metabolism.currentIndex = ["maintenance", "compute"].indexOf(settings.energy_policy)
+            computeBatch.value = settings.instructions_per_prana
         }
     }
     onClosing: function(close) {
@@ -121,12 +129,29 @@ ApplicationWindow {
                         Layout.fillWidth: true
                         model: ["Alpha", "Beta", "Delta", "Epsilon", "Forager"]
                         Accessible.name: "Simulation specificity"
+                        onActivated: { if (currentIndex !== 4) method.currentIndex = 0 }
                         ToolTip.visible: hovered
                         ToolTip.text: "World rules, initial population, and seed genome"
                     }
                     Label {
                         text: (preset.currentIndex === 0 || preset.currentIndex === 4) ? "World: 80 × 20 · 3 initial agents" : preset.currentIndex === 3 ? "World: 80 × 40 · no initial agents" : "World: 80 × 40 · 3 initial agents"
                         color: "#C8B6DB"; font.pixelSize: 12
+                    }
+                    Label { text: "Execution method" }
+                    ComboBox {
+                        id: method; model: ["Compiled", "Interpreted"]; Layout.fillWidth: true
+                        enabled: preset.currentIndex === 4
+                        Accessible.name: "Agent execution method"
+                    }
+                    ColumnLayout {
+                        visible: preset.currentIndex === 4
+                        Layout.fillWidth: true
+                        Label { text: "Instructions per tick" }
+                        SpinBox { id: allowance; from: 1; to: 4096; value: 6; editable: true; Layout.fillWidth: true }
+                        Label { text: "Energy policy" }
+                        ComboBox { id: metabolism; model: ["Maintenance", "Compute"]; Layout.fillWidth: true }
+                        Label { text: "Instructions per prana"; visible: metabolism.currentIndex === 1 }
+                        SpinBox { id: computeBatch; from: 1; to: 4096; value: 6; editable: true; Layout.fillWidth: true; visible: metabolism.currentIndex === 1 }
                     }
                     Label { text: "Iterations" }
                     SpinBox { id: steps; from: 1; to: 1000000; value: 4000; editable: true; Layout.fillWidth: true }
@@ -156,7 +181,7 @@ ApplicationWindow {
                     CheckBox { id: mute; text: "Mute"; onToggled: simulation.setMuted(checked) }
                     Label {
                         Layout.fillWidth: true; wrapMode: Text.WordWrap; color: "#C8B6DB"; font.pixelSize: 12
-                        text: "Preset, seed, iterations and output apply on the next run. Pace and volume also apply live."
+                        text: "Specificity, execution, energy, seed, iterations and output apply on the next run. Pace and volume also apply live."
                     }
                 }
             }
@@ -172,7 +197,10 @@ ApplicationWindow {
                         highlighted: true
                         onClicked: {
                             mute.checked = false
-                            simulation.start(preset.currentText, steps.value, seed.value, pace.value, audio.output, volume.value)
+                            const settings = window.draft()
+                            simulation.start(preset.currentText, steps.value, seed.value, pace.value, audio.output, volume.value,
+                                             settings.execution_method, settings.instructions_per_tick,
+                                             settings.energy_policy, settings.instructions_per_prana)
                         }
                     }
                     RowLayout {

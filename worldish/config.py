@@ -1,6 +1,7 @@
 """Validated, serializable launch settings shared by desktop and worker."""
 from dataclasses import asdict, dataclass
 import math
+from .execution import ExecutionOptions
 
 
 @dataclass(frozen=True)
@@ -11,10 +12,16 @@ class SimulationConfig:
     interval: float = 0.1
     audio: str = "speakers"
     volume: float = 0.5
+    execution_method: str = "compiled"
+    instructions_per_tick: int = 6
+    energy_policy: str = "maintenance"
+    instructions_per_prana: int = 6
 
     def __post_init__(self):
         if self.preset not in ("alpha", "beta", "delta", "epsilon", "forager"):
             raise ValueError("Unknown simulation specificity")
+        self.execution_options().validate_language(
+            "forager-v1" if self.preset == "forager" else "source", self.preset == "epsilon")
         if type(self.steps) is not int or not 1 <= self.steps <= 1000000:
             raise ValueError("Iterations must be between 1 and 1,000,000")
         if type(self.seed) is not int or not 0 <= self.seed <= 2147483647:
@@ -25,6 +32,10 @@ class SimulationConfig:
             raise ValueError("Unknown audio output")
         if not isinstance(self.volume, (int, float)) or not math.isfinite(self.volume) or not 0 <= self.volume <= 1:
             raise ValueError("Volume must be between 0 and 1")
+
+    def execution_options(self):
+        return ExecutionOptions(self.execution_method, self.instructions_per_tick,
+                                self.energy_policy, self.instructions_per_prana)
 
     def to_dict(self):
         return asdict(self)

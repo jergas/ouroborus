@@ -1,6 +1,6 @@
 # Evolutionary language roadmap
 
-Status: planned direction, 2026-09-14. This roadmap describes the conceptual architecture and choices. The [implementation task list](evolution-tasklist.md) gives the ordered, fine-grained work and completion criteria. The [current system baseline](current-evolution-system.md) describes what exists today. The compiled forager and transfer reproduction option are implemented as an initial checkpoint; interpretation remains pending. See [current forager](forager.md) for behavior and validation.
+Status: planned direction, 2026-09-14. This roadmap describes the conceptual architecture and choices. The [implementation task list](evolution-tasklist.md) gives the ordered, fine-grained work and completion criteria. The [current system baseline](current-evolution-system.md) describes what exists today. The compiled forager and transfer reproduction option are implemented as an initial checkpoint; execution selection and initial forager interpretation are implemented and validated. See [current forager](forager.md) for behavior and validation.
 
 ## Extension policy
 
@@ -23,7 +23,7 @@ Mutation and more ambitious evolutionary experiments follow this foundation. The
 
 A specificity defines a world and its initial organisms. Execution method determines how an organism's program runs. These should be independent: switching execution method should not implicitly select a different world, genome or energy policy.
 
-Proposed configuration names are `execution_method = "compiled" | "interpreted"`, with `compiled` as the default when absent. These names are a design proposal, not an existing API. The current `compiling` setting selects `IndividualCompile`, `MassCompile` or `Void`; it is not the new execution-method selector. Keep strain reuse/build strategy separate from execution method, and preserve no-agent configurations explicitly.
+Proposed configuration names are `execution_method = "compiled" | "interpreted"`, with `compiled` as the default when absent. These names are now implemented; see [execution settings and semantics](agent-execution.md). The current `compiling` setting selects `IndividualCompile`, `MassCompile` or `Void`; it is not the new execution-method selector. Keep strain reuse/build strategy separate from execution method, and preserve no-agent configurations explicitly.
 
 The framework should dispatch through a common agent-controller interface. Compiled controllers use the existing build/import path; interpreted controllers use a shared runtime and per-agent execution state. The body, world, lifecycle and energy accounting remain common. The existing generated `birth()`/`live()` execution remains a directly supported option. New execution mechanisms are added alongside it; arbitrary Python/Cython source is not assumed to be interpretable by the new genome interpreter.
 

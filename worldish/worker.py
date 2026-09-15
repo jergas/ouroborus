@@ -170,7 +170,11 @@ def main():
             specific.csOptions = f"<CsoundSynthesizer>\n<CsOptions>\n-odac -+rtaudio={backend} -b1024 -B2048 -d -m0\n</CsOptions>"
         launch_args = ["--mode", "session", "--specificity", config.preset, "--display", "curses",
                        "--seed", str(config.seed), "--steps", str(config.steps),
-                       "--output-dir", str(args.config.parent)]
+                       "--output-dir", str(args.config.parent),
+                       "--execution-method", config.execution_method,
+                       "--instructions-per-tick", str(config.instructions_per_tick),
+                       "--energy-policy", config.energy_policy,
+                       "--instructions-per-prana", str(config.instructions_per_prana)]
         if config.audio == "off":
             launch_args.append("--no-sound")
         elif config.audio == "silent":
