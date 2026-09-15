@@ -14,7 +14,9 @@ def report_result(organizer, generator):
     import json
     from dataclasses import asdict
     from pathlib import Path
+    from .placement import placement_settings
     result = {
+        "offspring_placement": placement_settings(generator.specific),
         "iterations": organizer.annum,
         "population": organizer.earth.tellPopulation(),
         "births": organizer.births,

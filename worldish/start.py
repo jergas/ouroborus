@@ -49,6 +49,8 @@ def main(argv=None):
     parser.add_argument("--trace-mode", choices=["off", "events", "instructions"], default="off")
     parser.add_argument("--trace-limit", type=positive, default=100_000,
                         help="maximum recorded events (1–1,000,000); tracing defaults to off")
+    parser.add_argument("--offspring-placement", choices=["policy", "local", "random"],
+                        help="offspring position; policy retains the funding policy default")
     args = parser.parse_args(argv)
     from .observation import validate_trace
     try:
@@ -73,6 +75,8 @@ def main(argv=None):
         runtime.specificity = args.specificity.capitalize()
         specific = runtime.get_specific()
         specific.trace_mode, specific.trace_limit = args.trace_mode, args.trace_limit
+        if args.offspring_placement is not None:
+            specific.offspring_placement = args.offspring_placement
         from .execution import ExecutionOptions
         for field in ExecutionOptions.__dataclass_fields__:
             value = getattr(args, field)

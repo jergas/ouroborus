@@ -21,13 +21,14 @@ def transfer_birth(organizer, parent):
         parent.fatum["prayer"] = "Live"
         return None
 
+    from .placement import offspring_address
     child_name = None
     try:
         child_name = organizer.generator.generateGenotype(parent.fatum["code"], organizer.book)
         child = organizer.book[child_name]
         child.fatum.update(code=parent.fatum["code"], prana=amount,
                            mana=organizer.specific.mana,
-                           address=parent.agent.tellAddress(), prayer="BeBirthed",
+                           address=offspring_address(organizer, parent, "transfer"), prayer="BeBirthed",
                            parent=parent.name,
                            generation=parent.fatum.get("generation", 0) + 1)
         from . import sound_globals

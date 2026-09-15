@@ -44,3 +44,9 @@ Old task IDs are retained here for traceability; new IDs belong to the active ta
 | Optional ecology, construction and scale | [B](evolution-tasklist.md#b-ecology-and-run-controls) and [G](evolution-tasklist.md#g-optional-developments) |
 
 Within-codon sexual reproduction is now explicit future work in [F](evolution-tasklist.md#f-sexual-reproduction); its mapping implications are considered earlier in C.
+
+## Observation and declared-study infrastructure, 2026-09-15
+
+Big Pickle recorded Build/Lint clean and 119 passing tests, no skips, for observation tasks A1–A6. Source/Forager inspection, passive traces, energy accounting and method comparisons are validated at that checkpoint. A7 manual GUI/audio review remains active.
+
+The declared study runner then passed five additional tests (124 total, no skips) and a ten-tick interpreted smoke with population5, generation1 and zero prana residual. The full 36-condition baseline was deferred. This validates infrastructure, not the baseline viability screen or sustained survival. See the [active ecology work](evolution-tasklist.md#b-ecology-and-run-controls) and [study documentation](ecology-studies.md). Later placement/report code is a separate, unvalidated checkpoint.

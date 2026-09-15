@@ -244,7 +244,7 @@ def test_paused_agent_inspection_and_trace_settings(qtapp, tmp_path):
     controller.snapshotChanged.connect(frames.append)
     settings = SimulationConfig(preset="forager", steps=100, interval=0.1, audio="off",
                                 execution_method="interpreted", trace_mode="instructions",
-                                trace_limit=1000).to_dict()
+                                trace_limit=1000, offspring_placement="random").to_dict()
     url = QUrl.fromLocalFile(str(tmp_path / "settings.json"))
     controller.savePreset(url, settings)
     assert controller.loadPreset(url) == settings
@@ -266,6 +266,7 @@ def test_paused_agent_inspection_and_trace_settings(qtapp, tmp_path):
         wait_for(qtapp, lambda: controller.process is None)
         result = json.loads((Path(controller.runPath) / "result.json").read_text())
         assert result["observation"]["ledger"]["balance_error"] == 0
+        assert result["offspring_placement"] == {"requested": "random", "effective": "random"}
         assert (Path(controller.runPath) / "events.jsonl").exists()
     finally:
         controller.shutdown()

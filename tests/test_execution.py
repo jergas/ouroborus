@@ -107,14 +107,16 @@ def test_settings_defaults_and_invalid_combinations():
             ExecutionOptions(instructions_per_tick=value)
 
 
-def test_real_session_methods_agree(tmp_path):
+@pytest.mark.parametrize("placement", ["policy", "random"])
+def test_real_session_methods_agree(tmp_path, placement):
     from test_worldish import run_example
     results, events = [], []
     for method in ("compiled", "interpreted"):
         result, output = run_example(tmp_path / method, '--specificity', 'forager',
                                      '--mode', 'session', '--display', 'debug', '--no-sound',
                                      '--execution-method', method, '--instructions-per-tick', '2',
-                                     '--energy-policy', 'compute', '--trace-mode', 'instructions')
+                                     '--energy-policy', 'compute', '--trace-mode', 'instructions',
+                                     '--offspring-placement', placement)
         if method == 'interpreted':
             assert result['genotypes_compiled'] == 0
             assert result['genotypes_interpreted'] == 1

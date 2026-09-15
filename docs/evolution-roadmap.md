@@ -2,7 +2,7 @@
 
 Agreed direction, 2026-09-15. This document describes the concepts and choices; the [active task list](evolution-tasklist.md) gives ordered implementation work. Completed foundations and dated validation are in [implementation history](evolution-implementation-history.md). Current behavior is described in [Forager](forager.md) and [agent execution](agent-execution.md).
 
-The [observation checkpoint](observability.md) now implements agent inspection, bounded traces and a prana ledger; independent validation remains pending in phase A.
+The [observation checkpoint](observability.md) now implements agent inspection, bounded traces and a prana ledger; automated validation is recorded for A1–A6, with manual desktop review still pending.
 
 ## Supported foundations
 

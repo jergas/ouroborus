@@ -1,0 +1,12 @@
+{
+  "seeds": [7, 42, 99],
+  "methods": ["compiled", "interpreted"],
+  "allowances": [1, 2, 6],
+  "policies": ["maintenance", "compute"],
+  "prices": [6],
+  "placements": ["local", "random"],
+  "steps": 80,
+  "timeout_seconds": 180,
+  "minimum_population": 1,
+  "minimum_generation": 2
+}

@@ -85,7 +85,7 @@ Native Csound 6 is required for audio; the launcher automatically uses the repos
 
 Specificity, seed, iteration limit and output changes apply on the next run. Pace, volume and mute apply live. Pause stops simulation ticks and fades audio to silence; Csound's musical clock continues, so resume does not rewind or preserve sample-exact audio timing. Single-step advances one automaton tick and its agent updates while keeping audio muted. Stop followed by Start applies draft settings to a new world. World sizes/rules and initial agent counts currently come from the selected legacy specificity.
 
-**Inspect** opens agent state, genomes, lineage and the prana ledger; Living grid centers are selectable. Optional **Event trace** settings write bounded `events.jsonl` recordings. See [observation controls and limits](docs/observability.md) (new checkpoint; validation pending).
+**Inspect** opens agent state, genomes, lineage and the prana ledger; Living grid centers are selectable. Optional **Event trace** settings write bounded `events.jsonl` recordings. See [observation controls and limits](docs/observability.md) (automated observation checks passed; later additions have separate validation).
 
 Each run has a separate `.worldish/desktop/<run-id>/` directory containing its configuration, genomes, logs and result. **Run logs** opens that folder. Startup can take time while genomes compile. Stop and window close request cleanup and terminate the owned worker/compiler process group if necessary. Runtime failures appear in the window; diagnostic details remain in the run logs.
 

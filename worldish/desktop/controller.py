@@ -96,13 +96,13 @@ class Controller(QObject):
     def start(self, preset, steps, seed, interval, audio, volume,
               execution_method="compiled", instructions_per_tick=6,
               energy_policy="maintenance", instructions_per_prana=6,
-              trace_mode="off", trace_limit=100_000):
+              trace_mode="off", trace_limit=100_000, offspring_placement="policy"):
         if self.process:
             return
         try:
             self.config = SimulationConfig(preset.lower(), steps, seed, interval, audio, volume,
                                            execution_method, instructions_per_tick,
-                                           energy_policy, instructions_per_prana, trace_mode, trace_limit)
+                                           energy_policy, instructions_per_prana, trace_mode, trace_limit, offspring_placement)
             self.output_root.mkdir(parents=True, exist_ok=True)
             self.run_id = uuid.uuid4().hex
             output = self.output_root / self.run_id

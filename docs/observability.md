@@ -1,6 +1,6 @@
 # Agent observation and prana accounting
 
-Implementation checkpoint, 2026-09-15; validation is pending. This implements the first part of [task-list phase A](evolution-tasklist.md#a-observability), supporting the [evolution roadmap](evolution-roadmap.md). It adds observation to the existing execution methods and energy policies; compilation and maintenance remain the defaults.
+Observation checkpoint validated on 2026-09-15 by Big Pickle: Build/Lint clean, 119 tests passed without skips. Manual desktop/audio review remains pending; later placement changes require new validation. This implements the first part of [task-list phase A](evolution-tasklist.md#a-observability), supporting the [evolution roadmap](evolution-roadmap.md). It adds observation to the existing execution methods and energy policies; compilation and maintenance remain the defaults.
 
 ## Using the inspector
 
@@ -60,4 +60,4 @@ The shared scheduler calls optional before/after observation hooks around each p
 
 `SessionControl` adds compact organism records, selected inspection, ledger and trace status to snapshots. Its `inspect` command runs between world ticks, including while paused. Render footprints are deduplicated without changing their visible coverage. The desktop controller handles selection by run ID, and `AgentInspector.qml` presents the details. The launcher closes recording on exit; result reporting flushes/closes it before publishing final trace status.
 
-Validation coverage is written in `tests/test_observation.py`, `tests/test_execution.py` and `tests/test_desktop.py`. Build, test execution and live GUI/audio checks remain with the separate validation session; earlier green results do not validate this checkpoint.
+Validation coverage is written in `tests/test_observation.py`, `tests/test_execution.py` and `tests/test_desktop.py`. Build and tests passed for the original observation checkpoint; manual GUI/audio review remains with the separate validation session. Those results do not validate later changes.

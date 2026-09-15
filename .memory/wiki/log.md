@@ -1,5 +1,13 @@
 # Memory Update Log
 
+## [2026-09-15] VALIDATE | Placement choices and study-report validated
+
+Build clean, lint clean, 136 passed in 79.65s (0 skips, 0 failures) on the placement/report commit basis. Focused tests 42/42: placement RNG preservation, local/random exact transfer funding, insufficient-funds rejection, 72-condition placement axis, study-report equality/difference, failed/missing/invalid outcomes stay unknown, recomputed screen, interrupted tail detection, config mismatch rejection, native/interpreted agreement at both placements, desktop random-placement save/load. Full regression includes all prior suites. Updated notes/placement-report-validation.md. Committed pending.
+
+## [2026-09-15] IMPLEMENT | Offspring placement options and paired study reports
+
+Read Big Pickle validation records: 124 tests passed without skips, clean Build/Lint, tiny study completed; full baseline and A7 manual review remain pending. Marked A1–A6 and declared-plan B1 complete on that evidence, preserving pending ecology conclusions. Added independent policy/local/random offspring placement across both funding paths, CLI/settings/desktop/worker, trace/result metadata and optional study axis; default behavior/RNG unchanged. Added read-only study reporter with declared-condition validation, retained unknowns, grouping across seeds and paired final-outcome comparisons. Added 72-condition placement plan, regression coverage and notes/placement-report-validation.md. New checkpoint not executed or tested; no VC mutations. Resource policies, long-horizon ecology and codon implementation remain subsequent work.
+
 ## [2026-09-15] VALIDATE | Observation checkpoint and ecology-study runner validated
 
 Build clean, lint clean, 124 tests passed in 77.43s (0 skips, 0 failures) on the uncommitted study-runner commit basis. Observation checkpoint (a885f8c) validation confirmed: 119 of those 124 are the pre-existing observation/execution/forager/desktop suite. Ecology-study runner validated: tests/test_study.py 5/5 passed, prepare-only manifest, output-dir reuse rejection, duplicate/invalid axis rejection, failed-accounting vs extinction classification, owned-process cleanup on timeout and interrupt; tiny-study smoke (seed 7, interpreted, allowance 2, maintenance, 10 steps) completed with population 5, zero ledger residual, screen pass. Full 36-condition matrix deferred. Updated notes/observability-validation.md with a885f8c results (missed during the earlier commit) and notes/study-validation.md with the runner results. Commit pending.

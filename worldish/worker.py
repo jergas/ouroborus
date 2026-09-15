@@ -192,7 +192,8 @@ def main():
                        "--instructions-per-tick", str(config.instructions_per_tick),
                        "--energy-policy", config.energy_policy,
                        "--instructions-per-prana", str(config.instructions_per_prana),
-                       "--trace-mode", config.trace_mode, "--trace-limit", str(config.trace_limit)]
+                       "--trace-mode", config.trace_mode, "--trace-limit", str(config.trace_limit),
+                       "--offspring-placement", config.offspring_placement]
         if config.audio == "off":
             launch_args.append("--no-sound")
         elif config.audio == "silent":

@@ -65,7 +65,8 @@ ApplicationWindow {
                 instructions_per_tick: preset.currentIndex === 4 ? allowance.value : 6,
                 energy_policy: preset.currentIndex === 4 ? metabolism.currentText.toLowerCase() : "maintenance",
                 instructions_per_prana: preset.currentIndex === 4 ? computeBatch.value : 6,
-                trace_mode: traceMode.currentText.toLowerCase(), trace_limit: traceLimit.value}
+                trace_mode: traceMode.currentText.toLowerCase(), trace_limit: traceLimit.value,
+                offspring_placement: ["policy", "local", "random"][placement.currentIndex]}
     }
     FileDialog {
         id: saveDialog
@@ -94,6 +95,7 @@ ApplicationWindow {
             computeBatch.value = settings.instructions_per_prana
             traceMode.currentIndex = ["off", "events", "instructions"].indexOf(settings.trace_mode)
             traceLimit.value = settings.trace_limit
+            placement.currentIndex = ["policy", "local", "random"].indexOf(settings.offspring_placement)
         }
     }
     onClosing: function(close) {
@@ -157,6 +159,16 @@ ApplicationWindow {
                         ComboBox { id: metabolism; model: ["Maintenance", "Compute"]; Layout.fillWidth: true }
                         Label { text: "Instructions per prana"; visible: metabolism.currentIndex === 1 }
                         SpinBox { id: computeBatch; from: 1; to: 4096; value: 6; editable: true; Layout.fillWidth: true; visible: metabolism.currentIndex === 1 }
+                    }
+                    Label { text: "Offspring placement" }
+                    ComboBox {
+                        id: placement; model: ["Policy default", "Parent cell", "Random cell"]
+                        Layout.fillWidth: true; enabled: preset.currentIndex !== 3
+                        Accessible.name: "Offspring placement"
+                    }
+                    Label {
+                        text: "Policy default: parent cell for Forager; random cell for other agents."
+                        Layout.fillWidth: true; wrapMode: Text.WordWrap; font.pixelSize: 12
                     }
                     Label { text: "Event trace" }
                     ComboBox { id: traceMode; model: ["Off", "Events", "Instructions"]; Layout.fillWidth: true }

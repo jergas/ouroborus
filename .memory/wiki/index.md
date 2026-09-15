@@ -20,10 +20,12 @@ Durable project knowledge consolidated on 2026-09-13 from the migration/port con
 - [Executor and energy settings and semantics](../../docs/agent-execution.md)
 - [Execution validation notes](notes/execution-validation.md) (validated by Big Pickle; no fixes needed)
 
-- [Agent observation and prana ledger](adrs/0005-observation-and-prana-ledger.md) (implementation checkpoint; validation pending)
+- [Agent observation and prana ledger](adrs/0005-observation-and-prana-ledger.md) (automated validation passed; manual desktop review pending)
 - [Observation validation handoff](notes/observability-validation.md) (builds/tests/live desktop review for Big Pickle)
 
-- [Ecology study validation](notes/study-validation.md) (declared-study runner; validation pending)
+- [Ecology study validation](notes/study-validation.md) (initial runner validated; full ecology matrix pending)
+
+- [Placement and study report validation](notes/placement-report-validation.md) (new checkpoint, validation pending)
 
 ## Execution knowledge
 

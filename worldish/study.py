@@ -18,12 +18,13 @@ ROOT = Path(__file__).resolve().parents[1]
 def expand_plan(plan):
     allowed = {"seeds", "methods", "allowances", "policies", "prices", "steps",
                "timeout_seconds", "minimum_population", "minimum_generation"}
-    if not isinstance(plan, dict) or set(plan) != allowed:
-        raise ValueError("Plan must contain exactly: " + ", ".join(sorted(allowed)))
+    if not isinstance(plan, dict) or not allowed <= set(plan) or set(plan) - allowed - {"placements"}:
+        raise ValueError("Plan requires these keys, plus optional placements: " + ", ".join(sorted(allowed)))
     for key in ("steps", "timeout_seconds", "minimum_population", "minimum_generation"):
         if type(plan[key]) is not int or not 1 <= plan[key] <= 1_000_000:
             raise ValueError(f"{key} must be an integer from 1 to 1,000,000")
     axes = [plan[key] for key in ("seeds", "methods", "allowances", "policies", "prices")]
+    axes.append(plan.get("placements", ["policy"]))
     count = 1
     for axis in axes:
         if not isinstance(axis, list) or not axis:
@@ -36,8 +37,8 @@ def expand_plan(plan):
     return [SimulationConfig(preset="forager", steps=plan["steps"], seed=seed,
                              audio="off", execution_method=method,
                              instructions_per_tick=allowance, energy_policy=policy,
-                             instructions_per_prana=price, trace_mode="events")
-            for seed, method, allowance, policy, price in itertools.product(*axes)]
+                             instructions_per_prana=price, trace_mode="events", offspring_placement=placement)
+            for seed, method, allowance, policy, price, placement in itertools.product(*axes)]
 
 
 def source_digest():
@@ -74,7 +75,8 @@ def command_for(config, output):
             "--instructions-per-tick", str(config.instructions_per_tick),
             "--energy-policy", config.energy_policy,
             "--instructions-per-prana", str(config.instructions_per_prana),
-            "--trace-mode", config.trace_mode, "--trace-limit", str(config.trace_limit)]
+            "--trace-mode", config.trace_mode, "--trace-limit", str(config.trace_limit),
+            "--offspring-placement", config.offspring_placement]
 
 
 def run_condition(config, output, plan):

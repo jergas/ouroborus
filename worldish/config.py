@@ -19,8 +19,11 @@ class SimulationConfig:
 
     trace_mode: str = "off"
     trace_limit: int = 100_000
+    offspring_placement: str = "policy"
 
     def __post_init__(self):
+        from .placement import resolve_placement
+        resolve_placement(self.offspring_placement, "transfer" if self.preset == "forager" else "preset")
         from .observation import validate_trace
         validate_trace(self.trace_mode, self.trace_limit)
         if self.preset not in ("alpha", "beta", "delta", "epsilon", "forager"):

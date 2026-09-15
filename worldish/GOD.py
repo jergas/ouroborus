@@ -119,6 +119,8 @@ class Generator:
                 self.execution_options = ExecutionOptions.from_specificity(self.specific)
                 self.genome_language = getattr(self.specific, "genome_language", "source")
                 self.execution_options.validate_language(self.genome_language, self.specific.compiling == "Void")
+                from .placement import placement_settings
+                placement_settings(self.specific)  # Validate before preparing genomes.
                 self.execution_metrics = new_metrics()
                 self.interpreted_programs = {}
                 from .observation import Observation
@@ -529,7 +531,8 @@ class Organizer:
                 child.fatum["code"] = bookentry.fatum["code"]
                 child.fatum["prana"] = self.specific.prana
                 child.fatum["mana"] = self.specific.mana
-                (x, y) = (random.randint(0, self.width-1), random.randint(0, self.height-1))
+                from .placement import offspring_address
+                (x, y) = offspring_address(self, bookentry, "preset")
                 child.fatum["address"] = (x, y)
                 # This appears to do nothing...investigate!!!
                 child.fatum["prayer"] = "BeBirthed"

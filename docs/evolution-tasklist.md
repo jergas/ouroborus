@@ -6,25 +6,25 @@ Agreed plan, 2026-09-15. All unchecked tasks are pending. Follow A–E as the co
 
 See [roadmap: direction and order](evolution-roadmap.md#direction-and-order).
 
-2026-09-15 checkpoint: A1–A5 are implemented, with A6 regression coverage written. Build/test execution and A7 live validation are pending; checkboxes intentionally remain open. See [observation implementation and limits](observability.md) and the [validation handoff](../.memory/wiki/notes/observability-validation.md).
+2026-09-15 validation: Big Pickle recorded a clean build/lint and 119 passing tests without skips for A1–A6. A7 live GUI/audio review remains pending. Later placement/report changes require their own validation. See [observation implementation and limits](observability.md) and the [validation handoff](../.memory/wiki/notes/observability-validation.md).
 
-- [ ] A1 Add stable agent IDs to snapshots and selection without transmitting every genome every frame.
-- [ ] A2 Add an inspector showing raw genome, decoded words/instructions, execution position, pending request, prana, compute credits, parent and generation. Later extend it to two parents and bounded VM memory.
-- [ ] A3 Add optional bounded or streamed event traces for food consumption, motion, executed instructions, energy charges, lifecycle requests, rejected births and completed offspring transfers.
-- [ ] A4 Record configuration, RNG seed/state as appropriate, genome, language/mapping version and scheduling policy with traces. Keep instance, raw-genome and decoded-program identity distinct.
-- [ ] A5 Add energy accounting that explains founder input, food intake, maintenance/compute expenditure, reproduction transfer and energy removed on death. Do not label reproduction transfers as creation or consumption of total agent energy.
-- [ ] A6 Verify observation does not alter simulation/RNG behavior and compare compiled/interpreted traces at equivalent execution boundaries.
+- [x] A1 Add stable agent IDs to snapshots and selection without transmitting every genome every frame.
+- [x] A2 Add an inspector showing raw genome, decoded words/instructions, execution position, pending request, prana, compute credits, parent and generation. Later extend it to two parents and bounded VM memory.
+- [x] A3 Add optional bounded or streamed event traces for food consumption, motion, executed instructions, energy charges, lifecycle requests, rejected births and completed offspring transfers.
+- [x] A4 Record configuration, RNG seed/state as appropriate, genome, language/mapping version and scheduling policy with traces. Keep instance, raw-genome and decoded-program identity distinct.
+- [x] A5 Add energy accounting that explains founder input, food intake, maintenance/compute expenditure, reproduction transfer and energy removed on death. Do not label reproduction transfers as creation or consumption of total agent energy.
+- [x] A6 Verify observation does not alter simulation/RNG behavior and compare compiled/interpreted traces at equivalent execution boundaries.
 - [ ] A7 Complete live desktop validation of both methods: minimum-window layout, save/load, pause/step/stop, snapshots and audio. Keep world-tick stepping distinct from future instruction debugging.
 
 Completion: the execution and prana history of selected organisms can be explained and compared across methods. Full resumable checkpoints are not required here.
 
 ## B. Ecology and run controls
 
-New checkpoint: [declared study runner](ecology-studies.md) supplies manifests, isolated runs and failure-preserving outcomes for B1–B3/B5. Tests and ecological runs are pending; no viability conclusion or task completion is implied.
+New checkpoint: [declared study runner](ecology-studies.md) supplies manifests, isolated runs and failure-preserving outcomes for B1–B3/B5. The initial runner passed its five tests and a tiny real-run smoke; the 36-condition study remains pending. New placement options and paired outcome reports are implemented but await validation. No viability conclusion is implied.
 
 See [roadmap: supported foundations](evolution-roadmap.md#supported-foundations). The evolving CA's on cells remain food; static arrangements are focused test fixtures only.
 
-- [ ] B1 Declare seed sets, run duration, viability criteria and comparisons before evaluating outcomes. Use the recorded 36-run matrix as prior exploratory evidence, not a substitute for the new study.
+- [x] B1 Declare seed sets, run duration, viability criteria and comparisons before evaluating outcomes. Use the recorded 36-run matrix as prior exploratory evidence, not a substitute for the new study.
 - [ ] B2 Evaluate instruction allowances, especially cases where sensing and eating fall on different CA ticks.
 - [ ] B3 Compare maintenance and compute pricing, zero-prana boundaries, prepaid credits and idle organisms. Keep these as supported policy choices with explicit defaults.
 - [ ] B4 Compare parent-local offspring placement with a separately selected alternative, documenting overlap and food contention.
