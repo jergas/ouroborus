@@ -6,7 +6,7 @@ Run from the repository root, using the project virtual environment. This is a P
 
 * Build: `.venv/bin/python setup.py build_ext --inplace`
 * Test: `LD_LIBRARY_PATH="$PWD/.deps/native/usr/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}" OPCODE6DIR64="${OPCODE6DIR64:-$PWD/.deps/native/usr/lib/csound/plugins64-6.0}" .venv/bin/python -m pytest -q`
-* Lint: `.venv/bin/python -m compileall -q birdcage worldish tests setup.py && git diff --check` (syntax and whitespace checks; no dedicated linter is configured).
+* Lint: `.venv/bin/python -m compileall -q birdcage worldish tests setup.py .memory/tools && git diff --check` (syntax and whitespace checks; no dedicated linter is configured).
 
 The Test command includes the downloaded local Csound runtime. With system-installed Csound, `.venv/bin/python -m pytest -q` is sufficient. Audio tests skip if native libraries are unavailable; check skips before claiming full audio validation. Cython syntax is validated by Build. Circadian is retained for possible revival but is not part of the current port or checks.
 

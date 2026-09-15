@@ -23,6 +23,8 @@ Durable project knowledge consolidated on 2026-09-13 from the migration/port con
 - [Agent observation and prana ledger](adrs/0005-observation-and-prana-ledger.md) (implementation checkpoint; validation pending)
 - [Observation validation handoff](notes/observability-validation.md) (builds/tests/live desktop review for Big Pickle)
 
+- [Ecology study validation](notes/study-validation.md) (declared-study runner; validation pending)
+
 ## Execution knowledge
 
 - [Environment and library gotchas](gotchas.md)
@@ -30,6 +32,10 @@ Durable project knowledge consolidated on 2026-09-13 from the migration/port con
 - [SVN migration and preservation](migration.md)
 - [Python 3 port status and validation](port-status.md)
 - [Significant changes](log.md)
+
+## Tooling
+
+- [Browser-tab harvest tools](../../.memory/tools/README.md) (Chromium CDP and Firefox BiDi extraction; `.memory/tools/harvest.py`)
 
 ## Research and surveys
 

@@ -37,6 +37,16 @@ Recorded 2026-09-13 from the port and its confirmed validation.
 
 - Resolved 2026-09-14: the user reports that rebooting fixed the machine-wide audio outage and that the new windowed application runs correctly with sound. The outage was external to the project; desktop audio is user-confirmed working. The earlier restriction on live-device probes pending resolution is no longer applicable. Historical diagnostic details remain in log.md.
 
+## Browser automation harvest tooling
+
+- To attach via CDP (Chromium) or WebDriver BiDi (Firefox) the browser must be STARTED with `--remote-debugging-port`. You cannot attach to an already-running instance that lacks the flag; rerun the `launch` subcommand.
+- Firefox BiDi has no WebDriver HTTP `/session` endpoint. Connect the websocket directly to `ws://localhost:PORT/session` and send `session.new` (with `capabilities.alwaysMatch.browserName`) as the first command.
+- Firefox `script.evaluate` requires an explicit `awaitPromise` boolean and only accepts `resultOwnership` of `none` or `root` — `byValue` is rejected with an "invalid argument" error. Firefox `browsingContext.getTree` omits the context `type` field; match tabs by URL.
+- Chromium tabs list is served at `http://localhost:PORT/json/list`; the instance launched without `--remote-allow-origins` still answers websockets only when the client sends `suppress_origin=True`. New `launch` invocations include `--remote-allow-origins=*` for robustness.
+- Chromium's Gemini "View sources" dialog renders citation chips as empty Angular placeholders; extraction returns nothing no matter the input method. Firefox's source lists are plain DOM text and harvest cleanly via the `.deep-research-source-lists` class selector.
+- Browsers reject sharing a profile directory between two running instances; each debug instance needs its own `--user-data-dir` (Chromium) / `-profile` (Firefox) and its own port.
+- The earlier Chromium profile in `/tmp/opencode/gemini-profile` is volatile across reboots; choose a persistent `--profile-dir` outside `/tmp` for reusable agent sessions.
+
 ## Public documentation audience
 
 - User preference, 2026-09-14: write public documentation for a general audience and avoid details specific to the user's hardware or local incidents unless necessary. Such context can remain in project memory. Relevant platform requirements and reproducibility details are still appropriate when needed.
