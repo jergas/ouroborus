@@ -27,7 +27,9 @@ Durable project knowledge consolidated on 2026-09-13 from the migration/port con
 
 - [Placement and study report validation](notes/placement-report-validation.md) (validated: 136 full-suite tests passed; ecological matrices pending)
 
-- [Session run limits](notes/run-limits-validation.md) (new checkpoint; validation pending)
+- [Session run limits](notes/run-limits-validation.md) (validated: 144 full-suite tests passed; no skips)
+
+- [Atomic codon design and analysis](notes/codon-design-validation.md) (proposal/tooling; execution and review pending)
 
 ## Execution knowledge
 

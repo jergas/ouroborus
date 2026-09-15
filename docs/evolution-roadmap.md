@@ -23,6 +23,8 @@ Observability can grow throughout these stages; complete checkpoints are an opti
 
 ## Bases, codons and instructions
 
+The first [atomic-machine/table proposal](atomic-codon-proposal.md) and offline analyzer are available for review. Its 32 instructions and two synonyms per operation remain provisional; measurements and ecological results must inform the decision.
+
 Keep three explicit layers: the raw sequence of bases, a versioned codon-to-instruction mapping, and the instructions' execution semantics. Both execution methods consume the same decoded program and apply the same resource and energy rules.
 
 **Two-character codons are retained.** Their original purpose included sexual recombination within a codon, not merely compact notation. The starting design candidate is eight bases, provisionally `A`–`H`, giving 64 possible codons. The exact symbols, instruction set and mapping remain to be designed and evaluated; eight bases is a candidate, not a published language contract.

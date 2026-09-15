@@ -1,6 +1,6 @@
 # Session stop thresholds
 
-New implementation checkpoint; validation is pending. These optional controls advance [task B6](evolution-tasklist.md#b-ecology-and-run-controls). They stop an experiment without changing birth eligibility, genome execution or prana funding. All default to zero (unlimited).
+Validated by Big Pickle on 2026-09-15: Build/Lint clean, 46 focused tests and 144 full-suite tests passed, with no skips or failures. Manual CLI checks confirmed rejection outside session mode and the zero-tick seed-genotype stop. These optional controls advance [task B6](evolution-tasklist.md#b-ecology-and-run-controls). They stop an experiment without changing birth eligibility, genome execution or prana funding. All default to zero (unlimited).
 
 | Setting / CLI flag | Count observed |
 | --- | --- |
@@ -38,4 +38,4 @@ These values apply to every declared condition and are saved in its configuratio
 
 These limits do not preempt a nonreturning source program, interrupt compilation, cap bytes/RSS, constrain log sizes or evict genotypes. The study's existing wall-clock timeout handles a stalled process and its compiler descendants. Aggregate byte/storage limits and pre-initialization admission policies remain future B6 work. No biological carrying-capacity mechanism is implied by these operational stops.
 
-Validation handoff: [resource-limit checks](../.memory/wiki/notes/run-limits-validation.md). No new tests or studies were executed by the implementation session.
+Validation handoff: [resource-limit checks](../.memory/wiki/notes/run-limits-validation.md). The implementation session left test execution to the separate validation session; these results apply to the resource-stop checkpoint.

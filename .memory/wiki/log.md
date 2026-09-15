@@ -1,5 +1,13 @@
 # Memory Update Log
 
+## [2026-09-15] VALIDATE | Atomic codon proposal and table-geometry analysis validated
+
+Build clean, lint clean, 149 passed in 83.18s (0 skips, 0 failures) on the codon analysis commit basis. Focused tests 5/5: hand-worked two-base table, candidate combinatorial counts (896 directed: 64 silent/384 same-family/448 other; 32 components; 4096 pairs; 128 synonymous/64 distinct/0 novel; both128/first896/second384/neither2688), isolated RNG and determinism, totality/symbol validation, disconnected-synonym novel children. Measurement run (20 shuffles, seed 42, include-edges) reproduced every expectation; report at experiments/codons/family-variant-analysis-report.json. Candidate/control fractions: candidate silent 0.0714/same 0.4286/other 0.5 vs control means 0.0174/0.0962/0.8864 — geometry bonus only, no fitness claim; recombination neither 0.6562. Offline table analysis only; no VM/codon() implementation or ecological inference. Updated notes/codon-design-validation.md. Committed pending.
+
+## [2026-09-15] IMPLEMENT | Offline codon analysis and concrete atomic-machine proposal
+
+Acknowledged resource-stop validation: focused46/full144 passing, clean Build/Lint, CLI boundary checks confirmed by Big Pickle/user. Added a provisional32-op register/memory machine specification, total A–H/64-codon family/variant table with two synonyms per instruction, and an offline analyzer for directed substitutions, synonym connectivity, both mating orientations and redundancy-preserving shuffled controls. Explicitly distinguish family labels from measured semantics/fitness, singleton-site orientation marginals from genome correlations, and candidate hashes from deployed language versions. Wrote hand-worked/candidate/counterexample tests and notes/codon-design-validation.md. No analysis/tests/builds/simulations or VC mutations in this session; runtime unchanged. Table remains a proposal pending measurements/review, and ecology matrices remain open.
+
 ## [2026-09-15] VALIDATE | Session run-limit thresholds validated
 
 Build clean, lint clean, 144 passed in 83.42s (0 skips, 0 failures) on the run-limits commit basis. Focused tests 46/46: disabled limits, equality/simultaneous firing, one-time resource_limit event, visit partial-tick metadata, invalid settings round-trip, exact-funded fourth-body stop under both methods (pop4, transfer12, residual0), partial-tick non-horizon rejection, limited outcomes stay unknown with preserved result payloads, desktop limited-completion message/state. Manual checks: non-session modes reject nonzero limits; max-genotypes1 stops after seed preparation with zero iterations/visits and reason resource_limit. Updated notes/run-limits-validation.md. Committed pending.

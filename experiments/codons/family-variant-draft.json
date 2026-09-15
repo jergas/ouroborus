@@ -1,0 +1,171 @@
+{
+  "schema": 1,
+  "name": "atomic-family-variant-draft-1",
+  "status": "proposal, not a runtime language",
+  "alphabet": "ABCDEFGH",
+  "word_length": 2,
+  "instructions": {
+    "NOP": {
+      "family": "control"
+    },
+    "YIELD": {
+      "family": "control"
+    },
+    "SKIP_ZERO": {
+      "family": "control"
+    },
+    "SKIP_POSITIVE": {
+      "family": "control"
+    },
+    "ZERO": {
+      "family": "constants"
+    },
+    "ONE": {
+      "family": "constants"
+    },
+    "BIRTH_COST": {
+      "family": "constants"
+    },
+    "REPRO_THRESHOLD": {
+      "family": "constants"
+    },
+    "FOOD_HERE": {
+      "family": "sensing"
+    },
+    "FOOD_AHEAD": {
+      "family": "sensing"
+    },
+    "PRANA": {
+      "family": "sensing"
+    },
+    "FACING": {
+      "family": "sensing"
+    },
+    "TURN_LEFT": {
+      "family": "motion"
+    },
+    "TURN_RIGHT": {
+      "family": "motion"
+    },
+    "RANDOM_TURN": {
+      "family": "motion"
+    },
+    "MOVE": {
+      "family": "motion"
+    },
+    "ADD": {
+      "family": "arithmetic"
+    },
+    "SUBTRACT": {
+      "family": "arithmetic"
+    },
+    "LESS": {
+      "family": "arithmetic"
+    },
+    "EQUAL": {
+      "family": "arithmetic"
+    },
+    "STORE_R": {
+      "family": "register"
+    },
+    "LOAD_R": {
+      "family": "register"
+    },
+    "SWAP_R": {
+      "family": "register"
+    },
+    "CLEAR_R": {
+      "family": "register"
+    },
+    "NEXT_SLOT": {
+      "family": "memory"
+    },
+    "PREVIOUS_SLOT": {
+      "family": "memory"
+    },
+    "LOAD_SLOT": {
+      "family": "memory"
+    },
+    "STORE_SLOT": {
+      "family": "memory"
+    },
+    "EAT": {
+      "family": "life"
+    },
+    "MAINTAIN": {
+      "family": "life"
+    },
+    "REQUEST_CHILD": {
+      "family": "life"
+    },
+    "REQUEST_DEATH": {
+      "family": "life"
+    }
+  },
+  "mapping": {
+    "AA": "NOP",
+    "AB": "NOP",
+    "AC": "YIELD",
+    "AD": "YIELD",
+    "AE": "SKIP_ZERO",
+    "AF": "SKIP_ZERO",
+    "AG": "SKIP_POSITIVE",
+    "AH": "SKIP_POSITIVE",
+    "BA": "ZERO",
+    "BB": "ZERO",
+    "BC": "ONE",
+    "BD": "ONE",
+    "BE": "BIRTH_COST",
+    "BF": "BIRTH_COST",
+    "BG": "REPRO_THRESHOLD",
+    "BH": "REPRO_THRESHOLD",
+    "CA": "FOOD_HERE",
+    "CB": "FOOD_HERE",
+    "CC": "FOOD_AHEAD",
+    "CD": "FOOD_AHEAD",
+    "CE": "PRANA",
+    "CF": "PRANA",
+    "CG": "FACING",
+    "CH": "FACING",
+    "DA": "TURN_LEFT",
+    "DB": "TURN_LEFT",
+    "DC": "TURN_RIGHT",
+    "DD": "TURN_RIGHT",
+    "DE": "RANDOM_TURN",
+    "DF": "RANDOM_TURN",
+    "DG": "MOVE",
+    "DH": "MOVE",
+    "EA": "ADD",
+    "EB": "ADD",
+    "EC": "SUBTRACT",
+    "ED": "SUBTRACT",
+    "EE": "LESS",
+    "EF": "LESS",
+    "EG": "EQUAL",
+    "EH": "EQUAL",
+    "FA": "STORE_R",
+    "FB": "STORE_R",
+    "FC": "LOAD_R",
+    "FD": "LOAD_R",
+    "FE": "SWAP_R",
+    "FF": "SWAP_R",
+    "FG": "CLEAR_R",
+    "FH": "CLEAR_R",
+    "GA": "NEXT_SLOT",
+    "GB": "NEXT_SLOT",
+    "GC": "PREVIOUS_SLOT",
+    "GD": "PREVIOUS_SLOT",
+    "GE": "LOAD_SLOT",
+    "GF": "LOAD_SLOT",
+    "GG": "STORE_SLOT",
+    "GH": "STORE_SLOT",
+    "HA": "EAT",
+    "HB": "EAT",
+    "HC": "MAINTAIN",
+    "HD": "MAINTAIN",
+    "HE": "REQUEST_CHILD",
+    "HF": "REQUEST_CHILD",
+    "HG": "REQUEST_DEATH",
+    "HH": "REQUEST_DEATH"
+  }
+}
